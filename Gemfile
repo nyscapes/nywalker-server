@@ -19,4 +19,5 @@ group :test, :development do
   gem 'rspec'
   gem 'dm-rspec'
   gem 'factory_girl'
+  gem 'cucumber'
 end
