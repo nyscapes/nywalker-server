@@ -14,6 +14,7 @@ gem 'dm-postgis'
 gem 'thin'
 gem 'shotgun'
 gem 'unicorn'
+gem 'googlebooks'
 
 group :test, :development do
   gem 'rack-test', require: 'rack/test'

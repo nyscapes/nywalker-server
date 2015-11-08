@@ -85,6 +85,11 @@ GEM
       activesupport (>= 3.0.0)
     fastercsv (1.5.5)
     gherkin3 (3.1.2)
+    googlebooks (0.0.9)
+      httparty
+    httparty (0.13.7)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
     i18n (0.7.0)
     jsmin (1.0.1)
     json (1.8.3)
@@ -93,6 +98,7 @@ GEM
     minitest (5.8.2)
     multi_json (1.11.2)
     multi_test (0.1.2)
+    multi_xml (0.5.5)
     mustache (0.99.8)
     mustache-sinatra (1.0.1)
       mustache (<= 0.99.8)
@@ -156,6 +162,7 @@ DEPENDENCIES
   dm-rspec
   dm-validations
   factory_girl
+  googlebooks
   mustache-sinatra
   rack-test
   rspec
