@@ -141,6 +141,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activesupport
   cucumber
   data_mapper
   dm-postgres-adapter
