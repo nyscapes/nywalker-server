@@ -8,3 +8,4 @@ Feature: researcher add instance of placename
     Given a researcher exists
     When I create an instance
     Then it should exist
+
