@@ -39,6 +39,7 @@ class Place
   include DataMapper::Resource
 
   property :id, Serial
+  property :slug, String, key: true
   property :name, String
   property :added_on, Date
   property :lat, Float
@@ -51,12 +52,15 @@ class Place
   validates_presence_of :lat
   validates_presence_of :lon
   validates_presence_of :geom
+  validates_uniqueness_of :slug
+
 end
 
 class Book
   include DataMapper::Resource
 
   property :id, Serial
+  property :slug, String, key: true
   property :author, String # should maybe be array, but...
   property :title, String
   property :isbn, String
@@ -71,6 +75,7 @@ class Book
 
   validates_presence_of :author
   validates_presence_of :title
+  validates_uniqueness_of :slug
 
 end
 
