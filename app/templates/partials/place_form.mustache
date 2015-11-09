@@ -1,0 +1,38 @@
+<div class="row">
+  <div class="col-md-6">
+    <form id="searchPlace" action="/search-place" method="POST">
+      <div class="form-group">
+        <labelform="inputSearch">Search</label>
+        <input type="text" class="form-control" name="search" placeholder="" value="" aria-describedby="searchHelpBlock">
+        <span id="searchHelpBlock" class="help-block">Try to search for your place.</span>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-default" type="submit" id="searchButton">Search Gazetteer</button>
+      </div>
+    </form>
+
+        <!-- <labelform="inputName">Name</label> -->
+        <!-- <input type="text" class="form-control" name="name" placeholder="" value="" aria-describedby="nameHelpBlock"> -->
+        <!-- <span id="nameHelpBlock" class="help-block">Pick a name that is descriptive, unique, yet short. “Berlin” works, as does “Church Street, NYC.”</span> -->
+
+        <!-- <div class="form-group"> -->
+        <!--   <button type="submit" class="btn btn-primary btn-default">Add book</button> -->
+        <!-- </div> -->
+      <!-- </form> -->
+  </div>
+  <div class="col-md-6" id="externalResults">
+    <h3>Results</h3>
+  </div>
+  <script>
+    $(document).ready(function() {
+      $('#searchPlace').submit(function() {
+        $.post($(this).attr('action'), $(this).serialize(), function(data){
+          $('#externalResults').empty().append(data);
+          }, "text");
+        return false;
+      });
+    });
+    </script>
+
+
+</div>

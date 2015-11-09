@@ -65,6 +65,23 @@ class App < Sinatra::Base
     mustache :new_book
   end
 
+  get "/place/new" do
+    @page_title = "Add New Place"
+    mustache :place_new
+  end
+
+  post "/search-place" do
+    @search_term = params[:search] # needed for mustache.
+    query = "http://api.geonames.org/searchJSON?username=moacir&q=#{@search_term}"
+    results = JSON.parse(HTTParty.get(query).body)["geonames"]
+    if results.length == 0
+      @results = nil
+    else
+      @results = results[0..9].map{|r| {name: r["toponymName"], lat: r["lat"], lon: r["lng"], description: r["fcodeName"] } }
+    end
+    mustache :search_results, { layout: :naked }
+  end
+
   post "/new-book" do
     @page_title = "Adding ISBN: #{params[:isbn]}"
     result = GoogleBooks.search("isbn:#{params[:isbn]}").first

@@ -22,6 +22,8 @@ class Instance
 
   property :id, Serial
   property :page, Integer
+  property :sequence, Integer
+  property :text, String
   property :added_on, Date
   property :modified_on, Date
 
@@ -30,8 +32,8 @@ class Instance
   belongs_to :book
 
   validates_presence_of :page
-  validates_presence_of :place
   validates_presence_of :book
+  validates_presence_of :text
 
 end
 
@@ -45,6 +47,11 @@ class Place
   property :lat, Float
   property :lon, Float
   property :geom, PostGISGeometry
+  property :url, Text
+  property :confidence, String
+  property :source, String
+  property :geonameId, String
+  property :bounding_geom, PostGISGeometry
 
   belongs_to :user
 
