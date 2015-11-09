@@ -1,0 +1,13 @@
+<div class="jumbotron">
+  <p>Type in an ISBN in the form below. Google Books will try to autofill some fields.</p> 
+  <form action="/new-book" method="POST">
+    <div class="form-group">
+      <label for="inputISBN">ISBN</label>
+      <input type="text" class="form-control" name="isbn" placeholder="10- or 13-digit ISBN">
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary btn-default">ISBN lookup</button>
+    </div>
+  </form>
+</div>
+

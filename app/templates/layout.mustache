@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  {{> partials/head}}
+<body role="document">
+  {{> partials/nav}}
+
+  <div class="container theme-showcase" role="main">
+    {{{yield}}}
+  </div><!-- /.container -->
+
+  {{> partials/footer}}
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> 
+</body>
+</html>
