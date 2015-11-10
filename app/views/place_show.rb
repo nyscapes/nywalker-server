@@ -23,6 +23,30 @@ class App
         @place.lon
       end
 
+      def confidence
+        @place.confidence
+      end
+
+      def source_link
+        if @place.source == "GeoNames"
+          url = "http://www.geonames.org/#{@place.geonameid}/"
+          text = "GeoNames (#{@place.geonameid})"
+        elsif @place.source =~ /\A#{URI::regexp(['http', 'https'])}\z/
+          url = @place.source
+          text = @place.source
+        else
+          url = nil
+          text = @place.source
+        end
+        string = text
+        string.gsub(/^/, "<a href='#{url}' target='_blank'>").gsub(/$/, " <span class='glyphicon glyphicon-new-window' aria-hidden='true'></span></a>") unless url.nil?
+      end
+
+      def nicknames_sentence
+        names = @place.nicknames.map{|n| n.name}
+        names.to_sentence
+      end
+
       def bounding_box_polygon
         if @place.bounding_box_string =~ /^\[.*\]$/
           string = "var boundingBox = L.polygon(["

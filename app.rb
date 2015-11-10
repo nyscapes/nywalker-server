@@ -84,6 +84,7 @@ class App < Sinatra::Base
     # create_bounding_box(place) # because this doesn't seem to work.
     begin
       place.save
+      Nickname.create(name: place.name, place: place)
       redirect "/places/#{place.slug}"
     rescue DataMapper::SaveFailureError => e
       mustache :error_report, locals: { e: e, validation: place.errors.values.join(', ') }
