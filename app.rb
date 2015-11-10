@@ -75,7 +75,7 @@ class App < Sinatra::Base
       place.geonameid = params[:geonameid]
     end
     place.slug = place.name.parameterize.underscore
-    place.geom = GeoRuby::SimpleFeatures::Point.from_x_y(place.lon, place.lat)
+    place.geom = GeoRuby::SimpleFeatures::Point.from_x_y(place.lon, place.lat, 4326)
     # create_bounding_box(place) # because this doesn't seem to work.
     begin
       place.save
