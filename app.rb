@@ -47,6 +47,9 @@ class App < Sinatra::Base
   end
 
   helpers do
+    def slugify(string)
+      string = string.parameterize.underscore
+    end
 
   end
 
@@ -74,7 +77,7 @@ class App < Sinatra::Base
       place.bounding_box_string = params[:bbox]
       place.geonameid = params[:geonameid]
     end
-    place.slug = place.name.parameterize.underscore
+    place.slug = slugify place.name
     place.geom = GeoRuby::SimpleFeatures::Point.from_x_y(place.lon, place.lat, 4326)
     # create_bounding_box(place) # because this doesn't seem to work.
     begin
@@ -134,7 +137,7 @@ class App < Sinatra::Base
   post "/add-book" do
     @page_title = "Saving #{params[:title]}"
     saved_book = Book.new
-    saved_book.attributes = { author: params[:author], title: params[:title], isbn: params[:readonlyISBN], cover: params[:cover], url: params[:link], year: params[:year], users: [@user], slug: "#{params[:title]}_#{params[:year]}".parameterize.underscore, added_on: Time.now }
+    saved_book.attributes = { author: params[:author], title: params[:title], isbn: params[:readonlyISBN], cover: params[:cover], url: params[:link], year: params[:year], users: [@user], slug: "slugify #{params[:title][0..45]}_#{params[:year]}", added_on: Time.now }
     begin
       saved_book.save
       redirect "/books/#{saved_book.slug}"
