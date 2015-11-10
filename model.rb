@@ -47,13 +47,15 @@ class Place
   property :lat, Float
   property :lon, Float
   property :geom, PostGISGeometry
-  property :url, Text
   property :confidence, String
   property :source, String
-  property :geonameId, String
-  property :bounding_geom, PostGISGeometry
+  property :geonameid, String
+  property :bounding_box_string, Text
 
   belongs_to :user
+
+  has n, :nicknames
+  has 1, :bounding_box
 
   validates_presence_of :name
   validates_presence_of :lat
@@ -61,6 +63,27 @@ class Place
   validates_presence_of :geom
   validates_uniqueness_of :slug
 
+end
+
+class BoundingBox
+  include DataMapper::Resource
+
+  property :id, Serial
+  property :geom, PostGISGeometry
+
+  belongs_to :place
+
+end
+
+class Nickname
+  include DataMapper::Resource
+
+  property :id, Serial
+  property :name, String
+
+  belongs_to :place
+
+  validates_presence_of :name
 end
 
 class Book

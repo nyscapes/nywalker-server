@@ -23,7 +23,7 @@ class App < Sinatra::Base
     css :app_css, [ "/css/*.css" ]
     js :app_js, [
       "/js/*.js", 
-      # "/js/vendor/*.js"
+      "/js/vendor/*.js"
     ]
 
   end
@@ -70,14 +70,34 @@ class App < Sinatra::Base
     mustache :place_new
   end
 
+  post "/place/add" do
+    place = Place.new
+    place.attributes = { name: params[:name], lat: params[:lat], lon: params[:lon], source: params[:source], confidence: params[:confidence], geonameid: params[:geonameid], user: @user, added_on: Time.now, bounding_box_string: params[:bbox] }
+    place.slug = place.name.parameterize.underscore
+    place.geom = GeoRuby::SimpleFeatures::Point.from_x_y(place.lon, place.lat)
+    # create_bounding_box(place) # because this doesn't seem to work.
+    begin
+      place.save
+      redirect "/places/#{place.slug}"
+    rescue DataMapper::SaveFailureError => e
+      mustache :error_report, locals: { e: e, validation: place.errors.values.join(', ') }
+    rescue StandardError => e
+      mustache :error_report, locals: { e: e }
+    end
+
+  end
+
   post "/search-place" do
+    geonames_username = "moacir" # This should be changed
     @search_term = params[:search] # needed for mustache.
-    query = "http://api.geonames.org/searchJSON?username=moacir&q=#{@search_term}"
+    query = "http://api.geonames.org/searchJSON?username=#{geonames_username}&style=full&q=#{@search_term}"
+    query = query + "&countryBias=US" if params[:us_bias] == "on"
+    query = query + "&south=40.48&west=-74.27&north=40.9&east=-73.72" if params[:nyc_limit] == "on"
     results = JSON.parse(HTTParty.get(query).body)["geonames"]
     if results.length == 0
       @results = nil
     else
-      @results = results[0..9].map{|r| {name: r["toponymName"], lat: r["lat"], lon: r["lng"], description: r["fcodeName"] } }
+      @results = results[0..4].map{|r| {name: r["toponymName"], lat: r["lat"], lon: r["lng"], description: r["fcodeName"], geonameid: r["geonameId"], bbox: get_bbox(r["bbox"]) } }
     end
     mustache :search_results, { layout: :naked }
   end
@@ -138,6 +158,29 @@ class App < Sinatra::Base
   get "/about" do
     @page_title = "About"
     mustache :about
+  end
+
+  def get_bbox(bbox)
+    if bbox.class == Hash
+      bbox.values.to_s
+    end
+  end
+
+  def create_bounding_box(place)
+    # This doesn't actually seem to build a useful polygon.
+    place.bounding_box = BoundingBox.new
+    if place.bounding_box_string =~ /^\[.*\]$/
+      bbox = place.bounding_box_string.gsub(/^\[/, "").gsub(/\]$/, "").split(", ")
+      place.bounding_box.geom = GeoRuby::SimpleFeatures::Polygon.from_coordinates([
+        [ bbox[0], bbox[1] ],
+        [bbox[0], bbox[2]],
+        [bbox[3], bbox[2]],
+        [bbox[3], bbox[1]]
+      ], 4326)
+    else
+      place.bounding_box.geom = nil
+    end
+    place.save
   end
 
 end

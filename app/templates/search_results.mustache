@@ -1,29 +1,35 @@
 <h3>Results for “{{search_term}}”</h3>
 {{#results_table}}
+  <div style="height: 200px;" id="resultsMap"></div>
   <table class="table table-striped table-hover">
-    <thead>
-      <tr>
-        <th>&nbsp</th>
-        <th>Name (lat, lon)</th>
-      </tr>
-    </thead>
     <tbody>
       {{#results}}
         <tr>
           <td>
-            <button class="button btn-primary btn-xs">Map!</button>
+            <button class="button btn-primary btn-xs"
+              onclick="recenterMap(L.latLng({{lat}}, {{lon}}));">Map</button>
           </td>
           <td>
             {{name}} <small>({{lat}}, {{lon}})</small><br />
             <small>{{description}}</small>
           </td>
+          <td>
+            <button class="button btn-primary btn-xs"
+              onclick="fillInPlaceData('{{name}}§{{lat}}§{{lon}}§{{geonameid}}§{{bbox}}§GeoNames§3');">Use</button>
+          </td>
         </tr>
       {{/results}}
     </tbody>
   </table>
-  <div id="resultsMap">This is where the map will go ha ha.</div>
+  <script>
+    var firstHit = L.latLng({{first_lat}}, {{first_lon}});
+    var map = L.map('resultsMap').setView(firstHit, 15);
+    var baseLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(map);
+    var marker = L.marker(firstHit).addTo(map);
+  </script>
+  <p>Nothing fits? Try <a target="_blank" href="https://en.wikipedia.org/w/index.php?search={{search_term}}">Searching Wikipedia <span class='glyphicon glyphicon-new-window' aria-hidden='true'></span></a> or using <a href="http://latlong.net" target="_blank">LatLong <span class='glyphicon glyphicon-new-window' aria-hidden='true'></span></a> and entering the data manually.</p>
 {{/results_table}}
 {{^results_table}}
-  <p>No results found! Try <a href="https://en.wikipedia.org/w/index.php?search={{search_term}}">Searching Wikipedia</a> and entering the data manually.</p>
+<p>No results found! Try <a href="https://en.wikipedia.org/w/index.php?search={{search_term}}" target="_blank">Searching Wikipedia <span class='glyphicon glyphicon-new-window' aria-hidden='true'></span></a> or using <a href="http://latlong.net" target="_blank">LatLong <span class='glyphicon glyphicon-new-window' aria-hidden='true'></span></a> and entering the data manually.</p>
 {{/results_table}}
 

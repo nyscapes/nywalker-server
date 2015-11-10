@@ -1,0 +1,36 @@
+<h1>List of Places</h1>
+<p class="lead">All the places that we have added to the database.</p>
+<div class="row">
+  <div class="col-sm-6">
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>&nbsp;</th>
+          <th>Place</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#places}}
+          <tr>
+            <td>
+              <a href="#" onclick="recenterMap(L.latLng({{lat}}, {{lon}}));">
+                <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>
+              </a>
+            <td>
+              <a href="/places/{{slug}}">
+                {{name}}
+              </a>
+            </td>
+          </tr>
+        {{/places}}
+      </tbody>
+    </table>
+  </div>
+  <div class="col-sm-6" style="height:600px;" id="map">
+  </div>
+</div>
+  <script>
+    var map = L.map('map').setView(washington_square, 12);
+    var baseLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(map);
+    var marker = L.marker([0, 0]).addTo(map);
+  </script>
