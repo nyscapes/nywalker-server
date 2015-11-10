@@ -210,4 +210,12 @@ class App < Sinatra::Base
     place.save
   end
 
+  not_found do
+    if request.path =~ /\/$/
+      redirect request.path.gsub(/\/$/, "")
+    else
+      status 404
+    end
+  end
+
 end
