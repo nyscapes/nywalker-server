@@ -74,7 +74,11 @@ class App < Sinatra::Base
 
   post "/place/add" do
     place = Place.new
-    place.attributes = { name: params[:name], lat: params[:lat], lon: params[:lon], source: params[:source], confidence: params[:confidence], geonameid: params[:geonameid], user: @user, added_on: Time.now, bounding_box_string: params[:bbox] }
+    place.attributes = { name: params[:name], lat: params[:lat], lon: params[:lon], source: params[:source], confidence: params[:confidence], user: @user, added_on: Time.now }
+    if place.source == "GeoNames"
+      place.bounding_box_string = params[:bbox]
+      place.geonameid = params[:geonameid]
+    end
     place.slug = place.name.parameterize.underscore
     place.geom = GeoRuby::SimpleFeatures::Point.from_x_y(place.lon, place.lat)
     # create_bounding_box(place) # because this doesn't seem to work.
