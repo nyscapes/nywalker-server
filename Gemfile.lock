@@ -84,6 +84,7 @@ GEM
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
     fastercsv (1.5.5)
+    georuby (2.5.2)
     gherkin3 (3.1.2)
     googlebooks (0.0.9)
       httparty
@@ -162,6 +163,7 @@ DEPENDENCIES
   dm-rspec
   dm-validations
   factory_girl
+  georuby
   googlebooks
   mustache-sinatra
   rack-test

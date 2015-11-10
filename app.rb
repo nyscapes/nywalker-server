@@ -5,6 +5,8 @@ require "googlebooks"
 require "active_support" # for the slug.
 require "active_support/inflector"
 require "active_support/core_ext/array/conversions"
+require "georuby"
+require "geo_ruby/ewk"
 
 require_relative "./model"
 
