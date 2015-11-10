@@ -151,6 +151,26 @@ class App < Sinatra::Base
     end
   end
 
+  # get "/books/:slug/instance/new" do
+  #   # last_instance = Instance.last(user: @user.id, book: Book.first(slug: params[:slug])) 
+  # end
+
+  get "/places/:slug" do
+    @place = Place.first(slug: params[:slug])
+    @page_title = "#{@place.name}"
+    if @place.nil?
+      redirect '/places'
+    else
+      mustache :place_show
+    end
+  end
+
+  get "/places" do
+    @page_title = "All places"
+    @places = Place.all
+    mustache :places_show
+  end
+
   get "/books" do
     @page_title = "All Books"
     @books = Book.all
