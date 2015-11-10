@@ -1,6 +1,6 @@
 class App
   module Views
-    class NewBook < Layout
+    class BookNew < Layout
     	
     end
   end

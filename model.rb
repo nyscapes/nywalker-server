@@ -91,7 +91,7 @@ class Book
   property :id, Serial
   property :slug, String, key: true
   property :author, String # should maybe be array, but...
-  property :title, String
+  property :title, Text
   property :isbn, String
   property :year, Integer
   property :url, Text

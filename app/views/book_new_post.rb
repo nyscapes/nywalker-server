@@ -1,7 +1,7 @@
 class App
   module Views
 
-    class NewBookPost < Layout
+    class BookNewPost < Layout
       def author
         @new_book[:author]
       end

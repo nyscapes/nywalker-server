@@ -62,17 +62,12 @@ class App < Sinatra::Base
     mustache :index
   end
 
-  get "/new-book" do
-    @page_title = "Add New Book"
-    mustache :new_book
-  end
-
-  get "/place/new" do
+  get "/places/new" do
     @page_title = "Add New Place"
     mustache :place_new
   end
 
-  post "/place/add" do
+  post "/places/add" do
     place = Place.new
     place.attributes = { name: params[:name], lat: params[:lat], lon: params[:lon], source: params[:source], confidence: params[:confidence], user: @user, added_on: Time.now }
     if place.source == "GeoNames"
@@ -91,7 +86,6 @@ class App < Sinatra::Base
     rescue StandardError => e
       mustache :error_report, locals: { e: e }
     end
-
   end
 
   post "/search-place" do
@@ -109,7 +103,12 @@ class App < Sinatra::Base
     mustache :search_results, { layout: :naked }
   end
 
-  post "/new-book" do
+  get "/books/new" do
+    @page_title = "Add New Book"
+    mustache :book_new
+  end
+
+  post "/books/new" do
     @page_title = "Adding ISBN: #{params[:isbn]}"
     result = GoogleBooks.search("isbn:#{params[:isbn]}").first
     unless result.nil?
@@ -129,13 +128,13 @@ class App < Sinatra::Base
                     link: "" }
     end
     @isbn = params[:isbn] # sometimes google doesn't return one.
-    mustache :new_book_post
+    mustache :book_new_post
   end
 
   post "/add-book" do
     @page_title = "Saving #{params[:title]}"
     saved_book = Book.new
-    saved_book.attributes = { author: params[:author], title: params[:title], isbn: params[:readonlyISBN], cover: params[:cover], url: params[:link], year: params[:year], users: [@user], slug: "#{params[:title]}_#{params[:year]}".parameterize.underscore }
+    saved_book.attributes = { author: params[:author], title: params[:title], isbn: params[:readonlyISBN], cover: params[:cover], url: params[:link], year: params[:year], users: [@user], slug: "#{params[:title]}_#{params[:year]}".parameterize.underscore, added_on: Time.now }
     begin
       saved_book.save
       redirect "/books/#{saved_book.slug}"
@@ -154,6 +153,12 @@ class App < Sinatra::Base
     else
       mustache :book_show
     end
+  end
+
+  get "/books" do
+    @page_title = "All Books"
+    @books = Book.all
+    mustache :books_show
   end
 
   # get "/books/:slug/instance/new" do
@@ -176,11 +181,6 @@ class App < Sinatra::Base
     mustache :places_show
   end
 
-  get "/books" do
-    @page_title = "All Books"
-    @books = Book.all
-    mustache :books_show
-  end
 
   get "/about" do
     @page_title = "About"
