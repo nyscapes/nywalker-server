@@ -48,7 +48,7 @@ class Place
   property :lon, Float
   property :geom, PostGISGeometry
   property :confidence, String
-  property :source, String
+  property :source, Text
   property :geonameid, String
   property :bounding_box_string, Text
 
@@ -60,7 +60,6 @@ class Place
   validates_presence_of :name
   validates_presence_of :lat
   validates_presence_of :lon
-  validates_presence_of :geom
   validates_uniqueness_of :slug
 
 end
@@ -130,6 +129,8 @@ class User
   validates_presence_of :email
 
 end
+
+DataMapper::Model.raise_on_save_failure = true # seriously, let's make debugging easy?
 
 DataMapper.finalize # sets up the models for first time use.
 # DataMapper.auto_migrate! # CREATE/DROP while killing the data
