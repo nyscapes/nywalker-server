@@ -3,6 +3,34 @@
     <h1><em>{{title}}</em> {{{external_link}}}</h1>
     <h3>{{author}}, {{year}} <small>(isbn: {{isbn}})</small></h3>
     <a href="/books/{{slug}}/instances/new" class="btn btn-primary btn-default" role="button">Add instance</a>
+    <h2>Instances:</h2>
+    <table class="table table-striped table-hover">
+      <thead>
+        <th>Page</th>
+        <th>Order</th>
+        <th>Place</th>
+      </thead>
+      <tbody>
+        {{#instances}}
+        <tr>
+          <td>
+            {{page}}
+          </td>
+          <td>
+            {{sequence}}
+          </td>
+          <td>
+            <a href="/places/{{place_slug}}/">{{place_name}}</a>
+          </td>
+        </tr>
+        {{/instances}}
+        {{^instances}}
+        <tr>
+          <td colspan="3">No instances recorded, yet.</td>
+        </tr>
+        {{/instances}}
+      </tbody>
+    </table>
 
   </div>
   <div class="col-md-3">

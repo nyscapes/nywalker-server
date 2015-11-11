@@ -167,6 +167,7 @@ class App < Sinatra::Base
 
   get "/books/:book_slug" do
     @page_title = "#{book.title}"
+    @instances = Instance.all(book: book, order: [:page.asc, :sequence.asc]) # place.instances doesn't work?
     mustache :book_show
   end
 
@@ -203,7 +204,6 @@ class App < Sinatra::Base
     @places = Place.all
     mustache :places_show
   end
-
 
   get "/about" do
     @page_title = "About"

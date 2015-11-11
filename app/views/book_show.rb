@@ -43,6 +43,10 @@ class App
         @book.slug
       end
 
+      def instances
+        @instances.map{ |i| {page: i.page, sequence: i.sequence, place_name: i.place.name, place_slug: i.place.slug} }
+      end
+
     end
   end
 end
