@@ -197,7 +197,7 @@ class App < Sinatra::Base
 
   def get_bbox(bbox)
     if bbox.class == Hash
-      bbox.values.to_s
+      [bbox["east"], bbox["south"], bbox["north"], bbox["west"]].to_s
     end
   end
 
