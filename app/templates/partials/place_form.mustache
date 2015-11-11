@@ -75,7 +75,9 @@
           $.post($(this).attr('action'), $(this).serialize(), function(data){
 						// add the new place to the search engine.
 						var placeName = $('#inputName').val()
-						places.add([placeName + " — (" + placeName + ")"]);
+            var placeNameString = placeName + " — {" + placeName + "}";
+						places.add([placeNameString]);
+						$('#inputPlace').val(placeNameString);
             $('.modal-content').empty().append(data);
             }, "text");
           return false;

@@ -47,6 +47,17 @@ class App < Sinatra::Base
   end
 
   helpers do
+    def save_object(object, path)
+			begin
+				object.save
+				redirect path
+			rescue DataMapper::SaveFailureError => e
+				mustache :error_report, locals: { e: e, validation: object.errors.values.join(', ') }
+			rescue StandardError => e
+				mustache :error_report, locals: { e: e }
+			end
+		end
+
     def slugify(string)
       string = string.parameterize.underscore
     end
@@ -151,14 +162,7 @@ class App < Sinatra::Base
     @page_title = "Saving #{params[:title]}"
     saved_book = Book.new
     saved_book.attributes = { author: params[:author], title: params[:title], isbn: params[:readonlyISBN], cover: params[:cover], url: params[:link], year: params[:year], users: [@user], slug: "slugify #{params[:title][0..45]}_#{params[:year]}", added_on: Time.now }
-    begin
-      saved_book.save
-      redirect "/books/#{saved_book.slug}"
-    rescue DataMapper::SaveFailureError => e
-      mustache :error_report, locals: { e: e, validation: saved_book.errors.values.join(', ') }
-    rescue StandardError => e
-      mustache :error_report, locals: { e: e }
-    end
+	  save_object(saved_book, "/books/#{saved_book.slug}")	
   end
 
   get "/books/:book_slug" do
@@ -172,16 +176,21 @@ class App < Sinatra::Base
     mustache :books_show
   end
 
-  get "/books/:book_slug/instance/new" do
+  get "/books/:book_slug/instances/new" do
     @page_title = "New Instance for #{book.title}"
     @last_instance = Instance.last(user: @user, book: book)
-    @nicknames = Nickname.map{|n| "#{n.name} - (#{n.place.name})"}
+    @nicknames = Nickname.map{|n| "#{n.name} - {#{n.place.name}}"}
     mustache :instance_new
   end
 
-  post "/books/:book_slug/instance/new" do
-    p params
-		redirect "/books/#{params[:book_slug]}/instance/new"
+  post "/books/:book_slug/instances/new" do
+    @page_title = "Saving Instance for #{book.title}"
+    instance = Instance.new
+    instance.attributes = { page: params[:page], sequence: params[:sequence], text: params[:place_name_in_text], added_on: Time.now, user: @user, book: book }
+    place = Place.first(name: params[:place].match(/{.*}$/)[0].gsub(/{/, "").gsub(/}/, ""))
+    instance.place = place
+    Nickname.create(name: instance.text, place: place)
+		save_object(instance, "/books/#{params[:book_slug]}/instances/new")
   end
 
   get "/places/:place_slug" do
