@@ -91,7 +91,12 @@ class App < Sinatra::Base
     begin
       place.save
       Nickname.create(name: place.name, place: place)
-      redirect "/places/#{place.slug}"
+      if params[:form_source] == "modal"
+        @place = place
+        mustache :modal_place_saved, { layout: :naked }
+      else
+        redirect "/places/#{place.slug}"
+      end
     rescue DataMapper::SaveFailureError => e
       mustache :error_report, locals: { e: e, validation: place.errors.values.join(', ') }
     rescue StandardError => e
@@ -176,6 +181,7 @@ class App < Sinatra::Base
 
   post "/books/:book_slug/instance/new" do
     p params
+		redirect "/books/#{params[:book_slug]}/instance/new"
   end
 
   get "/places/:place_slug" do

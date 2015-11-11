@@ -3,7 +3,7 @@
     <form id="searchPlace" action="/search-place" method="POST">
       <div class="form-group">
         <label for="inputSearch">Search</label>
-        <input type="text" class="form-control" name="search" placeholder="" value="" aria-describedby="searchHelpBlock" id="inputSearch">
+        <input type="text" class="form-control input-sm" name="search" placeholder="" value="" aria-describedby="searchHelpBlock" id="inputSearch">
         <span id="searchHelpBlock" class="help-block">First, try to search for your place.</span>
       </div>
       <div class="checkbox">
@@ -20,32 +20,30 @@
         <button class="btn btn-default" type="submit" id="searchButton">Search gazetteer</button>
       </div>
     </form>
-    <form action="/places/add" method="POST">
+    <form action="/places/add" method="POST" id="addPlace">
       <div class="form-group">
         <label for="inputName">Name</label>
-        <input type="text" class="form-control" name="name" placeholder="" value="" aria-describedby="nameHelpBlock" id="inputName">
+        <input type="text" class="form-control input-sm" name="name" placeholder="" value="" aria-describedby="nameHelpBlock" id="inputName">
         <span id="nameHelpBlock" class="help-block">Pick a name that is descriptive, unique, yet short. “Paris, TX” works, as does “Church Street, NYC.”</span>
       </div>
-      <div class="row">
-        <div class="col-md-3 form-group">
-          <label for="inputLat">Lat. (<em>y</em>)</label>
-          <input type="text" class="form-control" name="lat" placeholder="" value="" id="inputLat">
-        </div>
-        <div class="col-md-3 form-group">
-          <label for="inputLon">Lon. (<em>x</em>)</label>
-          <input type="text" class="form-control" name="lon" placeholder="" value="" id="inputLon">
-        </div>
+      <div class="form-group">
+        <label for="inputLat">Latitude (<em>y</em>)</label>
+        <input type="text" class="form-control input-sm" name="lat" placeholder="" value="" id="inputLat">
+      </div>
+      <div class="form-group">
+        <label for="inputLon">Longitude (<em>x</em>)</label>
+        <input type="text" class="form-control input-sm" name="lon" placeholder="" value="" id="inputLon">
       </div>
       <div class="form-group">
         <label for="inputSource">Source</label>
-        <input type="text" class="form-control" name="source" placeholder="" value="" id="inputSource" aria-describedby="sourceHelpBlock">
+        <input type="text" class="form-control input-sm" name="source" placeholder="" value="" id="inputSource" aria-describedby="sourceHelpBlock">
         <span id="sourceHelpBlock" class="help-block">The source of the coordinates, like “GeoNames,” or a url to a Wikipedia article or similar.</span>
       </div>
       <div class="form-group">
         <label for="inputConfidence">Confidence</label>
-        <select class="form-control" name="confidence" id="inputConfidence" aria-describedby="confidenceHelpBlock">
+        <select class="form-control input-sm" name="confidence" id="inputConfidence" aria-describedby="confidenceHelpBlock">
           <option value="3">Very confident this is the place.</option>
-          <option value="2">Mostly confident this is the place.</option>
+          <option value="2" selected>Mostly confident this is the place.</option>
           <option value="1">Not very sure this is the place.</option>
           <option value="0">Can’t find the place.</option>
         </select>
@@ -71,7 +69,18 @@
         return false;
       });
     });
-    </script>
-
-
+    {{#form_source}}
+      $(document).ready(function() {
+        $('#addPlace').submit(function() {
+          $.post($(this).attr('action'), $(this).serialize(), function(data){
+						// add the new place to the search engine.
+						var placeName = $('#inputName').val()
+						places.add([placeName + " — (" + placeName + ")"]);
+            $('.modal-content').empty().append(data);
+            }, "text");
+          return false;
+        });
+      });
+    {{/form_source}}
+  </script>
 </div>
