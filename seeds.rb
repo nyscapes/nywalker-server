@@ -20,3 +20,5 @@ chi = Place.create(slug: "chicago", name: "Chicago", added_on: Time.now, lat: 41
 end
 
 chu = Place.create(slug: "church_street_nyc", name: "Church Street, NYC", added_on: Time.now, lat: 40.7157, lon: -74.0073, user: root, geonameid: "", bounding_box_string: "", geom: GeoRuby::SimpleFeatures::Point.from_x_y(-74.0073, 40.7157, 4326), source: "https://en.wikipedia.org/wiki/Church_Street_%28Manhattan%29", confidence: "2")
+
+Nickname.create(name: "Church Street, NYC", place: chu)
