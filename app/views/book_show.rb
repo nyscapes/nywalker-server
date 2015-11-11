@@ -38,6 +38,11 @@ class App
       def link
         @book.url
       end
+
+      def slug
+        @book.slug
+      end
+
     end
   end
 end

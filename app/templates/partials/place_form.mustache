@@ -20,7 +20,7 @@
         <button class="btn btn-default" type="submit" id="searchButton">Search gazetteer</button>
       </div>
     </form>
-    <form action="/place/add" method="POST">
+    <form action="/places/add" method="POST">
       <div class="form-group">
         <label for="inputName">Name</label>
         <input type="text" class="form-control" name="name" placeholder="" value="" aria-describedby="nameHelpBlock" id="inputName">
@@ -54,6 +54,7 @@
       <div class="form-group">
         <input type="hidden" name="geonameid" value="" id="inputGeonameid">
         <input type="hidden" name="bbox" value="" id="inputBbox">
+        <input type="hidden" name="form_source" value="{{form_source}}" id="inputFormSource">
         <button type="submit" class="btn btn-primary btn-default">Add place</button>
       </div>
     </form>

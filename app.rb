@@ -51,6 +51,14 @@ class App < Sinatra::Base
       string = string.parameterize.underscore
     end
 
+    def book
+      @book ||= Book.first(slug: params[:book_slug]) || halt(404)
+    end
+
+    def place
+      @place ||= Place.first(slug: params[:place_slug]) || halt(404)
+    end
+
   end
 
   
@@ -148,14 +156,9 @@ class App < Sinatra::Base
     end
   end
 
-  get "/books/:slug" do
-    @book = Book.first slug: params[:slug]
-    @page_title = "#{@book.title}"
-    if @book.nil?
-      redirect '/books'
-    else
-      mustache :book_show
-    end
+  get "/books/:book_slug" do
+    @page_title = "#{book.title}"
+    mustache :book_show
   end
 
   get "/books" do
@@ -164,18 +167,20 @@ class App < Sinatra::Base
     mustache :books_show
   end
 
-  # get "/books/:slug/instance/new" do
-  #   # last_instance = Instance.last(user: @user.id, book: Book.first(slug: params[:slug])) 
-  # end
+  get "/books/:book_slug/instance/new" do
+    @page_title = "New Instance for #{book.title}"
+    @last_instance = Instance.last(user: @user, book: book)
+    @nicknames = Nickname.map{|n| "#{n.name} - (#{n.place.name})"}
+    mustache :instance_new
+  end
 
-  get "/places/:slug" do
-    @place = Place.first(slug: params[:slug])
-    @page_title = "#{@place.name}"
-    if @place.nil?
-      redirect '/places'
-    else
-      mustache :place_show
-    end
+  post "/books/:book_slug/instance/new" do
+    p params
+  end
+
+  get "/places/:place_slug" do
+    @page_title = "#{place.name}"
+    mustache :place_show
   end
 
   get "/places" do
