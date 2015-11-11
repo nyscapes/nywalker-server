@@ -196,6 +196,7 @@ class App < Sinatra::Base
 
   get "/places/:place_slug" do
     @page_title = "#{place.name}"
+    @books = Book.all
     mustache :place_show
   end
 

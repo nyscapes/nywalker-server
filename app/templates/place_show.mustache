@@ -18,6 +18,13 @@
       </thead>
       <tbody>
         {{#books}}
+        <tr>
+          <td>
+            <a href="/books/{{book_slug}}">{{book_title}}</a>
+          </td>
+          <td>
+            {{instances}}
+          </td>
         {{/books}}
         {{^books}}
         <tr>

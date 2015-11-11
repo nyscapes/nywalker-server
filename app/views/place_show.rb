@@ -27,6 +27,10 @@ class App
         @place.confidence
       end
 
+      def books
+        @books.map{|b| { book_slug: b.slug, book_title: b.title, instances: (Instance.all(place: @place) & Instance.all(book: b)).length } }
+      end
+
       def source_link
         if @place.source == "GeoNames"
           url = "http://www.geonames.org/#{@place.geonameid}/"
