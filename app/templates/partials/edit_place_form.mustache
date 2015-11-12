@@ -1,0 +1,69 @@
+<div>
+  <form action="/places/{{slug}}/edit" method="POST" id="editPlace">
+    <div class="form-group">
+      <label for="inputName">Name</label>
+      <input type="text" class="form-control" name="name" placeholder="" value="{{name}}" aria-describedby="nameHelpBlock" id="inputName">
+      <span id="nameHelpBlock" class="help-block">This is the formal, descriptive, unique, yet short. “Paris, TX” works, as does “Church Street, NYC.”</span>
+    </div>
+    <div class="form-group">
+      <label for="inputNickname">Also known as…</label>
+      <p class="form-control-static" aria-describedby="nicknameHelpBlock" id="inputNickname">{{nicknames}}</p>
+      <span id="nicknameHelpBlock" class="help-block">These are other names that have been used to describe this place. Probably best not to edit them.</span>
+    </div>
+    <div class="form-group">
+      <label for="inputAddedOn">Added on</label>
+      <p class="form-control-static" id="inputAddedOn">{{added_on}}</p>
+    </div>
+    <div class="form-group">
+      <label for="inputSlug">Slug</label>
+      <p class="form-control-static" aria-describedby="slugHelpBlock" id="inputSlug">{{slug}}</p>
+      <span id="slugHelpBlock" class="help-block">This is the both human- and computer-readable name by which this specific place is named.</span>
+    </div>
+    <div class="form-group">
+      <label for="inputLat">Latitude (<em>y</em>)</label>
+      <input type="text" class="form-control" name="lat" placeholder="" value="{{lat}}" id="inputLat">
+    </div>
+    <div class="form-group">
+      <label for="inputLon">Longitude (<em>x</em>)</label>
+      <input type="text" class="form-control" name="lon" placeholder="" value="{{lon}}" id="inputLon">
+    </div>
+    <p class="help-block">Change these to fine-tune or correct the geolocation. Use <a href="http://latlong.net" target="_blank">LatLong <span class='glyphicon glyphicon-new-window' aria-hidden='true'></span></a> to get new coordinates by hand.</p>
+    <div class="form-group">
+      <label for="inputSource">Source</label>
+      <input type="text" class="form-control" name="source" placeholder="" value="{{source}}" id="inputSource" aria-describedby="sourceHelpBlock">
+      <span id="sourceHelpBlock" class="help-block">Coordinates source, like “GeoNames,” or a <em>Wikipedia</em> article url.</span>
+    </div>
+    <div class="form-group">
+      <label for="inputConfidence">Confidence</label>
+      <select class="form-control" name="confidence" id="inputConfidence" aria-describedby="confidenceHelpBlock" value="{{confidence}}">
+        <option value="3">Very confident this is the place.</option>
+        <option value="2">Mostly confident this is the place.</option>
+        <option value="1">Not very sure this is the place.</option>
+        <option value="0">Can’t find the place.</option>
+      </select>
+      <span id="confidenceHelpBlock" class="help-block">How confident are you n your choice?</span>
+    </div>
+    <div class="form-group">
+      {{#admin}}
+      <input type="hidden" name="geonameid" value="" id="inputGeonameid">
+      <input type="hidden" name="bbox" value="" id="inputBbox">
+      {{/admin}}
+      <button type="submit" class="btn btn-primary btn-default">Edit place</button>
+    </div>
+  </form>
+</div>
+  <script>
+    $(document).ready(function() {
+      $('#editPlace').submit(function() {
+        $.post($(this).attr('action'), $(this).serialize(), function(data){
+          // add the new place to the search engine.
+          var placeName = $('#inputName').val()
+          var placeNameString = placeName + " — {" + placeName + "}";
+          places.add([placeNameString]);
+          $('#inputPlace').val(placeNameString);
+          $('.modal-content').empty().append(data);
+          }, "text");
+        return false;
+      });
+    });
+  </script>

@@ -101,7 +101,7 @@ class App < Sinatra::Base
     # create_bounding_box(place) # because this doesn't seem to work.
     begin
       place.save
-      Nickname.create(name: place.name, place: place)
+      Nickname.first_or_create(name: place.name, place: place)
       if params[:form_source] == "modal"
         @place = place
         mustache :modal_place_saved, { layout: :naked }
@@ -190,8 +190,14 @@ class App < Sinatra::Base
     instance.attributes = { page: params[:page], sequence: params[:sequence], text: params[:place_name_in_text], added_on: Time.now, user: @user, book: book }
     place = Place.first(name: params[:place].match(/{.*}$/)[0].gsub(/{/, "").gsub(/}/, ""))
     instance.place = place
-    Nickname.create(name: instance.text, place: place)
+    Nickname.first_or_create(name: instance.text, place: place)
 		save_object(instance, "/books/#{params[:book_slug]}/instances/new")
+  end
+
+  get "/places" do
+    @page_title = "All places"
+    @places = Place.all
+    mustache :places_show
   end
 
   get "/places/:place_slug" do
@@ -200,10 +206,9 @@ class App < Sinatra::Base
     mustache :place_show
   end
 
-  get "/places" do
-    @page_title = "All places"
-    @places = Place.all
-    mustache :places_show
+  post "/places/:place_slug/edit" do
+    @page_title = "Editing #{place.name}"
+    mustache :place_edit, { layout: :naked }
   end
 
   get "/about" do

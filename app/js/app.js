@@ -8,9 +8,9 @@ function fillInPlaceData(data){
   });
 }
 
-function recenterMap(latLng){
+function recenterMap(latLng, mapDiv){
   marker.setLatLng(latLng);
-  map.panTo(latLng);
+  mapDiv.panTo(latLng);
 };
 
 var washington_square = L.latLng(40.7308, -73.9975);
