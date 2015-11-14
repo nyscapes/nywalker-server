@@ -1,3 +1,5 @@
+.env
+
 *.swp
 *.gem
 *.rbc

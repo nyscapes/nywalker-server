@@ -80,6 +80,7 @@ GEM
       dm-core (~> 1.2.0)
     do_postgres (0.10.16)
       data_objects (= 0.10.16)
+    dotenv (2.0.2)
     eventmachine (1.0.8)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
@@ -162,6 +163,7 @@ DEPENDENCIES
   dm-postgres-adapter
   dm-rspec
   dm-validations
+  dotenv
   factory_girl
   georuby
   googlebooks

@@ -5,8 +5,20 @@ require 'dm-postgis'
 require 'active_support' # for the slugs
 require 'active_support/inflector'
 require 'active_support/core_ext/array/conversions'
+require 'dotenv'
 
-# The local install requires running `createdb nywalker`
+Dotenv.load
+
+# ENV['DATABASE_URL'] is set in the file .env, which is hidden from git. See .env.example for an example of what it should look like.
+
+if ENV['DATABASE_URL']
+  DataMapper.setup(:default, ENV['DATABASE_URL'])
+else
+  raise "ENV['DATABASE_URL'] must be set. Edit your '.env' file to do so."
+end
+
+# The local install requires running `createdb nywalker`, assuming you name
+# the database "nywalker".
 #
 # Furthermore, we require adding postGIS. Open the db with `psql nywalker`
 # and then run `CREATE EXTENSION postgis;` on the dev machine. PostGIS is
