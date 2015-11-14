@@ -5,6 +5,12 @@
   {{> partials/nav}}
 
   <div class="container theme-showcase" role="main">
+    {{#flash_messages}}
+    <div class="alert {{flash_class}} fade in">
+      <button class="close" data-dismiss="alert">&times;</button>
+      {{flash_message}}
+    </div>
+    {{/flash_messages}}
     {{{yield}}}
   </div><!-- /.container -->
 

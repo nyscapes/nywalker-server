@@ -1,5 +1,6 @@
 require "sinatra/base"
 require "sinatra/assetpack"
+require "sinatra/flash"
 require "mustache/sinatra"
 require "googlebooks"
 require "active_support" # for the slug.
@@ -11,10 +12,12 @@ require "geo_ruby/ewk"
 require_relative "./model"
 
 class App < Sinatra::Base
+  enable :sessions
   base = File.dirname(__FILE__)
   set :root, base
 
   register Sinatra::AssetPack
+  register Sinatra::Flash
   register Mustache::Sinatra
 
   assets do
@@ -24,7 +27,7 @@ class App < Sinatra::Base
 
     css :app_css, [ "/css/*.css" ]
     js :app_js, [
-      "/js/*.js", 
+      "/js/*.js",
       "/js/vendor/*.js"
     ]
 
@@ -44,19 +47,25 @@ class App < Sinatra::Base
     @css = css :app_css
     @js  = js  :app_js
     @path = request.path_info
+    set_flash
   end
 
   helpers do
+    def set_flash
+      flash.empty? ? @flash = false : @flash = flash
+    end
+
     def save_object(object, path)
-			begin
-				object.save
-				redirect path
-			rescue DataMapper::SaveFailureError => e
+      begin
+        object.save
+        flash[:success] = "#{object.class} successfully saved!"
+        redirect path
+      rescue DataMapper::SaveFailureError => e
 				mustache :error_report, locals: { e: e, validation: object.errors.values.join(', ') }
 			rescue StandardError => e
 				mustache :error_report, locals: { e: e }
-			end
-		end
+      end
+    end
 
     def slugify(string)
       string = string.parameterize.underscore
@@ -72,15 +81,15 @@ class App < Sinatra::Base
 
   end
 
-  
   # Function allows both get / post.
   def self.get_or_post(path, opts={}, &block)
     get(path, opts, &block)
     post(path, opts, &block)
-  end   
+  end
 
   get "/" do
     @page_title = "Home"
+    flash[:success] = "Let's just try this."
     mustache :index
   end
 
@@ -106,6 +115,7 @@ class App < Sinatra::Base
         @place = place
         mustache :modal_place_saved, { layout: :naked }
       else
+        flash[:success] = "#{place.name} successfully saved!"
         redirect "/places/#{place.slug}"
       end
     rescue DataMapper::SaveFailureError => e
@@ -140,15 +150,15 @@ class App < Sinatra::Base
     result = GoogleBooks.search("isbn:#{params[:isbn]}").first
     unless result.nil?
       @new_book = { author: result.authors,
-                    title: result.title, 
+                    title: result.title,
                     year: result.published_date[0..3],
                     last_page: result.page_count,
                     cover: result.image_link,
                     link: result.info_link }
     else
-      # clumsy kludge for when GoogleBooks returns a 
-      @new_book = { author: "AUTHOR NOT FOUND", 
-                    title: "TITLE NOT FOUND", 
+      # clumsy kludge for when GoogleBooks returns nothing
+      @new_book = { author: "AUTHOR NOT FOUND",
+                    title: "TITLE NOT FOUND",
                     year: "",
                     last_page: "",
                     cover: nil,
@@ -162,7 +172,7 @@ class App < Sinatra::Base
     @page_title = "Saving #{params[:title]}"
     saved_book = Book.new
     saved_book.attributes = { author: params[:author], title: params[:title], isbn: params[:readonlyISBN], cover: params[:cover], url: params[:link], year: params[:year], users: [@user], slug: slugify("#{params[:title][0..45]}_#{params[:year]}"), added_on: Time.now }
-	  save_object(saved_book, "/books/#{saved_book.slug}")	
+    save_object(saved_book, "/books/#{saved_book.slug}")
   end
 
   get "/books/:book_slug" do
