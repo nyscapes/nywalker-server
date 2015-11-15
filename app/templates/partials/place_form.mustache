@@ -3,7 +3,12 @@
     <form id="searchPlace" action="/search-place" method="POST">
       <div class="form-group">
         <label for="inputSearch">Search</label>
-        <input type="text" class="form-control input-sm" name="search" placeholder="" value="" aria-describedby="searchHelpBlock" id="inputSearch">
+        <div class="input-group">
+          <input type="text" class="form-control input-sm" name="search" placeholder="" value="" aria-describedby="searchHelpBlock" id="inputSearch">
+          <span class="input-group-btn">
+            <button class="btn btn-sm btn-default" type="submit" id="searchButton">Search gazetteer</button>
+          </span>
+        </div>
         <span id="searchHelpBlock" class="help-block">First, try to search for your place.</span>
       </div>
       <div class="checkbox">
@@ -15,9 +20,6 @@
         <label>
           <input type="checkbox" name="nyc_limit"> <small>Limit results to NYC?</small>
         </label>
-      </div>
-      <div class="form-group">
-        <button class="btn btn-default" type="submit" id="searchButton">Search gazetteer</button>
       </div>
     </form>
     <form action="/places/add" method="POST" id="addPlace">
