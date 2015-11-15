@@ -40,10 +40,12 @@
   </div>
   <script>
     var center = L.latLng({{lat}}, {{lon}});
-    var map = L.map('map').setView(center, 15);
+    // Need to initialize at 0,0 so that the later call of fitBounds doesn't crash the map.
+    var map = L.map('map').setView([0,0], 15);
     var baseLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(map);
     var marker = L.marker(center).addTo(map);
     {{{bounding_box_polygon}}}
+    map.panTo(center);
   </script>
 </div>
 <div class="modal fade" id="editPlaceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
