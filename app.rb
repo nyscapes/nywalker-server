@@ -13,6 +13,9 @@ require_relative "./model"
 
 class App < Sinatra::Base
   enable :sessions
+  if Sinatra::Base.development?
+    set :session_secret, "supersecret"
+  end
   base = File.dirname(__FILE__)
   set :root, base
 
