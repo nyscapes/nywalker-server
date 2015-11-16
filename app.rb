@@ -46,6 +46,7 @@ class App < Sinatra::Base
   }
 
   before do
+    @admin = true
     @user = User.first
     @css = css :app_css
     @js  = js  :app_js
@@ -221,7 +222,14 @@ class App < Sinatra::Base
 
   post "/places/:place_slug/edit" do
     @page_title = "Editing #{place.name}"
-    mustache :place_edit, { layout: :naked }
+    if place.update( name: params[:name], lat: params[:lat], lon: params[:lon], confidence: params[:confidence], source: params[:source], geonameid: params[:geonameid], bounding_box_string: params[:bounding_box_string] )
+      flash[:success] = "#{place.name} has been updated"
+      # redirect "/places/#{place.slug}"
+      '<script>$("#editPlaceModal").modal("hide");window.location.reload();</script>'
+    else
+      flash[:error] = "Something went wrong."
+      mustache :place_edit, { layout: :naked }
+    end
   end
 
   get "/about" do

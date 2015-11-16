@@ -31,6 +31,22 @@ class App
         @place.slug
       end
 
+      def source
+        @place.source
+      end
+
+      def source_button
+        @place.source =~ URI::regexp(['http', 'https'])
+      end
+
+      def bounding_box
+        @place.bounding_box_string
+      end
+
+      def geonameid
+        @place.geonameid
+      end
+
       def nicknames
         Nickname.all(place: @place).map{ |n| n.name }.to_sentence
       end
@@ -41,8 +57,8 @@ class App
 
       def source_link
         if @place.source == "GeoNames"
-          url = "http://www.geonames.org/#{@place.geonameid}/"
-          text = "GeoNames (#{@place.geonameid})"
+          url = "http://www.geonames.org/#{geonameid}/"
+          text = "GeoNames (#{geonameid})"
         elsif @place.source =~ /\A#{URI::regexp(['http', 'https'])}\z/
           url = @place.source
           text = @place.source

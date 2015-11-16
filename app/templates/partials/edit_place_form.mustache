@@ -8,16 +8,11 @@
     <div class="form-group">
       <label for="inputNickname">Also known as…</label>
       <p class="form-control-static" aria-describedby="nicknameHelpBlock" id="inputNickname">{{nicknames}}</p>
-      <span id="nicknameHelpBlock" class="help-block">These are other names that have been used to describe this place. Probably best not to edit them.</span>
+      <span id="nicknameHelpBlock" class="help-block">These are other names that have been used to describe this place.</span>
     </div>
     <div class="form-group">
       <label for="inputAddedOn">Added on</label>
       <p class="form-control-static" id="inputAddedOn">{{added_on}}</p>
-    </div>
-    <div class="form-group">
-      <label for="inputSlug">Slug</label>
-      <p class="form-control-static" aria-describedby="slugHelpBlock" id="inputSlug">{{slug}}</p>
-      <span id="slugHelpBlock" class="help-block">This is the both human- and computer-readable name by which this specific place is named.</span>
     </div>
     <div class="form-group">
       <label for="inputLat">Latitude (<em>y</em>)</label>
@@ -30,9 +25,38 @@
     <p class="help-block">Change these to fine-tune or correct the geolocation. Use <a href="http://latlong.net" target="_blank">LatLong <span class='glyphicon glyphicon-new-window' aria-hidden='true'></span></a> to get new coordinates by hand.</p>
     <div class="form-group">
       <label for="inputSource">Source</label>
+      {{#source_button}}
+      <div class="input-group">
+      {{/source_button}}
       <input type="text" class="form-control" name="source" placeholder="" value="{{source}}" id="inputSource" aria-describedby="sourceHelpBlock">
+      {{#source_button}}
+      <span class="input-group-btn">
+        <a href="{{source}}" target="_blank" class="btn btn-default" role="button"><span class="glyphicon glyphicon-new-window"></span></a>
+      </span>
+      </div>
+      {{/source_button}}
       <span id="sourceHelpBlock" class="help-block">Coordinates source, like “GeoNames,” or a <em>Wikipedia</em> article url.</span>
     </div>
+    {{#admin}}
+      {{#geonameid}}
+      <div class="form-group">
+        <label for="inputGeonameid">GeoNames ID</label>
+        <div class="input-group">
+          <input type="text" class="form-control" name="geonameid" placeholder="" value="{{geonameid}}" aria-describedby="geonameidHelpBlock" id="inputGeonameid">
+          <span class="input-group-btn">
+            <a href="http://www.geonames.org/{{geonameid}}" target="_blank" class="btn btn-default" role="button"><span class="glyphicon glyphicon-new-window"></span></a>
+          </span>
+        </div>
+          <span id="geonameidHelpBlock" class="help-block">If the source is GeoNames, there is likely an ID attached to it.</span>
+      </div>
+      {{/geonameid}}
+      <div class="form-group">
+        <label for="inputBoundingBox">Bounding Box</label>
+        <input type="text" class="form-control" name="bounding_box_string" placeholder="" value="{{bounding_box}}" aria-describedby="boundingBoxHelpBlock" id="inputBoundingBox">
+        <span id="boundingBoxHelpBlock" class="help-block">These are the four coordinates that make the bounding box. In order, they are: east, south, north, and west.</span>
+      </div>
+    {{/admin}}
+
     <div class="form-group">
       <label for="inputConfidence">Confidence</label>
       <select class="form-control" name="confidence" id="inputConfidence" aria-describedby="confidenceHelpBlock" value="{{confidence}}">
@@ -41,14 +65,14 @@
         <option value="1">Not very sure this is the place.</option>
         <option value="0">Can’t find the place.</option>
       </select>
-      <span id="confidenceHelpBlock" class="help-block">How confident are you n your choice?</span>
+      <span id="confidenceHelpBlock" class="help-block">How confident are you in your choice?</span>
     </div>
     <div class="form-group">
-      {{#admin}}
-      <input type="hidden" name="geonameid" value="" id="inputGeonameid">
-      <input type="hidden" name="bbox" value="" id="inputBbox">
+      {{^admin}}
+        <input type="hidden" name="bounding_box_string" value="{{bounding_box}}">
+        <input type="hidden" name="geonamid" value="{{geonameid}}">
       {{/admin}}
-      <button type="submit" class="btn btn-primary btn-default">Edit place</button>
+      <button type="submit" class="btn btn-primary btn-default">Save changes</button>
     </div>
   </form>
 </div>
@@ -56,11 +80,6 @@
     $(document).ready(function() {
       $('#editPlace').submit(function() {
         $.post($(this).attr('action'), $(this).serialize(), function(data){
-          // add the new place to the search engine.
-          var placeName = $('#inputName').val()
-          var placeNameString = placeName + " — {" + placeName + "}";
-          places.add([placeNameString]);
-          $('#inputPlace').val(placeNameString);
           $('.modal-content').empty().append(data);
           }, "text");
         return false;

@@ -1,6 +1,10 @@
 class App
   module ViewHelpers
 
+    def admin
+      @admin
+    end
+
     def stylesheets
       @css
     end
