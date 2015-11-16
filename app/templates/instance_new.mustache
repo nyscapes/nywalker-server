@@ -27,6 +27,11 @@
     </div>
   </form>
   <script>
+    $(document).ready(function(){
+      $('#addPlaceModal').on('shown.bs.modal', function(){
+        $(this).find('#inputSearch').focus();
+      });
+    });
 		var nicknames = {{{nicknames}}};
     var places = new Bloodhound({
       local: nicknames,
