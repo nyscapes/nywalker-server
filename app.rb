@@ -269,4 +269,42 @@ class App < Sinatra::Base
     end
   end
 
+  use Warden::Manager do |config|
+    config.serialize_into_session{ |user| user.id }
+    config.serialize_from_session{ |id| User.get(id) }
+    config.scope_defaults :default,
+      strategies: [:password],
+      action: '/auth/unauthenticated'
+    config.failure_app = self
+  end
+
+  Warden::Manager.before_failure do |env, opts|
+    env['REQUEST_METHOD'] = 'POST'
+  end
+
+end
+
+Warden::Strategies.add(:password) do
+
+  def valid?
+    puts "in valid"
+    params[:username] && params[:password]
+  end
+
+  def authenticate!
+    puts "in auth!"
+    user = User.first(username: params[:username])
+
+    if user.nil?
+      puts "user nil!"
+      throw(:warden, message: "The username you entered does not exist.")
+    elsif user.authenticate(params[:password])
+      puts "success!"
+      success!(user)
+    else
+      puts "combination is wrong."
+      throw(:warden, message: "The username and password combination is incorrect.")
+    end
+  end
+
 end
