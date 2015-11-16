@@ -156,6 +156,8 @@ GEM
       rack
       raindrops (~> 0.7)
     uuidtools (2.1.5)
+    warden (1.2.3)
+      rack (>= 1.0)
 
 PLATFORMS
   ruby
@@ -183,6 +185,7 @@ DEPENDENCIES
   sinatra-support
   thin
   unicorn
+  warden
 
 BUNDLED WITH
    1.10.6

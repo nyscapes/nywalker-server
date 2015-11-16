@@ -2,6 +2,7 @@ require "sinatra/base"
 require "sinatra/assetpack"
 require "sinatra/flash"
 require "mustache/sinatra"
+require "warden"
 require "googlebooks"
 require "active_support" # for the slug.
 require "active_support/inflector"
