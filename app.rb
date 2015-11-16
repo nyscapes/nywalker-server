@@ -261,6 +261,28 @@ class App < Sinatra::Base
     place.save
   end
 
+  get '/auth/login' do
+    mustache :login
+  end
+
+  post '/auth/login' do
+    env['warden'].authenticate!
+    flash[:success] = env['warden'].message
+
+    if session[:return_to].nil?
+      puts "logged in someone"
+      redirect '/'
+    else
+      redirect session[:return_to]
+    end
+  end
+
+  post '/auth/unauthenticated' do
+    flash[:error] = env['warden'].message
+    puts "someone failed"
+    redirect '/'
+  end
+
   not_found do
     if request.path =~ /\/$/
       redirect request.path.gsub(/\/$/, "")
