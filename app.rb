@@ -51,13 +51,10 @@ class App < Sinatra::Base
     @css = css :app_css
     @js  = js  :app_js
     @path = request.path_info
-    set_flash
+    @rendered_flash = rendered_flash(flash)
   end
 
   helpers do
-    def set_flash
-      flash.empty? ? @flash = false : @flash = flash
-    end
 
     def save_object(object, path)
       begin
@@ -93,7 +90,6 @@ class App < Sinatra::Base
 
   get "/" do
     @page_title = "Home"
-    flash[:success] = "Let's just try this."
     mustache :index
   end
 
@@ -224,7 +220,6 @@ class App < Sinatra::Base
     @page_title = "Editing #{place.name}"
     if place.update( name: params[:name], lat: params[:lat], lon: params[:lon], confidence: params[:confidence], source: params[:source], geonameid: params[:geonameid], bounding_box_string: params[:bounding_box_string] )
       flash[:success] = "#{place.name} has been updated"
-      # redirect "/places/#{place.slug}"
       '<script>$("#editPlaceModal").modal("hide");window.location.reload();</script>'
     else
       flash[:error] = "Something went wrong."
@@ -258,6 +253,25 @@ class App < Sinatra::Base
       place.bounding_box.geom = nil
     end
     place.save
+  end
+
+  def rendered_flash(flash)
+    string = ""
+    if flash == {} || flash.nil?
+      string
+    else
+      flash.each do |type, message|
+        string << "<div class='alert #{bootstrap_class_for type} fade in'>"
+        string << "<button class='close' data-dismiss='alert'>&times;</button>"
+        string << message
+        string << "</div>"
+      end
+      string
+    end
+  end
+
+  def bootstrap_class_for flash_type
+    { success: "alert-success", error: "alert-danger", alert: "alert-warning", notice: "alert-info" }[flash_type] || flash_type.to_s
   end
 
   not_found do

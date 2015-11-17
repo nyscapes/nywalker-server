@@ -22,16 +22,9 @@ class App
       "<a href='#{link}' target='_blank'><span class='glyphicon glyphicon-new-window' aria-hidden='true'></span></a>"
     end
 
-    def flash_messages(opts = {})
-      if @flash
-        @flash.map do |type, message| 
-          { flash_class: bootstrap_class_for(type), flash_message: message }
-        end
-      end
+    def rendered_flash
+      @rendered_flash
     end
 
-    def bootstrap_class_for flash_type
-      { success: "alert-success", error: "alert-danger", alert: "alert-warning", notice: "alert-info" }[flash_type] || flash_type.to_s
-    end
   end
 end
