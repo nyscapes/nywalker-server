@@ -256,6 +256,10 @@ class App < Sinatra::Base
   end
 
   def rendered_flash(flash)
+    # doing just @flash = flash and then handling the flash rendering
+    # inside mustache created a kind of persistence for the flash
+    # messages, wholly ruining the point of the flash message in the
+    # first place. 
     string = ""
     if flash == {} || flash.nil?
       string
