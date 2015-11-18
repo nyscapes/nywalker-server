@@ -1,6 +1,6 @@
 <h3>Results for “{{search_term}}”</h3>
-{{#results_table}}
   <div style="height: 200px;" id="resultsMap"></div>
+  {{#results_table}}
   <table class="table table-striped table-hover">
     <tbody>
       {{#results}}
@@ -23,13 +23,37 @@
   </table>
   <script>
     var firstHit = L.latLng({{first_lat}}, {{first_lon}});
-    var map = L.map('resultsMap').setView(firstHit, 15);
+    var map = L.map('resultsMap').setView(firstHit, 12);
     var baseLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(map);
     var marker = L.marker(firstHit).addTo(map);
   </script>
   <p>Nothing fits? Try <a target="_blank" href="https://en.wikipedia.org/w/index.php?search={{search_term}}">Searching Wikipedia <span class='glyphicon glyphicon-new-window' aria-hidden='true'></span></a> or using <a href="http://latlong.net" target="_blank">LatLong <span class='glyphicon glyphicon-new-window' aria-hidden='true'></span></a> and entering the data manually.</p>
 {{/results_table}}
 {{^results_table}}
-<p>No results found! Try <a href="https://en.wikipedia.org/w/index.php?search={{search_term}}" target="_blank">Searching Wikipedia <span class='glyphicon glyphicon-new-window' aria-hidden='true'></span></a> or using <a href="http://latlong.net" target="_blank">LatLong <span class='glyphicon glyphicon-new-window' aria-hidden='true'></span></a> and entering the data manually.</p>
+
+<p>No results found! Try <a
+    href="https://en.wikipedia.org/w/index.php?search={{search_term}}"
+    target="_blank">Wikipedia <span class='glyphicon
+      glyphicon-new-window' aria-hidden='true'></span></a>.</p>
+  
+<p>If you know where the place is from looking on a map, you can use the map above to get its <a href="http://www.what3words.com" target="_blank">what3words <span class="glyphicon glyphicon-new-window"></span></a> address, which will copy to the form automatically.</p>
+
+<script>
+  var map = L.map('resultsMap').setView(washingtonSquare, 13);
+  var baseLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(map);
+  var w = new L.Control.w3w();
+  w.addTo(map);
+  map.on('click', function(e) {
+    w.setCoordinates(e);
+    $('#inputConfidence').val("2");
+    $('#inputSource').val("what3words");
+    setTimeout(function() {
+      // It takes a moment for w to fire up.
+      var words = w._locationText.dataset.words.replace(/ /g, ".");
+      $('#inputW3W').val(words);
+    }, 500);
+  });
+</script>
+
 {{/results_table}}
 

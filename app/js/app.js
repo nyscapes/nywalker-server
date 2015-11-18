@@ -13,4 +13,4 @@ function recenterMap(latLng, mapDiv){
   mapDiv.panTo(latLng);
 };
 
-var washington_square = L.latLng(40.7308, -73.9975);
+var washingtonSquare = L.latLng(40.7308, -73.9975);
