@@ -52,6 +52,10 @@
       // It takes a moment for w to fire up.
       var words = w._locationText.dataset.words.replace(/ /g, ".");
       $('#inputW3W').val(words);
+			what3words.wordsToPosition(words, function(coords){
+        $('#inputLat').val(coords[0]);
+        $('#inputLon').val(coords[1]);
+			});
     }, 500);
   });
 </script>
