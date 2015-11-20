@@ -42,6 +42,7 @@
   var map = L.map('resultsMap').setView(washingtonSquare, 13);
   var baseLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(map);
   var w = new L.Control.w3w();
+  $('.leaflet-container').css('cursor', 'crosshair');
   w.addTo(map);
   map.on('click', function(e) {
     w.setCoordinates(e);
