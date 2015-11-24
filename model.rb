@@ -62,6 +62,7 @@ class Place
   property :confidence, String
   property :source, Text
   property :geonameid, String
+  property :what3word, String
   property :bounding_box_string, Text
 
   belongs_to :user
