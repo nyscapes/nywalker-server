@@ -26,5 +26,12 @@ class App
       @rendered_flash
     end
 
+    def user_sentence(userlist)
+      list = userlist.map do |user|
+        user.name
+      end
+      list.to_sentence
+    end
+
   end
 end
