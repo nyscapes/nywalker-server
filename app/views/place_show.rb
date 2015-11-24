@@ -47,6 +47,10 @@ class App
         @place.geonameid
       end
 
+      def w3w
+        @place.what3word
+      end
+
       def nicknames
         Nickname.all(place: @place).map{ |n| n.name }.to_sentence
       end

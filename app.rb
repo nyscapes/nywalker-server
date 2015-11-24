@@ -100,7 +100,7 @@ class App < Sinatra::Base
 
   post "/places/add" do
     new_place = Place.new
-    new_place.attributes = { name: params[:name], lat: params[:lat], lon: params[:lon], source: params[:source], confidence: params[:confidence], user: @user, added_on: Time.now }
+    new_place.attributes = { name: params[:name], lat: params[:lat], lon: params[:lon], source: params[:source], confidence: params[:confidence], user: @user, added_on: Time.now, what3word: params[:w3w] }
     if new_place.source == "GeoNames"
       new_place.bounding_box_string = params[:bbox]
       new_place.geonameid = params[:geonameid]

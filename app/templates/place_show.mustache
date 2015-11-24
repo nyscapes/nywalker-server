@@ -6,9 +6,12 @@
     <ul>
       <li>Source: {{{source_link}}} (Confidence: {{confidence}})</li>
       <li>Latitude: {{lat}}, Longitude: {{lon}}</li>
+      {{#w3w}}
+        <li><a href="http://what3words.com/" target="_blank">What3Words</a> name: {{w3w}}
+      {{/w3w}}
     </ul>
 
-    <p>Other names: {{nicknames_sentence}} </p>
+    <p>Known as: {{nicknames_sentence}} </p>
     
     <button type="button" class="btn btn-primary btn-default" data-toggle="modal" data-target="#editPlaceModal">Edit</button>
 
