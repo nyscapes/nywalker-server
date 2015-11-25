@@ -37,7 +37,7 @@ class App < Sinatra::Base
       "/js/vendor/*.js"
     ]
 
-    prebuild true
+    # prebuild true
 
   end
 
