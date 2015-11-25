@@ -2,6 +2,7 @@ require "sinatra/base"
 require "sinatra/assetpack"
 require "sinatra/flash"
 require "mustache/sinatra"
+require "sinatra-health-check"
 require "googlebooks"
 require "active_support" # for the slug.
 require "active_support/inflector"
@@ -52,6 +53,7 @@ class App < Sinatra::Base
     @js  = js  :app_js
     @path = request.path_info
     @rendered_flash = rendered_flash(flash)
+    @checker = SinatraHealthCheck::Checker.new
   end
 
   helpers do
@@ -290,6 +292,20 @@ class App < Sinatra::Base
 
   def bootstrap_class_for flash_type
     { success: "alert-success", error: "alert-danger", alert: "alert-warning", notice: "alert-info" }[flash_type] || flash_type.to_s
+  end
+
+  get "/internal/health" do
+    if @checker.healthy?
+      "healthy"
+    else
+      status 503
+      "unhealthy"
+    end
+  end
+
+  get "/internal/status" do
+    headers 'content-type' => 'application/json'
+    @checker.status.to_json
   end
 
   not_found do

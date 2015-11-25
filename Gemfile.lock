@@ -138,6 +138,7 @@ GEM
       tilt (>= 1.3.0, < 2.0)
     sinatra-flash (0.3.0)
       sinatra (>= 1.0.0)
+    sinatra-health-check (0.2.0)
     sinatra-support (1.2.2)
       sinatra (>= 1.0)
     stringex (1.5.1)
@@ -176,6 +177,7 @@ DEPENDENCIES
   sinatra
   sinatra-assetpack
   sinatra-flash
+  sinatra-health-check
   sinatra-support
   thin
 

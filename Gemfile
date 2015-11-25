@@ -17,6 +17,7 @@ gem 'georuby'
 gem 'thin'
 gem 'shotgun'
 gem 'puma'
+gem 'sinatra-health-check'
 gem 'googlebooks'
 
 group :test, :development do
