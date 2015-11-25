@@ -4,7 +4,7 @@ ruby '2.2.3'
 
 gem 'sinatra'
 gem 'sinatra-support', require: 'sinatra/support'
-gem 'sinatra-assetpack', require: 'sinatra/assetpack'
+gem 'sinatra-assetpack', require: 'sinatra/assetpack', github: 'rstacruz/sinatra-assetpack'
 gem 'sinatra-flash'
 gem 'mustache-sinatra'
 gem 'activesupport'
