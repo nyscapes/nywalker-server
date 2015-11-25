@@ -1,4 +1,4 @@
 require './app'
-use Rack::Deflater
+# use Rack::Deflater
 run App.new
 
