@@ -9,7 +9,7 @@ York City. We do.
 
 As the geospatial Digital Humanities matures, a lot of the work being done on
 “space in literature,” as
-[Moretti](https://books.google.com/books?id=ja2MUXS_YQUC&printsec=frontcover&dq=moretti+space+in+literature&hl=en&sa=X&ved=0ahUKEwjP17rHmqrJAhVG2xoKHZZHD3YQ6AEIHTAA#v=onepage&q=%22space%20in%20literature%22&f=false)
+[Franco Moretti](https://books.google.com/books?id=ja2MUXS_YQUC&printsec=frontcover&dq=moretti+space+in+literature&hl=en&sa=X&ved=0ahUKEwjP17rHmqrJAhVG2xoKHZZHD3YQ6AEIHTAA#v=onepage&q=%22space%20in%20literature%22&f=false)
 refers to it, involves Named Entity Recognition of a giant dataset of novels.
 See, for example, the work [Matt Wilkens](http://mattwilkens.com/) has done
 with corpora both from the 19th and 20th centuries.
@@ -120,3 +120,4 @@ Finally, the following students have all contributed to the database:
 ## License
 
 See LICENSE file, but (c) 2015 Moacir P. de Sá Pereira
+
