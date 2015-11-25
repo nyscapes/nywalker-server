@@ -27,7 +27,7 @@ class App < Sinatra::Base
   assets do
     serve "/js",    from: "app/js"
     serve "/css",   from: "app/css"
-    serve "/img",   from: "app/img"
+    # serve "/img",   from: "app/img"
 
     css :app_css, [ "/css/*.css" ]
     js :app_js, [
