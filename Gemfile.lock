@@ -105,6 +105,7 @@ GEM
     mustache (0.99.8)
     mustache-sinatra (1.0.1)
       mustache (<= 0.99.8)
+    puma (2.15.3)
     rack (1.6.4)
     rack-protection (1.5.3)
       rack
@@ -168,6 +169,7 @@ DEPENDENCIES
   georuby
   googlebooks
   mustache-sinatra
+  puma
   rack-test
   rspec
   shotgun

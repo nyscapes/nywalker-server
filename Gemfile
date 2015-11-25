@@ -16,6 +16,7 @@ gem 'dotenv'
 gem 'georuby'
 gem 'thin'
 gem 'shotgun'
+gem 'puma'
 gem 'googlebooks'
 
 group :test, :development do
@@ -26,3 +27,4 @@ group :test, :development do
   gem 'factory_girl'
   gem 'cucumber'
 end
+
