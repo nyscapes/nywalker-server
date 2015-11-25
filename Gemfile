@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-ruby '2.2.0'
+ruby '2.2.3'
 
 gem 'sinatra'
 gem 'sinatra-support', require: 'sinatra/support'
@@ -16,7 +16,6 @@ gem 'dotenv'
 gem 'georuby'
 gem 'thin'
 gem 'shotgun'
-gem 'unicorn'
 gem 'googlebooks'
 
 group :test, :development do
