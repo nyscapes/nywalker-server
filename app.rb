@@ -62,10 +62,16 @@ class App < Sinatra::Base
         flash[:success] = "#{object.class} successfully saved!"
         redirect path
       rescue DataMapper::SaveFailureError => e
-				mustache :error_report, locals: { e: e, validation: object.errors.values.join(', ') }
+        dm_error_and_redirect(object, path)
 			rescue StandardError => e
 				mustache :error_report, locals: { e: e }
       end
+    end
+
+    def dm_error_and_redirect(object, path, error = "")
+      error = object.errors.values.join(', ') if error == ""
+      flash[:error] = "Error: #{error}"
+      redirect path
     end
 
     def slugify(string)
@@ -198,10 +204,18 @@ class App < Sinatra::Base
     @page_title = "Saving Instance for #{book.title}"
     instance = Instance.new
     instance.attributes = { page: params[:page], sequence: params[:sequence], text: params[:place_name_in_text], added_on: Time.now, user: @user, book: book }
-    location = Place.first(name: params[:place].match(/{.*}$/)[0].gsub(/{/, "").gsub(/}/, ""))
+    if params[:place].match(/{.*}$/)
+      place = params[:place].match(/{.*}$/)[0].gsub(/{/, "").gsub(/}/, "")
+    else
+      dm_error_and_redirect(instance, request.path, "The place did not have a name coded inside {}s")
+    end
+    location = Place.first(name: place)
+    if location.nil?
+      dm_error_and_redirect(instance, request.path, "No such place found. Please add it below.")
+    end
     instance.place = location
     Nickname.first_or_create(name: instance.text, place: location)
-		save_object(instance, "/books/#{params[:book_slug]}/instances/new")
+    save_object(instance, request.path)
   end
 
   get "/places" do
