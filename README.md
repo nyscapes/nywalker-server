@@ -57,7 +57,7 @@ applications.
 ## Technology
 
 Simply put, NYWalker is a [Sinatra](http://www.sinatrarb.com) web application
-that serves as a front-end to a [PostGIS](http://www.postgis.org) database.
+that serves as a front-end to a [PostGIS](http://www.postgis.org) database. Actually, it’s currently just a postgresql database.
 Researchers, that is, those who are adding data to the database, are exposed
 to, effectively, three models: `Book`, `Place`, and `Instance`. An `Instance`
 is an instance of a `Place` as mentioned in a `Book`. Out of the box, all we
@@ -98,7 +98,7 @@ you let us know if you create a similar project. Who knows, maybe we’ll make
 use of your databases in the future.
 
 Unfortunately, because the database is a PostGIS one, forking is not as simple
-as providing a Heroku “deploy” button.
+as providing a Heroku “deploy” button. Stay tuned for updates to this, though…
 
 We obviously also welcome pull requests.
 
