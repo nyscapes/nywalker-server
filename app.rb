@@ -33,9 +33,11 @@ class App < Sinatra::Base
 
     css :app_css, [ "/css/*.css" ]
     js :app_js, [
-      "/js/*.js"#,
-      # "/js/vendor/*.js"
+      "/js/*.js",
+      "/js/vendor/*.js"
     ]
+
+    prebuild true
 
   end
 
