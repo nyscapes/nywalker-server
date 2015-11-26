@@ -54,7 +54,7 @@
           <option value="1">Not very sure this is the place.</option>
           <option value="0">Can&rsquo;t find the place.</option>
         </select>
-        <span id="confidenceHelpBlock" class="help-block">How confident are you n your choice?</span>
+        <span id="confidenceHelpBlock" class="help-block">How confident are you in your choice?</span>
       </div>
       <div class="form-group">
         <input type="hidden" name="geonameid" value="" id="inputGeonameid">
@@ -82,7 +82,7 @@
           $.post($(this).attr('action'), $(this).serialize(), function(data){
 						// add the new place to the search engine.
 						var placeName = $('#inputName').val()
-            var placeNameString = placeName + " — {" + placeName + "}";
+            var placeNameString = placeName + " -- {" + placeName + "}";
 						places.add([placeNameString]);
 						$('#inputPlace').val(placeNameString);
             $('.modal-content').empty().append(data);
