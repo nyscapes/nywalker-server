@@ -26,6 +26,19 @@
     var map = L.map('resultsMap').setView(firstHit, 12);
     var baseLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(map);
     var marker = L.marker(firstHit).addTo(map);
+
+    function fillInPlaceData(data){
+      // `data` is a string that looks like "name##lat##lon##geonameid##bbox##source##confidence"
+      var array = data.split("##");
+      $.each(['#inputName', '#inputLat', '#inputLon', '#inputGeonameid', '#inputBbox', '#inputSource', '#inputConfidence'], function( index, value ){
+        $(value).val(
+          array[index]
+        );
+      });
+      what3words.positionToWords([array[1], array[2]], function(words){
+        $('#inputW3W').val(words.join("."));
+      });
+    }
   </script>
   <p>Nothing fits? Try <a target="_blank" href="https://en.wikipedia.org/w/index.php?search={{search_term}}">Searching Wikipedia <span class='glyphicon glyphicon-new-window' aria-hidden='true'></span></a> or using <a href="http://latlong.net" target="_blank">LatLong <span class='glyphicon glyphicon-new-window' aria-hidden='true'></span></a> and entering the data manually.</p>
 {{/results_table}}
@@ -58,7 +71,8 @@
 			});
     }, 1000);
   });
-</script>
 
+</script>
 {{/results_table}}
+
 
