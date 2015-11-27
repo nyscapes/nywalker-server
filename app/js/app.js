@@ -6,6 +6,10 @@ function fillInPlaceData(data){
       array[index]
     );
   });
+  what3words.positionToWords([array[1], array[2]], function(words){
+    var dotWords = words.join(".");
+    $('#inputW3W').val(dotWords);
+  });
 }
 
 function recenterMap(latLng){
