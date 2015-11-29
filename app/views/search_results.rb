@@ -8,7 +8,7 @@ class App
       end
 
       def results
-        @results.map{ |r| { name: r[:name], lat: r[:lat], lon: r[:lon], description: r[:description], geonameid: r[:geonameid], bbox: r[:bbox] } }
+        @results.map{ |r| { name: r[:name], lat: r[:lat], lon: r[:lon], description: r[:description], geonameid: r[:geonameid], bbox: r[:bbox], escaped_name: r[:name].gsub(/'/, "’") } }
       end
 
       def search_term
