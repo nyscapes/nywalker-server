@@ -1,5 +1,6 @@
 <h3>Results for “{{search_term}}”</h3>
   <div style="height: 200px;" id="resultsMap"></div>
+  <div id="resultsDiv">
   {{#results_table}}
   <table class="table table-hover">
     <tbody>
@@ -40,39 +41,15 @@
       });
     }
   </script>
-  <p>Nothing fits? Try <a target="_blank" href="https://en.wikipedia.org/w/index.php?search={{search_term}}">Searching Wikipedia <span class='glyphicon glyphicon-new-window' aria-hidden='true'></span></a> or using <a href="http://latlong.net" target="_blank">LatLong <span class='glyphicon glyphicon-new-window' aria-hidden='true'></span></a> and entering the data manually.</p>
+
+  <p>Nothing fits? Try <a target="_blank"
+      href="https://en.wikipedia.org/w/index.php?search={{search_term}}">Searching
+      Wikipedia <span class='glyphicon glyphicon-new-window'
+        aria-hidden='true'></span></a>. Or type in a dummy search term on the left and enter your point manually.</p>
+    
 {{/results_table}}
 {{^results_table}}
-
-<p>No results found! Try <a
-    href="https://en.wikipedia.org/w/index.php?search={{search_term}}"
-    target="_blank">Wikipedia <span class='glyphicon
-      glyphicon-new-window' aria-hidden='true'></span></a>.</p>
-  
-<p>If you know where the place is from looking on a map, you can use the map above to get its <a href="http://www.what3words.com" target="_blank">what3words <span class="glyphicon glyphicon-new-window"></span></a> address, which will copy to the form automatically.</p>
-
-<script>
-  var map = L.map('resultsMap').setView(washingtonSquare, 13);
-  var baseLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(map);
-  var w = new L.Control.w3w();
-  $('.leaflet-container').css('cursor', 'crosshair');
-  w.addTo(map);
-  map.on('click', function(e) {
-    w.setCoordinates(e);
-    $('#inputConfidence').val("2");
-    $('#inputSource').val("what3words");
-    setTimeout(function() {
-      // It takes a moment for w to fire up.
-      var words = w._locationText.dataset.words.replace(/ /g, ".");
-      $('#inputW3W').val(words);
-			what3words.wordsToPosition(words, function(coords){
-        $('#inputLat').val(coords[0]);
-        $('#inputLon').val(coords[1]);
-			});
-    }, 1000);
-  });
-
-</script>
+ {{> partials/manual_map}}
 {{/results_table}}
-
+</div>
 
