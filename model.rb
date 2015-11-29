@@ -71,8 +71,6 @@ class Place
   has 1, :bounding_box
 
   validates_presence_of :name
-  validates_presence_of :lat
-  validates_presence_of :lon
   validates_uniqueness_of :slug
 
 end

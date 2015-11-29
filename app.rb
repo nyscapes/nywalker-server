@@ -117,6 +117,11 @@ class App < Sinatra::Base
       new_place.bounding_box_string = params[:bbox]
       new_place.geonameid = params[:geonameid]
     end
+    if new_place.lat == "" && new_place.lon == ""
+      new_place.lat = nil
+      new_place.lon = nil
+      new_place.confidence = 0
+    end
     new_place.slug = slugify new_place.name
     # new_place.geom = GeoRuby::SimpleFeatures::Point.from_x_y(new_place.lon, new_place.lat, 4326)
     # create_bounding_box(place) # because this doesn't seem to work.
@@ -279,7 +284,7 @@ class App < Sinatra::Base
     # doing just @flash = flash and then handling the flash rendering
     # inside mustache created a kind of persistence for the flash
     # messages, wholly ruining the point of the flash message in the
-    # first place. 
+    # first place.
     string = ""
     if flash == {} || flash.nil?
       string
