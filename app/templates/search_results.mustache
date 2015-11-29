@@ -1,55 +1,77 @@
 <h3>Results for “{{search_term}}”</h3>
-  <div style="height: 200px;" id="resultsMap"></div>
-  <div id="resultsDiv">
+<div style="height: 200px;" id="resultsMap"></div>
+<div id="resultsDiv">
   {{#results_table}}
-  <table class="table table-hover">
-    <tbody>
-      {{#results}}
-        <tr>
-          <td>
-            <button class="button btn-primary btn-xs"
-              onclick="recenterMap(L.latLng({{lat}}, {{lon}}), map);">Map</button>
-          </td>
-          <td>
-            {{name}} <small>({{lat}}, {{lon}})</small><br />
-            <small>{{description}}</small>
-          </td>
-          <td>
-            <button class="button btn-primary btn-xs"
-              onclick="fillInPlaceData('{{name}}##{{lat}}##{{lon}}##{{geonameid}}##{{bbox}}##GeoNames##3');">Use</button>
-          </td>
-        </tr>
-      {{/results}}
-    </tbody>
-  </table>
+    <table class="table table-hover">
+      <tbody>
+        {{#results}}
+          <tr>
+            <td>
+              <button class="button btn-primary btn-xs"
+                onclick="recenterMap(L.latLng({{lat}}, {{lon}}), map);">Map</button>
+            </td>
+            <td>
+              {{name}} <small>({{lat}}, {{lon}})</small><br />
+              <small>{{description}}</small>
+            </td>
+            <td>
+              <button class="button btn-primary btn-xs"
+                onclick="fillInPlaceData('{{name}}##{{lat}}##{{lon}}##{{geonameid}}##{{bbox}}##GeoNames##3');">Use</button>
+            </td>
+          </tr>
+        {{/results}}
+      </tbody>
+    </table>
+    <script>
+      var firstHit = L.latLng({{first_lat}}, {{first_lon}});
+      var map = L.map('resultsMap').setView(firstHit, 12);
+      var baseLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(map);
+      var marker = L.marker(firstHit).addTo(map);
+
+      function fillInPlaceData(data){
+        // `data` is a string that looks like "name##lat##lon##geonameid##bbox##source##confidence"
+        var array = data.split("##");
+        $.each(['#inputName', '#inputLat', '#inputLon', '#inputGeonameid', '#inputBbox', '#inputSource', '#inputConfidence'], function( index, value ){
+          $(value).val(
+            array[index]
+          );
+        });
+        what3words.positionToWords([array[1], array[2]], function(words){
+          $('#inputW3W').val(words.join("."));
+        });
+      }
+    </script>
+
+    <p>Nothing fits? Try <a target="_blank"
+        href="https://en.wikipedia.org/w/index.php?search={{search_term}}">Searching
+        Wikipedia <span class='glyphicon glyphicon-new-window'
+          aria-hidden='true'></span></a>. Or if you know the point, you can add
+      its <a href="http://www.what3words.com" target="_blank">what3words <span
+          class="glyphicon glyphicon-new-window"></span></a> address, which
+      will copy to the form automatically.</p>
+
+  {{/results_table}}
+  {{^results_table}}
+   {{> partials/manual_map}}
+  {{/results_table}}
   <script>
-    var firstHit = L.latLng({{first_lat}}, {{first_lon}});
-    var map = L.map('resultsMap').setView(firstHit, 12);
-    var baseLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(map);
-    var marker = L.marker(firstHit).addTo(map);
-
-    function fillInPlaceData(data){
-      // `data` is a string that looks like "name##lat##lon##geonameid##bbox##source##confidence"
-      var array = data.split("##");
-      $.each(['#inputName', '#inputLat', '#inputLon', '#inputGeonameid', '#inputBbox', '#inputSource', '#inputConfidence'], function( index, value ){
-        $(value).val(
-          array[index]
-        );
-      });
-      what3words.positionToWords([array[1], array[2]], function(words){
-        $('#inputW3W').val(words.join("."));
-      });
-    }
+    var w = new L.Control.w3w();
+    $('.leaflet-container').css('cursor', 'crosshair');
+    w.addTo(map);
+    map.on('click', function(e) {
+      w.setCoordinates(e);
+      $('#inputConfidence').val("2");
+      $('#inputSource').val("what3words");
+      setTimeout(function() {
+        // It takes a moment for w to fire up.
+        var words = w._locationText.dataset.words.replace(/ /g, ".");
+        $('#inputW3W').val(words);
+        what3words.wordsToPosition(words, function(coords){
+          $('#inputLat').val(coords[0]);
+          $('#inputLon').val(coords[1]);
+        });
+      }, 1000);
+    });
   </script>
-
-  <p>Nothing fits? Try <a target="_blank"
-      href="https://en.wikipedia.org/w/index.php?search={{search_term}}">Searching
-      Wikipedia <span class='glyphicon glyphicon-new-window'
-        aria-hidden='true'></span></a>. Or type in a dummy search term on the left and enter your point manually.</p>
-    
-{{/results_table}}
-{{^results_table}}
- {{> partials/manual_map}}
-{{/results_table}}
 </div>
 
