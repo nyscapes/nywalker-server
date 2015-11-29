@@ -48,7 +48,9 @@ class App
       end
 
       def places
-        @instances.places.map{ |p| { lat: p.lat, lon: p.lon, name: p.name } }
+        @instances.places.all(:confidence.not => 0).map do |p|
+          { lat: p.lat, lon: p.lon, name: p.name } 
+        end
       end
 
     end
