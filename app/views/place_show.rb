@@ -31,13 +31,13 @@ class App
         @place.slug
       end
 
-      def source
-        @place.source
-      end
+      # def source
+      #   @place.source
+      # end
 
-      def source_button
-        @place.source =~ URI::regexp(['http', 'https'])
-      end
+      # def source_button
+      #   @place.source =~ URI::regexp(['http', 'https'])
+      # end
 
       def bounding_box
         @place.bounding_box_string
@@ -70,8 +70,11 @@ class App
           url = nil
           text = @place.source
         end
-        string = text
-        string.gsub(/^/, "<a href='#{url}' target='_blank'>").gsub(/$/, " <span class='glyphicon glyphicon-new-window' aria-hidden='true'></span></a>") unless url.nil?
+        if url.nil?
+          text
+        else
+          "<a href='#{url}' target='_blank'>#{text} <span class='glyphicon glyphicon-new-window' aria-hidden='true'></span></a>"
+        end
       end
 
       def nicknames_sentence
