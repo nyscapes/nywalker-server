@@ -47,6 +47,10 @@ class App
         @instances.map{ |i| {page: i.page, sequence: i.sequence, place_name: i.place.name, place_slug: i.place.slug} }
       end
 
+      def places
+        @instances.places.map{ |p| { lat: p.lat, lon: p.lon, name: p.name } }
+      end
+
     end
   end
 end

@@ -1,5 +1,9 @@
 <div class="row">
-  <div class="col-md-9">
+  <div class="col-md-6">
+    <div class="pull-right">
+      <img src="{{cover}}" class="img-thumbnail img-responsive" alt="{{cover_alt}}">
+      <p><a href={{link}}>Google Books info</a></p>
+    </div>
     <h1><em>{{title}}</em> {{{external_link}}}</h1>
     <h3>{{author}}, {{year}} <small>(isbn: {{isbn}})</small></h3>
     <a href="/books/{{slug}}/instances/new" class="btn btn-primary btn-default" role="button">Add instance</a>
@@ -33,8 +37,19 @@
     </table>
 
   </div>
-  <div class="col-md-3">
-    <img src="{{cover}}" class="img-thumbnail img-responsive" alt="{{cover_alt}}">
-    <p><a href={{link}}>Google Books info</a></p>
+  <div class="col-md-6">
+    <div id="map">
+    </div>
   </div>
 </div>
+
+<script>
+  var map = L.map('map').setView([0,0], 15);
+  var baseLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(map);
+  var dots = L.markerClusterGroup();
+   {{#places}}
+     dots.addLayer(L.circleMarker([{{lat}}, {{lon}}]).bindPopup("{{name}}"));
+   {{/places}}
+   map.addLayer(dots);
+   map.fitBounds(dots.getBounds());
+ </script>
