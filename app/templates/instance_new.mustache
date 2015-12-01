@@ -1,7 +1,7 @@
 <div class="jumbotron">
   <div class="row">
     <div class="col-md-6">
-      <p class="lead">Enter your instance from <em>{{book_title}}</em>.</p>
+      <p class="lead">Enter your instance from <a href="/books/{{book_slug}}"><em>{{book_title}}</em></a>.</p>
       <form action="/books/{{book_slug}}/instances/new" method="POST">
         {{> partials/instance_form}}
       </form>
@@ -33,6 +33,11 @@
           </div>
           <div class="form-group">
             <a href="/books/{{book_slug}}/instances/{{li_id}}/edit" class="btn btn-primary btn-default">Edit Instance</a>
+          </div>
+          <div class="form-group">
+            <form action="/books/{{book_slug}}/instances/{{li_id}}/delete" method="POST">
+              <button role="button" type="submit" class="btn btn-danger btn-small">Delete</button>
+            </form>
           </div>
         <!-- </form> -->
       {{/last_instance}}

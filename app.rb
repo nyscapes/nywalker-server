@@ -228,10 +228,8 @@ class App < Sinatra::Base
   end
 
   get "/books/:book_slug/instances/:instance_id/edit" do
-    puts "first in the path"
     @page_title = "Editing Instance #{instance.id} for #{book.title}"
     @nicknames = Nickname.map{|n| "#{n.name} - {#{n.place.name}}"}
-    puts "In the path"
     mustache :instance_edit
   end
 
@@ -242,6 +240,21 @@ class App < Sinatra::Base
     end
     Nickname.first_or_create(name: instance.text, place: instance.place)
     save_object(instance, "/books/#{params[:book_slug]}/instances/new")
+  end
+
+  post "/books/:book_slug/instances/:instance_id/delete" do
+    puts "Deleting Instance #{instance.id} for #{book.title}"
+    page_instances = Instance.all(book: book, page: instance.page, :sequence.gt => instance.sequence)
+    if instance.destroy
+      page_instances.each do |instance|
+        instance.update(sequence: instance.sequence - 1)
+      end
+      flash[:success] = "Deleted instance #{instance.id}, from page #{instance.page} marking #{instance.text}."
+      redirect "/books/#{book.slug}"
+    else
+      flash[:error] = "Something went wrong."
+      redirect "/books/#{book.slug}"
+    end
   end
 
   get "/places" do

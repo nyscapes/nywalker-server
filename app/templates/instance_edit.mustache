@@ -1,6 +1,7 @@
 <div class="jumbotron">
   <div class="row">
     <div class="col-md-6">
+      <p class="lead">Edit the instance from <a href="/books/{{book_slug}}"><em>{{book_title}}</em></a>.</p>
       <form action="/books/{{book_slug}}/instances/{{id}}/edit" method="POST">
         {{> partials/instance_form}}
       </form>
