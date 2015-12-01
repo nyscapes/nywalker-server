@@ -227,6 +227,23 @@ class App < Sinatra::Base
     save_object(instance, request.path)
   end
 
+  get "/books/:book_slug/instances/:instance_id/edit" do
+    puts "first in the path"
+    @page_title = "Editing Instance #{instance.id} for #{book.title}"
+    @nicknames = Nickname.map{|n| "#{n.name} - {#{n.place.name}}"}
+    puts "In the path"
+    mustache :instance_edit
+  end
+
+  post "/books/:book_slug/instances/:instance_id/edit" do
+    instance.attributes = { page: params[:page], sequence: params[:sequence], text: params[:place_name_in_text], modified_on: Time.now, user: @user, book: book }
+    if params[:place].match(/{.*}$/) # We've likely modified the place.
+      instance.place = params[:place].match(/{.*}$/)[0].gsub(/{/, "").gsub(/}/, "")
+    end
+    Nickname.first_or_create(name: instance.text, place: instance.place)
+    save_object(instance, "/books/#{params[:book_slug]}/instances/new")
+  end
+
   get "/places" do
     @page_title = "All places"
     @places = Place.all

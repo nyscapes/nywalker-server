@@ -1,0 +1,27 @@
+<div class="jumbotron">
+  <div class="row">
+    <div class="col-md-6">
+      <form action="/books/{{book_slug}}/instances/{{id}}/edit" method="POST">
+        {{> partials/instance_form}}
+      </form>
+    </div>
+    <div class="col-md-6">
+      &nbsp;
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="addPlaceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Add new place</h4>
+      </div>
+      <div class="modal-body">
+        {{> partials/place_form }}
+      </div>
+    </div>
+  </div>
+</div>
+
+

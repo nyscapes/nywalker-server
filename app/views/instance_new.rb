@@ -3,6 +3,10 @@ class App
 
     class InstanceNew < Layout
 
+      def form_button
+        "Add Instance"
+      end
+
       def page
         @last_instance.nil? ? 1 : @last_instance.page
       end
@@ -25,6 +29,15 @@ class App
 
       def form_source
         "modal"
+      end
+
+      def last_instance
+        { li_page: @last_instance.page,
+          li_sequence: @last_instance.sequence,
+          li_place: @last_instance.place.name,
+          li_place_name_in_text: @last_instance.text,
+          li_place_slug: @last_instance.place.slug,
+          li_id: @last_instance.id }
       end
 
     end

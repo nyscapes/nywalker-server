@@ -1,0 +1,57 @@
+<div class="form-group">
+  <label for="inputPlace">Place</label>
+  <input tabindex="1" type="text" class="typeahead form-control" id="inputPlace" name="place" value="{{place_name}}">
+</div>
+<div class="form-group">
+  <button tabindex="2" type="button" class="btn btn-primary btn-default" onclick="$('#inputSearch').val($('#inputPlace').val());" data-toggle="modal" data-target="#addPlaceModal">Add new place</button>
+</div>
+<div class="form-group">
+  <label for="inputPlaceNameInText">Place name in text</label>
+  <input tabindex="3" type="text" class="form-control" id="inputPlaceNameInText" name="place_name_in_text" value="{{place_name_in_text}}">
+</div>
+<div class="row">
+  <div class="form-group col-md-3">
+    <label for="inputPage">Page</label>
+    <input tabindex="4" type="number" class="form-control" id="inputPage" name="page" value="{{page}}">
+  </div>
+  <div class="form-group col-md-3">
+    <label for="inputSequence">Order on page</label>
+    <input tabindex="5" type="number" class="form-control" id="inputSequence" name="sequence" value="{{sequence}}">
+  </div>
+</div>
+<div class="form-group">
+  <button tabindex="6" type="submit" class="btn btn-primary btn-default">{{form_button}}</button>
+  <script>
+    $(document).ready(function(){
+      $('#addPlaceModal').on('shown.bs.modal', function(){
+        $(this).find('#inputSearch').focus();
+      });
+    });
+		var nicknames = {{{nicknames}}};
+    var places = new Bloodhound({
+      local: nicknames,
+      datumTokenizer: Bloodhound.tokenizers.whitespace,
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+    });
+
+    $('.typeahead').typeahead({
+      hint: true,
+      highlight: true,
+      minLength: 1
+    },
+    {
+      name: 'places',
+      source: places
+    });
+
+    $('#inputPage').change(function(){
+      $('#inputSequence').val("1");
+    });
+
+    $('#inputPlace').change(function(){
+      $('#inputPlaceNameInText').val(
+        $('#inputPlace').val().replace(/ - {.*$/, "")
+        );
+    });
+  </script>
+</div>
