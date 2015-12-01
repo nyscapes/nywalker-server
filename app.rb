@@ -92,12 +92,10 @@ class App < Sinatra::Base
       @place ||= Place.first(slug: params[:place_slug]) || halt(404)
     end
 
-  end
+    def instance
+      @instance ||= Instance.first(id: params[:instance_id]) || halt(404)
+    end
 
-  # Function allows both get / post.
-  def self.get_or_post(path, opts={}, &block)
-    get(path, opts, &block)
-    post(path, opts, &block)
   end
 
   get "/" do
