@@ -5,6 +5,7 @@ require "sinatra/assetpack"
 require "sinatra/flash"
 require "mustache/sinatra"
 require "sinatra-health-check"
+require "warden"
 require "googlebooks"
 require "active_support" # for the slug.
 require "active_support/inflector"
@@ -52,7 +53,7 @@ class App < Sinatra::Base
 
   before do
     @admin = true
-    @user = User.first
+    # @user = User.first
     @css = css :app_css
     @js  = js  :app_js
     @path = request.path_info
@@ -320,7 +321,9 @@ class App < Sinatra::Base
       flash.each do |type, message|
         string << "<div class='alert #{bootstrap_class_for type} fade in'>"
         string << "<button class='close' data-dismiss='alert'>&times;</button>"
-        string << message
+        unless message.nil?
+          string << message
+        end
         string << "</div>"
       end
       string
@@ -345,6 +348,39 @@ class App < Sinatra::Base
     @checker.status.to_json
   end
 
+  get '/auth/login' do
+    mustache :login
+  end
+
+  post '/auth/login' do
+    env['warden'].authenticate!
+
+    if session[:return_to].nil?
+      redirect '/'
+    else
+      redirect session[:return_to]
+    end
+  end
+
+  post '/auth/unauthenticated' do
+    flash[:error] = env['warden.options'][:message]
+    puts "someone failed"
+    # env['warden'].raw_session.inspect
+    redirect '/auth/login'
+  end
+
+  get '/auth/logout' do
+    env['warden'].raw_session.inspect
+    env['warden'].logout
+    flash[:success] = "Successfuly logged out"
+    redirect '/'
+  end
+
+  get '/admin' do
+    user = env['warden'].user
+    "#{user.username} whoa!"
+  end
+
   not_found do
     if request.path =~ /\/$/
       redirect request.path.gsub(/\/$/, "")
@@ -353,4 +389,38 @@ class App < Sinatra::Base
     end
   end
 
+  use Warden::Manager do |config|
+    config.serialize_into_session{ |user| user.id }
+    config.serialize_from_session{ |id| User.first(id: id) }
+    config.scope_defaults :default,
+      strategies: [:password],
+      action: '/auth/unauthenticated'
+    config.failure_app = self
+  end
+
+  Warden::Manager.before_failure do |env, opts|
+    env['REQUEST_METHOD'] = 'POST'
+  end
+
+end
+
+Warden::Strategies.add(:password) do
+
+  def valid?
+    params["username"] && params["password"]
+  end
+
+  def authenticate!
+    user = User.first(username: params["username"])
+
+    if user.nil?
+      puts "user nil!"
+      throw(:warden, message: "The username you entered does not exist.")
+    elsif user.authenticate(params["password"])
+      success!(user)
+    else
+      puts "combination is wrong."
+      throw(:warden, message: "The username and password combination is incorrect.")
+    end
+  end
 end

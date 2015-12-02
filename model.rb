@@ -139,6 +139,10 @@ class User
   validates_presence_of :password
   validates_presence_of :email
 
+  def authenticate(attempted_password)
+    self.password == attempted_password ? true : false
+  end
+
 end
 
 DataMapper::Model.raise_on_save_failure = true # seriously, let's make debugging easy?
