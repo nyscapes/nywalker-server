@@ -1,0 +1,66 @@
+<h1>List of Users</h1>
+<p class="lead">This is the current list of users</p>
+<div class="row">
+  <div class="col-sm-9">
+    {{#admin?}}
+      <a href="/users/new" class="btn btn-primary">Add User</a>
+    {{/admin?}}
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          {{#admin?}}
+          <th>&nbsp;</th>
+          {{/admin?}}
+          <th>Username</th>
+          <th>Name</th>
+          {{#admin?}}
+            <th>Email</th>
+          {{/admin?}}
+          <th>Admin?</th>
+          <th>Instances</th>
+          <th>Books</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#users}}
+          <tr>
+            {{#admin?}}
+              <td>
+                <a href="/users/{{username}}/edit" class="btn btn-primary btn-small">
+                  Edit
+                </a>
+            </td>
+            {{/admin?}}
+            <td>
+              <a href="/users/{{username}}">
+                {{username}}
+              </a>
+            </td>
+            <td>{{name}}</td>
+            {{#admin?}}
+              <td>{{email}}</td>
+            {{/admin?}}
+            <td>
+              {{#admin}}
+                <span class="glyphicon glyphicon-ok"></span>
+              {{/admin}}
+            </td>
+            <td>
+              <a href="/users/{{username}}/instances">
+                {{instances}}
+              </a>
+            </td>
+            <td>
+              <a href="/users/{{username}}/books">
+                {{books}}
+              </a>
+            </td>
+          </tr>
+        {{/users}}
+      </tbody>
+    </table>
+  </div>
+  <div class="col-sm-3">
+    <p>What should go here?</p>
+  </div>
+</div>
