@@ -209,9 +209,9 @@ class App < Sinatra::Base
   end
 
   get "/books/:book_slug/instances/new" do
-    protected_page
+    permitted_page(book)
     @page_title = "New Instance for #{book.title}"
-    @last_instance = Instance.last(user: @user, book: book)
+    @last_instance = Instance.last(user: @user, book: book) || Instance.last(book: book)
     @nicknames = Nickname.map{|n| "#{n.name} - {#{n.place.name}}"}
     mustache :instance_new
   end
@@ -400,6 +400,13 @@ class App < Sinatra::Base
   def protected_page
     unless @user
       flash[:error] = "Must be logged in."
+      redirect "/"
+    end
+  end
+
+  def permitted_page(object)
+    unless @user.admin? || object.users.include?(@user)
+      flash[:error] = "Not allowed to add or edit this data."
       redirect "/"
     end
   end

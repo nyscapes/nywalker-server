@@ -37,5 +37,9 @@ class App
       @user
     end
 
+    def permitted
+      @user.admin? || @book.users.include?(@user) 
+    end
+
   end
 end

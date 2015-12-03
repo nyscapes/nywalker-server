@@ -17,9 +17,11 @@
         {{#books}}
           <tr>
             <td>
+              {{#permitted}}
               <a href="/books/{{slug}}/instances/new" class="btn btn-primary btn-small">
                 Add instance
               </a>
+              {{/permitted}}
             </td>
             <td>
               <a href="/books/{{slug}}">
