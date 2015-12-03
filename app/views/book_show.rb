@@ -45,7 +45,7 @@ class App
 
       def instances
         @instances.map{ |i| {page: i.page, sequence: i.sequence, place_name: i.place.name, place_slug: i.place.slug, instance_id: i.id,
-          instance_permitted: ( @user.admin? || i.user == @user ),
+          instance_permitted: ( admin? || i.user == @user ),
           owner: i.user.name } }
       end
 

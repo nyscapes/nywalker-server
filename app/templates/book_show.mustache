@@ -6,26 +6,26 @@
     </div>
     <h1><em>{{title}}</em> {{{external_link}}}</h1>
     <h3>{{author}}, {{year}} <small>(isbn: {{isbn}})</small></h3>
-    {{#permitted}}
+    {{#book_permitted}}
     <a href="/books/{{slug}}/instances/new" class="btn btn-primary btn-default" role="button">Add instance</a>
-    {{/permitted}}
+    {{/book_permitted}}
     <h2>Instances:</h2>
     <table class="table table-hover">
       <thead>
-        {{#permitted}}
+        {{#book_permitted}}
           <th>&nbsp;</th>
-        {{/permitted}}
+        {{/book_permitted}}
         <th>Page</th>
         <th>Order</th>
         <th>Place</th>
-        {{#permitted}}
+        {{#book_permitted}}
           <th>&nbsp;</th>
-        {{/permitted}}
+        {{/book_permitted}}
       </thead>
       <tbody>
         {{#instances}}
         <tr>
-          {{#permitted}}
+          {{#book_permitted}}
             <td>
             {{#instance_permitted}}
               <a href="/books/{{slug}}/instances/{{instance_id}}/edit" class="btn btn-primary btn-small">Edit</a>
@@ -34,7 +34,7 @@
               {{owner}}
             {{/instance_permitted}}
             </td>
-          {{/permitted}}
+          {{/book_permitted}}
           <td>
             {{page}}
           </td>
@@ -44,7 +44,7 @@
           <td>
             <a href="/places/{{place_slug}}/">{{place_name}}</a>
           </td>
-          {{#permitted}}
+          {{#book_permitted}}
             <td>
               {{#instance_permitted}}
                 <form action="/books/{{slug}}/instances/{{instance_id}}/delete" method="POST">
@@ -55,7 +55,7 @@
                 &nbsp;
               {{/instance_permitted}}
             </td>
-          {{/permitted}}
+          {{/book_permitted}}
         </tr>
         {{/instances}}
         {{^instances}}

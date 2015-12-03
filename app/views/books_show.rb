@@ -13,7 +13,7 @@ class App
             year: b.year, 
             users: user_sentence(b.users), 
             instances: b.instances.length,
-            permitted: ( @user.admin? || b.users.include?(@user) )
+            permitted: ( admin? || b.users.include?(@user) )
         } }
       end
 

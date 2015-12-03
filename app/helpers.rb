@@ -37,12 +37,12 @@ class App
       @user
     end
 
-    def permitted
-      @user.admin? || @book.users.include?(@user) 
+    def book_permitted
+      admin? || @book.users.include?(@user) 
     end
 
     def place_permitted
-      @user.admin? || @place.user == @user
+      admin? || @place.user == @user
     end
 
     def user_name
@@ -50,6 +50,12 @@ class App
         @user.name
       else
         "Guest"
+      end
+    end
+
+    def admin?
+      if @user
+        @user.admin?
       end
     end
 
