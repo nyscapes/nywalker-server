@@ -291,6 +291,41 @@ class App < Sinatra::Base
       mustache :place_edit, { layout: :naked }
     end
   end
+ 
+  get '/users' do
+    @users = User.all
+    mustache :users_show
+  end
+
+  get '/users/:user_username' do
+    @this_user = User.first(username: params[:username])
+    mustache :user_show
+  end
+
+  get '/users/new' do
+    admin_only_page
+    mustache :user_new
+  end
+
+  post '/users/new' do
+    admin_only_page
+    new_user = User.new
+    new_user.attributes = { name: params[:name], admin: params[:admin], email: params[:email], added_on: Time.now, password: params[:password] }
+    if params[:username] =~ /\W/
+      flash[:error] = "Only alphanumeric characters in the username, please."
+      redirect '/users/new'
+    else
+      new_user.username = params[:username]
+    end
+    save_object(new_user, "/users/#{new_user.username}")
+  end
+
+  post '/report_error' do
+    ref = env['HTTP_REFERER'] # could be request.referer or just "back"
+    author = @user.name
+    error = params[:error_report]
+    "#{author} had to say about #{ref} this: #{error}"
+  end
 
   get "/about" do
     @page_title = "About"
@@ -397,13 +432,6 @@ class App < Sinatra::Base
     "Contact Moacir to reinitialize your user data"
   end
 
-  post '/report_error' do
-    ref = env['HTTP_REFERER']
-    author = @user.name
-    error = params[:error_report]
-    "#{author} had to say about #{ref} this: #{error}"
-  end
-
   def protected_page
     unless @user
       flash[:error] = "Must be logged in."
@@ -423,6 +451,13 @@ class App < Sinatra::Base
     end
     unless @user.admin? || edit_code
       flash[:error] = "Not allowed to add or edit this data."
+      redirect "/"
+    end
+  end
+
+  def admin_only_page
+    unless @user.admin?
+      flash[:error] = "Not allowed to visit admin-only pages."
       redirect "/"
     end
   end
