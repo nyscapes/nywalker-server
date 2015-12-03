@@ -96,6 +96,10 @@ class App < Sinatra::Base
       @instance ||= Instance.first(id: params[:instance_id]) || halt(404)
     end
 
+    def this_user
+      @this_user ||= User.first(username: params[:user_username]) || halt(404)
+    end
+
   end
 
   get "/" do
@@ -293,16 +297,18 @@ class App < Sinatra::Base
   end
  
   get '/users' do
+    @page_title = "All Users"
     @users = User.all
     mustache :users_show
   end
 
   get '/users/:user_username' do
-    @this_user = User.first(username: params[:username])
+    @page_title = this_user.name
     mustache :user_show
   end
 
   get '/users/new' do
+    @page_title = "Add New User"
     admin_only_page
     mustache :user_new
   end
@@ -395,6 +401,7 @@ class App < Sinatra::Base
   end
 
   get '/login' do
+    @page_title = "Login"
     mustache :login
   end
 
