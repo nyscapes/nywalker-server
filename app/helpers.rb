@@ -33,5 +33,9 @@ class App
       list.to_sentence
     end
 
+    def logged_in
+      @user
+    end
+
   end
 end

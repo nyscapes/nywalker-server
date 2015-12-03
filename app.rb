@@ -52,8 +52,7 @@ class App < Sinatra::Base
   }
 
   before do
-    @admin = true
-    # @user = User.first
+    @user = env['warden'].user
     @css = css :app_css
     @js  = js  :app_js
     @path = request.path_info
@@ -105,11 +104,13 @@ class App < Sinatra::Base
   end
 
   get "/places/new" do
+    protected_page
     @page_title = "Add New Place"
     mustache :place_new
   end
 
   post "/places/add" do
+    protected_page
     new_place = Place.new
     new_place.attributes = { name: params[:name], lat: params[:lat], lon: params[:lon], source: params[:source], confidence: params[:confidence], user: @user, added_on: Time.now, what3word: params[:w3w] }
     if new_place.source == "GeoNames"
@@ -142,6 +143,7 @@ class App < Sinatra::Base
   end
 
   post "/search-place" do
+    protected_page
     geonames_username = "moacir" # This should be changed
     @search_term = params[:search] # needed for mustache.
     query = "http://api.geonames.org/searchJSON?username=#{geonames_username}&style=full&q=#{@search_term}"
@@ -157,11 +159,13 @@ class App < Sinatra::Base
   end
 
   get "/books/new" do
+    protected_page
     @page_title = "Add New Book"
     mustache :book_new
   end
 
   post "/books/new" do
+    protected_page
     @page_title = "Adding ISBN: #{params[:isbn]}"
     result = GoogleBooks.search("isbn:#{params[:isbn]}").first
     unless result.nil?
@@ -185,6 +189,7 @@ class App < Sinatra::Base
   end
 
   post "/add-book" do
+    protected_page
     @page_title = "Saving #{params[:title]}"
     saved_book = Book.new
     saved_book.attributes = { author: params[:author], title: params[:title], isbn: params[:readonlyISBN], cover: params[:cover], url: params[:link], year: params[:year], users: [@user], slug: slugify("#{params[:title][0..45]}_#{params[:year]}"), added_on: Time.now }
@@ -204,6 +209,7 @@ class App < Sinatra::Base
   end
 
   get "/books/:book_slug/instances/new" do
+    protected_page
     @page_title = "New Instance for #{book.title}"
     @last_instance = Instance.last(user: @user, book: book)
     @nicknames = Nickname.map{|n| "#{n.name} - {#{n.place.name}}"}
@@ -211,6 +217,7 @@ class App < Sinatra::Base
   end
 
   post "/books/:book_slug/instances/new" do
+    protected_page
     @page_title = "Saving Instance for #{book.title}"
     instance = Instance.new
     instance.attributes = { page: params[:page], sequence: params[:sequence], text: params[:place_name_in_text], added_on: Time.now, user: @user, book: book }
@@ -229,12 +236,14 @@ class App < Sinatra::Base
   end
 
   get "/books/:book_slug/instances/:instance_id/edit" do
+    protected_page
     @page_title = "Editing Instance #{instance.id} for #{book.title}"
     @nicknames = Nickname.map{|n| "#{n.name} - {#{n.place.name}}"}
     mustache :instance_edit
   end
 
   post "/books/:book_slug/instances/:instance_id/edit" do
+    protected_page
     instance.attributes = { page: params[:page], sequence: params[:sequence], text: params[:place_name_in_text], modified_on: Time.now, user: @user, book: book }
     if params[:place].match(/{.*}$/) # We've likely modified the place.
       instance.place = params[:place].match(/{.*}$/)[0].gsub(/{/, "").gsub(/}/, "")
@@ -244,6 +253,7 @@ class App < Sinatra::Base
   end
 
   post "/books/:book_slug/instances/:instance_id/delete" do
+    protected_page
     puts "Deleting Instance #{instance.id} for #{book.title}"
     page_instances = Instance.all(book: book, page: instance.page, :sequence.gt => instance.sequence)
     if instance.destroy
@@ -271,6 +281,7 @@ class App < Sinatra::Base
   end
 
   post "/places/:place_slug/edit" do
+    protected_page
     @page_title = "Editing #{place.name}"
     if place.update( name: params[:name], lat: params[:lat], lon: params[:lon], confidence: params[:confidence], source: params[:source], geonameid: params[:geonameid], bounding_box_string: params[:bounding_box_string], what3word: "" )
       flash[:success] = "#{place.name} has been updated"
@@ -348,28 +359,29 @@ class App < Sinatra::Base
     @checker.status.to_json
   end
 
-  get '/auth/login' do
+  get '/login' do
     mustache :login
   end
 
-  post '/auth/login' do
+  post '/login' do
     env['warden'].authenticate!
 
     if session[:return_to].nil?
+      flash[:success] = "Successfully logged in."
       redirect '/'
     else
       redirect session[:return_to]
     end
   end
 
-  post '/auth/unauthenticated' do
+  post '/unauthenticated' do
     flash[:error] = env['warden.options'][:message]
     puts "someone failed"
     # env['warden'].raw_session.inspect
-    redirect '/auth/login'
+    redirect '/login'
   end
 
-  get '/auth/logout' do
+  get '/logout' do
     env['warden'].raw_session.inspect
     env['warden'].logout
     flash[:success] = "Successfuly logged out"
@@ -379,6 +391,17 @@ class App < Sinatra::Base
   get '/admin' do
     user = env['warden'].user
     "#{user.username} whoa!"
+  end
+
+  get '/forgotten' do
+    "Contact Moacir to reinitialize your user data"
+  end
+
+  def protected_page
+    unless @user
+      flash[:error] = "Must be logged in."
+      redirect "/"
+    end
   end
 
   not_found do
@@ -394,7 +417,7 @@ class App < Sinatra::Base
     config.serialize_from_session{ |id| User.first(id: id) }
     config.scope_defaults :default,
       strategies: [:password],
-      action: '/auth/unauthenticated'
+      action: '/unauthenticated'
     config.failure_app = self
   end
 

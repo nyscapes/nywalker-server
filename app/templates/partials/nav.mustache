@@ -15,6 +15,16 @@
         <li class="{{#selected_item}}places{{/selected_item}}"><a href="/places">Places</a></li>
         <li class="{{#selected_item}}about{{/selected_item}}"><a href="/about">About</a></li>
       </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+        {{#logged_in}}
+        <li class="{{#selected_item}}users{{/selected_item}}"><a href="/users/{{username}}"><span class="glyphicon glyphicon-user"></span> {{username}}</a></li>
+          <li><a href="/logout">Logout</a></li>
+        {{/logged_in}}
+        {{^logged_in}}
+          <li><a href="/login">Login</a></li>
+        {{/logged_in}}
+      </ul>
     </div><!--/.nav-collapse -->
   </div>
 </nav>

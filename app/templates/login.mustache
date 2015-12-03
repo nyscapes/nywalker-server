@@ -3,7 +3,7 @@
     <p class="lead">You are already logged in, silly.</p>
   {{/logged_in}}
   {{^logged_in}}
-    <form action="/auth/login" method="POST" class="form-signin">
+    <form action="/login" method="POST" class="form-signin">
       <h2 class="form-signin-heading">Please sign in</h2>
       <label for="inputUsername" class="sr-only">Username</label>
       <input name="username" type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
@@ -16,6 +16,6 @@
       <!-- </div> -->
       <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
     </form>
-    <p class="text-center"><small><a href="/auth/forgotten">I’ve forgotten my information.</a></small></p>
+    <p class="text-center"><small><a href="/forgotten">I’ve forgotten my information.</a></small></p>
   {{/logged_in}}
 </div>
