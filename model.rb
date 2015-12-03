@@ -68,6 +68,7 @@ class Place
   belongs_to :user
 
   has n, :nicknames
+  has n, :instances
   has 1, :bounding_box
 
   validates_presence_of :name
