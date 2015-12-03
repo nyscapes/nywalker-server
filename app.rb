@@ -397,6 +397,13 @@ class App < Sinatra::Base
     "Contact Moacir to reinitialize your user data"
   end
 
+  post '/report_error' do
+    ref = env['HTTP_REFERER']
+    author = @user.name
+    error = params[:error_report]
+    "#{author} had to say about #{ref} this: #{error}"
+  end
+
   def protected_page
     unless @user
       flash[:error] = "Must be logged in."
