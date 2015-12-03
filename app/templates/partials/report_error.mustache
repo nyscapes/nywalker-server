@@ -1,0 +1,14 @@
+<form action="/report_error" method="POST">
+  <div class="form-group">
+    <label for="userName">Name:</label>
+    <input type="text" id="userName" class="form-control" val="{{user_name}}" placeholder="{{user_name}}" name="user_name" disabled>
+  </div>
+  <div class="form-group">
+    <label for="errorReport">Error:</label>
+    <textarea class="form-control" rows="5" name="error_report" id="errorReport">Type in your error here. Please be detailed.
+    </textarea>
+  </div>
+  <div class="form-group">
+    <button type="submit" class="btn btn-primary">Submit Error</button>
+  </div>
+</form>

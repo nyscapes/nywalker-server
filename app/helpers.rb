@@ -41,5 +41,17 @@ class App
       @user.admin? || @book.users.include?(@user) 
     end
 
+    def place_permitted
+      @user.admin? || @place.user == @user
+    end
+
+    def user_name
+      if @user
+        @user.name
+      else
+        "Guest"
+      end
+    end
+
   end
 end

@@ -2,6 +2,7 @@ class App
   module Views
 
     class PlaceShow < Layout
+      include ViewHelpers
 
       def name
         @place.name
