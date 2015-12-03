@@ -5,7 +5,8 @@ class App
       include ViewHelpers
 
       def places
-        @places.map{ |p| { slug: p.slug, lat: p.lat, lon: p.lon, name: p.name } }
+        @places.map{ |p| { slug: p.slug, lat: p.lat, lon: p.lon, name: p.name,
+          instances: p.instances.count } }
       end
 
     end
