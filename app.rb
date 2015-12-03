@@ -236,7 +236,7 @@ class App < Sinatra::Base
   end
 
   get "/books/:book_slug/instances/:instance_id/edit" do
-    protected_page
+    permitted_page(instance)
     @page_title = "Editing Instance #{instance.id} for #{book.title}"
     @nicknames = Nickname.map{|n| "#{n.name} - {#{n.place.name}}"}
     mustache :instance_edit
@@ -405,7 +405,16 @@ class App < Sinatra::Base
   end
 
   def permitted_page(object)
-    unless @user.admin? || object.users.include?(@user)
+    if object.class == Book
+      if object.users.include?(@user)
+        edit_code = true
+      end
+    else
+      if object.user == @user
+        edit_code = true
+      end
+    end
+    unless @user.admin? || edit_code
       flash[:error] = "Not allowed to add or edit this data."
       redirect "/"
     end

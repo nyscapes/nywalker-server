@@ -37,7 +37,12 @@ class App
           li_place: @last_instance.place.name,
           li_place_name_in_text: @last_instance.text,
           li_place_slug: @last_instance.place.slug,
+          li_owner: @last_instance.user.name,
           li_id: @last_instance.id }
+      end
+
+      def edit_last_instance
+        @user.admin? || @last_instance.user == @user
       end
 
     end
