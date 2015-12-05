@@ -1,7 +1,7 @@
 require 'data_mapper'
 require 'dm-validations'
 require 'dm-types'
-# require 'dm-postgis'
+require 'dm-postgis'
 require 'active_support' # for the slugs
 require 'active_support/inflector'
 require 'active_support/core_ext/array/conversions'
@@ -21,11 +21,7 @@ end
 # the database "nywalker".
 #
 # Furthermore, we require adding postGIS. Open the db with `psql nywalker`
-# and then run `CREATE EXTENSION postgis;` on the dev machine. PostGIS is
-# available only on pro installs on heroku, which is why this can't be
-# deployed there. Oops. 
-#
-# I mean, if you want to pay…
+# and then run `CREATE EXTENSION postgis;` on the dev machine.
 
 DataMapper.setup(:default, ENV['DATABASE_URL'] || "postgres://localhost:5432/nywalker")
 
@@ -58,7 +54,7 @@ class Place
   property :added_on, Date
   property :lat, Float
   property :lon, Float
-  # property :geom, PostGISGeometry
+  property :geom, PostGISGeometry
   property :confidence, String
   property :source, Text
   property :geonameid, String
@@ -80,7 +76,7 @@ class BoundingBox
   include DataMapper::Resource
 
   property :id, Serial
-  # property :geom, PostGISGeometry
+  property :geom, PostGISGeometry
 
   belongs_to :place
 

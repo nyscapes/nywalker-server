@@ -10,8 +10,8 @@ require "googlebooks"
 require "active_support" # for the slug.
 require "active_support/inflector"
 require "active_support/core_ext/array/conversions"
-# require "georuby"
-# require "geo_ruby/ewk"
+require "georuby"
+require "geo_ruby/ewk"
 
 require_relative "./model"
 
@@ -127,7 +127,7 @@ class App < Sinatra::Base
       new_place.confidence = 0
     end
     new_place.slug = slugify new_place.name
-    # new_place.geom = GeoRuby::SimpleFeatures::Point.from_x_y(new_place.lon, new_place.lat, 4326)
+    new_place.geom = GeoRuby::SimpleFeatures::Point.from_x_y(new_place.lon, new_place.lat, 4326)
     # create_bounding_box(place) # because this doesn't seem to work.
     begin
       new_place.save
