@@ -12,7 +12,16 @@ gem 'sinatra-support', require: 'sinatra/support'
 # Sinatra-assetpack serves up compressed/etc. assets (css/js/img). The github
 # version is needed for `rake assetpack:precompile`, which compiles the assets
 # into public/. Without this, AWS doesn't catch the assets, though Heroku does.
-gem 'sinatra-assetpack', require: 'sinatra/assetpack', github: 'rstacruz/sinatra-assetpack'
+#
+# VITAL: Elastic Beanstalk does not come with git preinstalled, which means
+# this call to github will break the app, wasting a lot of your time. Be
+# certain to preinstall git (`sudo yum install git`) after sshing into the
+# instance (`eb ssh`, which will prompt for a setup).
+#
+# OTOH, the rake task is only necessary in development, because compressed
+# assets are pushed to AWS, so balance needs accordingly.
+gem 'sinatra-assetpack', require: 'sinatra/assetpack', 
+  github: 'rstacruz/sinatra-assetpack'
 
 # Sinatra-flash talks more smoothly to Rack::Flash to provide messages that go
 # from one page to another, such as save confirmations or errors.
