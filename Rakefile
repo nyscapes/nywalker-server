@@ -19,7 +19,7 @@ namespace :assets do
     FileUtils.mkdir_p outfile.dirname
 
     asset.write_to(outfile)
-    asset.write_to("#{outfile}.gz")
+    # asset.write_to("#{outfile}.gz")
     puts "Compiled JS assets"
   end
   
@@ -33,7 +33,7 @@ namespace :assets do
     FileUtils.mkdir_p outfile.dirname
 
     asset.write_to(outfile)
-    asset.write_to("#{outfile}.gz")
+    # asset.write_to("#{outfile}.gz")
     puts "Compiled CSS assets"
   end
 
