@@ -1,10 +1,11 @@
 # encoding: utf-8
 
 require "sinatra/base"
-require "sinatra/assetpack"
 require "sinatra/flash"
 require "mustache/sinatra"
 require "sinatra-health-check"
+require "sprockets"
+require "sprockets-helpers"
 require "warden"
 require "googlebooks"
 require "active_support" # for the slug.
@@ -21,21 +22,8 @@ class App < Sinatra::Base
   base = File.dirname(__FILE__)
   set :root, base
 
-  register Sinatra::AssetPack
   register Sinatra::Flash
   register Mustache::Sinatra
-
-  assets do
-    serve "/js",    from: "app/js"
-    serve "/css",   from: "app/css"
-
-    css :app_css, [ "/css/*.css" ]
-    js :app_js, [
-      "/js/*.js",
-      "/js/vendor/*.js"
-    ]
-
-  end
 
   require "#{base}/app/helpers"
   require "#{base}/app/views/layout"
@@ -46,16 +34,34 @@ class App < Sinatra::Base
     :namespace => App
   }
 
+  set :sprockets, Sprockets::Environment.new(root)
+  set :assets_prefix, '/assets'
+  set :digest_assets, false
+
+  configure do
+    sprockets.append_path "app/assets/stylesheets"
+    sprockets.append_path "app/assets/javascripts"
+  end
+
+  Sprockets::Helpers.configure do |config|
+    config.environment = sprockets
+    config.prefix = assets_prefix
+    config.digest = digest_assets
+    config.public_path = public_folder
+    config.debug = true if development?
+  end
+
   before do
     @user = env['warden'].user
-    @css = css :app_css
-    @js  = js  :app_js
+    @css = stylesheet_tag 'application'
+    @js  = javascript_tag 'application'
     @path = request.path_info
     @rendered_flash = rendered_flash(flash)
     @checker = SinatraHealthCheck::Checker.new
   end
 
   helpers do
+    include Sprockets::Helpers
 
     def save_object(object, path)
       begin
