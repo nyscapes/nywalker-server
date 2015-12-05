@@ -102,223 +102,6 @@ class App < Sinatra::Base
     mustache :index
   end
 
-  get "/places/new" do
-    protected_page
-    @page_title = "Add New Place"
-    mustache :place_new
-  end
-
-  post "/places/add" do
-    protected_page
-    new_place = Place.new
-    new_place.attributes = { name: params[:name], lat: params[:lat], lon: params[:lon], source: params[:source], confidence: params[:confidence], user: @user, added_on: Time.now, what3word: params[:w3w] }
-    if new_place.source == "GeoNames"
-      new_place.bounding_box_string = params[:bbox]
-      new_place.geonameid = params[:geonameid]
-    end
-    if new_place.lat == "" && new_place.lon == ""
-      new_place.lat = nil
-      new_place.lon = nil
-      new_place.confidence = 0
-    end
-    new_place.slug = slugify new_place.name
-    begin
-      new_place.save
-      Nickname.first_or_create(name: new_place.name, place: new_place)
-      if params[:form_source] == "modal"
-        @place = new_place
-        mustache :modal_place_saved, { layout: :naked }
-      else
-        flash[:success] = "#{new_place.name} successfully saved!"
-        redirect "/places/#{new_place.slug}"
-      end
-    rescue DataMapper::SaveFailureError => e
-      mustache :error_report, locals: { e: e, validation: new_place.errors.values.join(', ') }
-    rescue StandardError => e
-      mustache :error_report, locals: { e: e }
-    end
-  end
-
-  post "/search-place" do
-    protected_page
-    geonames_username = "moacir" # This should be changed
-    @search_term = params[:search] # needed for mustache.
-    query = "http://api.geonames.org/searchJSON?username=#{geonames_username}&style=full&q=#{@search_term}"
-    query << "&countryBias=US" if params[:us_bias] == "on"
-    query << "&south=40.48&west=-74.27&north=40.9&east=-73.72" if params[:nyc_limit] == "on"
-    results = JSON.parse(HTTParty.get(query).body)["geonames"]
-    if results.length == 0
-      @results = nil
-    else
-      @results = results[0..4].map{|r| {name: r["toponymName"], lat: r["lat"], lon: r["lng"], description: r["fcodeName"], geonameid: r["geonameId"], bbox: get_bbox(r["bbox"]) } }
-    end
-    mustache :search_results, { layout: :naked }
-  end
-
-  get "/books/new" do
-    protected_page
-    @page_title = "Add New Book"
-    mustache :book_new
-  end
-
-  post "/books/new" do
-    protected_page
-    @page_title = "Adding ISBN: #{params[:isbn]}"
-    result = GoogleBooks.search("isbn:#{params[:isbn]}").first
-    unless result.nil?
-      @new_book = { author: result.authors,
-                    title: result.title,
-                    year: result.published_date[0..3],
-                    last_page: result.page_count,
-                    cover: result.image_link,
-                    link: result.info_link }
-    else
-      # clumsy kludge for when GoogleBooks returns nothing
-      @new_book = { author: "AUTHOR NOT FOUND",
-                    title: "TITLE NOT FOUND",
-                    year: "",
-                    last_page: "",
-                    cover: nil,
-                    link: "" }
-    end
-    @isbn = params[:isbn] # sometimes google doesn't return one.
-    mustache :book_new_post
-  end
-
-  post "/add-book" do
-    protected_page
-    @page_title = "Saving #{params[:title]}"
-    saved_book = Book.new
-    saved_book.attributes = { author: params[:author], title: params[:title], isbn: params[:readonlyISBN], cover: params[:cover], url: params[:link], year: params[:year], users: [@user], slug: slugify("#{params[:title][0..45]}_#{params[:year]}"), added_on: Time.now }
-    save_object(saved_book, "/books/#{saved_book.slug}")
-  end
-
-  get "/books/:book_slug" do
-    @page_title = "#{book.title}"
-    @instances = Instance.all(book: book, order: [:page.asc, :sequence.asc]) # place.instances doesn't work?
-    mustache :book_show
-  end
-
-  get "/books" do
-    @page_title = "All Books"
-    @books = Book.all
-    mustache :books_show
-  end
-
-  get "/books/:book_slug/instances/new" do
-    permitted_page(book)
-    @page_title = "New Instance for #{book.title}"
-    @last_instance = Instance.last(user: @user, book: book) || Instance.last(book: book)
-    @nicknames = Nickname.map{|n| "#{n.name} - {#{n.place.name}}"}
-    mustache :instance_new
-  end
-
-  post "/books/:book_slug/instances/new" do
-    protected_page
-    @page_title = "Saving Instance for #{book.title}"
-    instance = Instance.new
-    instance.attributes = { page: params[:page], sequence: params[:sequence], text: params[:place_name_in_text], added_on: Time.now, user: @user, book: book }
-    if params[:place].match(/{.*}$/)
-      place = params[:place].match(/{.*}$/)[0].gsub(/{/, "").gsub(/}/, "")
-    else
-      dm_error_and_redirect(instance, request.path, "The place did not have a name coded inside {}s")
-    end
-    location = Place.first(name: place)
-    if location.nil?
-      dm_error_and_redirect(instance, request.path, "No such place found. Please add it below.")
-    end
-    instance.place = location
-    Nickname.first_or_create(name: instance.text, place: location)
-    save_object(instance, request.path)
-  end
-
-  get "/books/:book_slug/instances/:instance_id/edit" do
-    permitted_page(instance)
-    @page_title = "Editing Instance #{instance.id} for #{book.title}"
-    @nicknames = Nickname.map{|n| "#{n.name} - {#{n.place.name}}"}
-    mustache :instance_edit
-  end
-
-  post "/books/:book_slug/instances/:instance_id/edit" do
-    protected_page
-    instance.attributes = { page: params[:page], sequence: params[:sequence], text: params[:place_name_in_text], modified_on: Time.now, user: @user, book: book }
-    if params[:place].match(/{.*}$/) # We've likely modified the place.
-      instance.place = params[:place].match(/{.*}$/)[0].gsub(/{/, "").gsub(/}/, "")
-    end
-    Nickname.first_or_create(name: instance.text, place: instance.place)
-    save_object(instance, "/books/#{params[:book_slug]}/instances/new")
-  end
-
-  post "/books/:book_slug/instances/:instance_id/delete" do
-    protected_page
-    puts "Deleting Instance #{instance.id} for #{book.title}"
-    page_instances = Instance.all(book: book, page: instance.page, :sequence.gt => instance.sequence)
-    if instance.destroy
-      page_instances.each do |instance|
-        instance.update(sequence: instance.sequence - 1)
-      end
-      flash[:success] = "Deleted instance #{instance.id}, from page #{instance.page} marking #{instance.text}."
-      redirect "/books/#{book.slug}"
-    else
-      flash[:error] = "Something went wrong."
-      redirect "/books/#{book.slug}"
-    end
-  end
-
-  get "/places" do
-    @page_title = "All places"
-    @places = Place.all
-    mustache :places_show
-  end
-
-  get "/places/:place_slug" do
-    @page_title = "#{place.name}"
-    @books = Book.all(instances: Instance.all(place: place))
-    mustache :place_show
-  end
-
-  post "/places/:place_slug/edit" do
-    protected_page
-    @page_title = "Editing #{place.name}"
-    if place.update( name: params[:name], lat: params[:lat], lon: params[:lon], confidence: params[:confidence], source: params[:source], geonameid: params[:geonameid], bounding_box_string: params[:bounding_box_string], what3word: "" )
-      flash[:success] = "#{place.name} has been updated"
-      '<script>$("#editPlaceModal").modal("hide");window.location.reload();</script>'
-    else
-      flash[:error] = "Something went wrong."
-      mustache :place_edit, { layout: :naked }
-    end
-  end
- 
-  get '/users' do
-    @page_title = "All Users"
-    @users = User.all
-    mustache :users_show
-  end
-
-  get '/users/:user_username' do
-    @page_title = this_user.name
-    mustache :user_show
-  end
-
-  get '/users/new' do
-    @page_title = "Add New User"
-    admin_only_page
-    mustache :user_new
-  end
-
-  post '/users/new' do
-    admin_only_page
-    new_user = User.new
-    new_user.attributes = { name: params[:name], admin: params[:admin], email: params[:email], added_on: Time.now, password: params[:password] }
-    if params[:username] =~ /\W/
-      flash[:error] = "Only alphanumeric characters in the username, please."
-      redirect '/users/new'
-    else
-      new_user.username = params[:username]
-    end
-    save_object(new_user, "/users/#{new_user.username}")
-  end
-
   post '/report_error' do
     ref = env['HTTP_REFERER'] # could be request.referer or just "back"
     author = @user.name
@@ -330,6 +113,14 @@ class App < Sinatra::Base
     @page_title = "About"
     mustache :about
   end
+  
+  # Other, CRUD routes.
+  require "#{base}/app/routes/instance"
+  require "#{base}/app/routes/book"
+  require "#{base}/app/routes/place"
+  require "#{base}/app/routes/user"
+  require "#{base}/app/routes/authentication"
+
 
   def get_bbox(bbox)
     if bbox.class == Hash
@@ -376,36 +167,12 @@ class App < Sinatra::Base
     @checker.status.to_json
   end
 
-  get '/login' do
-    @page_title = "Login"
-    mustache :login
-  end
-
-  post '/login' do
-    env['warden'].authenticate!
-
-    if session[:return_to].nil?
-      flash[:success] = "Successfully logged in."
-      redirect '/'
+  not_found do
+    if request.path =~ /\/$/
+      redirect request.path.gsub(/\/$/, "")
     else
-      redirect session[:return_to]
+      status 404
     end
-  end
-
-  post '/unauthenticated' do
-    flash[:error] = env['warden.options'][:message]
-    redirect '/login'
-  end
-
-  get '/logout' do
-    env['warden'].raw_session.inspect
-    env['warden'].logout
-    flash[:success] = "Successfuly logged out"
-    redirect '/'
-  end
-
-  get '/forgotten' do
-    "Contact Moacir to reinitialize your user data"
   end
 
   def protected_page
@@ -435,14 +202,6 @@ class App < Sinatra::Base
     unless @user.admin?
       flash[:error] = "Not allowed to visit admin-only pages."
       redirect "/"
-    end
-  end
-
-  not_found do
-    if request.path =~ /\/$/
-      redirect request.path.gsub(/\/$/, "")
-    else
-      status 404
     end
   end
 
