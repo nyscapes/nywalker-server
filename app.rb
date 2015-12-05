@@ -64,8 +64,8 @@ class App < Sinatra::Base
         redirect path
       rescue DataMapper::SaveFailureError => e
         dm_error_and_redirect(object, path)
-			rescue StandardError => e
-				mustache :error_report, locals: { e: e }
+      rescue StandardError => e
+        mustache :error_report, locals: { e: e }
       end
     end
 
