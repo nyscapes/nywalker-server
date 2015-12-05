@@ -36,6 +36,7 @@ class App < Sinatra::Base
 
   set :sprockets, Sprockets::Environment.new(root)
   set :assets_prefix, '/assets'
+  set :assets_path, File.join(root, 'public', assets_prefix)
   set :digest_assets, false
 
   configure do
