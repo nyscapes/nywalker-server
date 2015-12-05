@@ -1,5 +1,9 @@
 class App
 
+  # ALL
+
+  # CREATE
+
   get "/books/:book_slug/instances/new" do
     permitted_page(book)
     @page_title = "New Instance for #{book.title}"
@@ -27,6 +31,10 @@ class App
     save_object(instance, request.path)
   end
 
+  # READ
+
+  # UPDATE
+
   get "/books/:book_slug/instances/:instance_id/edit" do
     permitted_page(instance)
     @page_title = "Editing Instance #{instance.id} for #{book.title}"
@@ -44,6 +52,8 @@ class App
     save_object(instance, "/books/#{params[:book_slug]}/instances/new")
   end
 
+  # DESTROY
+
   post "/books/:book_slug/instances/:instance_id/delete" do
     protected_page
     puts "Deleting Instance #{instance.id} for #{book.title}"
@@ -59,6 +69,5 @@ class App
       redirect "/books/#{book.slug}"
     end
   end
-
 
 end

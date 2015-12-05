@@ -1,5 +1,15 @@
 class App
 
+  # ALL
+
+  get "/books" do
+    @page_title = "All Books"
+    @books = Book.all
+    mustache :books_show
+  end
+  
+  # CREATE
+
   get "/books/new" do
     protected_page
     @page_title = "Add New Book"
@@ -38,18 +48,16 @@ class App
     save_object(saved_book, "/books/#{saved_book.slug}")
   end
 
+  # READ
+  
   get "/books/:book_slug" do
     @page_title = "#{book.title}"
     @instances = Instance.all(book: book, order: [:page.asc, :sequence.asc]) # place.instances doesn't work?
     mustache :book_show
   end
 
-  get "/books" do
-    @page_title = "All Books"
-    @books = Book.all
-    mustache :books_show
-  end
-
-
+  # UPDATE
+  
+  # DESTROY
 
 end

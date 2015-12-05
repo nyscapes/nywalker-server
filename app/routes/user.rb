@@ -1,15 +1,14 @@
 class App
 
+  # ALL
+
   get '/users' do
     @page_title = "All Users"
     @users = User.all
     mustache :users_show
   end
 
-  get '/users/:user_username' do
-    @page_title = this_user.name
-    mustache :user_show
-  end
+  # CREATE
 
   get '/users/new' do
     @page_title = "Add New User"
@@ -30,5 +29,15 @@ class App
     save_object(new_user, "/users/#{new_user.username}")
   end
 
+  # READ
 
+  get '/users/:user_username' do
+    @page_title = this_user.name
+    mustache :user_show
+  end
+
+  # UPDATE
+
+  # DESTROY
+  
 end

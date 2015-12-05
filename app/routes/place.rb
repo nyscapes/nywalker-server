@@ -1,5 +1,15 @@
 class App
 
+  # ALL
+
+  get "/places" do
+    @page_title = "All places"
+    @places = Place.all
+    mustache :places_show
+  end
+
+  # CREATE
+
   get "/places/new" do
     protected_page
     @page_title = "Add New Place"
@@ -53,18 +63,15 @@ class App
     mustache :search_results, { layout: :naked }
   end
 
-
-  get "/places" do
-    @page_title = "All places"
-    @places = Place.all
-    mustache :places_show
-  end
+  # READ
 
   get "/places/:place_slug" do
     @page_title = "#{place.name}"
     @books = Book.all(instances: Instance.all(place: place))
     mustache :place_show
   end
+
+  # UPDATE
 
   post "/places/:place_slug/edit" do
     protected_page
@@ -78,5 +85,6 @@ class App
     end
   end
  
+  # DESTROY
 
 end
