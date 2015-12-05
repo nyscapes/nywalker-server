@@ -6,9 +6,6 @@ ruby '2.2.3'
 # Sinatra, sinatrarb.com, is the web framework that makes the site run.
 gem 'sinatra'
 
-# Sinatra-support provides a set of extra helpers, but none are currently used.
-gem 'sinatra-support', require: 'sinatra/support'
-
 # Sinatra-assetpack serves up compressed/etc. assets (css/js/img). The github
 # version is needed for `rake assetpack:precompile`, which compiles the assets
 # into public/. Without this, AWS doesn't catch the assets, though Heroku does.
@@ -49,9 +46,6 @@ gem 'dm-validations'
 gem 'dotenv'
 
 ### DEPLOYMENT
-# Thin is a webserver. This may be superfluous.
-gem 'thin'
-
 # Shotgun allows for fast prototyping because the server forks itself with
 # every request, meaning changes to the app are visible instantly.
 gem 'shotgun'
