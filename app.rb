@@ -28,15 +28,12 @@ class App < Sinatra::Base
   assets do
     serve "/js",    from: "app/js"
     serve "/css",   from: "app/css"
-    # serve "/img",   from: "app/img"
 
     css :app_css, [ "/css/*.css" ]
     js :app_js, [
       "/js/*.js",
       "/js/vendor/*.js"
     ]
-
-    # prebuild true
 
   end
 
@@ -397,8 +394,6 @@ class App < Sinatra::Base
 
   post '/unauthenticated' do
     flash[:error] = env['warden.options'][:message]
-    puts "someone failed"
-    # env['warden'].raw_session.inspect
     redirect '/login'
   end
 
@@ -407,11 +402,6 @@ class App < Sinatra::Base
     env['warden'].logout
     flash[:success] = "Successfuly logged out"
     redirect '/'
-  end
-
-  get '/admin' do
-    user = env['warden'].user
-    "#{user.username} whoa!"
   end
 
   get '/forgotten' do
@@ -481,12 +471,10 @@ Warden::Strategies.add(:password) do
     user = User.first(username: params["username"])
 
     if user.nil?
-      puts "user nil!"
       throw(:warden, message: "The username you entered does not exist.")
     elsif user.authenticate(params["password"])
       success!(user)
     else
-      puts "combination is wrong."
       throw(:warden, message: "The username and password combination is incorrect.")
     end
   end
