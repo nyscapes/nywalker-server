@@ -1,7 +1,6 @@
 require 'data_mapper'
 require 'dm-validations'
 require 'dm-types'
-# require 'dm-postgis'
 require 'active_support' # for the slugs
 require 'active_support/inflector'
 require 'active_support/core_ext/array/conversions'
@@ -58,7 +57,6 @@ class Place
   property :added_on, Date
   property :lat, Float
   property :lon, Float
-  # property :geom, PostGISGeometry
   property :confidence, String
   property :source, Text
   property :geonameid, String
@@ -73,16 +71,6 @@ class Place
 
   validates_presence_of :name
   validates_uniqueness_of :slug
-
-end
-
-class BoundingBox
-  include DataMapper::Resource
-
-  property :id, Serial
-  # property :geom, PostGISGeometry
-
-  belongs_to :place
 
 end
 

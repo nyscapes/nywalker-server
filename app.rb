@@ -10,8 +10,6 @@ require "googlebooks"
 require "active_support" # for the slug.
 require "active_support/inflector"
 require "active_support/core_ext/array/conversions"
-# require "georuby"
-# require "geo_ruby/ewk"
 
 require_relative "./model"
 
@@ -127,8 +125,6 @@ class App < Sinatra::Base
       new_place.confidence = 0
     end
     new_place.slug = slugify new_place.name
-    # new_place.geom = GeoRuby::SimpleFeatures::Point.from_x_y(new_place.lon, new_place.lat, 4326)
-    # create_bounding_box(place) # because this doesn't seem to work.
     begin
       new_place.save
       Nickname.first_or_create(name: new_place.name, place: new_place)
@@ -342,23 +338,6 @@ class App < Sinatra::Base
     if bbox.class == Hash
       [bbox["east"], bbox["south"], bbox["north"], bbox["west"]].to_s
     end
-  end
-
-  def create_bounding_box(place)
-    # This doesn't actually seem to build a useful polygon.
-    place.bounding_box = BoundingBox.new
-    if place.bounding_box_string =~ /^\[.*\]$/
-      bbox = place.bounding_box_string.gsub(/^\[/, "").gsub(/\]$/, "").split(", ")
-      # place.bounding_box.geom = GeoRuby::SimpleFeatures::Polygon.from_coordinates([
-      #   [ bbox[0], bbox[1] ],
-      #   [bbox[0], bbox[2]],
-      #   [bbox[3], bbox[2]],
-      #   [bbox[3], bbox[1]]
-      # ], 4326)
-    else
-      # place.bounding_box.geom = nil
-    end
-    place.save
   end
 
   def rendered_flash(flash)
