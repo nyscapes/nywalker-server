@@ -19,7 +19,7 @@ class App
   post "/places/add" do
     protected_page
     new_place = Place.new
-    new_place.attributes = { name: params[:name], lat: params[:lat], lon: params[:lon], source: params[:source], confidence: params[:confidence], user: @user, added_on: Time.now, what3word: params[:w3w] }
+    new_place.attributes = { name: params[:name], lat: params[:lat], lon: params[:lon], source: params[:source], confidence: params[:confidence], user: @user, added_on: Time.now, what3word: params[:w3w], slug: params[:name] }
     if new_place.source == "GeoNames"
       new_place.bounding_box_string = params[:bbox]
       new_place.geonameid = params[:geonameid]
@@ -29,10 +29,9 @@ class App
       new_place.lon = nil
       new_place.confidence = 0
     end
-    new_place.slug = slugify new_place.name
     begin
       new_place.save
-      Nickname.first_or_create(name: new_place.name, place: new_place)
+      Nickname.create(name: new_place.name, place: new_place)
       if params[:form_source] == "modal"
         @place = new_place
         mustache :modal_place_saved, { layout: :naked }

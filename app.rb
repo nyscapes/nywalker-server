@@ -82,9 +82,9 @@ class App < Sinatra::Base
       redirect path
     end
 
-    def slugify(string)
-      string = string.parameterize.underscore
-    end
+    # def slugify(string)
+    #   string = string.parameterize.underscore
+    # end
 
     def book
       @book ||= Book.first(slug: params[:book_slug]) || halt(404)

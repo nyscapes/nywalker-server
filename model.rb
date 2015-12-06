@@ -1,9 +1,9 @@
 require 'data_mapper'
 require 'dm-validations'
 require 'dm-types'
-require 'active_support' # for the slugs
-require 'active_support/inflector'
-require 'active_support/core_ext/array/conversions'
+# require 'active_support' # for the slugs
+# require 'active_support/inflector'
+# require 'active_support/core_ext/array/conversions'
 require 'dotenv'
 
 Dotenv.load
@@ -34,7 +34,7 @@ class Instance
   property :id, Serial
   property :page, Integer
   property :sequence, Integer
-  property :text, String
+  property :text, Text
   property :added_on, Date
   property :modified_on, Date
 
@@ -52,13 +52,13 @@ class Place
   include DataMapper::Resource
 
   property :id, Serial
-  property :slug, String, key: true
+  property :slug, Slug
   property :name, String
   property :added_on, Date
   property :lat, Float
   property :lon, Float
-  property :confidence, String
-  property :source, Text
+  property :confidence, String # use Enum in the future
+  property :source, Text # won't always be URI.
   property :geonameid, String
   property :what3word, String
   property :bounding_box_string, Text
@@ -88,13 +88,13 @@ class Book
   include DataMapper::Resource
 
   property :id, Serial
-  property :slug, String, key: true
+  property :slug, Slug
   property :author, String # should maybe be array, but...
   property :title, Text
   property :isbn, String
   property :year, Integer
-  property :url, Text
-  property :cover, Text
+  property :url, URI
+  property :cover, URI
   property :added_on, Date
   property :modified_on, Date
 
@@ -113,7 +113,7 @@ class User
   property :id, Serial
   property :name, String
   property :email, String
-  property :username, String, key: true
+  property :username, String
   property :password, BCryptHash
   property :admin, Boolean, default: false
   property :added_on, Date

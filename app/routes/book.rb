@@ -44,7 +44,7 @@ class App
     protected_page
     @page_title = "Saving #{params[:title]}"
     saved_book = Book.new
-    saved_book.attributes = { author: params[:author], title: params[:title], isbn: params[:readonlyISBN], cover: params[:cover], url: params[:link], year: params[:year], users: [@user], slug: slugify("#{params[:title][0..45]}_#{params[:year]}"), added_on: Time.now }
+    saved_book.attributes = { author: params[:author], title: params[:title], isbn: params[:readonlyISBN], cover: params[:cover], url: params[:link], year: params[:year], users: [@user], slug: "#{params[:title]} #{params[:year]}", added_on: Time.now }
     save_object(saved_book, "/books/#{saved_book.slug}")
   end
 
