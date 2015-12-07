@@ -78,7 +78,7 @@ attributes: a <code>Place</code>, a <strong>page number</strong>, and the
 <p>If you start typing “Church,” a dropdown menu should appear with a bunch of
   options that look like this:</p>
 
-<blockquote>Place name - {Some other place name}</blockquote>
+<pre>Place name - {Some other place name}</pre>
 
 <p>One of the rows in the dropdown menu reads “Church Street - {Church Street,
   NYC},” and that is what you want. The part inside the {}s is the “official”
@@ -112,4 +112,94 @@ attributes: a <code>Place</code>, a <strong>page number</strong>, and the
 
 <h2>Adding <code>Places</code></h2>
 
+<p>While adding an <code>Instance</code> is relatively easy, adding a <code>Place</code> requires a bit more care. If nothing comes up in the “Place” dropdown that fits, leave your text in that field and type <kbd>tab</kbd> to move to the “Add new place” button and hit <kbd>return</kbd> to open the “Add new place” popup.</p>
+
+<p>The first field lets you search for your place in the <a
+    href="http://geonames.org" target="_blank">GeoNames <span class="glyphicon
+      glyphicon-new-window"></span></a> gazetteer, a directory for place names.
+  GeoNames works best for anything the size of a town or larger, as well as
+  specific places like universities or even some buildings. It’s a great place
+  to make a first try.</p>
+
+<p>You can click on the “Search gazetteer” button right away or tick either of
+  the two checkboxes (<kbd>tab</kbd> to move to them, <kbd>space</kbd> to
+  select them) to help narrow your results. The first checkbox shows USA places
+  first (Paris, TX before Paris, France), and the second limits its search to
+  New York City, more or less.</p> <strong>Streets and addresses will typically
+  not work</strong>, but it doesn’t hurt to try.</p>
+
+<p>If GeoNames returns search results, they will appear on the right side of
+  the popup. A marker shows up where the first place is found. Zoom out and
+  around to see if it fits. If you click the “Use” button, it will copy over
+  the coordinates, etc., to the left side of the popup. The “Map” button, on
+  the other hand, lets you map the other options. The brief description of the
+  place can help you get a sense of whether you have the right place or not,
+  too.</p>
+
+<p>Once you’ve clicked on “Use” and the data has copied over, make sure you
+  pick a descriptive, unique, and short name for your place. Typically it’s a
+  good idea to add a city name or state abbreviation.</p>
+
+<p>Should nothing match your search, there are basically three routes to go:
+  <em>Wikipedia</em>, Google Maps, and manual entry. Each one has different
+  benefits.</p>
+
+<p><em><strong>Wikipedia</strong></em> is a good second option if GeoNames
+  provides nothing. You can click on the “Searching Wikipedia” link, and it
+  will take you right to <em>Wikipedia</em>’s search results. Historical places
+  are especially well served by the free encyclopedia.</p>
+
+<p>A place in <em>Wikipedia</em> will typically have a set of coordinates in
+  the top right corner. If you click on those, it will take you to that
+  article’s “GeoHack” page. Carefully copy and paste the latitude and longitude
+  (the decimal numbers at the top just below “WGS84”), and then add a name.
+  When using <em>Wikipedia</em> as a source, I paste the URL of the article
+  into the “Source” field.</p>
+
+<p><strong>Google Maps</strong> is typically what you want to use for streets
+  that are more than a few blocks long, as <em>Wikipedia</em> won’t give a
+  precise point, choosing to draw the whole line instead. That has its value,
+  too, but not in our application. Type in the street name into Google Maps,
+  with appropriate limiting information (like “Bronx, NY”). Google Maps will
+  drop a pin, either in the middle of the street, or at its beginning.</p>
+
+<p>Google Maps gives the latitude and longitude of the pin in the URL.
+  Typically the URL is of this form:</p>
+
+<pre>https://www.google.com/maps/place/YOUR-SEARCH-TERM/@LATITUDE,LONGITUDE,ZOOMz/data…</pre>
+
+<p>Again, carefully, copy and paste the latitude and longitude from the
+    address bar into the appropriate fields in the form. Choose a good name,
+    add “Google Maps” as the source, and add the place.</p>
+
+  <p><strong>What3Words</strong> is what we use for manual entry, when you know
+    where something is on a map but don’t want to deal with copying and
+    pasting. This method works great for subway stations, specific buildings
+    that are not in GeoNames, tiny parks, and the rest. You should still try
+    GeoNames, but What3Words is a good substitute. Using it is easy: you move
+    the map to where the place is, move the cursor over the right place (it
+    should be a cross), and click once. The coordinates and What3Words address
+    should copy over. Now give the place a good name, and you can add this
+    place, too.</p>
+
+  <p>As you can see, adding a <code>Place</code> requires a detail-oriented
+    touch. Luckily, once a place is added, you can reuse it whenever you want
+    to or need to.</p>
+
+<h2>Editing and Deleting</h2>
+
+<p>Currently, <code>Instances</code> can be edited or deleted if you made them.
+  <code>Places</code> cannot be deleted, but some of their characteristics can
+  be edited. If you need a more brute force intervention, contact your
+  admin.</p>
+
+<h2>Admins</h2>
+
+<p>Admins can do everything, including handling <code>Books</code> and
+  <code>Users</code>, which normal users cannot.</p>
+
+<p>Similarly, they can delete any <code>Instance</code> or <code>Place</code>
+  and grant <code>Users</code> permission to add <code>Instances</code> to
+  books. A lot of the admin back-end is currently not implemented, though the
+  security features are.</p>
 
