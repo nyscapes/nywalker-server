@@ -4,6 +4,7 @@ require_relative "./model"
 
 # Set these for something useful
 root = User.create(username: "moacir", password: "1234", email: "moacir@blah.com", name: "Moacir", admin: true, added_on: Time.now)
+guest = User.create(username: "guest", password: "violets", email: "guest@blah.com", name: "Guest", admin: false, added_on: Time.now)
 
 first_book = Book.create(slug: "let-the-great-world-spin-2009", author: "Colum McCann", title: "Let the Great World Spin: A Novel", isbn: "9780812973990", year: 2009, added_on: Time.now, url: "http://books.google.com/books?id=_U8Cv5H-qkEC&dq=isbn:9780812973990&hl=&source=gbs_api", cover: "http://books.google.com/books/content?id=_U8Cv5H-qkEC&printsec=frontcover&img=1&zoom=1&edge=none&source=gbs_api", users: [root])
 
