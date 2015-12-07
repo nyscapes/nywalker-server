@@ -126,6 +126,11 @@ class App < Sinatra::Base
     mustache :rules
   end
   
+  get "/help" do
+    @page_title = "Help"
+    mustache :help
+  end
+  
   # Other, CRUD routes.
   require "#{base}/app/routes/instance"
   require "#{base}/app/routes/book"

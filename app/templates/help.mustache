@@ -1,0 +1,115 @@
+<h1>Help!</h1>
+
+<p class="lead"><code>NYWalker</code> is not very complicated, but that doesn’t mean it
+  doesn’t need documentation. If you want to know more about the project,
+  please see the “<A href="/about">About</a>” page. If you want specific rules
+  for data entry, see “<a href="/rules">Rules</a>.” This help page is meant
+  only for front-end users. The “Admin” section, at the end, is appropriate for
+  front-end admins</p>
+
+<h2>Getting started</h2>
+
+<p>Perhaps you’ve been assigned to use <code>NYWalker</code> to encode a novel or part of a
+  novel in class. That’s great, and we hope you will find the experience
+  interesting, especially once you see the results of your work on a map. There
+  are two things, then, you definitely need before starting up, your <strong>login
+    information</strong> and your <strong>book</strong>.</p>
+
+<p>Your professor (or whoever is handling the technical administration of this
+  project) will have provided you with a <strong>username</strong> and
+  <strong>password</strong>. Use those to <a
+    href="/login"><strong>login</strong></a>. If you’ve forgotten either,
+  you’ll have to check with the administrator to reset them for you. Once you
+  log in, you will be taken back to the main page. From here, you can click on
+  the <a href="/books"><strong>Books</strong></a> tab at the top in order to
+  see the list of books already in the system. Similarly, you can click on your
+  username at the top right to see your own contributions so far.</p>
+
+<p>The second thing you need before starting up is, of course, the
+  <strong>book</strong> you will be encoding. Years of experience have
+  suggested that the best way to encode the book is by underlining places
+  mentioned in the text as you read it, and then noting at the top of the page
+  if there are places mentioned or not. This ensures that you don’t lose your
+  notes (unless you lose the book!) and that you can quickly see if there are
+  places mentioned or not. Otherwise, you may get confused or distracted by
+  other underlining, like of key passages.</p> 
+
+<p><strong>Do not try to encode a text you have not read.</strong> You will
+  make many, many mistakes. This is guaranteed.</p>
+
+<p>Once you’re logged in and you have your book handy, you have to find the
+  book in the list under the <a href="/books"><strong>Books</strong></a> tab.
+  Any book you have permission to add <code>Instances</code> to will have a big
+  button reading “Add instance” beside it. When you are ready to start, you can
+  click on that button.</p>
+
+<h2>Adding <code>Instances</code></h2>
+
+<p><code>NYWalker</code> is designed to collect three kinds of data: <code>Books</code>,
+<code>Places</code>, and <code>Instances</code>. <code>Books</code> are added
+and edited by admins, but you will be adding <code>Instances</code>, and, when
+necessary, <code>Places</code>.</p>
+
+<p>What is an <code>Instance</code>? It’s the occurence of a <code>Place</code> in
+a <code>Book</code>. Every <code>Instance</code>, then, has at least three
+attributes: a <code>Place</code>, a <strong>page number</strong>, and the
+<strong>sequence</strong> in which it appears.</p> 
+
+<p>For example, Colum McCann’s 2009 novel <a
+  href="/books/let-the-great-world-spin-2009"><em>Let the Great World
+    Spin</em></a> opens with these sentences:</p>
+
+<blockquote>Those who saw him hushed. On Church Street. Liberty. Cortlandt.
+  West Street. Fulton. Vesey. It was a silence that heard itself, awful and
+  beautiful. Some thought at first that it must have been a trick of the light,
+  something to do with the weather, an accident of shadofall. Others figured it
+  might be the perfect city joke.</blockquote>
+
+<p>In just this example, there are references to seven places (six streets and
+  the “city” at the end). Since “city” is a general term, even though we know
+  the narrator <em>means</em> <a href="/places/new-york-city">New York
+    City</a>, you won’t make note of it. The six streets, however… They are six
+  <code>Instances</code> of six different <code>Places</code>. </p>
+
+<p>And so you can add your first <code>Instance</code>. Click on that “Add
+  instance” button from earlier, and a form should appear that asks for the
+  “Place.”</p>
+  
+<p>If you start typing “Church,” a dropdown menu should appear with a bunch of
+  options that look like this:</p>
+
+<blockquote>Place name - {Some other place name}</blockquote>
+
+<p>One of the rows in the dropdown menu reads “Church Street - {Church Street,
+  NYC},” and that is what you want. The part inside the {}s is the “official”
+  name of the place, and the part at the beginning is a historical name (like
+  “Saigon - {Ho Chi Minh City}”), or a casual name (like “The Big Apple - {New
+  York City}), or simply a variation (like “Fourteenth St. - {14th Street, NYC}”).</p>
+
+<p>The software should automatically copy the historical/casual/alternate name
+  into the second field, labeled “Place name in text.” So you should now have
+  “Church Street - {Church Street, NYC}” in the top field and “Church Street”
+  in the second. You can add a <strong>page</strong> (3), and, because it’s the
+  first <code>Instance</code> on the page, you put in a 1 for
+  <strong>sequence</strong>.</p>
+
+<p>Furthermore, the software makes a few assumptions regarding page and
+  sequence. Every new <code>Instance</code> has, at first, the same page as the
+  previous one, with the sequence raised by one. If you change the page number,
+  then the sequence resets to 1.</p>
+
+<p>Data entry is not a lot of fun, so I recommend learning to use the keyboard
+  for most of your work. Use the <kbd>tab</kbd> key to move from field to
+  field, the arrow keys to navigate the dropdown menu (and increase the page or
+  sequence, if you need to), and, finally, <kbd>esc</kbd> to close the dropdown
+  menu and <kbd>return</kbd> to activate one of the buttons. Also,
+  <kbd>shift</kbd> + <kbd>tab</kbd> moves through the fields backwards. The
+  goal is to limit the amount you use the mouse!</p>  
+
+<p>Sometimes, alas, there will be no <code>Place</code> in the dropdown that
+  matches your <code>Instance</code>. That’s when you use the “Add new place”
+  button.</p>
+
+<h2>Adding <code>Places</code></h2>
+
+
