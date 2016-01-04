@@ -104,14 +104,16 @@ We obviously also welcome pull requests.
 
 ## Who are we?
 
-This project is listed in GitHub under the [NewYorkScapes](http://newyorkscapes.org)
-collective, but (for now) it represents mostly the work of [Moacir P. de Sá
-Pereira](http://moacir.com), of NYU’s [English
-Department](http://english.fas.nyu.edu). [Prof. Tom
+This project is listed in GitHub under the
+[NewYorkScapes](http://newyorkscapes.org) collective, but (for now) it
+represents mostly the work of [Moacir P. de Sá Pereira](http://moacir.com), of
+NYU’s [English Department](http://english.fas.nyu.edu). [Prof. Tom
 Augst](http://english.fas.nyu.edu/object/ThomasAugst.html) has also consulted
 on the project, and he has also helped make the resources available for the
 project to come to fruition. The live version of the site is hosted by the [FAS
-Office of Educational Technology](https://wp.nyu.edu/fas-edtech) at NYU.
+Office of Educational Technology](https://wp.nyu.edu/fas-edtech) at NYU. It is
+also part of the [#NYUDH](https://twitter.com/search?q=%23nyudh&src=typd)
+network.
 
 Nil Nil has helped with assuring the quality of the code.
 
