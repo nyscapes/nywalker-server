@@ -104,7 +104,7 @@ We obviously also welcome pull requests.
 
 ## Who are we?
 
-This project is listed in GitHub under the [NYScapes](http://nyscapes.org)
+This project is listed in GitHub under the [New York Scapes](http://newyorkscapes.org)
 collective, but (for now) it represents mostly the work of [Moacir P. de Sá
 Pereira](http://moacir.com), of NYU’s [English
 Department](http://english.fas.nyu.edu). [Prof. Tom
