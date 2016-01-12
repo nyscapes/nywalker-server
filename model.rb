@@ -42,6 +42,8 @@ class Instance
   belongs_to :user
   belongs_to :book
 
+  has n, :flags
+
   validates_presence_of :page
   validates_presence_of :book
   validates_presence_of :text
@@ -62,6 +64,7 @@ class Place
   property :geonameid, String
   property :what3word, String
   property :bounding_box_string, Text
+  property :flagged, Boolean
 
   belongs_to :user
 
@@ -107,6 +110,17 @@ class Book
 
 end
 
+class Flag
+  include DataMapper::Resource
+
+  property :id, Serial
+  property :note, Text
+  property :added_on, Date
+
+  belongs_to :user
+  belongs_to :instance
+end
+
 class User
   include DataMapper::Resource
 
@@ -122,6 +136,7 @@ class User
   has n, :instances
   has n, :books, through: Resource
   has n, :places
+  has n, :flags
 
   validates_uniqueness_of :username
   validates_presence_of :password
