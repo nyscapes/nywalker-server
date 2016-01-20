@@ -6,6 +6,7 @@
       <thead>
         <tr>
           <th>Zoom</th>
+          <th>&nbsp;</th>
           <th>Place</th>
           <th>Instances</th>
         </tr>
@@ -17,6 +18,13 @@
               <a href="#" onclick="recenterMap(L.latLng({{lat}}, {{lon}}));">
                 <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>
               </a>
+            <td>
+              {{#flagged}}
+                <span class="glyphicon glyphicon-flag" aria-hidden="true"></span>
+              {{/flagged}}
+              {{^flagged}}
+                &nbsp;
+              {{/flagged}}
             <td>
               <a href="/places/{{slug}}">
                 {{name}}
