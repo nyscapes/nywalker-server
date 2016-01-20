@@ -4,7 +4,7 @@ class App
     class PlaceShow < Layout
       include ViewHelpers
 
-      def id
+      def object_id_for_flag
         @place.id
       end
 
