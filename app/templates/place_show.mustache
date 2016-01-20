@@ -13,11 +13,17 @@
 
     <p>Known as: {{nicknames_sentence}} </p>
     
-    {{#place_permitted}}
-    <button type="button" class="btn btn-primary btn-default" data-toggle="modal" data-target="#editPlaceModal">Edit</button>
-    {{/place_permitted}}
-
-    {{flag_modal_button}}
+    {{#logged_in}}
+      {{#place_permitted}}
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-warning btn-default" data-toggle="modal" data-target="#editPlaceModal">Edit</button>
+      {{/place_permitted}}
+      {{^place_permitted}}
+        <div class="form-group">
+      {{/place_permitted}}
+          {{{ flag_modal_button }}}
+      </div>
+    {{/logged_in}}
 
     <h2>In books: <small>(All instances link)</small></h2>
     <table class="table table-hover">
@@ -68,4 +74,6 @@
     </div>
   </div>
 </div>
-{{> partials/flag_modal }}
+{{#logged_in}}
+  {{> partials/flag_modal }}
+{{/logged_in}}

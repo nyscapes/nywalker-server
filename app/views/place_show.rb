@@ -4,6 +4,10 @@ class App
     class PlaceShow < Layout
       include ViewHelpers
 
+      def id
+        @place.id
+      end
+
       def name
         @place.name
       end

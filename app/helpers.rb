@@ -15,9 +15,7 @@ class App
     
     def flag_modal_button
       <<-EOF
-        <div class="form-group">
-          <button type="button" class="btn btn-primary btn-default" data-toggle="modal" data-target="#addFlagModal">Flag this {{ type }}</button>
-        </div>
+          <button type="button" class="btn btn-danger btn-default" data-toggle="modal" data-target="#addFlagModal">Flag this</button>
       EOF
     end
 

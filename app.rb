@@ -113,7 +113,9 @@ class App < Sinatra::Base
     ref = env['HTTP_REFERER'] # could be request.referer or just "back"
     author = @user.name
     comment = params[:flag_comment]
-    "#{author} had to say about #{ref} this: #{comment}"
+    type = params[:flag_object_type]
+    id = params[:flag_object_id]
+    "#{author} had to say about #{ref} (type: #{type}, id: #{id}) this: #{comment}"
   end
 
   get "/about" do
