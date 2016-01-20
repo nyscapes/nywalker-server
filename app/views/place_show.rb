@@ -32,6 +32,12 @@ class App
         @place.slug
       end
 
+      def type
+        # object.class.to_s.downcase
+        "place"
+      end
+
+
       # def source
       #   @place.source
       # end
