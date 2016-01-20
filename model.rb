@@ -37,12 +37,11 @@ class Instance
   property :text, Text
   property :added_on, Date
   property :modified_on, Date
+  property :flagged, Boolean
 
   belongs_to :place
   belongs_to :user
   belongs_to :book
-
-  has n, :flags
 
   validates_presence_of :page
   validates_presence_of :book
@@ -73,6 +72,22 @@ class Place
 
   validates_presence_of :name
   validates_uniqueness_of :slug
+
+end
+
+class Flag
+  include DataMapper::Resource
+
+  property :id, Serial
+  property :comment, Text
+  property :object_type, String
+  property :object_id, Integer
+  property :added_on, Date
+
+  belongs_to :user
+
+  validates_presence_of :object_type
+  validates_presence_of :object_id
 
 end
 
@@ -108,17 +123,6 @@ class Book
   validates_presence_of :title
   validates_uniqueness_of :slug
 
-end
-
-class Flag
-  include DataMapper::Resource
-
-  property :id, Serial
-  property :note, Text
-  property :added_on, Date
-
-  belongs_to :user
-  belongs_to :instance
 end
 
 class User

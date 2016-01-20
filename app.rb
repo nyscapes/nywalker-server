@@ -111,11 +111,15 @@ class App < Sinatra::Base
 
   post '/add_flag' do
     ref = env['HTTP_REFERER'] # could be request.referer or just "back"
-    author = @user.name
-    comment = params[:flag_comment]
-    type = params[:flag_object_type]
-    id = params[:flag_object_id]
-    "#{author} had to say about #{ref} (type: #{type}, id: #{id}) this: #{comment}"
+    object = string_to_object(params[:flag_object_type]).get(params[:flag_object_id])
+    if object.update( flagged: true )
+      flash_string = "The #{object.class.to_s.downcase} has been marked as flagged"
+    end
+    if Flag.create( comment: params[:flag_comment], object_type: object.class.to_s.downcase, object_id: object.id, added_on: Time.now, user: @user )
+      flash_string += ", and the comment has been saved."
+    end
+    flash[:success] = flash_string if flash_string
+    redirect back
   end
 
   get "/about" do
@@ -170,6 +174,14 @@ class App < Sinatra::Base
 
   def bootstrap_class_for flash_type
     { success: "alert-success", error: "alert-danger", alert: "alert-warning", notice: "alert-info" }[flash_type] || flash_type.to_s
+  end
+
+  def string_to_object(string)
+    case string
+    when "place" then Place
+    when "instance" then Instance
+    else raise "Somehow I could not tell what kind of object this is."
+    end
   end
 
   get "/internal/health" do
