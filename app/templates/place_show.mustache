@@ -25,6 +25,10 @@
       </div>
     {{/logged_in}}
 
+    {{#flagged}}
+      {{> partials/flag_table }}
+    {{/flagged}}
+
     <h2>In books: <small>(All instances link)</small></h2>
     <table class="table table-hover">
       <thead>

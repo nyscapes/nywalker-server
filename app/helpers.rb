@@ -65,5 +65,16 @@ class App
       end
     end
 
+    def flags
+      if @flags
+        @flags.map{ |f| {
+          comment: f.comment,
+          added_on: f.added_on,
+          user_name: f.user.name,
+          user_username: f.user.username
+        } }
+      end
+    end
+
   end
 end

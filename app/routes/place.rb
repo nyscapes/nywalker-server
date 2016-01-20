@@ -67,6 +67,9 @@ class App
   get "/places/:place_slug" do
     @page_title = "#{place.name}"
     @books = Book.all(instances: Instance.all(place: place))
+    if place.flagged
+      @flags = Flag.all(object_type: "place", object_id: place.id)
+    end
     mustache :place_show
   end
 

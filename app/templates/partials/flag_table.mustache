@@ -1,0 +1,24 @@
+<h2>Flag comments:</h2>
+
+<table class="table table-hover">
+  <thead>
+    <th>Date</th>
+    <th>User</th>
+    <th>Comment</th>
+  </thead>
+  <tbody>
+    {{#flags}}
+      <tr>
+        <td>
+          {{added_on}}
+        </td>
+        <td>
+          <a href="/users/{{user_username}}">{{user_name}}</a>
+        </td>
+        <td>
+          {{comment}}
+        </td>
+      </tr>
+    {{/flags}}
+  </tbody>
+</table>

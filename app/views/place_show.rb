@@ -41,6 +41,9 @@ class App
         "place"
       end
 
+      def flagged
+        @place.flagged
+      end
 
       # def source
       #   @place.source
