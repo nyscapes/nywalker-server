@@ -1,0 +1,42 @@
+<h1>Flagged objects</h1>
+<p class="lead">These objects (places or instances) have all been flagged and should be reviewed.</p>
+<div class="row">
+  <div class="col-sm-9">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Object</th>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Year</th>
+          <th>Users</th>
+          <th>Instances</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#books}}
+          <tr>
+            <td>
+              {{#permitted}}
+              <a href="/books/{{slug}}/instances/new" class="btn btn-primary btn-small">
+                Add instance
+              </a>
+              {{/permitted}}
+            </td>
+            <td>
+              <a href="/books/{{slug}}">
+                <em>{{title}}</em></a> (<small>Google Books {{{external_link}}}</small>)
+            </td>
+            <td>{{author}}</td>
+            <td>{{year}}</td>
+            <td>{{users}}</td>
+            <td>{{instances}}</td>
+          </tr>
+        {{/books}}
+      </tbody>
+    </table>
+  </div>
+  <div class="col-sm-3">
+    <p>What should go here?</p>
+  </div>
+</div>

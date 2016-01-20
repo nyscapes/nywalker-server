@@ -136,6 +136,11 @@ class App < Sinatra::Base
     @page_title = "Help"
     mustache :help
   end
+
+  get "/flagged" do
+    @page_title = "Flagged objects"
+    mustache :flagged
+  end
   
   # Other, CRUD routes.
   require "#{base}/app/routes/instance"
