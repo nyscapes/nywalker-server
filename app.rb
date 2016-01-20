@@ -109,11 +109,11 @@ class App < Sinatra::Base
     mustache :index
   end
 
-  post '/report_error' do
+  post '/add_flag' do
     ref = env['HTTP_REFERER'] # could be request.referer or just "back"
     author = @user.name
-    error = params[:error_report]
-    "#{author} had to say about #{ref} this: #{error}"
+    comment = params[:flag_comment]
+    "#{author} had to say about #{ref} this: #{comment}"
   end
 
   get "/about" do

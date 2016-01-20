@@ -12,6 +12,14 @@ class App
     def javascripts
       @js
     end
+    
+    def flag_modal_button
+      <<-EOF
+        <div class="form-group">
+          <button type="button" class="btn btn-primary btn-default" data-toggle="modal" data-target="#addFlagModal">Flag this {{ type }}</button>
+        </div>
+      EOF
+    end
 
     def add_book_button
       "<a href='/new-book' class='btn btn-primary btn-lg'>Add New Book</a>"
