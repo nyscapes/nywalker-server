@@ -15,6 +15,8 @@
         {{#book_permitted}}
           <th>&nbsp;</th>
         {{/book_permitted}}
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>
         <th>Page</th>
         <th>Order</th>
         <th>Place</th>
@@ -35,6 +37,22 @@
             {{/instance_permitted}}
             </td>
           {{/book_permitted}}
+          <td>
+            {{#flagged}}
+              <span class="glyphicon glyphicon-flag" aria-hidden="true"></span>
+            {{/flagged}}
+            {{^flagged}}
+              &nbsp;
+            {{/flagged}}
+          </td>
+          <td>
+            {{#note}}
+              <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+            {{/note}}
+            {{^note}}
+              &nbsp;
+            {{/note}}
+          </td>
           <td>
             {{page}}
           </td>
