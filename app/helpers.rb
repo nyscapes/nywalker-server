@@ -84,5 +84,13 @@ class App
       end
     end
 
+    def not_empty(text)
+      case text
+      when nil then false
+      when "" then false
+      else true
+      end
+    end
+
   end
 end

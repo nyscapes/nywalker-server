@@ -12,7 +12,7 @@ class App
           name: p.name,
           instances: p.instances.count,
           flagged: p.flagged,
-          note: p.note,
+          note: not_empty(p.note),
           confidence_class: confidence_class(p)
         } }
       end
