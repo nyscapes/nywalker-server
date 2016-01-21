@@ -1,18 +1,86 @@
 <h1>Instance Rules</h1>
 
-<p class="lead">Entering a bunch of data by hand is better if it’s systematized, so here are a few tips for consistency.</p>
+<p class="lead">Entering a bunch of data by hand is better if it’s
+  systematized, so here are a few tips for consistency. These are all judgment
+  calls based on what seems to make data entry easiest.</p>
+
+<h2>Places that are not capitalized (“the park,” “the ocean”)</h2>
+
+<p>Generally, if a place is not capitalized, you do not encode it, even though
+  you know the park is Central Park or the ocean is the Atlantic. On the other
+  hand, “he led her to the Park” would be encoded, if you can make a good guess
+  as to what park it is. Do not hurry to assume, though.</p>
+
+<p>That said, per-novel exceptions are sometimes warranted, such as the use of
+  “downtown” in <em>Let the Great World Spin</em>, because every use of the
+  word is a clear indication of Downtown Manhattan, but McCann chose not to
+  capitalize it.</p>
+
+<h2>Adjectives and demonyms (“French”)</h2>
+
+<p>Adjectives, such as “French,” “American,” or “English” are <strong>not</strong> to be encoded. The same goes for languages based on the adjectives and for demonyms (such as “Spaniard”).</p>
+
+<h2>Noun modifiers (“New York Times”)</h2>
+
+<p>Conversely to adjectives, noun modifiers <strong>should</strong> be encoded. Here are a few examples:</p>
+
+  <ul>
+    <li><strong>Alençon</strong> lace and <strong>Waterford</strong> crystal. Both are named after their places of origin.</li>
+    <li><em><strong>New York</strong> Times</em> (but not <em><strong>New York</strong>er Magazine</em>) </li>
+    <li><strong>Kentucky</strong> Derby (but do not add a reference to Churchill Downs)</li>
+  </ul>
+
+  <p>However, if the noun modifier is part of a specific place that can be identified, then the whole entity counts as one instance:</p>
+
+  <ul>
+    <li><strong>New York University</strong></li>
+    <li><strong>Boston Garden</strong></li>
+    <li><strong>London Bridge</strong></li>
+  </ul>
+
+<h2>Enclosing places (“Manhattan, New York”)</h2>
+
+<p>Places given as a set of enclosing objects (like an address, which in
+  English moves from small to larger geographical entity) have <strong>each
+    specific place</strong> encoded. “Manhattan, New York,” then, is a
+  reference both to <strong>Manhattan</strong> and to <strong>New York (state)</strong>. More precisely, it
+  is <strong>two separate instances</strong>. Neither instance, however, is a
+  reference to New York City.</p>
+
+<p>There is at least one exception to this rule. For convenience, “Washington, D.C.”
+  is a <strong>single instance of “Washington, D.C.”</strong> and not two
+  separate references to Washington (the city) and the District of Columbia.</p>
+
+<h2>Places as genitives (“University of Chicago”)</h2>
+
+<p>When the place is a genitive (“<em>n</em> of <strong>place</strong>), then
+  it is a <strong>single instance</strong>, either to the place
+  mentioned, or to the entity as a whole. For example:</p>
 
 <ul>
-  <li>downtown</li>
-  <li>New York, New York</li>
-  <li>Washington, D.C.</li>
-  <li>Alençon lace, Waterford Crystal</li>
-  <li>New Yorker, Irish, French</li>
-  <li>University of California - Davis</li>
-  <li>Sotheby’s</li>
-  <li>Kentucky Derby</li>
-  <li>the park</li>
-
+  <li><strong>University of Chicago</strong></li>
+  <li><strong>University of California - Davis</strong> (not 2 or 3 separate instances)</li>
+  <li>shores of the <strong>Atlantic</strong></li>
+  <li>smells of <strong>Paris</strong></li>
 </ul>
 
-<h2> adding streets wi google maps</h2>
+<h2>Workplaces, leisure (“Sotheby’s,” “the Opera”)</h2>
+
+<p>These are a bit of a gray area. Because Sotheby’s has multiple locations,
+  “she works at Sotheby’s” should <strong>not</strong> be encoded. However, “he
+  works at the McDonald’s on Broadway” should
+  be encoded twice, once as the <strong>McDonald’s (Washington Pl. &amp;
+    Broadway)</strong> and once for <strong>Broadway</strong> (but see “Corners,” below).</p>
+
+<p>Similarly tricky is how the word “Opera” is used in a novel like <i>Age of
+    Innocence</i>. First, it is a “nickname” of the Academy of Music, which was
+  located at 14th and Irving Place. So in a sentence like “he walked toward the
+  Opera,” we encode for the <strong>Academy of Music</strong>. On the other hand, a sentence
+  like “she loved the Opera” would not, typically be encoded (“Opera” is always
+  capitalized in that novel. This is not easy!</p>
+
+<h2>Corners (“82nd and Park”)</h2>
+
+<p>Corners should be found on the map and marked clearly as one instance, not
+  two (one of each street). Conversely, a sentence like “She stood on Park between
+  82nd and 83rd” would be three different instances.</p>
