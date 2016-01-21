@@ -46,6 +46,14 @@ class App
         @user.admin? || @last_instance.user == @user
       end
 
+      def object_id_for_flag
+        @last_instance.id
+      end
+
+      def type
+        "instance"
+      end
+
     end
   end
 end
