@@ -104,5 +104,9 @@ class App
       end
     end
 
+    def app_name
+      @app_name
+    end
+
   end
 end

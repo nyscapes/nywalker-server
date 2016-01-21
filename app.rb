@@ -59,6 +59,7 @@ class App < Sinatra::Base
     @path = request.path_info
     @rendered_flash = rendered_flash(flash)
     @checker = SinatraHealthCheck::Checker.new
+    @app_name = app_name
   end
 
   helpers do
@@ -181,6 +182,14 @@ class App < Sinatra::Base
     when "place" then Place
     when "instance" then Instance
     else raise "Somehow I could not tell what kind of object this is."
+    end
+  end
+
+  def app_name
+    if ENV['CANON_NAME'] 
+      ENV['CANON_NAME'] 
+    else
+      "NYWalker"
     end
   end
 
