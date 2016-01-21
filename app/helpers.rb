@@ -76,5 +76,13 @@ class App
       end
     end
 
+    def places
+      if @instances
+        @instances.places.all(:confidence.not => 0).map do |p|
+          { lat: p.lat, lon: p.lon, name: p.name } 
+        end
+      end
+    end
+
   end
 end

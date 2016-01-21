@@ -1,27 +1,41 @@
 <div class="jumbotron">
-  <h1>NYWalker</h1>
-  <p class="lead">What can we map for you today?</p>
-  <p>This is a super beta version of this app, but please go ahead and attempt to break it.</p>
+  <div class="row">
+    <div class="col-md-6">
+      <h1>NYWalker</h1>
 
-  <p>The current functionality is very limited. You can add instances to one book, <i>Manhattan Transfer</i>. </p>
+      <p>Welcome to <code>NYWalker</code>, a tool for geocoding the contents of
+        novels.</p>
 
-  <p>If you feel like adding books, there is <a href="/books/new">a link</a>, and the same
-    is true if you want to <a href="/places/new">add a place</a> without going through the
-    new instance form.</p>
+      <p>Guests are welcome to click around above and see the kinds of work we
+        have already accomplished. Those with accounts (NYU students) can login
+        by using the link at the top of this page.</p>
 
-  <p>Ah, you can also edit a place.</p>
+      <p>The project is written by <a href="http://moacir.com"
+          target="_blank">Moacir P. de Sá Pereira <span class="glyphicon
+            glyphicon-new-window" aria-hidden="true"></span></a> of the NYU <a
+          href="http://english.fas.nyu.edu" target="_blank">English Department
+          <span class="glyphicon glyphicon-new-window"
+            aria-hidden="true"></span></a>. It is hosted by <a
+          href="http://newyorkscapes.org" target="_blank">NewYorkScapes <span
+            class="glyphicon glyphicon-new-window"
+            aria-hidden="true"></span></a>, a research community also based at
+        NYU.</p>
 
-  <h2>Obvious functionality that still needs to be added:</h2>
-
-  <ul>
-    <li>/users!</li>
-    <li> map on this page showing the scope of all the data</li>
-    <li>ability to delete records</li>
-    <li>better keyboard controls on the add instance page</li>
-  </ul>
-
-  <p>As you can see from the url, this is running on Amazon Web Services. This
-    is slightly private, so don't share the url unless you are Moacir or Tom.</p>
-
-
+    </div>
+    <div class="col-md-6">
+      <div id="map">
+      </div>
+    </div>
+  </div>
 </div>
+
+<script>
+  var map = L.map('map').setView([0,0], 15);
+  var baseLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(map);
+  var dots = L.markerClusterGroup();
+  {{#places}}
+    dots.addLayer(L.circleMarker([{{lat}}, {{lon}}]).bindPopup("{{name}}"));
+  {{/places}}
+  map.addLayer(dots);
+  map.fitBounds(dots.getBounds());
+</script>

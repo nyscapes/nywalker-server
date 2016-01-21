@@ -106,11 +106,11 @@ class App < Sinatra::Base
 
   get "/" do
     @page_title = "Home"
+    @instances = Instance.all
     mustache :index
   end
 
   post '/add_flag' do
-    ref = env['HTTP_REFERER'] # could be request.referer or just "back"
     object = string_to_object(params[:flag_object_type]).get(params[:flag_object_id])
     if object.update( flagged: true )
       flash_string = "The #{object.class.to_s.downcase} has been marked as flagged"

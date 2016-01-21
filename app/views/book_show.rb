@@ -2,6 +2,7 @@ class App
   module Views
 
     class BookShow < Layout
+      include ViewHelpers
 
       def external_link
         external_link_glyph(@book.url)
@@ -47,12 +48,6 @@ class App
         @instances.map{ |i| {page: i.page, sequence: i.sequence, place_name: i.place.name, place_slug: i.place.slug, instance_id: i.id,
           instance_permitted: ( admin? || i.user == @user ),
           owner: i.user.name } }
-      end
-
-      def places
-        @instances.places.all(:confidence.not => 0).map do |p|
-          { lat: p.lat, lon: p.lon, name: p.name } 
-        end
       end
 
     end
