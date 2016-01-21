@@ -39,7 +39,7 @@ class App
           li_place_slug: @last_instance.place.slug,
           li_owner: @last_instance.user.name,
           li_note: @last_instance.note,
-          li_id: @last_instance.id }
+          li_id: @last_instance.id } unless @last_instance.nil?
       end
 
       def edit_last_instance
@@ -47,7 +47,7 @@ class App
       end
 
       def object_id_for_flag
-        @last_instance.id
+        @last_instance.id unless @last_instance.nil?
       end
 
       def type
