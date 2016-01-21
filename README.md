@@ -21,7 +21,7 @@ mentioned in a text. We find the [precision and
 recall](https://en.wikipedia.org/wiki/precision_and_recall) unsatisfactory, as
 well.
 
-Instead, this project relies on time-consuming hand entry. The default setting
+Instead, this software relies on time-consuming hand entry. The default setting
 is not any more semantically rich than what NER would return (simply, place
 name and position in text), but it is not terribly difficult to expand the
 `Instance` model to include, say, a boolean for whether the instance is inside
@@ -39,9 +39,9 @@ bias, canonization, and the rest. But it’s a start.
 Once we’re live and the database is plump with data, we’ll include information
 for how one can connect to it.
 
-In addition to the above research goals, we also use this project
+In addition to the above research goals, we also use this application
 pedagogically. Entering data is part of the course requirements for the
-“Writing New York” course at New York University, and the project is also used
+“Writing New York” course at New York University, and the software is also used
 in at least one version of NYU’s “Digital Literary Studies” course. We believe
 that it’s a lightweight point of entry into the (geospatial) digital
 humanities, providing both instant feedback (a map!) and also encouraging
@@ -75,7 +75,7 @@ create a bounding box for the place, and the place’s
 geocoding, before falling back on *Wikipedia*’s GeoHack or letting the
 researcher manually add either a What3Words address or latitude and longitude.
 
-A couple other models flesh out the project, but those three are the most important.
+A couple other models flesh out the application, but those three are the most important.
 
 NYWalker also leverages [Leaflet.js](http://leafletjs.com) to display the
 various places and so on in the front end. It’s expected that users (that is,
@@ -102,12 +102,12 @@ We obviously also welcome pull requests.
 
 ## Who are we?
 
-This project is listed in GitHub under the
+This application is listed in GitHub under the
 [NewYorkScapes](http://newyorkscapes.org) collective, but (for now) it
 represents mostly the work of [Moacir P. de Sá Pereira](http://moacir.com), of
 NYU’s [English Department](http://english.fas.nyu.edu). [Prof. Tom
 Augst](http://english.fas.nyu.edu/object/ThomasAugst.html) has also consulted
-on the project, and he has also helped make the resources available for the
+on it, and he has also helped make the resources available for the
 project to come to fruition. The live version of the site is hosted by the [FAS
 Office of Educational Technology](https://wp.nyu.edu/fas-edtech) at NYU. It is
 also part of the [#NYUDH](https://twitter.com/search?q=%23nyudh&src=typd)
