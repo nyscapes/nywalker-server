@@ -79,8 +79,20 @@ class App
     def places
       if @instances
         @instances.places.all(:confidence.not => 0).map do |p|
-          { lat: p.lat, lon: p.lon, name: p.name } 
+          { lat: p.lat, lon: p.lon, 
+            name: p.name, 
+            count: count_instances(p),
+            slug: p.slug
+          } 
         end
+      end
+    end
+
+    def count_instances(place)
+      if @book
+        place.instances.select{ |i| i.book_id == @book.id }.count
+      else
+        place.instances.count
       end
     end
 
