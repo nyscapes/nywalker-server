@@ -1,6 +1,6 @@
 # NYWalker
 
-NYWalker is a distributed project that aims to develop a rich database of
+`NYWalker` is a distributed project that aims to develop a rich database of
 places mentioned in various novels. As the name suggests, the initial focus is
 on novels about New York City, but the code doesn’t particularly care about New
 York City. We do.
@@ -10,17 +10,19 @@ York City. We do.
 As the geospatial Digital Humanities matures, a lot of the work being done on
 “space in literature,” as
 [Franco Moretti](https://books.google.com/books?id=ja2MUXS_YQUC&printsec=frontcover&dq=moretti+space+in+literature&hl=en&sa=X&ved=0ahUKEwjP17rHmqrJAhVG2xoKHZZHD3YQ6AEIHTAA#v=onepage&q=%22space%20in%20literature%22&f=false)
-refers to it, involves Named Entity Recognition of a giant dataset of novels.
+refers to it, involves [named-entity recognition](https://en.wikipedia.org/wiki/Named-entity_recognition) of a giant dataset of novels.
 See, for example, the work [Matt Wilkens](http://mattwilkens.com/) has done
 with corpora both from the 19th and 20th centuries.
 
 We’re unsatisfied with the results available from that kind of analysis; it
 doesn’t answer the questions we have, as NER strips so much semantic (and
 probably more subjective) information away from each instance of a place
-mentioned in a text.
+mentioned in a text. We find the [precision and
+recall](https://en.wikipedia.org/wiki/precision_and_recall) unsatisfactory, as
+well.
 
 Instead, this project relies on time-consuming hand entry. The default setting
-is not any more semantically right than what NER would return (simply, place
+is not any more semantically rich than what NER would return (simply, place
 name and position in text), but it is not terribly difficult to expand the
 `Instance` model to include, say, a boolean for whether the instance is inside
 dialog. Or part of a trip. Or to create a `Character` model who is responsible
@@ -28,7 +30,7 @@ for that instance in the text. But we’re jumping ahead of ourselves.
 
 ## Goals
 
-Simply put, we want to create a huge (geospatial) database that is of use to us
+We want to create a huge (geospatial) database that is of use to us
 in answering questions about U.S. novels primarily related to New York City.
 But we also want this database to be available to the outside world, as well.
 It’s an idiosyncratic product, possibly recreating issues related to selection
@@ -46,17 +48,13 @@ humanities, providing both instant feedback (a map!) and also encouraging
 students to collaborate, act as detectives hunting down geographical data, and
 the rest.
 
-Because the data is added by students typically working on their own blocks of
-text (either a part of a novel or a whole novel itself), the database becomes a
-massive collaborative project, which also serves a pedagogical goal.
-
 Finally, the work is public-facing, fulfilling a final pedagogical goal, of
 giving students the opportunity to work on research projects with “real-world”
 applications.
 
 ## Technology
 
-Simply put, NYWalker is a [Sinatra](http://www.sinatrarb.com) web application
+`NYWalker` is a [Sinatra](http://www.sinatrarb.com) web application
 that serves as a front-end to a [PostGIS](http://www.postgis.org) database. Actually, it’s currently just a postgresql database.
 Researchers, that is, those who are adding data to the database, are exposed
 to, effectively, three models: `Book`, `Place`, and `Instance`. An `Instance`
@@ -121,5 +119,5 @@ Finally, the following students have all contributed to the database:
 
 ## License
 
-See LICENSE file, but (c) 2015 Moacir P. de Sá Pereira
+See LICENSE file, but (c) 2016 Moacir P. de Sá Pereira
 
