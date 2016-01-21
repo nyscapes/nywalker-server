@@ -38,6 +38,7 @@ class Instance
   property :added_on, Date
   property :modified_on, Date
   property :flagged, Boolean
+  property :note, Text
 
   belongs_to :place
   belongs_to :user
@@ -64,6 +65,7 @@ class Place
   property :what3word, String
   property :bounding_box_string, Text
   property :flagged, Boolean
+  property :note, Text
 
   belongs_to :user
 

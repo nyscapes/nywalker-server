@@ -15,7 +15,7 @@
             <input type="text" class="typeahead form-control" id="inputLastPlace" name="place" value="{{li_place}}" disabled>
           </div>
           <div class="form-group">
-            <a href="/places/{{li_place_slug}}" target="_blank" type="button" class="btn btn-primary btn-default">Open place in new page</a>
+            <a href="/places/{{li_place_slug}}" target="_blank" type="button" class="btn btn-primary btn-default">Open place in new tab</a>
           </div>
           <div class="form-group">
             <label for="inputLastPlaceNameInText">Place name in text</label>
@@ -30,6 +30,10 @@
               <label for="inputLastSequence">Order on page</label>
               <input type="number" class="form-control" id="inputLastSequence" name="sequence" value="{{li_sequence}}" disabled>
             </div>
+          </div>
+          <div class="form-group">
+            <label for="inputLastNote">Note</label>
+            <textarea class="form-control" name="note" id="inputLastNote" rows="2" readonly>{{ li_note }}</textarea>
           </div>
         {{#edit_last_instance}}
           <div class="form-group">

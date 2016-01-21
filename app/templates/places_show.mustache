@@ -5,7 +5,8 @@
     <table class="table table-hover">
       <thead>
         <tr>
-          <th>Zoom</th>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
           <th>&nbsp;</th>
           <th>Place</th>
           <th>Instances</th>
@@ -25,7 +26,16 @@
               {{^flagged}}
                 &nbsp;
               {{/flagged}}
+            </td>
             <td>
+              {{#note}}
+                <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+              {{/note}}
+              {{^note}}
+                &nbsp;
+              {{/note}}
+            </td>
+            <td class="{{ confidence_class }}">
               <a href="/places/{{slug}}">
                 {{name}}
               </a>

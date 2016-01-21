@@ -43,6 +43,10 @@ class App
         "modal"
       end
 
+      def note
+        @instance.note
+      end
+
     end
   end
 end

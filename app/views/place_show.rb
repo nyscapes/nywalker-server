@@ -12,6 +12,10 @@ class App
         @place.name
       end
 
+      def note
+        @place.note
+      end
+
       def user
         @place.user.name
       end

@@ -20,6 +20,11 @@
   </div>
 </div>
 <div class="form-group">
+  <label for="inputNote">Note</label>
+  <textarea class="form-control" name="note" id="inputNote" rows="2" aria-describedby="noteHelpBlock">{{note}}</textarea>
+  <span id="noteHelpBlock" class="help-block">Add a short note here providing some (optional) context or confusion, especially if you have doubts.</span>
+</div>
+<div class="form-group">
   <button tabindex="6" type="submit" class="btn btn-primary btn-default">{{form_button}}</button>
   <script>
     $(document).ready(function(){

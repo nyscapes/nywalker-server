@@ -12,6 +12,12 @@
     </ul>
 
     <p>Known as: {{nicknames_sentence}} </p>
+
+    {{#note}}
+      <div class="well well-sm">
+        <strong>Note:</strong> {{note}}
+      </div>
+    {{/note}}
     
     {{#logged_in}}
       {{#place_permitted}}
