@@ -1,5 +1,7 @@
 .env
+puma.rb
 
+*.pid
 *.swp
 *.gem
 *.rbc

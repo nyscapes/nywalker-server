@@ -1,10 +1,11 @@
+# This file could be duplicated and renamed to puma.rb
+
 # Start|Stop|Restart the app with:
 #
 # (bundle exec) pumactl -F puma.rb start|stop|restart
 
 # Set the environment appropriately
-# environment ENV['RACK_ENV'] || 'development'
-environment 'development'
+environment ENV['RACK_ENV'] || 'development'
 
 # Set the pidfile appropriately as well—especially for concurrent instances
 # This saves the .pid to the current directory
