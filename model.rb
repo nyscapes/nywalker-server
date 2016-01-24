@@ -1,12 +1,9 @@
 require 'data_mapper'
 require 'dm-validations'
 require 'dm-types'
-# require 'active_support' # for the slugs
-# require 'active_support/inflector'
-# require 'active_support/core_ext/array/conversions'
 require 'dotenv'
 
-Dotenv.load
+Dotenv.load # This is weird that it's called here, because app.rb uses it.
 
 # ENV['DATABASE_URL'] is set in the file .env, which is hidden from git. See .env.example for an example of what it should look like.
 
