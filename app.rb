@@ -8,6 +8,7 @@ require "sprockets"
 require "sprockets-helpers"
 require "warden"
 require "googlebooks"
+require "pony"
 require "active_support" # for the slug.
 require "active_support/inflector"
 require "active_support/core_ext/array/conversions"
@@ -15,6 +16,7 @@ require "active_support/core_ext/array/conversions"
 require_relative "./model"
 
 class App < Sinatra::Base
+ 
   enable :sessions
   if Sinatra::Base.development?
     set :session_secret, "supersecret"
@@ -137,7 +139,7 @@ class App < Sinatra::Base
     @page_title = "Help"
     mustache :help
   end
-  
+
   # Other, CRUD routes.
   require "#{base}/app/routes/instance"
   require "#{base}/app/routes/book"
@@ -192,6 +194,25 @@ class App < Sinatra::Base
       "NYWalker"
     end
   end
+
+  def mail(to, subject, body)
+    Pony.mail(
+      to: to,
+      from: ENV['EMAIL_FROM_ADDRESS'],
+      via: :smtp,
+      via_options: {
+        user_name: ENV['SMTP_USERNAME'],
+        password: ENV['SMTP_PASSWORD'],
+        address: ENV['SMTP_SERVER'],
+        port: '587', enable_starttls_auto: true,
+        authentication: :plain, domain: 'localhost.localdomain'
+      },
+      subject: subject,
+      body: body
+    )
+    puts "Email sent to #{to} with a subject of #{subject}"
+  end
+  
 
   get "/internal/health" do
     if @checker.healthy?
