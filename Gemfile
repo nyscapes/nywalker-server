@@ -58,6 +58,9 @@ gem 'warden'
 # as I know, no better repository of books with both an API and ISBNs exists.
 gem 'googlebooks'
 
+# Pony handles the email.
+gem 'pony'
+
 ### TESTING
 #
 # For another day...
