@@ -1,5 +1,10 @@
 <h1>{{name}}</h1>
 <h3>{{username}}</h3>
+
+{{#change_password}}
+  <button type="button" class="btn btn-danger btn-default" data-toggle="modal" data-target="#changePasswordModal">Change password</button>
+{{/change_password}}
+
 <ul>
   {{#admin?}}
     <li>Email: {{email}}</li>
@@ -117,3 +122,7 @@
     </div>
   </div>
 </div>
+{{#change_password}}
+  {{> partials/password_modal}}
+{{/change_password}}
+

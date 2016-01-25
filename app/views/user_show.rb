@@ -63,6 +63,10 @@ class App
         } }
       end
 
+      def change_password
+        @user.admin? || @user == @this_user
+      end
+
     end
   end
 end
