@@ -38,6 +38,40 @@ class App
 
   # UPDATE
 
+  post '/users/:user_username/change-password' do
+    this_user
+    if params[:new_password1] == params[:new_password2]
+      unless @user.admin?
+        unless @this_user.authenticate(params[:current_password])
+          flash[:error] = "The current password is incorrect."
+          redirect back
+        end
+      end
+      if @this_user.update( password: params[:new_password1] )
+        body = password_change_body_text(@this_user.name, "http://nywalker.newyorkscapes.org/users/#{@this_user.username}")
+        mail(@this_user.email, "[NYWalker] Password Changed", body)
+        flash[:success] = "The password has been changed."
+      else
+        flash[:error] = "Some unexpected error occurred. Please try again."
+      end
+    else
+      flash[:error] = "The new passwords do not match."
+    end
+   redirect back
+  end
+
+  def password_change_body_text(name, user_profile_url)
+    <<-EOF
+    Dear #{name},
+
+    Your password for NYWalker has been changed.
+
+    You can visit your profile page here:
+
+    #{user_profile_url}
+    EOF
+  end
+
   # DESTROY
   
 end
