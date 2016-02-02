@@ -1,6 +1,7 @@
 require 'data_mapper'
 require 'dm-validations'
 require 'dm-types'
+require 'dm-postgis'
 require 'dotenv'
 
 Dotenv.load # This is weird that it's called here, because app.rb uses it.
@@ -63,6 +64,7 @@ class Place
   property :bounding_box_string, Text
   property :flagged, Boolean
   property :note, Text
+  property :geom, PostGISGeometry
 
   belongs_to :user
 
