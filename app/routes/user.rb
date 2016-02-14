@@ -3,6 +3,7 @@ class App
   # ALL
 
   get '/users' do
+    protected_page
     @page_title = "All Users"
     @users = User.all
     mustache :users_show
@@ -32,6 +33,7 @@ class App
   # READ
 
   get '/users/:user_username' do
+    protected_page
     @page_title = this_user.name
     mustache :user_show
   end
