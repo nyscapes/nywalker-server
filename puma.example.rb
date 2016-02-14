@@ -22,4 +22,8 @@ threads threads_count, threads_count
 
 rackup "config.ru"
 
+# Where should puma send its logs? Append a ", true" if you want the logs to
+# append and not overwrite.
+stdout_redirect 'access.log', 'error.log'
+
 daemonize
