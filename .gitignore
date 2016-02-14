@@ -1,6 +1,7 @@
 .env
 /puma.rb
 
+*.log
 *.pid
 *.swp
 *.gem
