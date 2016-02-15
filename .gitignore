@@ -1,5 +1,6 @@
 .env
 /puma.rb
+/users.rb
 
 *.pid
 *.swp
