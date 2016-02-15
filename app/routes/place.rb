@@ -28,6 +28,8 @@ class App
       new_place.lat = nil
       new_place.lon = nil
       new_place.confidence = 0
+    else
+      new_place.geom = make_point_geometry(new_place.lat, new_place.lon)
     end
     begin
       new_place.save
@@ -78,7 +80,7 @@ class App
   post "/places/:place_slug/edit" do
     protected_page
     @page_title = "Editing #{place.name}"
-    if place.update( name: params[:name], lat: params[:lat], lon: params[:lon], confidence: params[:confidence], source: params[:source], geonameid: params[:geonameid], bounding_box_string: params[:bounding_box_string], what3word: "", note: params[:note] )
+    if place.update( name: params[:name], lat: params[:lat], lon: params[:lon], confidence: params[:confidence], source: params[:source], geonameid: params[:geonameid], bounding_box_string: params[:bounding_box_string], what3word: "", note: params[:note], geom: make_point_geometry(params[:lat], params[:lon]) )
       flash[:success] = "#{place.name} has been updated"
       '<script>$("#editPlaceModal").modal("hide");window.location.reload();</script>'
     else
@@ -88,5 +90,11 @@ class App
   end
  
   # DESTROY
+
+  # METHODS
+  
+  def make_point_geometry(lat, lon)
+    GeoRuby::SimpleFeatures::Point.from_x_y(lon, lat, 4326)
+  end
 
 end

@@ -25,6 +25,13 @@ gem 'dm-postgres-adapter'
 # data forms.
 gem 'dm-validations'
 
+# Dm-postgis allows the creation of the PostGISGeometry data type
+gem 'dm-postgis'
+
+# Georuby is the backend of the PostGISGeometry type. It needs to be loaded
+# separately, however, to account for creating the geometries.
+gem 'georuby'
+
 # Dotenv lets us pass in ENV['VARIABLE']s. This is vital for initializing the
 # database, which relies on ENV['DATABASE_URL']
 #
