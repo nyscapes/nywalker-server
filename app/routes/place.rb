@@ -94,7 +94,7 @@ class App
   # METHODS
   
   def make_point_geometry(lat, lon)
-    GeoRuby::SimpleFeatures::Point.from_x_y(lon, lat, 4236)
+    GeoRuby::SimpleFeatures::Point.from_x_y(lon, lat, 4326)
   end
 
 end
