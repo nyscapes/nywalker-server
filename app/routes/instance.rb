@@ -28,7 +28,10 @@ class App
     end
     instance.place = location
     Nickname.first_or_create(name: instance.text, place: location)
-    save_object(instance, request.path)
+    Instance.all(book: book, page: instance.page, :sequence.gte => instance.sequence).each do |other_instance|
+      other_instance.update(sequence: other_instance.sequence + 1)
+    end
+    save_object(instance, back)
   end
 
   # READ
@@ -49,7 +52,7 @@ class App
       instance.place = params[:place].match(/{.*}$/)[0].gsub(/{/, "").gsub(/}/, "")
     end
     Nickname.first_or_create(name: instance.text, place: instance.place)
-    save_object(instance, "/books/#{params[:book_slug]}/instances/new")
+    save_object(instance, request.path) 
   end
 
   # DESTROY
@@ -59,10 +62,10 @@ class App
     puts "Deleting Instance #{instance.id} for #{book.title}"
     page_instances = Instance.all(book: book, page: instance.page, :sequence.gt => instance.sequence)
     if instance.destroy
-      page_instances.each do |instance|
-        instance.update(sequence: instance.sequence - 1)
+      page_instances.each do |other_instance|
+        other_instance.update(sequence: other_instance.sequence - 1)
       end
-      flash[:success] = "Deleted instance #{instance.id}, from page #{instance.page} marking #{instance.text}."
+      flash[:success] = "Deleted instance #{instance.id}."
       redirect "/books/#{book.slug}"
     else
       flash[:error] = "Something went wrong."
