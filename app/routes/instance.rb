@@ -52,7 +52,7 @@ class App
       instance.place = params[:place].match(/{.*}$/)[0].gsub(/{/, "").gsub(/}/, "")
     end
     Nickname.first_or_create(name: instance.text, place: instance.place)
-    save_object(instance, request.path) 
+    save_object(instance, "/books/#{book.slug}") 
   end
 
   # DESTROY
