@@ -40,11 +40,11 @@ class App
       end
 
       def special_field
-        @book.special.field
+        @book.special.field unless @book.special.nil?
       end
 
       def special_help_text
-        @book.special.help_text
+        @book.special.help_text unless @book.special.nil?
       end
 
       def nicknames

@@ -47,7 +47,7 @@ class App
 
   post "/books/:book_slug/instances/:instance_id/edit" do
     protected_page
-    instance.attributes = { page: params[:page], sequence: params[:sequence], text: params[:place_name_in_text], modified_on: Time.now, user: @user, book: book, note: params[:note] }
+    instance.attributes = { page: params[:page], sequence: params[:sequence], text: params[:place_name_in_text], modified_on: Time.now, user: @user, book: book, note: params[:note], special: params[:special] }
     if params[:place].match(/{.*}$/) # We've likely modified the place.
       instance.place = params[:place].match(/{.*}$/)[0].gsub(/{/, "").gsub(/}/, "")
     end
