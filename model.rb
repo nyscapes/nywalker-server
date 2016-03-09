@@ -37,6 +37,7 @@ class Instance
   property :modified_on, Date
   property :flagged, Boolean
   property :note, Text
+  property :special, Text
 
   belongs_to :place
   belongs_to :user

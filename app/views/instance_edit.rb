@@ -27,6 +27,10 @@ class App
         @instance.id
       end
 
+      def special
+        @instance.special
+      end
+
       def book_title
         @book.title
       end
