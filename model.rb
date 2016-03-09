@@ -103,6 +103,18 @@ class Nickname
   validates_presence_of :name
 end
 
+class Special
+  include DataMapper::Resource
+
+  property :id, Serial
+  property :field, String
+  property :help_text, Text
+
+  belongs_to :book
+
+  validates_presence_of :field
+end
+
 class Book
   include DataMapper::Resource
 
@@ -117,6 +129,7 @@ class Book
   property :added_on, Date
   property :modified_on, Date
 
+  has 1, :special
   has n, :instances
   has n, :users, through: Resource
 
