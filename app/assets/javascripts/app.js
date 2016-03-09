@@ -1,6 +1,6 @@
 
 function recenterMap(latLng){
-  marker.setLatLng(latLng);
+  marker.setLatLng(latLng).setOpacity(70);
   map.panTo(latLng);
 };
 

@@ -26,7 +26,7 @@
       var firstHit = L.latLng({{first_lat}}, {{first_lon}});
       var map = L.map('resultsMap').setView(firstHit, 12);
       var baseLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(map);
-      var marker = L.marker(firstHit).addTo(map);
+      var marker = L.marker(firstHit).setOpacity(70).addTo(map);
 
       function fillInPlaceData(data){
         // `data` is a string that looks like "name##lat##lon##geonameid##bbox##source##confidence"
@@ -69,7 +69,7 @@
    {{> partials/manual_map}}
   {{/results_table}}
   <script>
-    var marker = L.marker([0, 0]).addTo(map);
+    var marker = L.marker([0, 0]).setOpacity(0).addTo(map);
     var w = new L.Control.w3w();
     $('.leaflet-container').css('cursor', 'crosshair');
     w.addTo(map);
