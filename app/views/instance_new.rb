@@ -15,6 +15,10 @@ class App
         @last_instance.nil? ? 1 : @last_instance.sequence + 1
       end
 
+      def special
+        @last_instance.nil? ? nil : @last_instance.special
+      end
+
       def book_title
         @book.title
       end
