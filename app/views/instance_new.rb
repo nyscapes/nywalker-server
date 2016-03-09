@@ -47,6 +47,7 @@ class App
           li_place_slug: @last_instance.place.slug,
           li_owner: @last_instance.user.name,
           li_note: @last_instance.note,
+          li_specia: @last_instance.special,
           li_id: @last_instance.id } unless @last_instance.nil?
       end
 
