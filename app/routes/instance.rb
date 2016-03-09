@@ -16,7 +16,7 @@ class App
     protected_page
     @page_title = "Saving Instance for #{book.title}"
     instance = Instance.new
-    instance.attributes = { page: params[:page], sequence: params[:sequence], text: params[:place_name_in_text], added_on: Time.now, user: @user, book: book, note: params[:note] }
+    instance.attributes = { page: params[:page], sequence: params[:sequence], text: params[:place_name_in_text], added_on: Time.now, user: @user, book: book, note: params[:note], special: params[:special] }
     if params[:place].match(/{.*}$/)
       place = params[:place].match(/{.*}$/)[0].gsub(/{/, "").gsub(/}/, "")
     else

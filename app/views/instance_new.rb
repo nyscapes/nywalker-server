@@ -24,11 +24,11 @@ class App
       end
 
       def special_field
-        @book.special.field
+        @book.special.field unless @book.special.nil?
       end
 
       def special_help_text
-        @book.special.help_text
+        @book.special.help_text unless @book.special.nil?
       end
 
       def nicknames
@@ -47,7 +47,7 @@ class App
           li_place_slug: @last_instance.place.slug,
           li_owner: @last_instance.user.name,
           li_note: @last_instance.note,
-          li_specia: @last_instance.special,
+          li_special: @last_instance.special,
           li_id: @last_instance.id } unless @last_instance.nil?
       end
 

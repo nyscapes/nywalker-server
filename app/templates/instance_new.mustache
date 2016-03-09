@@ -31,6 +31,12 @@
               <input type="number" class="form-control" id="inputLastSequence" name="sequence" value="{{li_sequence}}" disabled>
             </div>
           </div>
+          {{#special_field}}
+            <div class="form-group">
+              <label for="inputLastSpecialField">{{special_field}}</label>
+              <input type="text" class="form-control" id="inputLastSpecialField" name="special_field" value="{{li_special}}" disabled>
+            </div>
+          {{/special_field}}
           <div class="form-group">
             <label for="inputLastNote">Note</label>
             <textarea class="form-control" name="note" id="inputLastNote" rows="2" readonly>{{ li_note }}</textarea>
