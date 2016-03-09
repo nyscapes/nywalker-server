@@ -35,6 +35,14 @@ class App
         @book.slug
       end
 
+      def special_field
+        @book.special.field
+      end
+
+      def special_help_text
+        @book.special.help_text
+      end
+
       def nicknames
         @nicknames
       end
