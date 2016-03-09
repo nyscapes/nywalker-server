@@ -20,14 +20,15 @@
   <strong>password</strong>. Use those to <a
     href="/login"><strong>login</strong></a>. If you’ve forgotten either,
   you’ll have to check with the administrator to reset them for you. Once you
-  log in, you will be taken back to the main page. From here, you can click on
-  the <a href="/books"><strong>Books</strong></a> tab at the top in order to
-  see the list of books already in the system. Similarly, you can click on your
-  username at the top right to see your own contributions so far.</p>
+  log in, you will be taken back to the main page.</p>
 
-<p>The second thing you need before starting up is, of course, the
-  <strong>book</strong> you will be encoding. Years of experience have
-  suggested that the best way to encode the book is by underlining places
+<p>Once you are logged in, you should first <em>change your password</em>. You
+  may do so by clicking on your <strong>username</strong> at the top right of
+  the page. You can also see your contributions there.</p>
+
+<p>Your password changed, you are ready to start working. First you need, of
+  course, the <strong>book</strong> you will be encoding. Years of experience
+  have suggested that the best way to encode the book is by underlining places
   mentioned in the text as you read it, and then noting at the top of the page
   if there are places mentioned or not. This ensures that you don’t lose your
   notes (unless you lose the book!) and that you can quickly see if there are
@@ -45,15 +46,17 @@
 
 <h2>Adding <code>Instances</code></h2>
 
-<p><code>NYWalker</code> is designed to collect three kinds of data: <code>Books</code>,
-<code>Places</code>, and <code>Instances</code>. <code>Books</code> are added
-and edited by admins, but you will be adding <code>Instances</code>, and, when
-necessary, <code>Places</code>.</p>
+<p><code>NYWalker</code> is designed to collect three kinds of data:
+  <code>Books</code>, <code>Places</code>, and <code>Instances</code>.
+  <code>Books</code> are added and edited by admins, but you will be adding
+  <code>Instances</code>, and, when necessary, <code>Places</code>.</p>
 
-<p>What is an <code>Instance</code>? It’s the occurence of a <code>Place</code> in
-a <code>Book</code>. Every <code>Instance</code>, then, has at least three
-attributes: a <code>Place</code>, a <strong>page number</strong>, and the
-<strong>sequence</strong> in which it appears.</p> 
+<p>What is an <code>Instance</code>? It’s the occurrence of a
+  <code>Place</code> in a <code>Book</code>. Every <code>Instance</code>, then,
+  has at least three attributes: a <code>Place</code>, a <strong>page
+    number</strong>, and the <strong>sequence</strong> in which it appears. A
+  fourth attribute, the <code>Special Field</code>, is unique to the each
+  <code>Book</code>.</p> 
 
 <p>For example, Colum McCann’s 2009 novel <a
   href="/books/let-the-great-world-spin-2009"><em>Let the Great World
@@ -91,7 +94,9 @@ attributes: a <code>Place</code>, a <strong>page number</strong>, and the
   “Church Street - {Church Street, NYC}” in the top field and “Church Street”
   in the second. You can add a <strong>page</strong> (3), and, because it’s the
   first <code>Instance</code> on the page, you put in a 1 for
-  <strong>sequence</strong>.</p>
+  <strong>sequence</strong>. You can also add a <strong>note</strong> about the
+  instance and encode it with regarding the parameters of the <strong>special
+    field</strong>.</p>
 
 <p>Furthermore, the software makes a few assumptions regarding page and
   sequence. Every new <code>Instance</code> has, at first, the same page as the
@@ -112,7 +117,11 @@ attributes: a <code>Place</code>, a <strong>page number</strong>, and the
 
 <h2>Adding <code>Places</code></h2>
 
-<p>While adding an <code>Instance</code> is relatively easy, adding a <code>Place</code> requires a bit more care. If nothing comes up in the “Place” dropdown that fits, leave your text in that field and type <kbd>tab</kbd> to move to the “Add new place” button and hit <kbd>return</kbd> to open the “Add new place” popup.</p>
+<p>While adding an <code>Instance</code> is relatively easy, adding a
+  <code>Place</code> requires a bit more care. If nothing comes up in the
+  “Place” dropdown that fits, leave your text in that field and type
+  <kbd>tab</kbd> to move to the “Add new place” button and hit
+  <kbd>return</kbd> to open the “Add new place” popup.</p>
 
 <p>The first field lets you search for your place in the <a
     href="http://geonames.org" target="_blank">GeoNames <span class="glyphicon
