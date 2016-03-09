@@ -69,6 +69,7 @@
    {{> partials/manual_map}}
   {{/results_table}}
   <script>
+    var marker = L.marker([0, 0]).addTo(map);
     var w = new L.Control.w3w();
     $('.leaflet-container').css('cursor', 'crosshair');
     w.addTo(map);
@@ -83,8 +84,17 @@
         what3words.wordsToPosition(words, function(coords){
           $('#inputLat').val(coords[0]);
           $('#inputLon').val(coords[1]);
+          recenterMap(L.latLng(Number(coords[0]), Number(coords[1])));
         });
       }, 1000);
+    });
+
+    $('#inputLon').change(function(){
+      var lat = Number($('#inputLat').val());
+      var lon = Number($('#inputLon').val());
+      if(lat != 0){
+        recenterMap(L.latLng(lat, Number($('#inputLon').val())));
+      }
     });
   </script>
 </div>
