@@ -59,6 +59,14 @@ class App
         @instance.note
       end
 
+      def object_id_for_flag
+        @instance.id
+      end
+
+      def type
+        "instance"
+      end
+
     end
   end
 end
