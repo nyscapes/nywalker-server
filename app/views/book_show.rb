@@ -32,6 +32,10 @@ class App
         @book.cover
       end
 
+      def special_field
+        @book.special.field unless @book.special.nil?
+      end
+
       def cover_alt
         "#{title}, #{year}"
       end
@@ -50,7 +54,8 @@ class App
           instance_permitted: ( admin? || i.user == @user ),
           owner: i.user.name,
           flagged: i.flagged,
-          note: not_empty(i.note)
+          note: not_empty(i.note),
+          special: i.special
         } }
       end
 

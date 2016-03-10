@@ -20,6 +20,9 @@
         <th>Page</th>
         <th>Order</th>
         <th>Place</th>
+        {{#special_field}}
+        <th>{{special_field}}</th>
+        {{/special_field}}
         {{#book_permitted}}
           <th>&nbsp;</th>
         {{/book_permitted}}
@@ -62,6 +65,9 @@
           <td>
             <a href="/places/{{place_slug}}/">{{place_name}}</a>
           </td>
+          {{#special_field}}
+            <td>{{special}}</td>
+          {{/special_field}}
           {{#book_permitted}}
             <td>
               {{#instance_permitted}}
