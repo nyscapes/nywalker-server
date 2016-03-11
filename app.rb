@@ -19,8 +19,7 @@ require_relative "./model"
 
 class App < Sinatra::Base
  
-  use Rack::Session::Cookie #, key: "rack.session", 
-  # enable :sessions
+  use Rack::Session::Cookie # use this instead of "enable :sessions"
   if Sinatra::Base.development?
     set :session_secret, "supersecret"
   end
