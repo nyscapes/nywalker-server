@@ -96,6 +96,18 @@
         recenterMap(L.latLng(lat, Number($('#inputLon').val())));
       }
     });
+
+    $('#searchGoogleMapsButton').click(function() {
+      var url = "http://maps.google.com/maps/api/geocode/json?address={{search_term}}";
+      var results = $.getJSON(url);
+      setTimeout(function(){
+      var searchResult = results.responseJSON.results[0];
+      $('#inputName').val(searchResult.formatted_address);
+      $('#inputLat').val(searchResult.geometry.location.lat);
+      $('#inputLon').val(searchResult.geometry.location.lng);
+      recenterMap([searchResult.geometry.location.lat, searchResult.geometry.location.lng]);
+      }, 1000);
+    });
   </script>
 </div>
 
