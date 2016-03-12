@@ -105,6 +105,7 @@
       $('#inputName').val(searchResult.formatted_address);
       $('#inputLat').val(searchResult.geometry.location.lat);
       $('#inputLon').val(searchResult.geometry.location.lng);
+      $('#inputSource').val("Google Maps");
       recenterMap([searchResult.geometry.location.lat, searchResult.geometry.location.lng]);
       }, 1000);
     });
