@@ -8,7 +8,7 @@
           <tr>
             <td>
               <button class="button btn-primary btn-xs"
-                onclick="recenterMap(L.latLng({{lat}}, {{lon}}), map);">Map</button>
+                onclick="map.removeLayer(firstHitMarker);recenterMap(L.latLng({{lat}}, {{lon}}));">Map</button>
             </td>
             <td>
               {{name}} <small>({{lat}}, {{lon}})</small><br />
@@ -26,7 +26,7 @@
       var firstHit = L.latLng({{first_lat}}, {{first_lon}});
       var map = L.map('resultsMap').setView(firstHit, 12);
       var baseLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(map);
-      var marker = L.marker(firstHit).setOpacity(70).addTo(map);
+      var firstHitMarker = L.marker(firstHit).setOpacity(70).addTo(map);
 
       function fillInPlaceData(data){
         // `data` is a string that looks like "name##lat##lon##geonameid##bbox##source##confidence"
