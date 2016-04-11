@@ -26,8 +26,12 @@ class App
     if location.nil?
       dm_error_and_redirect(instance, request.path, "No such place found. Please add it below.")
     end
+    if instance.text.nil? || instance.text == ""
+      dm_error_and_redirect(instance, request.path, "The “Place name in text” was left blank.")
+    else
+      Nickname.first_or_create(name: instance.text, place: location)
+    end
     instance.place = location
-    Nickname.first_or_create(name: instance.text, place: location)
     Instance.all(book: book, page: instance.page, :sequence.gte => instance.sequence).each do |other_instance|
       other_instance.update(sequence: other_instance.sequence + 1)
     end
