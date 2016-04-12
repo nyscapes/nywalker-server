@@ -32,6 +32,7 @@ gem 'dm-postgis'
 # separately, however, to account for creating the geometries.
 gem 'georuby'
 gem 'dbf'
+gem 'rubyzip'
 
 # Dotenv lets us pass in ENV['VARIABLE']s. This is vital for initializing the
 # database, which relies on ENV['DATABASE_URL']

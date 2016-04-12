@@ -1,5 +1,6 @@
 require 'geo_ruby/shp'
 require 'dbf'
+require 'zip'
 
 class App
 
@@ -174,6 +175,52 @@ class App
         ]
       end
     end
+  end
+
+  get "/books/:book_slug/csv-zip" do
+    salt = Time.now.nsec
+    @page_title = "#{book.title} - CSV"
+    @instances = Instance.all(book: book, order: [:page.asc, :sequence.asc]) # place.instances doesn't work?
+    @specials = @instances.map{|i| i.special}.uniq
+    @specials.each do |special|
+      @places = @instances.all(special: special).places.all(:confidence.not => 0)
+      CSV.open("/tmp/#{special.parameterize}_#{salt}.csv", "wb") do |csv|
+        csv << ["PLACE_ID", "NAME", "INSTANCE_COUNT", "LATITUDE", "LONGITUDE", "SOURCE", "GEONAMEID", "CONFIDENCE", "NICKNAMES", "NOTE", "FLAGGED", "ADDED_ON", "ADDED_BY", "SLUG"]
+        @places.each do |place|
+          count = place.instances.select{ |i| i.book_id == book.id && i.special == special }.count
+          nicknames = place.nicknames.map{ |n| n.name }
+          csv << [ place.id,
+                   place.name,
+                   count,
+                   place.lat,
+                   place.lon,
+                   place.source,
+                   place.geonameid,
+                   place.confidence,
+                   nicknames.join(";"),
+                   place.note,
+                   place.flagged,
+                   place.added_on,
+                   place.user.name,
+                   place.slug
+          ]
+        end
+      end
+    end
+    folder = "/tmp"
+    files = @specials.map{|special| "#{special.parameterize}_#{salt}.csv"}
+    zipfile = "/tmp/#{book.slug}_special_#{salt}.zip"
+    Zip::File.open(zipfile, Zip::File::CREATE) do |zip|
+      files.each do |file|
+        zip.add(file, folder + '/' + file)
+      end
+      # zip.get_output_stream("myFile") { |os| os.write "myFile contains just this" }
+    end
+    send_file "/tmp/#{book.slug}_special_#{salt}.zip", 
+      type: 'application/zip',
+      disposition: 'attachment',
+      filename: "#{book.slug}_special_#{salt}.zip",
+      stream: false
   end
 
   # UPDATE
