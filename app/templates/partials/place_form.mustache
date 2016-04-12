@@ -102,9 +102,11 @@
     {{/form_source}}
 
     $('.a-number').focusout(function(){
-      if(!$.isNumeric(this.value)){
-        alert('Values for latitude and longitude must be numeric (n.nnnnn)');
-        $('#' + this.id).val("");
+      if(this.value != ""){
+        if(!$.isNumeric(this.value)){
+          alert('Values for latitude and longitude must be numeric (n.nnnnn)');
+          $('#' + this.id).val("");
+        }
       }
     });
 
