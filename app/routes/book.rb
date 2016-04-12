@@ -1,3 +1,6 @@
+require 'geo_ruby/shp'
+require 'dbf'
+
 class App
 
   # ALL
@@ -74,6 +77,101 @@ class App
                 instance.flagged,
                 instance.added_on,
                 instance.user.name]
+      end
+    end
+  end
+
+  # get "/books/:book_slug/shp" do
+  #   @page_title = "#{book.title} - Shapefile"
+  #   @instances = Instance.all(book: book, order: [:page.asc, :sequence.asc]) # place.instances doesn't work?
+  #   @places = @instances.places.all(:confidence.not => 0)
+  #   # content_type :json
+  #   # attachment "#{book.slug}_places.geo.json"
+  #   shpfile = GeoRuby::Shp4r::ShpFile.create('places.shp', GeoRuby::Shp4r::ShpType::POINT, [
+  #     DBF::Field.new("ID", "N", 10, 0),
+  #     DBF::Field.new("NAME", "C", 100),
+  #     DBF::Field.new("INSCOUNT", "N", 10, 0),
+  #     DBF::Field.new("SPECIAL", "C", 100),
+  #     DBF::Field.new("CONFDNCE", "N", 1, 0),
+  #     DBF::Field.new("SLUG", "C", 100)
+  #   ])
+  #   # shpfile = ShpFile.open('places.shp')
+  #   @places.each do |place|
+  #     count = place.instances.select{ |i| i.book_id == book.id }.count
+  #     shpfile.transaction do |tr|
+  #       tr.add(GeoRuby::Shp4r::ShpRecord.new(place.geom,
+  #                            "ID" => place.id,
+  #                            "NAME" => place.name,
+  #                            "INSCOUNT" => count,
+  #                            "SPECIAL" => place.special,
+  #                            "CONFDNCE" => place.confidence,
+  #                            "SLUG" => place.slug
+  #                           ))
+  #     end
+  #   end
+  #   shpfile.close
+  # end
+
+  get "/books/:book_slug/geojson" do
+    @page_title = "#{book.title} - GeoJSON"
+    @instances = Instance.all(book: book, order: [:page.asc, :sequence.asc]) # place.instances doesn't work?
+    @places = @instances.places.all(:confidence.not => 0)
+    content_type :json
+    attachment "#{book.slug}_places.geo.json"
+    geojson = { type: "FeatureCollection" }
+    geojson[:features] = @places.map do |place|
+      count = place.instances.select{ |i| i.book_id == book.id }.count
+      nicknames = place.nicknames.map{ |n| n.name }
+      { type: "Feature",
+        geometry: {
+          type: "Point",
+          coordinates: [place.lon, place.lat]
+        },
+        properties: {
+          id: place.id,
+          name: place.name,
+          instance_count: count,
+          note: place.note,
+          flagged: place.flagged,
+          source: place.source,
+          geonameid: place.geonameid,
+          confidence: place.confidence,
+          nicknames: nicknames.join(";"),
+          added_on: place.added_on,
+          added_by: place.user.name,
+          slug: place.slug
+        }
+      }
+    end
+    geojson.to_json
+  end
+
+  get "/books/:book_slug/places-csv" do
+    @page_title = "#{book.title} - CSV"
+    @instances = Instance.all(book: book, order: [:page.asc, :sequence.asc]) # place.instances doesn't work?
+    @places = @instances.places.all(:confidence.not => 0)
+    content_type 'application/csv'
+    attachment "#{book.slug}_places.csv"
+    csv_string = CSV.generate do |csv|
+      csv << ["PLACE_ID", "NAME", "INSTANCE_COUNT", "LATITUDE", "LONGITUDE", "SOURCE", "GEONAMEID", "CONFIDENCE", "NICKNAMES", "NOTE", "FLAGGED", "ADDED_ON", "ADDED_BY", "SLUG"]
+      @places.each do |place|
+        count = place.instances.select{ |i| i.book_id == book.id }.count
+        nicknames = place.nicknames.map{ |n| n.name }
+        csv << [ place.id,
+                 place.name,
+                 count,
+                 place.lat,
+                 place.lon,
+                 place.source,
+                 place.geonameid,
+                 place.confidence,
+                 nicknames.join(";"),
+                 place.note,
+                 place.flagged,
+                 place.added_on,
+                 place.user.name,
+                 place.slug
+        ]
       end
     end
   end

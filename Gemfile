@@ -31,6 +31,7 @@ gem 'dm-postgis'
 # Georuby is the backend of the PostGISGeometry type. It needs to be loaded
 # separately, however, to account for creating the geometries.
 gem 'georuby'
+gem 'dbf'
 
 # Dotenv lets us pass in ENV['VARIABLE']s. This is vital for initializing the
 # database, which relies on ENV['DATABASE_URL']

@@ -6,7 +6,13 @@
     </div>
     <h1><em>{{title}}</em> {{{external_link}}}</h1>
     <h3>{{author}}, {{year}} <small>(isbn: {{isbn}})</small></h3>
-    <a href="/books/{{slug}}/csv" class="btn btn-primary btn-default" role="button">Download instances as .csv</a>
+    <h4>Download instances <a href="/books/{{slug}}/csv" class="btn btn-default" role="button">as .csv</a></h4>
+    <h4>Download places 
+      <span class="btn-group" role="group">
+        <a href="/books/{{slug}}/geojson" class="btn btn-default" role="button">as GeoJSON</a>
+        <a href="/books/{{slug}}/places-csv" class="btn btn-default" role="button">as .csv</a>
+      </span>
+    </h4>
     <br />
     <br />
     {{#book_permitted}}
