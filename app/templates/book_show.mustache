@@ -6,6 +6,9 @@
     </div>
     <h1><em>{{title}}</em> {{{external_link}}}</h1>
     <h3>{{author}}, {{year}} <small>(isbn: {{isbn}})</small></h3>
+    <a href="/books/{{slug}}/csv" class="btn btn-primary btn-default" role="button">Download instances as .csv</a>
+    <br />
+    <br />
     {{#book_permitted}}
     <a href="/books/{{slug}}/instances/new" class="btn btn-primary btn-default" role="button">Add instance</a>
     {{/book_permitted}}

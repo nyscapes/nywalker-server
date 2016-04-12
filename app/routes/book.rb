@@ -56,6 +56,28 @@ class App
     mustache :book_show
   end
 
+  get "/books/:book_slug/csv" do
+    @page_title = "#{book.title} - CSV"
+    @instances = Instance.all(book: book, order: [:page.asc, :sequence.asc]) # place.instances doesn't work?
+    content_type 'application/csv'
+    attachment "#{book.slug}_instances.csv"
+    csv_string = CSV.generate do |csv|
+      csv << ["INSTANCE_ID", "PAGE", "SEQUENCE", "PLACE_NAME_IN_TEXT", "PLACE", "PLACE_ID", "LATITUDE", "LONGITUDE", "SPECIAL", "NOTE", "FLAGGED", "ADDED_ON", "ADDED_BY"]
+      @instances.each do |instance|
+        csv << [instance.id, instance.page, instance.sequence, instance.text, 
+                instance.place.name,
+                instance.place.id,
+                instance.place.lat,
+                instance.place.lon,
+                instance.special,
+                instance.note,
+                instance.flagged,
+                instance.added_on,
+                instance.user.name]
+      end
+    end
+  end
+
   # UPDATE
   
   # DESTROY
