@@ -71,39 +71,33 @@ novels.  See, for example, the work <a href="http://mattwilkens.com"
 
 <h2>Citing <code>NYWalker</code></h2>
 
-<p>This project depends on the labor put into it by students, staff, and faculty. For citing the project as a whole, please use:</p>
+<p>This project depends on the labor put into it by students, staff, and faculty. Please use the following rubrics when citing the project.</p>
 
+<h3>For the project as a whole:</h3>
+<h4>Chicago style:</h4>
 <ul>
-  <li>Chicago style:
-    <ul>
-      <li>{{all_authors}}. <em>NYWalker</em>. http://nywalker.newyorkscapes.org/ (accessed {{today}}).</li>
-    </ul>
-  </li>
-  <li>MLA style:
-    <ul>
-      <li>{{all_authors}}. <em>NYWalker</em>. NewYorkScapes. Web. {{today}}.</li>
-    </ul>
-  </li>
+  <li>{{all_authors}}. <em>NYWalker</em>. http://nywalker.newyorkscapes.org/ (accessed {{today}}).</li>
+</ul>
+<h4>MLA style:</h4>
+<ul>
+  <li>{{all_authors}}. <em>NYWalker</em>. NewYorkScapes. Web. {{today}}.</li>
 </ul>
 
-<p>If you are using our datasets, please cite each accordingly:
-
+<h3>For each single dataset:</h3>
+<h4>Chicago style:</h4>
+{{#cite_books}}
+<h5>For <em>{{book_title}}</em>:</h5>
 <ul>
-  <li>Chicago style:
-    <ul>
-      {{#cite_books}}
-        <li>{{authors}}. “NYWalker Dataset for <em>{{book_title}}</em> by {{book_author}}.” <em>NYWalker</em>. http://nywalker.newyorkscapes.org/books/{{book_slug}}/ (accessed {{today}}).</li>
-      {{/cite_books}}
-    </ul>
-  </li>
-  <li>MLA style:
-    <ul>
-      {{#cite_books}}
-        <li>{{authors}}. “NYWalker Dataset for <em>{{book_title}}</em> by {{book_author}}.” <em>NYWalker</em>. NewYorkScapes. Web. {{today}}. http://nywalker.newyorkscapes.org/books/{{book_slug}}/.</li>
-      {{/cite_books}}
-    </ul>
-  </li>
+  <li>{{authors}}. “NYWalker Dataset for <em>{{book_title}}</em> by {{book_author}}.” <em>NYWalker</em>. http://nywalker.newyorkscapes.org/books/{{book_slug}}/ (accessed {{today}}).</li>
 </ul>
+{{/cite_books}}
+<h4>MLA style:</h4>
+{{#cite_books}}
+<h5>For <em>{{book_title}}</em>:</h5>
+<ul>
+  <li>{{authors}}. “NYWalker Dataset for <em>{{book_title}}</em> by {{book_author}}.” <em>NYWalker</em>. NewYorkScapes. Web. {{today}}. http://nywalker.newyorkscapes.org/books/{{book_slug}}/.</li>
+</ul>
+{{/cite_books}}
 
 <h2>More?</h2>
 
