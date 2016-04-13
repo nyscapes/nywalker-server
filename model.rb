@@ -151,6 +151,8 @@ class User
   property :admin, Boolean, default: false
   property :added_on, Date
   property :modified_on, Date
+  property :firstname, String
+  property :lastname, String
 
   has n, :instances
   has n, :books, through: Resource
