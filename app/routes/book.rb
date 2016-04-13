@@ -8,7 +8,7 @@ class App
 
   get "/books" do
     @page_title = "All Books"
-    @books = Book.all
+    @books = Book.all(order: [:title.asc])
     mustache :books_show
   end
   
