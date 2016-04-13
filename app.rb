@@ -131,6 +131,7 @@ class App < Sinatra::Base
 
   get "/about" do
     @page_title = "About"
+    @books = Instance.all.book.uniq
     mustache :about
   end
   
