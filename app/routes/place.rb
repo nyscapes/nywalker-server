@@ -91,6 +91,25 @@ class App
  
   # DESTROY
 
+  post "/places/:place_slug/delete" do
+    protected_page
+    if place.instances.length > 0
+      "<script>alert('Cannot delete #{place.name}, as it has instances');</script>"
+    else
+      puts "Deleting Place #{place.id}"
+      place.nicknames.each{ |n| n.destroy! }
+      if place.destroy!
+        puts "Deleted #{place.name}"
+        flash[:success] = "Deleted place #{place.name}"
+        redirect "/places/"
+      else
+        puts "Failed to delete #{place.name}"
+        flash[:error] = "Unable to delete place #{place.name}"
+        redirect back
+      end
+    end
+  end
+
   # METHODS
   
   def make_point_geometry(lat, lon)

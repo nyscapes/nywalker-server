@@ -22,12 +22,19 @@
     {{#logged_in}}
       {{#place_permitted}}
         <div class="btn-group" role="group">
+          <form action="/places/{{slug}}/delete" method="POST">
           <button type="button" class="btn btn-warning btn-default" data-toggle="modal" data-target="#editPlaceModal">Edit</button>
       {{/place_permitted}}
       {{^place_permitted}}
         <div class="form-group">
       {{/place_permitted}}
           {{{ flag_modal_button }}}
+      {{#place_permitted}}
+          <button role="button" type="submit" class="btn btn-danger btn-small">
+            Delete
+          </button>
+        </form>
+      {{/place_permitted}}
       </div>
     {{/logged_in}}
 
