@@ -60,7 +60,7 @@ class App
     protected_page
     instance.attributes = { page: params[:page], sequence: params[:sequence], text: params[:place_name_in_text], modified_on: Time.now, user: @user, book: book, note: params[:note], special: params[:special] }
     if params[:place].match(/{.*}$/) # We've likely modified the place.
-      instance.place = params[:place].match(/{.*}$/)[0].gsub(/{/, "").gsub(/}/, "")
+      instance.place = Place.first name: params[:place].match(/{.*}$/)[0].gsub(/{/, "").gsub(/}/, "")
     end
     Nickname.first_or_create(name: instance.text, place: instance.place)
     save_object(instance, "/books/#{book.slug}") 
