@@ -34,6 +34,13 @@
             Delete
           </button>
         </form>
+        {{#flagged}}
+          <form action="/places/{{slug}}/unflag" method="POST">
+            <button role="button" type="submit" class="btn btn-danger btn-small">
+              Unflag
+            </button>
+          </form>
+        {{/flagged}}
       {{/place_permitted}}
       </div>
     {{/logged_in}}

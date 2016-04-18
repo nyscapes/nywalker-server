@@ -94,6 +94,18 @@ class App
       mustache :place_edit, { layout: :naked }
     end
   end
+
+  post "/places/:place_slug/unflag" do
+    protected_page
+    @page_title = "Unflagging #{place.name}"
+    if place.update(flagged: false)
+      flash[:success] = "#{place.name} has been untagged"
+      redirect back
+    else
+      flash[:error] = "Something went wrong."
+      mustache :place_edit, { layout: :naked }
+    end
+  end
  
   # DESTROY
 
