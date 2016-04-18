@@ -4,44 +4,8 @@ class App
     class InstancesShow < Layout
       include ViewHelpers
 
-      def external_link
-        external_link_glyph(@book.url)
-      end
-
-      def id
-        @book.id
-      end
-
-      def author
-        @book.author
-      end
-
-      def title
-        @book.title
-      end
-
-      def year
-        @book.year
-      end
-
-      def isbn
-        @book.isbn
-      end
-
-      def cover
-        @book.cover
-      end
-
       def special_field
         "Special"
-      end
-
-      def cover_alt
-        "#{title}, #{year}"
-      end
-
-      def link
-        @book.url
       end
 
       def instances
