@@ -124,6 +124,8 @@ class App < Sinatra::Base
     end
     if Flag.create( comment: params[:flag_comment], object_type: object.class.to_s.downcase, object_id: object.id, added_on: Time.now, user: @user )
       flash_string += ", and the comment has been saved."
+      body = flagged_msg_body_text(object, params[:flag_comment])
+      mail("moacir@moacir.com", "[NYWalker] Something got tagged", body)
     end
     flash[:success] = flash_string if flash_string
     redirect back
@@ -239,6 +241,32 @@ class App < Sinatra::Base
     else
       status 404
     end
+  end
+
+  def flagged_msg_body_text(object, comment)
+    type = object.class.to_s.downcase
+    if type == "place"
+      url = "/places/#{object.slug}"
+    elsif type == "instance"
+      url = "/books/#{object.book.slug}/instances/#{object.id}"
+    else
+      url = "No clear URL"
+    end
+    <<-EOF
+    Admin,
+
+    A #{type} was marked as flagged by #{@user.name}:
+
+    http://nywalker.newyorkscapes.org#{url}
+
+    with this comment:
+
+    #{comment}
+
+    Thanks,
+
+    --A Robot
+    EOF
   end
 
   # To get user authentication to work.

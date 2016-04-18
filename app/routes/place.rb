@@ -8,6 +8,12 @@ class App
     mustache :places_show
   end
 
+  get "/places/flagged" do
+    @page_title = "All flagged places"
+    @places = Place.all(flagged: true)
+    mustache :places_show
+  end
+
   # CREATE
 
   get "/places/new" do
