@@ -4,7 +4,7 @@ class App
 
   get "/places" do
     @page_title = "All places"
-    @places = Place.all
+    @places = Place.all.sort_by{ |place| place.instances.count }.reverse
     mustache :places_show
   end
 
