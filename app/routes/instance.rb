@@ -2,6 +2,13 @@ class App
 
   # ALL
 
+  get "/instances/flagged" do
+    # permitted_page("all")
+    @page_title = "All Flagged Instances"
+    @instances = Instance.all(flagged: true)
+    mustache :instances_show
+  end
+
   # CREATE
 
   get "/books/:book_slug/instances/new" do
