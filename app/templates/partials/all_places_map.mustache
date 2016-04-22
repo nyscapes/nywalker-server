@@ -7,6 +7,6 @@
         {{#places}}
         dots.addLayer(L.circleMarker([{{lat}}, {{lon}}]).bindPopup("<h4><a href='/places/{{slug}}'>{{name}}</a></h4><small>Mentions: {{count}}</small>"));
         {{/places}}
-        map.addLayer(dots);
+        dots.addTo(map);
         map.fitBounds(dots.getBounds());
       </script>
