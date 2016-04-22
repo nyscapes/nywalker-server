@@ -15,7 +15,7 @@ class App
     permitted_page(book)
     @page_title = "New Instance for #{book.title}"
     @last_instance = Instance.last(user: @user, book: book) || Instance.last(book: book)
-    @nicknames = Nickname.map{|n| "#{n.name} - {#{n.place.name}}"}
+    @nicknames = Nickname.map{|n| "#{n.name} -- {#{n.place.name}}"}
     mustache :instance_new
   end
 
@@ -52,7 +52,7 @@ class App
   get "/books/:book_slug/instances/:instance_id/edit" do
     permitted_page(instance)
     @page_title = "Editing Instance #{instance.id} for #{book.title}"
-    @nicknames = Nickname.map{|n| "#{n.name} - {#{n.place.name}}"}
+    @nicknames = Nickname.map{|n| "#{n.name} -- {#{n.place.name}}"}
     mustache :instance_edit
   end
 
