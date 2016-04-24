@@ -125,7 +125,7 @@ class App < Sinatra::Base
     if Flag.create( comment: params[:flag_comment], object_type: object.class.to_s.downcase, object_id: object.id, added_on: Time.now, user: @user )
       flash_string += ", and the comment has been saved."
       body = flagged_msg_body_text(object, params[:flag_comment])
-      mail(ENV['ADMIN_EMAIL_ADDRESS'], "[NYWalker] Something got tagged", body)
+      mail("#{ENV['ADMIN_EMAIL_ADDRESS']}, #{@user.email}", "[NYWalker] Something got tagged", body)
     end
     flash[:success] = flash_string if flash_string
     redirect back
