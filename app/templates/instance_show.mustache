@@ -1,0 +1,90 @@
+<div class="row">
+  <div class="col-md-6">
+    <h1>Instance {{id}}<br />
+      <small>Added by {{owner}} on {{added_on}}</small>
+    </h1>
+    <ul>
+      <li>Page: {{page}}
+      <li>Sequence: {{sequence}}
+      <li>{{special_field}}: {{special}}
+    </ul>
+
+    {{#note}}
+      <div class="well well-sm">
+        <strong>Note:</strong> {{note}}
+      </div>
+    {{/note}}
+
+    <div class="btn-group" role="group" aria-label="...">
+      {{#previous_id}}
+        <a href="/books/{{book_slug}}/instances/{{previous_id}}" class="btn btn-default btn-small">Previous Instance</a>
+      {{/previous_id}}
+      {{^previous_id}}
+        <button type="button" class="btn btn-default btn-small" disabled>
+          No prev. instance
+        </button>
+      {{/previous_id}}
+      {{#next_id}}
+        <a href="/books/{{book_slug}}/instances/{{next_id}}" class="btn btn-default btn-small">Next Instance</a>
+      {{/next_id}}
+      {{^next_id}}
+        <button type="button" class="btn btn-default btn-small" disabled>
+          No next instance
+        </button>
+      {{/next_id}}
+    </div>
+    
+    {{#logged_in}}
+      {{#instance_permitted}}
+        <div class="btn-group" role="group">
+          <form action="/books/{{book_slug}}/instances/{{id}}/delete" method="POST">
+      {{/instance_permitted}}
+      {{^instance_permitted}}
+        <div class="form-group">
+      {{/instance_permitted}}
+          {{{ flag_modal_button }}}
+      {{#instance_permitted}}
+          <button role="button" type="submit" class="btn btn-danger btn-small">
+            Delete
+          </button>
+        </form>
+        {{#flagged}}
+        <form action="/books/{{book_slug}}/instance/{{id}}/unflag" method="POST">
+            <button role="button" type="submit" class="btn btn-danger btn-small">
+              Unflag
+            </button>
+          </form>
+        {{/flagged}}
+      {{/instance_permitted}}
+      </div>
+    {{/logged_in}}
+
+    {{#flagged}}
+      {{> partials/flag_table }}
+    {{/flagged}}
+
+    <h2>Place</h2>
+    <h3>{{text}}
+      <small>
+        <a href="/places/{{place_slug}}">
+          {{place_name}}
+        </a>
+      </small>
+    </h3>
+      
+  </div>
+  <div class="map col-md-6" id="map">
+  </div>
+  <script>
+    var center = L.latLng({{lat}}, {{lon}});
+    // Need to initialize at 0,0 so that the later call of fitBounds doesn't crash the map.
+    var map = L.map('map').setView([0,0], 15);
+    var baseLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(map);
+    var marker = L.marker(center).addTo(map);
+    {{{bounding_box_polygon}}}
+    map.panTo(center);
+  </script>
+</div>
+{{#logged_in}}
+  {{> partials/flag_modal }}
+{{/logged_in}}

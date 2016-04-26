@@ -47,6 +47,15 @@ class App
 
   # READ
 
+  get "/books/:book_slug/instances/:instance_id" do
+    @page_title = "Instance #{instance.id} for #{book.title}"
+    @instances = Instance.all(book: book, order: [:page.asc, :sequence.asc])
+    index = @instances.index instance
+    @previous_instance = @instances[index - 1] unless index == 0
+    @next_instance = @instances[index + 1] unless index == @instances.count - 1
+    mustache :instance_show
+  end
+
   # UPDATE
 
   get "/books/:book_slug/instances/:instance_id/edit" do

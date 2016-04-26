@@ -51,6 +51,10 @@ class App
       admin? || @place.user == @user
     end
 
+    def instance_permitted
+      admin? || @instance.user == @user
+    end
+
     def user_name
       if @user
         @user.name

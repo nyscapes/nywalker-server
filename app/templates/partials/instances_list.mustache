@@ -5,6 +5,7 @@
     {{/book_permitted}}
     <th>&nbsp;</th>
     <th>&nbsp;</th>
+    <th>&nbsp;</th>
     <th>Page</th>
     <th>Order</th>
     <th>Place</th>
@@ -28,6 +29,9 @@
         {{/instance_permitted}}
         </td>
       {{/book_permitted}}
+      <td>
+        <a href="/books/{{slug}}/instances/{{instance_id}}" class="btn btn-small btn-info">View</a>
+      </td>
       <td>
         {{#flagged}}
           <span class="glyphicon glyphicon-flag" aria-hidden="true"></span>
