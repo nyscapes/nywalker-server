@@ -25,7 +25,7 @@ class App
   post "/places/add" do
     protected_page
     new_place = Place.new
-    new_place.attributes = { name: params[:name], lat: params[:lat], lon: params[:lon], source: params[:source], confidence: params[:confidence], user: @user, added_on: Time.now, what3word: params[:w3w], slug: params[:name], note: params[:note] }
+    new_place.attributes = { name: params[:name].gsub(/\s+$/, ""), lat: params[:lat], lon: params[:lon], source: params[:source].gsub(/\s+$/, ""), confidence: params[:confidence], user: @user, added_on: Time.now, what3word: params[:w3w], slug: params[:name].gsub(/\s+$/, ""), note: params[:note] }
     if new_place.source == "GeoNames"
       new_place.bounding_box_string = params[:bbox]
       new_place.geonameid = params[:geonameid]
@@ -86,7 +86,7 @@ class App
   post "/places/:place_slug/edit" do
     protected_page
     @page_title = "Editing #{place.name}"
-    if place.update( name: params[:name], lat: params[:lat], lon: params[:lon], confidence: params[:confidence], source: params[:source], geonameid: params[:geonameid], bounding_box_string: params[:bounding_box_string], what3word: "", note: params[:note], geom: make_point_geometry(params[:lat], params[:lon]) )
+    if place.update( name: params[:name].gsub(/\s+$/, ""), lat: params[:lat], lon: params[:lon], confidence: params[:confidence], source: params[:source].gsub(/\s+$/, ""), geonameid: params[:geonameid], bounding_box_string: params[:bounding_box_string], what3word: "", note: params[:note], geom: make_point_geometry(params[:lat], params[:lon]) )
       flash[:success] = "#{place.name} has been updated"
       '<script>$("#editPlaceModal").modal("hide");window.location.reload();</script>'
     else
