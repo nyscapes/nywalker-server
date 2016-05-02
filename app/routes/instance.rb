@@ -99,7 +99,7 @@ class App
 
   def special_field(params)
     if params[:special]
-      params[:special].gsub(/\s+$/, "")
+      params[:special].downcase.gsub(/\s+$/, "")
     else
       nil
     end
