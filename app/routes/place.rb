@@ -56,9 +56,8 @@ class App
 
   post "/search-place" do
     protected_page
-    geonames_username = "moacir" # This should be changed
     @search_term = params[:search] # needed for mustache.
-    query = "http://api.geonames.org/searchJSON?username=#{geonames_username}&style=full&q=#{@search_term}"
+    query = "http://api.geonames.org/searchJSON?username=#{ENV['GEONAMES_USERNAME']}&style=full&q=#{@search_term}"
     query << "&countryBias=US" if params[:us_bias] == "on"
     query << "&south=40.48&west=-74.27&north=40.9&east=-73.72" if params[:nyc_limit] == "on"
     results = JSON.parse(HTTParty.get(query).body)["geonames"]
