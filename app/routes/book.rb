@@ -90,6 +90,45 @@ class App
       stream: false
   end
 
+  get "/books/:book_slug/geojson-instances" do
+    @page_title = "#{book.title} - GeoJSON"
+    @instances = Instance.all(book: book, order: [:page.asc, :sequence.asc]) # place.instances doesn't work?
+    content_type :json
+    attachment "#{book.slug}_instances.geo.json"
+    geojson = { type: "FeatureCollection" }
+    geojson[:features] = @instances.map do |instance|
+      { type: "Feature",
+        geometry: {
+          type: "Point",
+          coordinates: [instance.place.lon, instance.place.lat]
+        },
+        properties: {
+          id: instance.id,
+          page: instance.page,
+          sequence: instance.sequence,
+          text: instance.text,
+          special: instance.special,
+          flagged: instance.flagged,
+          added_on: instance.added_on,
+          added_by: instance.user.name,
+          place_properties: {
+            id: instance.place.id,
+            name: instance.place.name,
+            note: instance.place.note,
+            flagged: instance.place.flagged,
+            source: instance.place.source,
+            geonameid: instance.place.geonameid,
+            confidence: instance.place.confidence,
+            added_on: instance.place.added_on,
+            added_by: instance.place.user.name,
+            slug: instance.place.slug
+          }
+        }
+      }
+    end
+    geojson.to_json
+  end
+
   # get "/books/:book_slug/shp" do
   #   @page_title = "#{book.title} - Shapefile"
   #   @instances = Instance.all(book: book, order: [:page.asc, :sequence.asc]) # place.instances doesn't work?
