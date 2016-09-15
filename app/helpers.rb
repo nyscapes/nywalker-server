@@ -112,8 +112,8 @@ class App
       @app_name
     end
 
-    def host_url
-      @host_url
+    def base_url
+      @base_url
     end
 
   end
