@@ -66,6 +66,7 @@ class App < Sinatra::Base
     @rendered_flash = rendered_flash(flash)
     @checker = SinatraHealthCheck::Checker.new
     @app_name = app_name
+    @host_url = host_url
   end
 
   helpers do
@@ -200,6 +201,10 @@ class App < Sinatra::Base
     else
       "NYWalker"
     end
+  end
+
+  def host_url
+    "#{request.env['rack.url_scheme']}://#{request.env['HTTP_HOST']}"
   end
 
   def mail(to, subject, body)

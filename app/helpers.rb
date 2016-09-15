@@ -112,5 +112,9 @@ class App
       @app_name
     end
 
+    def host_url
+      @host_url
+    end
+
   end
 end
