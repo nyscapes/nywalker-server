@@ -7,11 +7,18 @@
     <h1><em>{{title}}</em> {{{external_link}}}</h1>
     <h3>{{author}}, {{year}} <small>(isbn: {{isbn}})</small></h3>
     <h4>Download:</h4>
-    <h4>Instances as <a href="/books/{{slug}}/csv" class="btn btn-default" role="button">.csv</a></h4>
-    <h4>Places as
+    <h4>Instances as: <br /> 
+      <span class="btn-group" role="group">
+        <a href="/books/{{slug}}/csv" class="btn btn-default btn-small" role="button">.csv</a>
+        <a href="/books/{{slug}}/geojson-instances" class="btn btn-default btn-small" role="button">GeoJSON</a>
+        <a href="http://oneclick.cartodb.com/?file={{host_url}}/books/{{slug}}/geojson-instances" class="btn btn-default btn-small" role="button">Send to Carto</a>
+      </span>
+    </h4>
+    <h4>Places as: <br />
       <span class="btn-group" role="group">
         <a href="/books/{{slug}}/geojson" class="btn btn-default btn-small" role="button">GeoJSON</a>
         <a href="/books/{{slug}}/places-csv" class="btn btn-default btn-small" role="button">.csv</a>
+        <a href="http://oneclick.cartodb.com/?file={{host_url}}/books/{{slug}}/geojson" class="btn btn-default btn-small" role="button">Send to Carto</a>
         <a href="/books/{{slug}}/csv-zip" class="btn btn-default btn-small" role="button">.zip of special.csvs</a>
       </span>
     </h4>
