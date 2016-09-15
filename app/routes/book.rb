@@ -60,7 +60,7 @@ class App
     mustache :book_show
   end
 
-  get "/books/:book_slug/csv" do
+  get "/books/:book_slug/instances-csv" do
     @page_title = "#{book.title} - CSV"
     @instances = Instance.all(book: book, order: [:page.asc, :sequence.asc]) # place.instances doesn't work?
     salt = Time.now.nsec
@@ -90,7 +90,7 @@ class App
       stream: false
   end
 
-  get "/books/:book_slug/geojson-instances" do
+  get "/books/:book_slug/instances-geojson" do
     @page_title = "#{book.title} - GeoJSON"
     @instances = Instance.all(book: book, order: [:page.asc, :sequence.asc]) # place.instances doesn't work?
     content_type :json
@@ -160,7 +160,7 @@ class App
   #   shpfile.close
   # end
 
-  get "/books/:book_slug/geojson" do
+  get "/books/:book_slug/places-geojson" do
     @page_title = "#{book.title} - GeoJSON"
     @instances = Instance.all(book: book, order: [:page.asc, :sequence.asc]) # place.instances doesn't work?
     @places = @instances.places.all(:confidence.not => 0)
@@ -232,7 +232,7 @@ class App
       stream: false
   end
 
-  get "/books/:book_slug/csv-zip" do
+  get "/books/:book_slug/places-special-csv-zip" do
     salt = Time.now.nsec
     @page_title = "#{book.title} - CSV"
     @instances = Instance.all(book: book, order: [:page.asc, :sequence.asc]) # place.instances doesn't work?
