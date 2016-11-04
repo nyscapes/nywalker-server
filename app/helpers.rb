@@ -86,7 +86,7 @@ class App
           { lat: p.lat, lon: p.lon, 
             name: p.name, 
             count: count_instances(p),
-            place_names: count_place_names(p),
+            place_names: instances_by_place_names(p),
             slug: p.slug
           } 
         end
@@ -97,8 +97,13 @@ class App
       get_instances_per_place(place).count
     end
 
-    def count_place_names(place)
+    def instances_by_place_names(place)
       instances = get_instances_per_place(place)
+      # array like [["New York", 41], ["New York City", 6], ["NEW YORK FUCKIN’ CITY", 1]]
+      place_names = instances.map{|i| i.text}.uniq.map{|n| [n, instances.select{|i| i.text == n}.count]}
+      string = "<ul style='margin-left: 1em; padding: 0; margin-bottom: 0px;'>"
+      place_names.each{|name| string = string + "<li>#{name[0]}: #{name[1]}</li>"}
+      string = string + "</ul>"
     end
 
     def get_instances_per_place(place)
