@@ -86,6 +86,7 @@ class App
           { lat: p.lat, lon: p.lon, 
             name: p.name, 
             count: count_instances(p),
+            place_names: count_place_names(p),
             slug: p.slug
           } 
         end
@@ -93,10 +94,18 @@ class App
     end
 
     def count_instances(place)
+      get_instances_per_place(place).count
+    end
+
+    def count_place_names(place)
+      instances = get_instances_per_place(place)
+    end
+
+    def get_instances_per_place(place)
       if @book
-        place.instances.select{ |i| i.book_id == @book.id }.count
+        place.instances.select{ |i| i.book_id == @book.id }
       else
-        place.instances.count
+        place.instances
       end
     end
 
