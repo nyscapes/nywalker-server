@@ -87,7 +87,8 @@ class App
             name: p.name, 
             count: count_instances(p),
             place_names: instances_by_place_names(p),
-            slug: p.slug
+            slug: p.slug,
+            confidence: p.confidence
           } 
         end
       end

@@ -3,9 +3,15 @@
       <script>
         var map = L.map('map').setView([0,0], 1);
         var baseLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(map);
+        // This array changes the circleMarker's color scheme to match the confidence in the place. Darker & fainter for less confident.
+        var confidence_array = [{}, 
+          {'opacity': 0.25, 'fillColor': '#000099', 'color': '#000099'}, 
+          {'opacity': 0.4, 'fillColor': '#0000aa', 'color': '#0000aa'},
+          {'opacity': 0.7, 'fillColor': '#0000ee', 'color': '#0000ee'}
+        ];
         var dots = L.markerClusterGroup();
         {{#places}}
-        dots.addLayer(L.circleMarker([{{lat}}, {{lon}}]).bindPopup("<h4><a href='/places/{{slug}}'>{{name}}</a></h4><small><strong>Referred to as:</strong><br/>{{{place_names}}}<strong>Total mentions:</strong> {{count}}</small>").bindTooltip("{{name}}"));
+        dots.addLayer(L.circleMarker([{{lat}}, {{lon}}], confidence_array[{{confidence}}]).bindPopup("<h4><a href='/places/{{slug}}'>{{name}}</a></h4><small><strong>Referred to as:</strong><br/>{{{place_names}}}<strong>Total mentions:</strong> {{count}}<br/><strong>Confidence (0–3):</strong> {{confidence}}</small>").bindTooltip("{{name}}"));
         {{/places}}
         dots.addTo(map);
         map.fitBounds(dots.getBounds());
