@@ -97,7 +97,7 @@
       var results = $.getJSON(url);
       setTimeout(function(){
       var searchResult = results.responseJSON.results[0];
-      $('#inputName').val(searchResult.formatted_address);
+      $('#inputName').val(searchResult.formatted_address.substring(0,51));
       $('#inputLat').val(searchResult.geometry.location.lat);
       $('#inputLon').val(searchResult.geometry.location.lng);
       $('#inputSource').val("Google Maps");
