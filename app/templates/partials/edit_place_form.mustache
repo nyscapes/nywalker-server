@@ -14,6 +14,7 @@
       <label for="inputAddedOn">Added on</label>
       <p class="form-control-static" id="inputAddedOn">{{added_on}}</p>
     </div>
+    <div style="height: 150px;" id="editMap"></div>
     <div class="form-group">
       <label for="inputLat">Latitude (<em>y</em>)</label>
       <input type="text" class="form-control" name="lat" placeholder="" value="{{lat}}" id="inputLat">
@@ -89,5 +90,16 @@
           }, "text");
         return false;
       });
+    });
+
+    $('#editMap').css('cursor', 'crosshair');
+    var editMap = L.map('editMap').setView([{{lat}}, {{lon}}], 13);
+    var baseLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(editMap);
+    var marker = L.marker([{{lat}}, {{lon}}]).addTo(editMap);
+
+    editMap.on('click', function(ev) {
+      marker.setLatLng(ev.latlng);
+      $('#inputLat').val(ev.latlng.lat);
+      $('#inputLon').val(ev.latlng.lng);
     });
   </script>
