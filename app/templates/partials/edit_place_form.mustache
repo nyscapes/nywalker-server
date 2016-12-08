@@ -105,4 +105,11 @@
       $('#inputLat').val(ev.latlng.lat);
       $('#inputLon').val(ev.latlng.lng);
     });
+
+    $('#editPlaceModal').on('shown.bs.modal', function(){
+      setTimeout(function() {
+        editMap.invalidateSize();
+      }, 1);
+    });
+
   </script>
