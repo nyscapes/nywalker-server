@@ -93,7 +93,10 @@
     });
 
     $('#editMap').css('cursor', 'crosshair');
-    var editMap = L.map('editMap').setView([{{lat}}, {{lon}}], 13);
+    var editMap = L.map('editMap', {
+      center: [{{lat}}, {{lon}}], 
+      zoom: 14
+      });
     var baseLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(editMap);
     var marker = L.marker([{{lat}}, {{lon}}]).addTo(editMap);
 
