@@ -197,7 +197,7 @@ class App
   get "/books/:book_slug/places-csv" do
     @page_title = "#{book.title} - CSV"
     @instances = Instance.all(book: book, order: [:page.asc, :sequence.asc]) # place.instances doesn't work?
-    @places = @instances.places.all(:confidence.not => 0)
+    @places = @instances.places.all #(:confidence.not => 0) We do want all the places now.
     salt = Time.now.nsec
     File.open("/tmp/#{book.slug}_places_#{salt}.csv", "w+:UTF-16LE:UTF-8") do |f|
       csv_string = CSV.generate({col_sep: "\t"}) do |csv|
