@@ -17,6 +17,21 @@ class App
         } }
       end
 
+      def mappable_places
+        mappable_places = @places.select{ |p| p.confidence != "0" }
+        mappable_places.map do |p|
+          {
+            slug: p.slug,
+            lat: p.lat,
+            lon: p.lon,
+            name: p.name,
+            instances: p.instances.count,
+            place_names: instances_by_place_names(p),
+            confidence: p.confidence
+          }
+        end
+      end
+
       def confidence_class(place)
         case place.confidence
         when "2" then "bg-warning"
