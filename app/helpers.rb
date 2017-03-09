@@ -105,6 +105,7 @@ class App
       string = "<ul style='margin-left: 1em; padding: 0; margin-bottom: 0px;'>"
       place_names.each{|name| string = string + "<li>#{name[0]}: #{name[1]}</li>"}
       string = string + "</ul>"
+      string.gsub(/"/, "")
     end
 
     def get_instances_per_place(place)
