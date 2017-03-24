@@ -8,6 +8,12 @@ class App
     mustache :places_show
   end
 
+  get "/places/by-name" do
+    @page_title = "All places"
+    @places = Place.all.sort_by{ |place| place.name }
+    mustache :places_show
+  end
+  
   get "/places/flagged" do
     @page_title = "All flagged places"
     @places = Place.all(flagged: true)
