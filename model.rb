@@ -75,6 +75,22 @@ class Place
   validates_presence_of :name
   validates_uniqueness_of :slug
 
+  def demolish!
+    self.nicknames.each{ |n| n.destroy! }
+    self.destroy!
+  end
+
+  def merge(oldslug)
+    oldplace = Place.first slug: oldslug
+    if oldplace.nil?
+      puts "Could not find '#{oldslug}'"
+    else
+      Instance.all(place: oldplace).each do |instance|
+        instance.update(place: self)
+      end
+      oldplace.demolish!
+    end
+  end
 end
 
 class Flag
