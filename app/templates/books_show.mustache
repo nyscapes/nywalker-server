@@ -2,6 +2,9 @@
 <p class="lead">This is the current list of books that have been added to the database.</p>
 <div class="row">
   <div class="col-sm-9">
+    {{#admin?}}
+      <a href="/books/new" class="btn btn-primary btn-default" role="button">Add Book</a>
+    {{/admin?}}
     <table class="table table-hover">
       <thead>
         <tr>
