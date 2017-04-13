@@ -2,6 +2,9 @@
 <p class="lead">All the places that we have added to the database.</p>
 <div class="row">
   <div class="col-sm-6">
+    {{#logged_in}}
+      <a href="/places/new" class="btn btn-primary btn-default" role="button">Add Place</a>
+    {{/logged_in}}
     <table class="table table-hover">
       <thead>
         <tr>
