@@ -114,7 +114,7 @@ class Nickname
 
   property :id, Serial
   property :name, String
-  property :instance_count, Integer
+  property :instance_count, Integer, default: 0
 
   belongs_to :place
 
