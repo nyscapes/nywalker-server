@@ -114,10 +114,15 @@ class Nickname
 
   property :id, Serial
   property :name, String
+  property :instance_count, Integer
 
   belongs_to :place
 
   validates_presence_of :name
+
+  def instance_count_query
+    Instance.all(place: self.place, text: self.name).count
+  end
 end
 
 class Special

@@ -15,7 +15,7 @@ class App
     permitted_page(book)
     @page_title = "New Instance for #{book.title}"
     @last_instance = Instance.last(user: @user, book: book) || Instance.last(book: book)
-    @nicknames = Nickname.map{|n| "#{n.name} -- {#{n.place.name}}"}
+    @nicknames = Nickname.all(order: [ :instance_count.desc ]).map{ |n| "#{n.name} -- {#{n.place.name}}" }
     mustache :instance_new
   end
 
@@ -37,7 +37,12 @@ class App
     if instance.text.nil? || instance.text == ""
       dm_error_and_redirect(instance, request.path, "The “Place name in text” was left blank.")
     else
-      Nickname.first_or_create(name: instance.text, place: location)
+      nickname = Nickname.first(name: instance.text, place: location)
+      if nickname.nil?
+        Nickname.create(name: instance.text, place: location, instance_count: 1)
+      else
+        nickname.update(instance_count: nickname.instance_count + 1)
+      end
     end
     instance.place = location
     Instance.all(book: book, page: instance.page, :sequence.gte => instance.sequence).each do |other_instance|
