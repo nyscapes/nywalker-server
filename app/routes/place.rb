@@ -45,7 +45,7 @@ class App
     end
     begin
       new_place.save
-      Nickname.create(name: new_place.name, place: new_place, instance_count: 1)
+      Nickname.create(name: new_place.name, place: new_place, instance_count: 0)
       if params[:form_source] == "modal"
         @place = new_place
         mustache :modal_place_saved, { layout: :naked }
