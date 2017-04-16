@@ -159,6 +159,11 @@ class Book
   validates_presence_of :title
   validates_uniqueness_of :slug
 
+  def total_pages
+    instances = Instance.all(book: self).map{ |i| i.page }.sort
+    instances.last - instances.first
+  end
+
 end
 
 class User

@@ -168,7 +168,8 @@ class App
     attachment "#{book.slug}_places.geo.json"
     geojson = { type: "FeatureCollection" }
     geojson[:features] = @places.map do |place|
-      count = place.instances.select{ |i| i.book_id == book.id }.count
+      is_by_place = instances_by_place(place)
+      #count = place.instances.select{ |i| i.book_id == book.id }.count
       nicknames = place.nicknames.map{ |n| n.name }
       { type: "Feature",
         geometry: {
@@ -178,7 +179,11 @@ class App
         properties: {
           id: place.id,
           name: place.name,
-          instance_count: count,
+          instance_count: is_by_place.count,
+          average_instance_page: is_by_place.map{ |i| i.page }.mean,
+          instance_stdev: is_by_place.map{ |i| i.page }.standard_deviation,
+          average_instance_page_pct: is_by_place.map{ |i| i.page }.mean/book.total_pages,
+          instance_stdev_pct: is_by_place.map{ |i| i.page }.standard_deviation/book.total_pages,
           note: place.note,
           flagged: place.flagged,
           source: place.source,
@@ -201,13 +206,17 @@ class App
     salt = Time.now.nsec
     File.open("/tmp/#{book.slug}_places_#{salt}.csv", "w+:UTF-16LE:UTF-8") do |f|
       csv_string = CSV.generate({col_sep: "\t"}) do |csv|
-        csv << ["PLACE_ID", "NAME", "INSTANCE_COUNT", "LATITUDE", "LONGITUDE", "SOURCE", "GEONAMEID", "CONFIDENCE", "NICKNAMES", "NOTE", "FLAGGED", "ADDED_ON", "ADDED_BY", "SLUG"]
+        csv << ["PLACE_ID", "NAME", "INSTANCE_COUNT", "AVG_INSTANCE_PG", "INSTANCE_STDEV", "AVG_INSTANCE_PG_PCT", "INSTANCE_STDEV_PCT", "LATITUDE", "LONGITUDE", "SOURCE", "GEONAMEID", "CONFIDENCE", "NICKNAMES", "NOTE", "FLAGGED", "ADDED_ON", "ADDED_BY", "SLUG"]
         @places.each do |place|
-          count = place.instances.select{ |i| i.book_id == book.id }.count
+          is_by_place = instances_by_place(place)
           nicknames = place.nicknames.map{ |n| n.name }
           csv << [ place.id,
                    place.name,
-                   count,
+                   is_by_place.count,
+                   is_by_place.map{ |i| i.page }.mean,
+                   is_by_place.map{ |i| i.page }.standard_deviation,
+                   is_by_place.map{ |i| i.page }.mean/book.total_pages,
+                   is_by_place.map{ |i| i.page }.standard_deviation/book.total_pages,
                    place.lat,
                    place.lon,
                    place.source,
@@ -241,13 +250,17 @@ class App
       @places = @instances.all(special: special).places.all(:confidence.not => 0)
       File.open("/tmp/#{special.parameterize}_#{salt}.csv", "w+:UTF-16LE:UTF-8") do |f|
         csv_string = CSV.generate({col_sep: "\t"}) do |csv|
-          csv << ["PLACE_ID", "NAME", "INSTANCE_COUNT", "LATITUDE", "LONGITUDE", "SOURCE", "GEONAMEID", "CONFIDENCE", "NICKNAMES", "NOTE", "FLAGGED", "ADDED_ON", "ADDED_BY", "SLUG"]
+          csv << ["PLACE_ID", "NAME", "INSTANCE_COUNT", "AVG_INSTANCE_PG", "INSTANCE_STDEV", "AVG_INSTANCE_PG_PCT", "INSTANCE_STDEV_PCT", "LATITUDE", "LONGITUDE", "SOURCE", "GEONAMEID", "CONFIDENCE", "NICKNAMES", "NOTE", "FLAGGED", "ADDED_ON", "ADDED_BY", "SLUG"]
           @places.each do |place|
-            count = place.instances.select{ |i| i.book_id == book.id && i.special == special }.count
+            is_by_place = instances_by_place(place)
             nicknames = place.nicknames.map{ |n| n.name }
             csv << [ place.id,
                      place.name,
-                     count,
+                     is_by_place.count,
+                     is_by_place.map{ |i| i.page }.mean,
+                     is_by_place.map{ |i| i.page }.standard_deviation,
+                     is_by_place.map{ |i| i.page }.mean/book.total_pages,
+                     is_by_place.map{ |i| i.page }.standard_deviation/book.total_pages,
                      place.lat,
                      place.lon,
                      place.source,
@@ -285,5 +298,13 @@ class App
   # UPDATE
   
   # DESTROY
+
+  private
+
+  def instances_by_place(place)
+    @instances.all(place: place)
+  end
+
+  
 
 end
