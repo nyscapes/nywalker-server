@@ -161,7 +161,7 @@ class Book
 
   def total_pages
     instances = Instance.all(book: self).map{ |i| i.page }.sort
-    instances.last - instances.first
+    instances.length == 0 ? 0 : instances.last - instances.first
   end
 
 end

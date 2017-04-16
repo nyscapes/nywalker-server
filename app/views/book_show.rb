@@ -59,6 +59,14 @@ class App
         } }
       end
 
+      def instance_count
+        @instances.count
+      end
+
+      def instances_per_page
+        @book.total_pages == 0 ? 0 : @instances.count/@book.total_pages
+      end
+
     end
   end
 end
