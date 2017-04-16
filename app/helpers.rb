@@ -87,6 +87,7 @@ class App
             name: p.name, 
             count: count_instances(p),
             place_names: instances_by_place_names(p),
+            place_names_sentence: p.nicknames.map{ |n| n.name }.to_sentence,
             slug: p.slug,
             confidence: p.confidence
           } 

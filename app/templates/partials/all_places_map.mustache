@@ -11,7 +11,7 @@
         ];
         var dots = L.markerClusterGroup();
         {{#places}}
-        dots.addLayer(L.circleMarker([{{lat}}, {{lon}}], confidence_array[{{confidence}}]).bindPopup("<h4><a href='/places/{{slug}}'>{{name}}</a></h4><small><strong>Referred to as:</strong><br/>{{{place_names}}}<strong>Total mentions:</strong> {{count}}<br/><strong>Confidence (0–3):</strong> {{confidence}}</small>").bindTooltip("{{name}}"));
+        dots.addLayer(L.circleMarker([{{lat}}, {{lon}}], confidence_array[{{confidence}}]).bindPopup("<h4><a href='/places/{{slug}}'>{{name}}</a></h4><small><strong>Referred to as:</strong><br/>{{{place_names}}}<strong>Total mentions:</strong> {{count}}<br/><strong>Confidence (0–3):</strong> {{confidence}}</small>").bindTooltip("{{place_names_sentence}}"));
         {{/places}}
         dots.addTo(map);
         map.fitBounds(dots.getBounds());
