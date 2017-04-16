@@ -60,11 +60,11 @@ class App
       end
 
       def instance_count
-        @instances.count
+        @instances.length
       end
 
       def instances_per_page
-        @book.total_pages == 0 ? 0 : @instances.count/@book.total_pages
+        get_instances_per_page(@book)
       end
 
     end

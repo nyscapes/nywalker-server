@@ -13,6 +13,8 @@ class App
             year: b.year, 
             users: user_sentence(b.users), 
             instances: b.instances.length,
+            pages: b.total_pages,
+            instances_per_page: get_instances_per_page(b),
             permitted: ( admin? || b.users.include?(@user) )
         } }
       end

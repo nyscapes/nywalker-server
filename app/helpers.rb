@@ -87,12 +87,24 @@ class App
             name: p.name, 
             count: count_instances(p),
             place_names: instances_by_place_names(p),
-            place_names_sentence: p.nicknames.map{ |n| n.name }.to_sentence,
+            place_names_sentence: place_names_sentence(p),
             slug: p.slug,
             confidence: p.confidence
           } 
         end
       end
+    end
+
+    def place_names_sentence(p)
+      if @book
+        @instances.select{ |i| i.place == p }.map{ |i| i.text }.uniq.to_sentence
+      else
+        p.nicknames.select{ |n| n.instance_count > 0 }.map{ |n| n.name }.to_sentence
+      end
+    end
+
+    def get_instances_per_page(book)
+      book.total_pages == 0 ? 0 : (book.instances.length.to_f / book.total_pages.to_f).round(2)
     end
 
     def count_instances(place)
