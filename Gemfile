@@ -70,6 +70,9 @@ gem 'googlebooks'
 # Pony handles the email.
 gem 'pony'
 
+# Give us some basic statistical information on the fly.
+gem 'descriptive_statistics'
+
 ### TESTING
 #
 # For another day...
