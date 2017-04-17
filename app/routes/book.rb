@@ -170,7 +170,7 @@ class App
     geojson[:features] = @places.map do |place|
       is_by_place = instances_by_place(place)
       #count = place.instances.select{ |i| i.book_id == book.id }.count
-      nicknames = place.nicknames.map{ |n| n.name }
+      nicknames = @instances.select{ |i| i.place == place }.map{ |i| i.text }.uniq.to_sentence
       { type: "Feature",
         geometry: {
           type: "Point",
@@ -189,7 +189,7 @@ class App
           source: place.source,
           geonameid: place.geonameid,
           confidence: place.confidence,
-          nicknames: nicknames.join(";"),
+          nicknames: nicknames,
           added_on: place.added_on,
           added_by: place.user.name,
           slug: place.slug
@@ -209,7 +209,8 @@ class App
         csv << ["PLACE_ID", "NAME", "INSTANCE_COUNT", "AVG_INSTANCE_PG", "INSTANCE_STDEV", "AVG_INSTANCE_PG_PCT", "INSTANCE_STDEV_PCT", "LATITUDE", "LONGITUDE", "SOURCE", "GEONAMEID", "CONFIDENCE", "NICKNAMES", "NOTE", "FLAGGED", "ADDED_ON", "ADDED_BY", "SLUG"]
         @places.each do |place|
           is_by_place = instances_by_place(place)
-          nicknames = place.nicknames.map{ |n| n.name }
+          nicknames = @instances.select{ |i| i.place == place }.map{ |i| i.text }.uniq.to_sentence
+          # nicknames = place.nicknames.map{ |n| n.name }
           csv << [ place.id,
                    place.name,
                    is_by_place.count,
@@ -222,7 +223,7 @@ class App
                    place.source,
                    place.geonameid,
                    place.confidence,
-                   nicknames.join(";"),
+                   nicknames,
                    place.note,
                    place.flagged,
                    place.added_on,
@@ -253,7 +254,8 @@ class App
           csv << ["PLACE_ID", "NAME", "INSTANCE_COUNT", "AVG_INSTANCE_PG", "INSTANCE_STDEV", "AVG_INSTANCE_PG_PCT", "INSTANCE_STDEV_PCT", "LATITUDE", "LONGITUDE", "SOURCE", "GEONAMEID", "CONFIDENCE", "NICKNAMES", "NOTE", "FLAGGED", "ADDED_ON", "ADDED_BY", "SLUG"]
           @places.each do |place|
             is_by_place = instances_by_place(place)
-            nicknames = place.nicknames.map{ |n| n.name }
+            nicknames = @instances.select{ |i| i.place == place }.map{ |i| i.text }.uniq.to_sentence
+            # nicknames = place.nicknames.map{ |n| n.name }
             csv << [ place.id,
                      place.name,
                      is_by_place.count,
@@ -266,7 +268,7 @@ class App
                      place.source,
                      place.geonameid,
                      place.confidence,
-                     nicknames.join(";"),
+                     nicknames,
                      place.note,
                      place.flagged,
                      place.added_on,
