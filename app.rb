@@ -135,8 +135,13 @@ class App < Sinatra::Base
 
   get "/about" do
     @page_title = "About"
-    @books = Instance.all.book(order: [:title.asc]).uniq
     mustache :about
+  end
+
+  get "/citing" do
+    @page_title = "Citing"
+    @books = Instance.all.book(order: [:title.asc]).uniq
+    mustache :citing
   end
   
   get "/rules" do

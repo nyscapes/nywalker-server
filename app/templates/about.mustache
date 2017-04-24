@@ -1,56 +1,55 @@
 <h1>About</h1>
 
+<iframe class="embed-responsive embed-responsive-16by9" src="https://www.youtube.com/embed/nOCTXdO4_EM" frameborder="0" allowfullscreen></iframe>
+
 <p class="lead"><code>NYWalker</code> is a distributed project that aims to
-  develop a rich database of places mentioned in various novels. As the name
-  suggests, the initial focus is on novels about New York City, but the code
-  doesn’t particularly care about New York City. We do.</p>
+  collect data and develop a rich database of places mentioned in various
+  novels. As the name suggests, the initial focus is on novels about New York
+  City, but the code doesn’t particularly care about New York City. We do.</p>
 
 <h2>Rationale</h2>
 
-<p>As the geospatial Digital Humanities matures, a lot of the work being done on
-“space in literature,” as <a
-  href="https://books.google.com/books?id=ja2MUXS_YQUC&printsec=frontcover&dq=moretti+space+in+literature&hl=en&sa=X&ved=0ahUKEwjP17rHmqrJAhVG2xoKHZZHD3YQ6AEIHTAA#v=onepage&q=%22space%20in%20literature%22&f=false"
-  target="_blank">Franco Moretti <span class="glyphicon glyphicon-new-window"
-    aria-hidden="true"></span></a> refers to it, involves <a
-  href="https://en.wikipedia.org/wiki/Named-entity_recognition"
-  target="_blank">named-entity recognition <span class="glyphicon
-    glyphicon-new-window" aria-hidden="true"></span></a> of a giant dataset of
-novels.  See, for example, the work <a href="http://mattwilkens.com"
-  target="_blank">Matt Wilkens <span class="glyphicon glyphicon-new-window"
-    aria-hidden="true"></span></a> has done with corpora both from the 19th and
-20th centuries.</p>
+<p>As the geospatial Digital Humanities matures, a lot of the work being done
+  on “space in literature,” as <a
+    href="https://books.google.com/books?id=ja2MUXS_YQUC&printsec=frontcover&dq=moretti+space+in+literature&hl=en&sa=X&ved=0ahUKEwjP17rHmqrJAhVG2xoKHZZHD3YQ6AEIHTAA#v=onepage&q=%22space%20in%20literature%22&f=false"
+    target="_blank">Franco Moretti <span class="glyphicon glyphicon-new-window"
+      aria-hidden="true"></span></a> refers to it, involves <a
+    href="https://en.wikipedia.org/wiki/Named-entity_recognition"
+    target="_blank">named-entity recognition <span class="glyphicon
+      glyphicon-new-window" aria-hidden="true"></span></a> of a giant dataset
+  of novels.  See, for example, the <a href="http://txtgeo.net"
+    target="_blank">Textual Geographies <span class="glyphicon
+      glyphicon-new-window" aria-hidden="true"></span></a> project, which
+  “presents, analyzes, and visualizes a collection of more than 5 billion named
+  locations extracted from 5 million books and journals.”</p>
 
 <p>We’re unsatisfied with the results available from that kind of analysis; it
   doesn’t answer the questions we have, as NER strips so much semantic (and
   probably more subjective) information away from each instance of a place
-  mentioned in a text. The <a
+  mentioned in a text. <!--The <a
     href="https://en.wikipedia.org/wiki/precision_and_recall"
     target="_blank">precision and recall <span class="glyphicon
       glyphicon-new-window" aria-hidden="true"></span></a>, also, we suspect is
-  worse.</p>
+  worse.-->
+</p>
 
-<p>Instead, this application relies on time-consuming hand entry. The default
+<p>Instead, this application relies on time-consuming hand entry for one object
+  at a time, serving as an example of tiny digital humanities. The default
   setting is not any more semantically rich than what NER would return (simply,
   place name and position in text), but it is not terribly difficult to expand
   the <code>Instance</code> model to include, say, a boolean for whether the
   instance is inside dialog. Or part of a trip. Or to create a
   <code>Character</code> model who is responsible for that instance in the
-  text. But we’re jumping ahead of ourselves.</p>
+  text.</p>
 
 <h2>Goals</h2>
 
-<p>
-  We want to create a huge (geospatial) database that is of use to us
-  in answering questions about U.S. novels primarily related to New York City.
+<p> We want to understand specific novels better. We can do that, we believe,
+  in part by creating a (geospatial) database that is of use to us in
+  answering questions about U.S. novels primarily related to New York City.
   But we also want this database to be available to the outside world, as well.
-  It’s an idiosyncratic product, possibly recreating issues related to selection
-  bias, canonization, and the rest. But it’s a start.
-</p>
-
-<p>
-  Once we’re live and the database is plump with data, we’ll include information
-  for how one can connect to it.
-</p>
+  It’s an idiosyncratic product, possibly recreating issues related to
+  selection bias, canonization, and the rest. But it’s a start.  </p>
 
 <p>
   In addition to the above research goals, we also use this application
@@ -71,33 +70,12 @@ novels.  See, for example, the work <a href="http://mattwilkens.com"
 
 <h2>Citing <code>NYWalker</code></h2>
 
-<p>This project depends on the labor put into it by students, staff, and faculty. Please use the following rubrics when citing the project.</p>
-
-<h3>For the project as a whole:</h3>
-<h4>Chicago style:</h4>
-<ul>
-  <li>{{all_authors}}. <em>NYWalker</em>. {{base_url}}/ (accessed {{today}}).</li>
-</ul>
-<h4>MLA style:</h4>
-<ul>
-  <li>{{all_authors}}. <em>NYWalker</em>. NewYorkScapes. Web. {{today}}.</li>
-</ul>
-
-<h3>For each single dataset:</h3>
-<h4>Chicago style:</h4>
-{{#cite_books}}
-<h5>For <em>{{book_title}}</em>:</h5>
-<ul>
-  <li>{{authors}}. “NYWalker Dataset for <em>{{book_title}}</em> by {{book_author}}.” <em>NYWalker</em>. http://nywalker.newyorkscapes.org/books/{{book_slug}}/ (accessed {{today}}).</li>
-</ul>
-{{/cite_books}}
-<h4>MLA style:</h4>
-{{#cite_books}}
-<h5>For <em>{{book_title}}</em>:</h5>
-<ul>
-  <li>{{authors}}. “NYWalker Dataset for <em>{{book_title}}</em> by {{book_author}}.” <em>NYWalker</em>. NewYorkScapes. Web. {{today}}. http://nywalker.newyorkscapes.org/books/{{book_slug}}/.</li>
-</ul>
-{{/cite_books}}
+<p>
+  <code>NYWalker</code> depends on the labor put into it by students, staff,
+  and faculty. For more information on how to cite this data repository, please
+  see the <a href="/citing">citing</a> page. This page is generated
+  computationally, so it may take a while to load.
+</p>
 
 <h2>More?</h2>
 

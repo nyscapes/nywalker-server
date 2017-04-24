@@ -1,0 +1,29 @@
+<h1>Citing <code>NYWalker</code></h1>
+
+<p>This project depends on the labor put into it by students, staff, and faculty. Please use the following rubrics when citing the project.</p>
+
+<h2>For the project as a whole:</h2>
+<h3>Chicago style:</h3>
+<ul>
+  <li>{{all_authors}}. <em>NYWalker</em>. {{base_url}}/ (accessed {{today}}).</li>
+</ul>
+<h3>MLA style:</h3>
+<ul>
+  <li>{{all_authors}}. <em>NYWalker</em>. NewYorkScapes. Web. {{today}}.</li>
+</ul>
+
+<h2>For each single dataset:</h2>
+<h3>Chicago style:</h3>
+{{#cite_books}}
+<h4>For <em>{{book_title}}</em>:</h4>
+<ul>
+  <li>{{authors}}. “NYWalker Dataset for <em>{{book_title}}</em> by {{book_author}}.” <em>NYWalker</em>. http://nywalker.newyorkscapes.org/books/{{book_slug}}/ (accessed {{today}}).</li>
+</ul>
+{{/cite_books}}
+<h3>MLA style:</h3>
+{{#cite_books}}
+<h4>For <em>{{book_title}}</em>:</h4>
+<ul>
+  <li>{{authors}}. “NYWalker Dataset for <em>{{book_title}}</em> by {{book_author}}.” <em>NYWalker</em>. NewYorkScapes. Web. {{today}}. http://nywalker.newyorkscapes.org/books/{{book_slug}}/.</li>
+</ul>
+{{/cite_books}}
