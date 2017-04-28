@@ -15,7 +15,7 @@ class App
     permitted_page(book)
     @page_title = "New Instance for #{book.title}"
     @last_instance = Instance.last(user: @user, book: book) || Instance.last(book: book)
-    @nicknames = Nickname.all(order: [ :instance_count.desc ]).map{ |n| "#{n.name} -- {#{n.place.name}}" }
+    @nicknames = settings.nicknames_list.sort_by { |n| n[:instance_count] }.reverse.map{ |n| n[:string] }
     mustache :instance_new
   end
 
@@ -39,9 +39,12 @@ class App
     else
       nickname = Nickname.first(name: instance.text, place: location)
       if nickname.nil?
-        Nickname.create(name: instance.text, place: location, instance_count: 1)
+        new_nick = Nickname.create(name: instance.text, place: location, instance_count: 1)
+        settings.nicknames_list << { string: new_nick.list_string, instance_count: 1 }
       else
         nickname.update(instance_count: nickname.instance_count + 1)
+        nick_list = settings.nicknames_list.select { |n| n[:string] == nickname.list_string }
+        nick_list[0][:instance_count] = nick_list[0][:instance_count] + 1
       end
     end
     instance.place = location
@@ -67,7 +70,7 @@ class App
   get "/books/:book_slug/instances/:instance_id/edit" do
     permitted_page(instance)
     @page_title = "Editing Instance #{instance.id} for #{book.title}"
-    @nicknames = Nickname.map{|n| "#{n.name} -- {#{n.place.name}}"}
+    @nicknames = settings.nicknames_list.sort_by { |n| n[:instance_count] }.reverse.map{ |n| n[:string] }
     mustache :instance_edit
   end
 
@@ -78,7 +81,15 @@ class App
     if params[:place].match(/{.*}$/) # We've likely modified the place.
       instance.place = Place.first name: params[:place].match(/{.*}$/)[0].gsub(/{/, "").gsub(/}/, "")
     end
-    Nickname.first_or_create(name: instance.text, place: instance.place)
+    nickname = Nickname.first(name: instance.text, place: location)
+    if nickname.nil?
+      new_nick = Nickname.create(name: instance.text, place: location, instance_count: 1)
+      settings.nicknames_list << { string: new_nick.list_string, instance_count: 1 }
+    else
+      nickname.update(instance_count: nickname.instance_count + 1)
+      nick_list = settings.nicknames_list.select { |n| n[:string] == nickname.list_string }
+      nick_list[0][:instance_count] = nick_list[0][:instance_count] + 1
+    end
     save_object(instance, "/books/#{book.slug}") 
   end
 

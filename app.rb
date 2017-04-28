@@ -59,6 +59,8 @@ class App < Sinatra::Base
     config.debug = true if development?
   end
 
+  set :nicknames_list, Proc.new { Nickname.all.map{ |n| { string: n.list_string, instance_count: n.instance_count } } }
+
   before do
     @user = env['warden'].user
     @css = stylesheet_tag 'application'
