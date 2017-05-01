@@ -49,11 +49,11 @@ class App
       end
 
       def special_field
-        @book.special.field
+        @book.special.field unless @book.special.nil?
       end
 
       def special_help_text
-        @book.special_help_text
+        @book.special_help_text unless @book.special_help_text.nil?
       end
 
       def added_on
