@@ -81,9 +81,9 @@ class App
     if params[:place].match(/{.*}$/) # We've likely modified the place.
       instance.place = Place.first name: params[:place].match(/{.*}$/)[0].gsub(/{/, "").gsub(/}/, "")
     end
-    nickname = Nickname.first(name: instance.text, place: location)
+    nickname = Nickname.first(name: instance.text, place: instance.place)
     if nickname.nil?
-      new_nick = Nickname.create(name: instance.text, place: location, instance_count: 1)
+      new_nick = Nickname.create(name: instance.text, place: instance.place, instance_count: 1)
       settings.nicknames_list << { string: new_nick.list_string, instance_count: 1 }
     else
       nickname.update(instance_count: nickname.instance_count + 1)
