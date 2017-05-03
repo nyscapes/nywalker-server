@@ -80,7 +80,12 @@
 
 <h3>Possessives (“Sardi’s”)</h3>
 
-<p>Clearly, “We had lunch at <strong>Sardi’s</strong>” or “We went out for <strong>Mamoun’s Falafel</strong>” should be encoded. But what about “We went to Sandy’s apartment”? Because of the lack of the capital, it should <strong>not</strong> be encoded. <strong>However</strong>, “we told him we were at <strong>Sandy’s</strong>” <strong>should</strong>, because it is equivalent to Sardi’s above.</p>
+<p>Clearly, “We had lunch at <strong>Sardi’s</strong>” or “We went out for
+  <strong>Mamoun’s Falafel</strong>” should be encoded. But what about “We went
+  to Sandy’s apartment”? Because of the lack of the capital, it should
+  <strong>not</strong> be encoded. <strong>However</strong>, “we told him we
+  were at <strong>Sandy’s</strong>” <strong>should</strong>, because it is
+  equivalent to Sardi’s above.</p>
 
 <h3>Corners (“82nd and Park”)</h3>
 
@@ -118,8 +123,9 @@
 
 <h3>Adjectives and demonyms (“French”)</h3>
 
-<p>Adjectives, such as “French,” “American,” or “English” are <strong>not</strong> to be encoded. The same goes for languages based on the adjectives and for demonyms (such as “Spaniard”).</p>
-
+<p>Adjectives, such as “French,” “American,” or “English” are
+  <strong>not</strong> to be encoded. The same goes for languages based on the
+  adjectives and for demonyms (such as “Spaniard”).</p>
 
 <h3>Workplaces, leisure (“Sotheby’s,” “the Opera”)</h3>
 
@@ -138,6 +144,32 @@
   arrive early at the Opera” would not, typically be encoded (“Opera” is always
   capitalized in that novel. This is not easy!</p>
 
+<h3>Acronyms and initialisms that aren’t places (“NATO,” “AIR,” “RFE”)</h3>
+
+<p>Of course, acronyms or initialisms like <strong>USA</strong> or
+  <strong>USSR</strong> or <strong>NYC</strong> should be encoded, but what
+  about those that contain geographic information <em>inside</em> them, like
+  “RFE,” which stands for “Radio Free Europe”? Because it would logically
+  follow that the “Place Name in Text” in that case would be the barely useful
+  “E,” it should not be encoded. Of course, “Radio Free Europe,” spelled out,
+  <em>would</em> include a reference to <strong>Europe</strong>.</p>
+
+<h3>Modified places (“Nazi Germany,” “Trump’s America”)</h3>
+
+<p>If a place is modified by another proper noun, in general it should be
+  simply a reference to the place without the modifier. That is, “Nazi Germany”
+  is a reference to <strong>Germany</strong> qua <strong>Germany</strong>, not
+  to <strong>Nazi Germany</strong> qua <strong>Germany</strong>. That is, the
+  “Place in text” field should be filled with, simply, “Germany.”</p> 
+
+<p>Exceptions can be made of course. For example, “Soviet Russia” is a
+  reference not to <strong>Russia</strong>, but the <strong>Soviet
+  Union</strong>. Similarly, infixes (“New York Fucking City”) can be
+  included as nicknames.</p> 
+
+<p>Additionally, sometimes it makes sense to include the modifier because it is
+  a convention in the story, like <strong>HolyPetroRussia</strong> in <em>Super
+    Sad True Love Story</em>.</p>
 
 <h3>Personal names (“Indiana Jones,” “<em>U.S.S. Arizona</em>”)</h3>
 
