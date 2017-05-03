@@ -54,10 +54,14 @@ class App
         flash[:success] = "#{new_place.name} successfully saved!"
         redirect "/places/#{new_place.slug}"
       end
-    rescue DataMapper::SaveFailureError => e
-      mustache :error_report, locals: { e: e, validation: new_place.errors.values.join(', ') }
-    rescue StandardError => e
-      mustache :error_report, locals: { e: e }
+    rescue DataMapper::SaveFailureError => @e
+      @error_text = new_place.errors.values.to_sentence
+      if @error_text =~ /Slug is already taken/
+        @error_text = "Place name “#{new_place.slug}” is already in use. Are you sure it’s not in the database?"
+      end
+      mustache :error
+    rescue StandardError => @e
+      mustache :error
     end
   end
 
