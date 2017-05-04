@@ -24,8 +24,8 @@
       </div>
     </form>
     <form action="/places/add" method="POST" id="addPlace">
-      <div class="form-group">
-        <label for="inputName">Name</label>
+      <div class="form-group" id="inputNameFormGroup">
+        <label class="control-label" for="inputName" id="inputNameLabel">Name</label>
         <input type="text" class="form-control input-sm" maxlength="50" name="name" placeholder="" value="" aria-describedby="nameHelpBlock" id="inputName">
         <span id="nameHelpBlock" class="help-block">Descriptive, unique, yet short. &ldquo;Paris, TX&rdquo; works, as does &ldquo;Church Street, NYC.&ldquo;</span>
       </div>
@@ -68,7 +68,7 @@
         <input type="hidden" name="geonameid" value="" id="inputGeonameid">
         <input type="hidden" name="bbox" value="" id="inputBbox">
         <input type="hidden" name="form_source" value="{{form_source}}" id="inputFormSource">
-        <button type="submit" class="btn btn-primary btn-default">Add place</button>
+        <button id="addPlaceButton" type="submit" class="btn btn-primary btn-default">Add place</button>
       </div>
     </form>
   </div>
@@ -89,17 +89,25 @@
       $(document).ready(function() {
         $('#addPlace').submit(function() {
           $.post($(this).attr('action'), $(this).serialize(), function(data){
-						// add the new place to the search engine.
-						var placeName = $('#inputName').val()
+            // add the new place to the search engine.
+            var placeName = $('#inputName').val()
             var placeNameString = placeName + " -- {" + placeName + "}";
-						places.add([placeNameString]);
-						$('#inputPlace').val(placeNameString);
+            places.add([placeNameString]);
+            $('#inputPlace').val(placeNameString);
             $('.modal-content').empty().append(data);
             }, "text");
           return false;
         });
       });
     {{/form_source}}
+
+    $('#inputName').focusout(function(){
+      $.post("/places/search-duplicates", $(this).serialize(), function(data){
+        duplicatePlaceToggle(data.is_duplicate);
+        return false;
+      });
+    });
+
 
     $('.a-number').focusout(function(){
       if(this.value != ""){
@@ -109,6 +117,18 @@
         }
       }
     });
+
+    function duplicatePlaceToggle(state){
+      if(state === true){
+        $('#inputNameFormGroup').addClass('has-error');
+        $('#inputNameLabel').empty().append('This seems like a duplicate place name.');
+        $('#addPlaceButton').empty().append('Place duplicate?').attr('disabled', 'true').addClass('btn-danger').removeClass('btn-primary');
+      } else {
+        $('#inputNameFormGroup').removeClass('has-error');
+        $('#inputNameLabel').empty().append('Name');
+        $('#addPlaceButton').empty().append('Add place').removeAttr('disabled').addClass('btn-primary').removeClass('btn-danger');
+      }
+    }
 
   </script>
 </div>

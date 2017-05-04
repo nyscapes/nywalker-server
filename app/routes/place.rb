@@ -137,6 +137,20 @@ class App
     end
   end
 
+  # SEARCH
+  
+  post "/places/search-duplicates" do
+    protected_page
+    places = Place.all slug: params[:name].gsub(/\s+$/, "").to_url
+    if places.length > 0
+      content_type 'application/json'
+      { is_duplicate: true }.to_json
+    else
+      content_type 'application/json'
+      { is_duplicate: false }.to_json
+    end
+  end
+
   # METHODS
   
   def make_point_geometry(lat, lon)
