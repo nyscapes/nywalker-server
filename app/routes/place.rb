@@ -141,13 +141,13 @@ class App
   
   post "/places/search-duplicates" do
     protected_page
-    places = Place.all slug: params[:name].gsub(/\s+$/, "").to_url
-    if places.length > 0
+    place_slug = params[:name].gsub(/\s+$/, "").to_url
+    if Place.all(slug: place_slug).length > 0 
       content_type 'application/json'
-      { is_duplicate: true }.to_json
+      { slug: place_slug }.to_json
     else
       content_type 'application/json'
-      { is_duplicate: false }.to_json
+      { slug: false }.to_json
     end
   end
 

@@ -103,7 +103,7 @@
 
     $('#inputName').focusout(function(){
       $.post("/places/search-duplicates", $(this).serialize(), function(data){
-        duplicatePlaceToggle(data.is_duplicate);
+        duplicatePlaceToggle(data.slug);
         return false;
       });
     });
@@ -118,15 +118,15 @@
       }
     });
 
-    function duplicatePlaceToggle(state){
-      if(state === true){
-        $('#inputNameFormGroup').addClass('has-error');
-        $('#inputNameLabel').empty().append('This seems like a duplicate place name.');
-        $('#addPlaceButton').empty().append('Place duplicate?').attr('disabled', 'true').addClass('btn-danger').removeClass('btn-primary');
-      } else {
+    function duplicatePlaceToggle(slug){
+      if(slug === false){
         $('#inputNameFormGroup').removeClass('has-error');
         $('#inputNameLabel').empty().append('Name');
         $('#addPlaceButton').empty().append('Add place').removeAttr('disabled').addClass('btn-primary').removeClass('btn-danger');
+      } else {
+        $('#inputNameFormGroup').addClass('has-error');
+        $('#inputNameLabel').empty().append('This seems like a duplicate place name. <a href="/places/' + slug + '" target="_blank">Check <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span></a>');
+        $('#addPlaceButton').empty().append('Place duplicate?').attr('disabled', 'true').addClass('btn-danger').removeClass('btn-primary');
       }
     }
 
