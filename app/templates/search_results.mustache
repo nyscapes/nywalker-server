@@ -36,6 +36,10 @@
             array[index]
           );
         });
+        $.post("/places/search-duplicates", $('#inputName').serialize(), function(data){
+          duplicatePlaceToggle(data.is_duplicate);
+          return false;
+        });
         what3words.positionToWords([array[1], array[2]], function(words){
           $('#inputW3W').val(words.join("."));
         });
