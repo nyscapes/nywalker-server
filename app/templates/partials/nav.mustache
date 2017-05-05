@@ -1,34 +1,29 @@
-<nav class="navbar navbar-inverse navbar-fixed-top">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/">{{app_name}}</a>
-    </div>
+<nav class="navbar navbar-inverse bg-inverse navbar-toggleable-md fixed-top">
+    <button type="button" class="navbar-toggler navbar-toggler-right" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="/">{{app_name}}</a>
+
     <div id="navbar" class="collapse navbar-collapse">
-      <ul class="nav navbar-nav">
-        <li class="{{#selected_item}}books{{/selected_item}}"><a href="/books">Books</a></li>
-        <li class="{{#selected_item}}places{{/selected_item}}"><a href="/places">Places</a></li>
-        <li class="{{#selected_item}}rules{{/selected_item}}"><a href="/rules">Rules</a></li>
-        <li class="{{#selected_item}}help{{/selected_item}}"><a href="/help">Help</a></li>
-        <li class="{{#selected_item}}about{{/selected_item}}"><a href="/about">About</a></li>
-        <li class="{{#selected_item}}citing{{/selected_item}}"><a href="/citing">Citing</a></li>
+      <ul class="mr-auto navbar-nav">
+        <li class="nav-item {{#selected_item}}books{{/selected_item}}"><a class="nav-link" href="/books">Books</a></li>
+        <li class="nav-item {{#selected_item}}places{{/selected_item}}"><a class="nav-link" href="/places">Places</a></li>
+        <li class="nav-item {{#selected_item}}rules{{/selected_item}}"><a class="nav-link" href="/rules">Rules</a></li>
+        <li class="nav-item {{#selected_item}}help{{/selected_item}}"><a class="nav-link" href="/help">Help</a></li>
+        <li class="nav-item {{#selected_item}}about{{/selected_item}}"><a class="nav-link" href="/about">About</a></li>
+        <li class="nav-item {{#selected_item}}citing{{/selected_item}}"><a class="nav-link" href="/citing">Citing</a></li>
       </ul>
 
-      <ul class="nav navbar-nav navbar-right">
+      <ul class="navbar-nav my-2 my-lg-0">
         {{#logged_in}}
-        <li class="{{#selected_item}}users{{/selected_item}}"><a href="/users/{{username}}"><span class="glyphicon glyphicon-user"></span> {{username}}</a></li>
-          <li><a href="/logout">Logout</a></li>
+        <li class="nav-item {{#selected_item}}users{{/selected_item}}"><a class="nav-link" href="/users/{{username}}"><span class="glyphicon glyphicon-user"></span> {{username}}</a></li>
+          <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
         {{/logged_in}}
         {{^logged_in}}
-          <li><a href="/login">Login</a></li>
+          <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
         {{/logged_in}}
       </ul>
     </div><!--/.nav-collapse -->
-  </div>
 </nav>
 
