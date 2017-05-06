@@ -55,6 +55,7 @@ GEM
     mustache (0.99.8)
     mustache-sinatra (1.0.1)
       mustache (<= 0.99.8)
+    pg (0.20.0)
     pony (1.11)
       mail (>= 2.0)
     public_suffix (2.0.5)
@@ -116,6 +117,7 @@ DEPENDENCIES
   georuby
   googlebooks
   mustache-sinatra
+  pg
   pony
   puma
   rack-test

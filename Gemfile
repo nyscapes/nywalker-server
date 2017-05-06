@@ -17,6 +17,9 @@ gem 'mustache-sinatra'
 # Sequel is the ORM used in this project
 gem 'sequel'
 
+# And the database type is postgres
+gem 'pg'
+
 # Georuby is the backend of the PostGISGeometry type. It needs to be loaded
 # separately, however, to account for creating the geometries.
 gem 'georuby'
