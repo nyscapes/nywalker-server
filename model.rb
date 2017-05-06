@@ -1,7 +1,4 @@
-require 'data_mapper'
-require 'dm-validations'
-require 'dm-types'
-require 'dm-postgis'
+require 'sequel'
 require 'dotenv'
 
 Dotenv.load # This is weird that it's called here, because app.rb uses it.
@@ -9,7 +6,7 @@ Dotenv.load # This is weird that it's called here, because app.rb uses it.
 # ENV['DATABASE_URL'] is set in the file .env, which is hidden from git. See .env.example for an example of what it should look like.
 
 if ENV['DATABASE_URL']
-  DataMapper.setup(:default, ENV['DATABASE_URL'])
+  DB = Sequel.connect(ENV['DATABASE_URL'])
 else
   raise "ENV['DATABASE_URL'] must be set. Edit your '.env' file to do so."
 end
@@ -24,210 +21,132 @@ end
 #
 # I mean, if you want to pay…
 
-DataMapper.setup(:default, ENV['DATABASE_URL'] || "postgres://localhost:5432/nywalker")
+class Instance < Sequel::Model
 
-class Instance
-  include DataMapper::Resource
+  many_to_one :place
+  one_to_one :user
+  one_to_one :book
 
-  property :id, Serial
-  property :page, Integer
-  property :sequence, Integer
-  property :text, Text
-  property :added_on, Date
-  property :modified_on, Date
-  property :flagged, Boolean
-  property :note, Text
-  property :special, Text
-
-  belongs_to :place
-  belongs_to :user
-  belongs_to :book
-
-  validates_presence_of :page
-  validates_presence_of :book
-  validates_presence_of :text
+  # validates_presence_of :page
+  # validates_presence_of :book
+  # validates_presence_of :text
 
 end
 
-class Place
-  include DataMapper::Resource
+class Place < Sequel::Model
 
-  property :id, Serial
-  property :slug, Slug
-  property :name, String
-  property :added_on, Date
-  property :lat, Float
-  property :lon, Float
-  property :confidence, String # use Enum in the future
-  property :source, Text # won't always be URI.
-  property :geonameid, String
-  property :what3word, String
-  property :bounding_box_string, Text
-  property :flagged, Boolean
-  property :note, Text
-  property :geom, PostGISGeometry
+  many_to_one :user
+  one_to_many :nicknames
+  one_to_many :instances
 
-  belongs_to :user
+  # validates_presence_of :name
+  # validates_uniqueness_of :slug
 
-  has n, :nicknames
-  has n, :instances
+  # def instances_per
+  #   if @book
+  #     self.instances.select{ |i| i.book_id == @book.id }
+  #   else
+  #     self.instances
+  #   end
+  # end
 
-  validates_presence_of :name
-  validates_uniqueness_of :slug
+  # def instances_by_names
+  #   instances = self.instances_per
+  #   # array like [["New York", 41], ["New York City", 6], ["NEW YORK FUCKIN’ CITY", 1]]
+  #   place_names = instances.map{|i| i.text}.uniq.map{|n| [n, instances.select{|i| i.text == n}.count]}
+  #   string = "<ul style='margin-left: 1em; padding: 0; margin-bottom: 0px;'>"
+  #   place_names.each{|name| string = string + "<li>#{name[0]}: #{name[1]}</li>"}
+  #   string = string + "</ul>"
+  #   string.gsub(/"/, "")
+  # end
 
-  def demolish!
-    self.nicknames.each{ |n| n.destroy! }
-    self.destroy!
-  end
+  # def names_to_sentence
+  #   if @book
+  #     @book.instances.select{ |i| i.place == self }.map{ |i| i.text }.uniq.to_sentence
+  #   else
+  #     self.nicknames.select{ |n| n.instance_count > 0 }.map{ |n| n.name }.to_sentence
+  #   end
+  # end
+  
+  # def demolish!
+  #   self.nicknames.each{ |n| n.destroy! }
+  #   self.destroy!
+  # end
 
-  def merge(oldslug)
-    oldplace = Place.first slug: oldslug
-    if oldplace.nil?
-      puts "Could not find '#{oldslug}'"
-    else
-      Instance.all(place: oldplace).each do |instance|
-        instance.update(place: self)
-      end
-      oldplace.demolish!
-    end
-  end
+  # def merge(oldslug)
+  #   oldplace = Place.first slug: oldslug
+  #   if oldplace.nil?
+  #     puts "Could not find '#{oldslug}'"
+  #   else
+  #     Instance.all(place: oldplace).each do |instance|
+  #       instance.update(place: self)
+  #     end
+  #     oldplace.demolish!
+  #   end
+  # end
+end
 
-  def instances_per
-    if @book
-      self.instances.select{ |i| i.book_id == @book.id }
-    else
-      self.instances
-    end
-  end
+class Flag < Sequel::Model
 
-  def instances_by_names
-    instances = self.instances_per
-    # array like [["New York", 41], ["New York City", 6], ["NEW YORK FUCKIN’ CITY", 1]]
-    place_names = instances.map{|i| i.text}.uniq.map{|n| [n, instances.select{|i| i.text == n}.count]}
-    string = "<ul style='margin-left: 1em; padding: 0; margin-bottom: 0px;'>"
-    place_names.each{|name| string = string + "<li>#{name[0]}: #{name[1]}</li>"}
-    string = string + "</ul>"
-    string.gsub(/"/, "")
-  end
+  many_to_one :user
 
-  def names_to_sentence
-    if @book
-      @book.instances.select{ |i| i.place == self }.map{ |i| i.text }.uniq.to_sentence
-    else
-      self.nicknames.select{ |n| n.instance_count > 0 }.map{ |n| n.name }.to_sentence
-    end
-  end
+  # validates_presence_of :object_type
+  # validates_presence_of :object_id
 
 end
 
-class Flag
-  include DataMapper::Resource
+class Nickname < Sequel::Model
 
-  property :id, Serial
-  property :comment, Text
-  property :object_type, String
-  property :object_id, Integer
-  property :added_on, Date
+  many_to_one :place
 
-  belongs_to :user
+  # validates_presence_of :name
 
-  validates_presence_of :object_type
-  validates_presence_of :object_id
+  # def instance_count_query
+  #   Instance.all(place: self.place, text: self.name).count
+  # end
+
+  # def list_string
+  #   "#{self.name} -- {#{self.place.name}}"
+  # end
+end
+
+class Special < Sequel::Model
+
+  one_to_one :book
+
+  # validates_presence_of :field
+end
+
+class Book < Sequel::Model
+
+  one_to_one :special
+  one_to_many :instances
+  many_to_many :users, left_key: :user_id, right_key: :book_id, join_table: :book_users
+
+  # validates_presence_of :author
+  # validates_presence_of :title
+  # validates_uniqueness_of :slug
+
+  # def total_pages
+  #   instances = Instance.all(book: self).map{ |i| i.page }.sort
+  #   instances.length == 0 ? 0 : instances.last - instances.first
+  # end
 
 end
 
-class Nickname
-  include DataMapper::Resource
+class User < Sequel::Model
 
-  property :id, Serial
-  property :name, String
-  property :instance_count, Integer, default: 0
+  one_to_many :instances
+  many_to_many :books, left_key: :user_id, right_key: :book_id, join_table: :book_users
+  one_to_many :places
+  one_to_many :flags
 
-  belongs_to :place
+  # validates_uniqueness_of :username
+  # validates_presence_of :password
+  # validates_presence_of :email
 
-  validates_presence_of :name
-
-  def instance_count_query
-    Instance.all(place: self.place, text: self.name).count
-  end
-
-  def list_string
-    "#{self.name} -- {#{self.place.name}}"
-  end
-end
-
-class Special
-  include DataMapper::Resource
-
-  property :id, Serial
-  property :field, String
-  property :help_text, Text
-
-  belongs_to :book
-
-  validates_presence_of :field
-end
-
-class Book
-  include DataMapper::Resource
-
-  property :id, Serial
-  property :slug, Slug
-  property :author, String # should maybe be array, but...
-  property :title, Text
-  property :isbn, String
-  property :year, Integer
-  property :url, URI
-  property :cover, URI
-  property :added_on, Date
-  property :modified_on, Date
-
-  has 1, :special
-  has n, :instances
-  has n, :users, through: Resource
-
-  validates_presence_of :author
-  validates_presence_of :title
-  validates_uniqueness_of :slug
-
-  def total_pages
-    instances = Instance.all(book: self).map{ |i| i.page }.sort
-    instances.length == 0 ? 0 : instances.last - instances.first
-  end
+  # def authenticate(attempted_password)
+  #   self.password == attempted_password ? true : false
+  # end
 
 end
-
-class User
-  include DataMapper::Resource
-
-  property :id, Serial
-  property :name, String
-  property :email, String
-  property :username, String
-  property :password, BCryptHash
-  property :admin, Boolean, default: false
-  property :added_on, Date
-  property :modified_on, Date
-  property :firstname, String
-  property :lastname, String
-
-  has n, :instances
-  has n, :books, through: Resource
-  has n, :places
-  has n, :flags
-
-  validates_uniqueness_of :username
-  validates_presence_of :password
-  validates_presence_of :email
-
-  def authenticate(attempted_password)
-    self.password == attempted_password ? true : false
-  end
-
-end
-
-DataMapper::Model.raise_on_save_failure = true # seriously, let's make debugging easy?
-
-DataMapper.finalize # sets up the models for first time use.
-# DataMapper.auto_migrate! # CREATE/DROP while killing the data
-DataMapper.auto_upgrade! # Tries to make the schema match the model.
