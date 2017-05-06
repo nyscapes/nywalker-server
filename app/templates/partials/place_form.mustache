@@ -12,15 +12,17 @@
         </div>
         <span id="searchHelpBlock" class="help-block">First, try to search for your place.</span>
       </div>
-      <div class="checkbox">
-        <label>
-          <input type="checkbox" name="us_bias"> <small>Bias results to the United States?</small>
-        </label>
-      </div>
-      <div class="checkbox">
-        <label>
-          <input type="checkbox" name="nyc_limit"> <small>Limit results to NYC?</small>
-        </label>
+      <div class="row">
+        <div class="checkbox col-md-6">
+          <label>
+            <input type="checkbox" name="us_bias"> <small>Bias results to the United States?</small>
+          </label>
+        </div>
+        <div class="checkbox col-md-6">
+          <label>
+            <input type="checkbox" name="nyc_limit"> <small>Limit results to NYC?</small>
+          </label>
+        </div>
       </div>
     </form>
     <form action="/places/add" method="POST" id="addPlace">
@@ -70,7 +72,7 @@
         <input type="hidden" name="geonameid" value="" id="inputGeonameid">
         <input type="hidden" name="bbox" value="" id="inputBbox">
         <input type="hidden" name="form_source" value="{{form_source}}" id="inputFormSource">
-        <button id="addPlaceButton" type="submit" class="btn btn-primary btn-secondary">Add place</button>
+        <button id="addPlaceButton" type="submit" class="btn btn-primary">Add place</button>
       </div>
     </form>
   </div>
@@ -122,11 +124,11 @@
 
     function duplicatePlaceToggle(slug){
       if(slug === false){
-        $('#inputNameFormGroup').removeClass('has-error');
+        $('#inputNameFormGroup').removeClass('has-danger');
         $('#inputNameLabel').empty().append('Name');
         $('#addPlaceButton').empty().append('Add place').removeAttr('disabled').addClass('btn-primary').removeClass('btn-danger');
       } else {
-        $('#inputNameFormGroup').addClass('has-error');
+        $('#inputNameFormGroup').addClass('has-danger');
         $('#inputNameLabel').empty().append('This seems like a duplicate place name. <a href="/places/' + slug + '" target="_blank">Check <span class="fa fa-external-link" aria-hidden="true"></span></a>');
         $('#addPlaceButton').empty().append('Place duplicate?').attr('disabled', 'true').addClass('btn-danger').removeClass('btn-primary');
       }

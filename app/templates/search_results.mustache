@@ -7,7 +7,7 @@
         {{#results}}
           <tr>
             <td>
-              <button class="button btn-primary btn-xs"
+              <button class="button btn-primary btn-sm"
                 onclick="map.removeLayer(firstHitMarker);recenterMap(L.latLng({{lat}}, {{lon}}));">Map</button>
             </td>
             <td>
@@ -15,7 +15,7 @@
               <small>{{description}}</small>
             </td>
             <td>
-              <button class="button btn-primary btn-xs"
+              <button class="button btn-primary btn-sm"
                 onclick="fillInPlaceData('{{escaped_name}}##{{lat}}##{{lon}}##{{geonameid}}##{{bbox}}##GeoNames##3');">Use</button>
             </td>
           </tr>
