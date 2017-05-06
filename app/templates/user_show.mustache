@@ -13,113 +13,95 @@
   <li>Added on: {{added_on}}</li>
 </ul>
 
-<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-  <div class="panel panel-default">
-    <div class="panel-heading" role="tab" id="headingInstances">
-      <h4 class="panel-title">
-        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseInstances" aria-expanded="true" aria-controls="collapseInstances">
-          Instances: {{instance_count}}
-        </a>
-      </h4>
-    </div>
-    <div id="collapseInstances" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingInstances">
-      <div class="panel-body">
-        <table class="table table-hover">
-          <thead>
-            <th>Id</th>
-            <th>Book</th>
-            <th>Place</th>
-            <th>Page</th>
-            <th>Sequence</th>
-          </thead>
-          <tbody>
-            {{#instances}}
-              <tr>
-                <td>
-                  <a href="/users/{{username}}/instances/{{i_id}}">
-                    {{i_id}}
-                  </a>
-                </td>
-                <td>
-                  <a href="/books/{{i_book_slug}}">
-                    {{i_book}}
-                  </a>
-                </td>
-                <td>
-                  <a href="/places/{{i_place_slug}}">
-                    {{i_place}}
-                  </a>
-                </td>
-                <td>{{i_page}}</td>
-                <td>{{i_sequence}}</td>
-              </tr>
-            {{/instances}}
-          </tbody>
-        </table>
-      </div>
-    </div>
+<ul class="nav nav-tabs" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#instances" role="tab">Instances <small>({{instance_count}})</small>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#places" role="tab">Places <small>({{place_count}})</small>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#books" role="tab">Books <small>({{book_count}})</small>
+    </a>
+  </li>
+</ul>
+
+<div class="tab-content">
+  <div class="active tab-pane" id="instances" role="tabpanel">
+    <table class="table table-sm m-3 table-hover">
+      <thead class="thead-inverse">
+        <th>Id</th>
+        <th>Book</th>
+        <th>Place</th>
+        <th>Page</th>
+        <th>Sequence</th>
+      </thead>
+      <tbody>
+        {{#instances}}
+          <tr>
+            <td>
+              <a href="/users/{{username}}/instances/{{i_id}}">
+                {{i_id}}
+              </a>
+            </td>
+            <td>
+              <a href="/books/{{i_book_slug}}">
+                <em>{{i_book}}</em>
+              </a>
+            </td>
+            <td>
+              <a href="/places/{{i_place_slug}}">
+                {{i_place}}
+              </a>
+            </td>
+            <td>{{i_page}}</td>
+            <td>{{i_sequence}}</td>
+          </tr>
+        {{/instances}}
+      </tbody>
+    </table>
   </div>
-  <div class="panel panel-default">
-    <div class="panel-heading" role="tab" id="headingPlaces">
-      <h4 class="panel-title">
-        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapsePlaces" aria-expanded="true" aria-controls="collapsePlaces">
-          Places: {{place_count}}
-        </a>
-      </h4>
-    </div>
-    <div id="collapsePlaces" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingPlaces">
-      <div class="panel-body">
-        <table class="table table-hover">
-          <thead>
-            <th>Place</th>
-            <th>Instances</th>
-          </thead>
-          <tbody>
-            {{#places}}
-              <tr>
-                <td>
-                  <a href="/places/{{p_slug}}">
-                    {{p_name}}
-                  </a>
-                </td>
-                <td>{{p_instances}}</td>
-              </tr>
-            {{/places}}
-          </tbody>
-        </table>
-      </div>
-    </div>
+  <div class="tab-pane" id="places" role="tabpanel">
+    <table class="table table-sm m-3 table-hover">
+      <thead class="thead-inverse">
+        <th>Place</th>
+        <th>Instances</th>
+      </thead>
+      <tbody>
+        {{#places}}
+          <tr>
+            <td>
+              <a href="/places/{{p_slug}}">
+                {{p_name}}
+              </a>
+            </td>
+            <td>{{p_instances}}</td>
+          </tr>
+        {{/places}}
+      </tbody>
+    </table>
   </div>
-  <div class="panel panel-default">
-    <div class="panel-heading" role="tab" id="headingBooks">
-      <h4 class="panel-title">
-        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseBooks" aria-expanded="true" aria-controls="collapseBooks">
-          Books: {{book_count}}
-        </a>
-      </h4>
-    </div>
-    <div id="collapseBooks" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingBooks">
-      <div class="panel-body">
-        <table class="table table-hover">
-          <thead>
-            <th>Book</th>
-            <th>Instances</th>
-          </thead>
-          <tbody>
-            {{#books}}
-              <tr>
-                <td>
-                  <a href="/books/{{b_slug}}">
-                    {{b_title}}
-                  </a>
-                </td>
-                <td>{{b_instances}}</td>
-              </tr>
-            {{/books}}
-          </tbody>
-        </table>
-      </div>
-    </div>
+  <div class="tab-pane" id="books" role="tabpanel">
+    <table class="table table-sm m-3 table-hover">
+      <thead class="thead-inverse">
+        <th>Book</th>
+        <th>Instances</th>
+      </thead>
+      <tbody>
+        {{#books}}
+          <tr>
+            <td>
+              <a href="/books/{{b_slug}}">
+                <em>{{b_title}}</em>
+              </a>
+            </td>
+            <td>{{b_instances}}</td>
+          </tr>
+        {{/books}}
+      </tbody>
+    </table>
   </div>
 </div>
 {{#change_password}}
