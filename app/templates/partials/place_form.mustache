@@ -13,12 +13,12 @@
         <small id="searchHelpBlock" class="m-1 form-text text-muted">First, try to search for your place.</small>
       </div>
       <div class="row">
-        <div class="checkbox col-md-6">
+        <div class="checkbox col-6">
           <label>
-            <input type="checkbox" name="us_bias"> <small>Bias results to the United States?</small>
+            <input type="checkbox" name="us_bias"> <small>Bias results to the US?</small>
           </label>
         </div>
-        <div class="checkbox col-md-6">
+        <div class="checkbox col-6">
           <label>
             <input type="checkbox" name="nyc_limit"> <small>Limit results to NYC?</small>
           </label>
@@ -39,11 +39,11 @@
       -->
         <input type="hidden" class="form-control form-control-sm" name="w3w" value="" id="inputW3W">
       <div class="row">
-        <div class="col-md-6 form-group">
+        <div class="col-6 form-group">
           <label for="inputLat">Latitude (<em>y</em>)</label>
           <input type="text" class="form-control form-control-sm a-number" name="lat" placeholder="" value="" id="inputLat">
         </div>
-        <div class="col-md-6 form-group">
+        <div class="col-6 form-group">
           <label for="inputLon">Longitude (<em>x</em>)</label>
           <input type="text" class="form-control form-control-sm a-number" name="lon" placeholder="" value="" id="inputLon">
         </div>
@@ -51,7 +51,7 @@
       <div class="form-group">
         <label for="inputSource">Source</label>
         <input type="text" class="form-control form-control-sm" name="source" placeholder="" value="" id="inputSource" aria-describedby="sourceHelpBlock">
-        <small id="sourceHelpBlock" class="m-1 form-text text-muted">Coordinates source, like &ldquo;GeoNames,&rdquo; or a <em>Wikipedia</em> article url.</small>
+        <small id="sourceHelpBlock" class="m-1 form-text text-muted">Coordinates source, like &ldquo;GeoNames&rdquo; or a <em>Wikipedia</em> article url.</small>
       </div>
       <div class="form-group">
         <label for="inputConfidence">Confidence</label>
@@ -130,7 +130,7 @@
         $('#inputName').removeClass('form-control-danger');
       } else {
         $('#inputNameFormGroup').addClass('has-danger');
-        $('#inputNameLabel').empty().append('This seems like a duplicate place name. <a href="/places/' + slug + '" target="_blank">Check <span class="fa fa-external-link" aria-hidden="true"></span></a>');
+        $('#inputNameLabel').empty().append('This seems like a duplicated name. <a href="/places/' + slug + '" target="_blank">Check <span class="fa fa-external-link" aria-hidden="true"></span></a>');
         $('#inputName').addClass('form-control-danger');
         $('#addPlaceButton').empty().append('Place duplicate?').attr('disabled', 'true').addClass('btn-danger').removeClass('btn-primary');
       }
