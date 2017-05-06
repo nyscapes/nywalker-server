@@ -22,25 +22,31 @@ end
 # I mean, if you want to pay…
 
 class Instance < Sequel::Model
+  plugin :validation_helpers
 
   many_to_one :place
-  one_to_one :user
-  one_to_one :book
+  many_to_one :user
+  many_to_one :book
 
-  # validates_presence_of :page
-  # validates_presence_of :book
-  # validates_presence_of :text
+  def validate
+    super
+    validates_presence [:page, :book, :text]
+  end
 
 end
 
 class Place < Sequel::Model
+  plugin :validation_helpers
 
   many_to_one :user
   one_to_many :nicknames
   one_to_many :instances
 
-  # validates_presence_of :name
-  # validates_uniqueness_of :slug
+  def validate
+    super
+    validates_presence [:name, :slug]
+    validates_unique :slug
+  end
 
   # def instances_per
   #   if @book
@@ -87,19 +93,26 @@ class Place < Sequel::Model
 end
 
 class Flag < Sequel::Model
+  plugin :validation_helpers
 
   many_to_one :user
 
-  # validates_presence_of :object_type
-  # validates_presence_of :object_id
+  def validate
+    super
+    validates_presence [:object_type, :object_id]
+  end
 
 end
 
 class Nickname < Sequel::Model
+  plugin :validation_helpers
 
   many_to_one :place
 
-  # validates_presence_of :name
+  def validate
+    super
+    validates_presence [:name]
+  end
 
   # def instance_count_query
   #   Instance.all(place: self.place, text: self.name).count
@@ -111,21 +124,29 @@ class Nickname < Sequel::Model
 end
 
 class Special < Sequel::Model
+  plugin :validation_helpers
 
   one_to_one :book
 
-  # validates_presence_of :field
+  def validate
+    super
+    validates_presence [:field]
+  end
+
 end
 
 class Book < Sequel::Model
+  plugin :validation_helpers
 
   one_to_one :special
   one_to_many :instances
   many_to_many :users, left_key: :user_id, right_key: :book_id, join_table: :book_users
 
-  # validates_presence_of :author
-  # validates_presence_of :title
-  # validates_uniqueness_of :slug
+  def validate
+    super
+    validates_presence [:author, :title, :slug]
+    validates_unique :slug
+  end
 
   # def total_pages
   #   instances = Instance.all(book: self).map{ |i| i.page }.sort
@@ -135,15 +156,18 @@ class Book < Sequel::Model
 end
 
 class User < Sequel::Model
+  plugin :validation_helpers
 
   one_to_many :instances
   many_to_many :books, left_key: :user_id, right_key: :book_id, join_table: :book_users
   one_to_many :places
   one_to_many :flags
 
-  # validates_uniqueness_of :username
-  # validates_presence_of :password
-  # validates_presence_of :email
+  def validate
+    super
+    validates_presence [:username, :password, :email]
+    validates_unique [:email]
+  end
 
   # def authenticate(attempted_password)
   #   self.password == attempted_password ? true : false
