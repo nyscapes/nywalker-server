@@ -3,7 +3,7 @@
   <input tabindex="1" type="text" class="typeahead form-control" id="inputPlace" name="place" value="{{place_name}}">
 </div>
 <div class="form-group">
-  <button tabindex="2" type="button" class="btn btn-primary btn-default" onclick="$('#inputSearch').val($('#inputPlace').val());" data-toggle="modal" data-target="#addPlaceModal">Add new place</button>
+  <button tabindex="2" type="button" class="btn btn-primary" onclick="$('#inputSearch').val($('#inputPlace').val());" data-toggle="modal" data-target="#addPlaceModal">Add new place</button>
 </div>
 <div class="form-group">
   <label for="inputPlaceNameInText">Place name in text</label>
@@ -34,7 +34,7 @@
   <span id="noteHelpBlock" class="help-block">Add a short note here providing some (optional) context or confusion, especially if you have doubts.</span>
 </div>
 <div class="form-group">
-  <button tabindex="8" type="submit" class="btn btn-primary btn-default">{{form_button}}</button>
+  <button tabindex="8" type="submit" class="btn btn-primary">{{form_button}}</button>
   <script>
     $(document).ready(function(){
       $('#addPlaceModal').on('shown.bs.modal', function(){

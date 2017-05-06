@@ -15,7 +15,7 @@ class App
     
     def flag_modal_button
       <<-EOF
-          <button type="button" class="btn btn-danger btn-default" data-toggle="modal" data-target="#addFlagModal">Flag this</button>
+          <button type="button" class="btn btn-danger btn-secondary" data-toggle="modal" data-target="#addFlagModal">Flag this</button>
       EOF
     end
 

@@ -32,7 +32,7 @@
       <input type="text" class="form-control" name="source" placeholder="" value="{{source}}" id="inputSource" aria-describedby="sourceHelpBlock">
       {{#source_button}}
       <span class="input-group-btn">
-        <a href="{{source}}" target="_blank" class="btn btn-default" role="button"><span class="fa fa-external-link"></span></a>
+        <a href="{{source}}" target="_blank" class="btn btn-secondary" role="button"><span class="fa fa-external-link"></span></a>
       </span>
       </div>
       {{/source_button}}
@@ -45,7 +45,7 @@
         <div class="input-group">
           <input type="text" class="form-control" name="geonameid" placeholder="" value="{{geonameid}}" aria-describedby="geonameidHelpBlock" id="inputGeonameid">
           <span class="input-group-btn">
-            <a href="http://www.geonames.org/{{geonameid}}" target="_blank" class="btn btn-default" role="button"><span class="fa fa-external-link"></span></a>
+            <a href="http://www.geonames.org/{{geonameid}}" target="_blank" class="btn btn-secondary" role="button"><span class="fa fa-external-link"></span></a>
           </span>
         </div>
           <span id="geonameidHelpBlock" class="help-block">If the source is GeoNames, there is likely an ID attached to it.</span>
@@ -78,7 +78,7 @@
         <input type="hidden" name="bounding_box_string" value="{{bounding_box}}">
         <input type="hidden" name="geonamid" value="{{geonameid}}">
       {{/admin}}
-      <button type="submit" class="btn btn-primary btn-default">Save changes</button>
+      <button type="submit" class="btn btn-primary">Save changes</button>
     </div>
   </form>
 </div>

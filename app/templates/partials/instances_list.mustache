@@ -22,7 +22,7 @@
       {{#book_permitted}}
         <td>
         {{#instance_permitted}}
-          <a href="/books/{{slug}}/instances/{{instance_id}}/edit" class="btn btn-primary btn-small">Edit</a>
+          <a href="/books/{{slug}}/instances/{{instance_id}}/edit" class="btn btn-primary btn-sm">Edit</a>
         {{/instance_permitted}}
         {{^instance_permitted}}
           {{owner}}
@@ -30,7 +30,7 @@
         </td>
       {{/book_permitted}}
       <td>
-        <a href="/books/{{slug}}/instances/{{instance_id}}" class="btn btn-small btn-info">View</a>
+        <a href="/books/{{slug}}/instances/{{instance_id}}" class="btn btn-sm btn-info">View</a>
       </td>
       <td>
         {{#flagged}}
@@ -64,7 +64,7 @@
         <td>
           {{#instance_permitted}}
             <form action="/books/{{slug}}/instances/{{instance_id}}/delete" method="POST">
-              <button role="button" type="submit" class="btn btn-danger btn-small">Delete</button>
+              <button role="button" type="submit" class="btn btn-danger btn-sm">Delete</button>
             </form>
           {{/instance_permitted}}
           {{^instance_permitted}}

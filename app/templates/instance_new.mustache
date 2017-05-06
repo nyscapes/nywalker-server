@@ -15,7 +15,7 @@
             <input type="text" class="typeahead form-control" id="inputLastPlace" name="place" value="{{li_place}}" disabled>
           </div>
           <div class="form-group">
-            <a href="/places/{{li_place_slug}}" target="_blank" type="button" class="btn btn-primary btn-default">Open place in new tab</a>
+            <a href="/places/{{li_place_slug}}" target="_blank" type="button" class="btn btn-secondary">Open place in new tab</a>
           </div>
           <div class="form-group">
             <label for="inputLastPlaceNameInText">Place name in text</label>
@@ -47,8 +47,8 @@
         {{#edit_last_instance}}
           <form action="/books/{{book_slug}}/instances/{{li_id}}/delete" method="POST">
             <div class="btn-group" role="group">
-              <a href="/books/{{book_slug}}/instances/{{li_id}}/edit" class="btn btn-warning btn-default">Edit Previous Instance</a>
-                <button role="button" type="submit" class="btn btn-danger btn-small">Delete Previous Instance</button>
+              <a href="/books/{{book_slug}}/instances/{{li_id}}/edit" class="btn btn-warning">Edit Previous Instance</a>
+                <button role="button" type="submit" class="btn btn-danger btn-sm">Delete Previous Instance</button>
             </div>
           </form>
         {{/edit_last_instance}}

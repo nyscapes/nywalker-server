@@ -17,18 +17,18 @@
 
     <div class="btn-group" role="group" aria-label="...">
       {{#previous_id}}
-        <a href="/books/{{book_slug}}/instances/{{previous_id}}" class="btn btn-default btn-small">Previous Instance</a>
+        <a href="/books/{{book_slug}}/instances/{{previous_id}}" class="btn btn-secondary btn-sm">Previous Instance</a>
       {{/previous_id}}
       {{^previous_id}}
-        <button type="button" class="btn btn-default btn-small" disabled>
+        <button type="button" class="btn btn-secondary btn-sm" disabled>
           No prev. instance
         </button>
       {{/previous_id}}
       {{#next_id}}
-        <a href="/books/{{book_slug}}/instances/{{next_id}}" class="btn btn-default btn-small">Next Instance</a>
+        <a href="/books/{{book_slug}}/instances/{{next_id}}" class="btn btn-secondary btn-sm">Next Instance</a>
       {{/next_id}}
       {{^next_id}}
-        <button type="button" class="btn btn-default btn-small" disabled>
+        <button type="button" class="btn btn-secondary btn-sm" disabled>
           No next instance
         </button>
       {{/next_id}}
@@ -44,13 +44,13 @@
       {{/instance_permitted}}
           {{{ flag_modal_button }}}
       {{#instance_permitted}}
-          <button role="button" type="submit" class="btn btn-danger btn-small">
+          <button role="button" type="submit" class="btn btn-danger btn-sm">
             Delete
           </button>
         </form>
         {{#flagged}}
         <form action="/books/{{book_slug}}/instance/{{id}}/unflag" method="POST">
-            <button role="button" type="submit" class="btn btn-danger btn-small">
+            <button role="button" type="submit" class="btn btn-danger btn-sm">
               Unflag
             </button>
           </form>
