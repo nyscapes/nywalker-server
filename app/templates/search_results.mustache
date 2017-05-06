@@ -6,15 +6,15 @@
       <tbody>
         {{#results}}
           <tr>
-            <td>
+            <td class="p-1">
               <button class="button btn-primary btn-sm"
                 onclick="map.removeLayer(firstHitMarker);recenterMap(L.latLng({{lat}}, {{lon}}));">Map</button>
             </td>
-            <td>
+            <td class="p-1">
               {{name}} <small>({{lat}}, {{lon}})</small><br />
               <small>{{description}}</small>
             </td>
-            <td>
+            <td class="p-1">
               <button class="button btn-primary btn-sm"
                 onclick="fillInPlaceData('{{escaped_name}}##{{lat}}##{{lon}}##{{geonameid}}##{{bbox}}##GeoNames##3');">Use</button>
             </td>

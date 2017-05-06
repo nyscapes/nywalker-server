@@ -24,14 +24,14 @@
     <label for="inputSpecialField">{{special_field}}</label>
     <input tabindex="6" type="text" class="form-control" id="inputSpecialField" name="special" value="{{special}}" aria-describedby="specialHelpBlock">
     {{#special_help_text}}
-    <span id="specialHelpBlock" class="help-block">{{{ special_help_text }}}</span>
+    <p id="specialHelpBlock" class="m-1 form-text text-muted">{{{ special_help_text }}}</p>
     {{/special_help_text}}
   </div>
 {{/special_field}}
 <div class="form-group">
   <label for="inputNote">Note</label>
   <textarea tabindex="7" class="form-control" name="note" id="inputNote" rows="2" aria-describedby="noteHelpBlock">{{note}}</textarea>
-  <span id="noteHelpBlock" class="help-block">Add a short note here providing some (optional) context or confusion, especially if you have doubts.</span>
+  <p id="noteHelpBlock" class="m-1 form-text text-muted">Add a short note here providing some (optional) context or confusion, especially if you have doubts.</p>
 </div>
 <div class="form-group">
   <button tabindex="8" type="submit" class="btn btn-primary">{{form_button}}</button>

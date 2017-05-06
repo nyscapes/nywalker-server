@@ -3,12 +3,12 @@
     <div class="form-group">
       <label for="inputName">Name</label>
       <input type="text" class="form-control" name="name" placeholder="" value="{{name}}" aria-describedby="nameHelpBlock" id="inputName">
-      <span id="nameHelpBlock" class="help-block">This is the formal, descriptive, unique, yet short. &ldquo;Paris, TX&rdquo; works, as does &ldquo;Church Street, NYC.&rdquo;</span>
+      <p id="nameHelpBlock" class="m-1 form-text text-muted">This is the formal, descriptive, unique, yet short. &ldquo;Paris, TX&rdquo; works, as does &ldquo;Church Street, NYC.&rdquo;</p>
     </div>
     <div class="form-group">
       <label for="inputNickname">Also known as&#8230;</label>
       <p class="form-control-static" aria-describedby="nicknameHelpBlock" id="inputNickname">{{nicknames}}</p>
-      <span id="nicknameHelpBlock" class="help-block">These are other names that have been used to describe this place.</span>
+      <p id="nicknameHelpBlock" class="m-1 form-text text-muted">These are other names that have been used to describe this place.</p>
     </div>
     <div class="form-group">
       <label for="inputAddedOn">Added on</label>
@@ -23,7 +23,7 @@
       <label for="inputLon">Longitude (<em>x</em>)</label>
       <input type="text" class="form-control" name="lon" placeholder="" value="{{lon}}" id="inputLon">
     </div>
-    <p class="help-block">Change these to fine-tune or correct the geolocation. Use <a href="http://latlong.net" target="_blank">LatLong <span class='fa fa-external-link' aria-hidden='true'></span></a> to get new coordinates by hand.</p>
+    <p class="m-1 form-text text-muted">Change these to fine-tune or correct the geolocation. Use <a href="http://latlong.net" target="_blank">LatLong <span class='fa fa-external-link' aria-hidden='true'></span></a> to get new coordinates by hand.</p>
     <div class="form-group">
       <label for="inputSource">Source</label>
       {{#source_button}}
@@ -36,7 +36,7 @@
       </span>
       </div>
       {{/source_button}}
-      <span id="sourceHelpBlock" class="help-block">Coordinates source, like &ldquo;GeoNames,&rdquo; or a <em>Wikipedia</em> article url.</span>
+      <p id="sourceHelpBlock" class="m-1 form-text text-muted">Coordinates source, like &ldquo;GeoNames,&rdquo; or a <em>Wikipedia</em> article url.</p>
     </div>
     {{#admin}}
       {{#geonameid}}
@@ -48,13 +48,13 @@
             <a href="http://www.geonames.org/{{geonameid}}" target="_blank" class="btn btn-secondary" role="button"><span class="fa fa-external-link"></span></a>
           </span>
         </div>
-          <span id="geonameidHelpBlock" class="help-block">If the source is GeoNames, there is likely an ID attached to it.</span>
+          <p id="geonameidHelpBlock" class="m-1 form-text text-muted">If the source is GeoNames, there is likely an ID attached to it.</p>
       </div>
       {{/geonameid}}
       <div class="form-group">
         <label for="inputBoundingBox">Bounding Box</label>
         <input type="text" class="form-control" name="bounding_box_string" placeholder="" value="{{bounding_box}}" aria-describedby="boundingBoxHelpBlock" id="inputBoundingBox">
-        <span id="boundingBoxHelpBlock" class="help-block">These are the four coordinates that make the bounding box. In order, they are: east, south, north, and west.</span>
+        <p id="boundingBoxHelpBlock" class="m-1 form-text text-muted">These are the four coordinates that make the bounding box. In order, they are: east, south, north, and west.</p>
       </div>
     {{/admin}}
 
@@ -66,12 +66,12 @@
         <option value="1">Not very sure this is the place.</option>
         <option value="0">Can&rsquo;t find the place.</option>
       </select>
-      <span id="confidenceHelpBlock" class="help-block">How confident are you in your choice?</span>
+      <p id="confidenceHelpBlock" class="m-1 form-text text-muted">How confident are you in your choice?</p>
     </div>
     <div class="form-group">
       <label for="inputNote">Note</label>
       <textarea class="form-control" name="note" id="inputNote" rows="2" aria-describedby="noteHelpBlock">{{note}}</textarea>
-      <span id="noteHelpBlock" class="help-block">Add a short note here providing some (optional) context or confusion, especially if you have doubts.</span>
+      <p id="noteHelpBlock" class="m-1 form-text text-muted">Add a short note here providing some (optional) context or confusion, especially if you have doubts.</p>
     </div>
     <div class="form-group">
       {{^admin}}
