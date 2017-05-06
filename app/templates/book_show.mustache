@@ -2,10 +2,11 @@
   <div class="col-md-6">
     <div class="pull-right">
       <img src="{{cover}}" class="img-thumbnail img-responsive" alt="{{cover_alt}}">
-      <p><a href={{link}}>Google Books info</a></p>
+      <p><a href={{link}}>Google Books info <span class="fa fa-external-link"></span></a></p>
     </div>
-    <h1><em>{{title}}</em> {{{external_link}}}</h1>
-    <h3>{{author}}, {{year}} <small>(isbn: {{isbn}})</small></h3>
+    <h1><em>{{title}}</em></h1>
+    <h3>{{author}}, {{year}} <br />
+    <small>(isbn: {{isbn}})</small></h3>
     <h4>Download:</h4>
     <h4>Instances as: <br /> 
       <span class="btn-group" role="group">
@@ -22,13 +23,13 @@
         <a href="/books/{{slug}}/places-special-csv-zip" class="btn btn-secondary btn-sm" role="button">.zip of special.csvs</a>
       </span>
     </h4>
-    {{#book_permitted}}
-    <a href="/books/{{slug}}/instances/new" class="btn btn-primary" role="button">Add instance</a>
-    {{/book_permitted}}
-    <h2>Instances: <small>({{instance_count}}, or {{instances_per_page}}/pg)</small></h2>
-      {{> partials/instances_list}}
   </div>
   <div class="col-md-6">
     {{> partials/all_places_map}}
   </div>
 </div>
+    {{#book_permitted}}
+    <a href="/books/{{slug}}/instances/new" class="btn btn-primary" role="button">Add instance</a>
+    {{/book_permitted}}
+    <h2>Instances: <small>({{instance_count}}, or {{instances_per_page}}/pg)</small></h2>
+      {{> partials/instances_list}}

@@ -30,7 +30,7 @@
       {{/place_permitted}}
           {{{ flag_modal_button }}}
       {{#place_permitted}}
-          <button role="button" type="submit" class="btn btn-danger btn-sm">
+          <button role="button" type="submit" class="btn btn-danger">
             Delete
           </button>
         </form>
@@ -48,32 +48,8 @@
     {{#flagged}}
       {{> partials/flag_table }}
     {{/flagged}}
-
-    <h2>In books: <small>(All instances link)</small></h2>
-    <table class="table table-sm m-3 table-hover">
-      <thead class="thead-inverse">
-        <th>Book</th>
-        <th>Instances</th>
-      </thead>
-      <tbody>
-        {{#books}}
-        <tr>
-          <td>
-            <a href="/books/{{book_slug}}">{{book_title}}</a>
-          </td>
-          <td>
-            {{instances}}
-          </td>
-        {{/books}}
-        {{^books}}
-        <tr>
-          <td colspan="2">No instances recorded, yet.</td>
-        </tr>
-        {{/books}}
-      </tbody>
-    </table>
   </div>
-  <div class="map col-md-6" id="map">
+  <div style="height: {{map_height}}" class="map col-md-6" id="map">
   </div>
   <script>
     var center = L.latLng({{lat}}, {{lon}});
@@ -85,6 +61,29 @@
     map.panTo(center);
   </script>
 </div>
+<h2>In books: <small>(All instances link)</small></h2>
+<table class="table table-sm m-3 table-hover">
+  <thead class="thead-inverse">
+    <th>Book</th>
+    <th>Instances</th>
+  </thead>
+  <tbody>
+    {{#books}}
+    <tr>
+      <td>
+        <a href="/books/{{book_slug}}">{{book_title}}</a>
+      </td>
+      <td>
+        {{instances}}
+      </td>
+    {{/books}}
+    {{^books}}
+    <tr>
+      <td colspan="2">No instances recorded, yet.</td>
+    </tr>
+    {{/books}}
+  </tbody>
+</table>
 <div class="modal fade" id="editPlaceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">

@@ -55,6 +55,7 @@ class App
           owner: i.user.name,
           flagged: i.flagged,
           note: not_empty(i.note),
+          text: i.text,
           special: i.special
         } }
       end
@@ -65,6 +66,10 @@ class App
 
       def instances_per_page
         get_instances_per_page(@book)
+      end
+
+      def map_height
+        "300px;"
       end
 
     end

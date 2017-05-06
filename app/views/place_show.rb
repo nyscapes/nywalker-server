@@ -115,6 +115,9 @@ class App
         end
       end
 
+      def map_height
+        "300px;"
+      end
     end
   end
 end

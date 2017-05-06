@@ -145,5 +145,9 @@ class App
       @base_url
     end
 
+    def map_height
+      "500px;"
+    end
+
   end
 end
