@@ -91,7 +91,7 @@ class App
         if url.nil?
           text
         else
-          "<a href='#{url}' target='_blank'>#{text} <span class='glyphicon glyphicon-new-window' aria-hidden='true'></span></a>"
+          "<a href='#{url}' target='_blank'>#{text} <span class='fa fa-external-link' aria-hidden='true'></span></a>"
         end
       end
 

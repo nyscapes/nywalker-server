@@ -23,7 +23,7 @@
       <label for="inputLon">Longitude (<em>x</em>)</label>
       <input type="text" class="form-control" name="lon" placeholder="" value="{{lon}}" id="inputLon">
     </div>
-    <p class="help-block">Change these to fine-tune or correct the geolocation. Use <a href="http://latlong.net" target="_blank">LatLong <span class='glyphicon glyphicon-new-window' aria-hidden='true'></span></a> to get new coordinates by hand.</p>
+    <p class="help-block">Change these to fine-tune or correct the geolocation. Use <a href="http://latlong.net" target="_blank">LatLong <span class='fa fa-external-link' aria-hidden='true'></span></a> to get new coordinates by hand.</p>
     <div class="form-group">
       <label for="inputSource">Source</label>
       {{#source_button}}
@@ -32,7 +32,7 @@
       <input type="text" class="form-control" name="source" placeholder="" value="{{source}}" id="inputSource" aria-describedby="sourceHelpBlock">
       {{#source_button}}
       <span class="input-group-btn">
-        <a href="{{source}}" target="_blank" class="btn btn-default" role="button"><span class="glyphicon glyphicon-new-window"></span></a>
+        <a href="{{source}}" target="_blank" class="btn btn-default" role="button"><span class="fa fa-external-link"></span></a>
       </span>
       </div>
       {{/source_button}}
@@ -45,7 +45,7 @@
         <div class="input-group">
           <input type="text" class="form-control" name="geonameid" placeholder="" value="{{geonameid}}" aria-describedby="geonameidHelpBlock" id="inputGeonameid">
           <span class="input-group-btn">
-            <a href="http://www.geonames.org/{{geonameid}}" target="_blank" class="btn btn-default" role="button"><span class="glyphicon glyphicon-new-window"></span></a>
+            <a href="http://www.geonames.org/{{geonameid}}" target="_blank" class="btn btn-default" role="button"><span class="fa fa-external-link"></span></a>
           </span>
         </div>
           <span id="geonameidHelpBlock" class="help-block">If the source is GeoNames, there is likely an ID attached to it.</span>

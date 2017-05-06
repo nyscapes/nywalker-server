@@ -32,7 +32,7 @@
 <!--      <div class="form-group">
         <label for="inputW3W">what3words address</label>
         <input type="text" class="form-control input-sm" name="w3w" placeholder="what.three.words" value="" aria-describedby="w3wHelpBlock" id="inputW3W">
-        <span id="w3wHelpBlock" class="help-block">The <a href="http://www.what3words.com" target="_blank">what3words <span class="glyphicon glyphicon-new-window"></span></a> address for the location.</span>
+        <span id="w3wHelpBlock" class="help-block">The <a href="http://www.what3words.com" target="_blank">what3words <span class="fa fa-external-link"></span></a> address for the location.</span>
       </div>
       -->
         <input type="hidden" class="form-control input-sm" name="w3w" value="" id="inputW3W">
@@ -127,7 +127,7 @@
         $('#addPlaceButton').empty().append('Add place').removeAttr('disabled').addClass('btn-primary').removeClass('btn-danger');
       } else {
         $('#inputNameFormGroup').addClass('has-error');
-        $('#inputNameLabel').empty().append('This seems like a duplicate place name. <a href="/places/' + slug + '" target="_blank">Check <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span></a>');
+        $('#inputNameLabel').empty().append('This seems like a duplicate place name. <a href="/places/' + slug + '" target="_blank">Check <span class="fa fa-external-link" aria-hidden="true"></span></a>');
         $('#addPlaceButton').empty().append('Place duplicate?').attr('disabled', 'true').addClass('btn-danger').removeClass('btn-primary');
       }
     }

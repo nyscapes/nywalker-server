@@ -25,7 +25,7 @@ class App
     end
 
     def external_link_glyph(link)
-      "<a href='#{link}' target='_blank'><span class='glyphicon glyphicon-new-window' aria-hidden='true'></span></a>"
+      "<a href='#{link}' target='_blank'><span class='fa fa-external-link' aria-hidden='true'></span></a>"
     end
 
     def rendered_flash
