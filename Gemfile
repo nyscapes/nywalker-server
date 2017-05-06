@@ -14,19 +14,8 @@ gem 'sinatra-flash'
 gem 'mustache-sinatra'
 
 ### DATABASE handling
-# DataMapper is the ORM used in this project
-gem 'data_mapper'
-
-# DataMapper assumes postgresql databases, because the end goal is still a
-# postGIS db.
-gem 'dm-postgres-adapter'
-
-# Dm-validations provides for validations of the presence and type of different
-# data forms.
-gem 'dm-validations'
-
-# Dm-postgis allows the creation of the PostGISGeometry data type
-gem 'dm-postgis'
+# Sequel is the ORM used in this project
+gem 'sequel'
 
 # Georuby is the backend of the PostGISGeometry type. It needs to be loaded
 # separately, however, to account for creating the geometries.
