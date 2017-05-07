@@ -92,9 +92,9 @@ class Nickname < Sequel::Model
   #   Instance.all(place: self.place, text: self.name).count
   # end
 
-  # def list_string
-  #   "#{self.name} -- {#{self.place.name}}"
-  # end
+  def list_string
+    "#{self.name} -- {#{self.place.name}}"
+  end
 end
 
 class Special < Sequel::Model
