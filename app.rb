@@ -11,6 +11,7 @@ require "googlebooks"
 require "pony"
 require "csv"
 require "time"
+require "stringex"
 require "georuby"
 require "geo_ruby/ewk" # lest the DB dump a 'uninitialized constant GeoRuby::SimpleFeatures::Geometry::HexEWKBParser' error.
 require "active_support" # for the slug.

@@ -74,11 +74,11 @@ class App
       end
 
       def nicknames
-        Nickname.all(place: @place).map{ |n| n.name }.to_sentence
+        Nickname.where(place: @place).map(:name).to_sentence
       end
 
       def books
-        @books.map{|b| { book_slug: b.slug, book_title: b.title, instances: (Instance.all(place: @place) & Instance.all(book: b)).length } }
+        @books.map{|b| { book_slug: b.slug, book_title: b.title, instances: Instance.where(place: @place).where(book: b).all.length } }
       end
 
       def source_link

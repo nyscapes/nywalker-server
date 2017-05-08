@@ -58,6 +58,8 @@ gem 'sprockets-helpers'
 # English sentence out of an Array.
 gem 'activesupport'
 
+gem 'stringex'
+
 # Warden controls user authentication.
 gem 'warden'
 
