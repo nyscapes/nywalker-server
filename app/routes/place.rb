@@ -124,7 +124,7 @@ class App
       "<script>alert('Cannot delete #{place.name}, as it has instances');</script>"
     else
       puts "Deleting Place #{place.id}"
-      if place.demolish!
+      if place.destroy
         puts "Deleted #{place.name}"
         flash[:success] = "Deleted place #{place.name}"
         redirect "/places/"
