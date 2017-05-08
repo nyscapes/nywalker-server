@@ -113,10 +113,6 @@ class App < Sinatra::Base
       @this_user ||= User[username: params[:user_username]] || halt(404)
     end
 
-    def user
-      @user ||= env['warden'].user
-    end
-
   end
 
   get "/" do

@@ -160,8 +160,8 @@ class User < Sequel::Model
     validates_unique [:email]
   end
 
-  # def authenticate(attempted_password)
-  #   self.password == attempted_password ? true : false
-  # end
+  def has_key?(key)
+    true
+  end
 
 end
