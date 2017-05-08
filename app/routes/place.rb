@@ -10,7 +10,7 @@ class App
 
   get "/places/by-name" do
     @page_title = "All places"
-    @places = Place.all.sort_by{ |place| place.name }
+    @places = Place.order(:name).all
     mustache :places_show
   end
   
