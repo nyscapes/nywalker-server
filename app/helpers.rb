@@ -85,8 +85,10 @@ class App
     end
 
     def places
-      if @instances
-        @instances.places.select{ |place| place.confidence != "0" }.map do |p|
+      # if @instances
+      #   @instances.places.select{ |place| place.confidence != "0" }.map do |p|
+      if @places
+        @places.map do |p|
           { lat: p.lat, lon: p.lon, 
             name: p.name, 
             count: count_instances(p),
