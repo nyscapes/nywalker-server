@@ -66,6 +66,7 @@ class Place < Sequel::Model
   # end
   
   dataset_module do
+    
     def real_places_with_instances(book)
       if book == "all"
         where(id: Instance.select(:place_id))
@@ -77,6 +78,7 @@ class Place < Sequel::Model
         .all
       end
     end
+
   end
 end
 
