@@ -90,6 +90,20 @@ class Place < Sequel::Model
   #     oldplace.demolish!
   #   end
   # end
+  
+  dataset_module do
+    def real_places_with_instances(book)
+      if book == "all"
+        where(id: Instance.select(:place_id))
+        where(confidence: /[123]/)
+        .all
+      else
+        where(id: Instance.where(book: book).select(:place_id))
+        where(confidence: /[123]/)
+        .all
+      end
+    end
+  end
 end
 
 class Flag < Sequel::Model
