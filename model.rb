@@ -173,6 +173,7 @@ end
 
 class User < Sequel::Model
   plugin :validation_helpers
+  plugin :secure_password
 
   one_to_many :instances
   many_to_many :books, left_key: :user_id, right_key: :book_id, join_table: :book_users
