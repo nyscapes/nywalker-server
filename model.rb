@@ -136,10 +136,10 @@ class Book < Sequel::Model
     validates_unique :slug
   end
 
-  # def total_pages
-  #   instances = Instance.all(book: self).map{ |i| i.page }.sort
-  #   instances.length == 0 ? 0 : instances.last - instances.first
-  # end
+  def total_pages
+    instances = Instance.where(book: self).map(:page).sort
+    instances.length == 0 ? 0 : instances.last - instances.first
+  end
 
 end
 
