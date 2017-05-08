@@ -80,7 +80,7 @@ class App < Sinatra::Base
         object.save
         flash[:success] = "#{object.class} successfully saved!"
         redirect path
-      rescue DataMapper::SaveFailureError => @e
+      rescue Sequel::ValidationFailed => @e
         dm_error_and_redirect(object, path)
       rescue StandardError => @e
         mustache :error
@@ -88,7 +88,7 @@ class App < Sinatra::Base
     end
 
     def dm_error_and_redirect(object, path, error = "")
-      error = object.errors.values.join(', ') if error == ""
+      error = object.errors.map{ |key, value| "#{key} #{value.map{ |v| v }.join(',')}" }.to_sentence if error == ""
       flash[:error] = "Error: #{error}"
       redirect path
     end
@@ -98,26 +98,30 @@ class App < Sinatra::Base
     # end
 
     def book
-      @book ||= Book.first(slug: params[:book_slug]) || halt(404)
+      @book ||= Book[slug: params[:book_slug]] || halt(404)
     end
 
     def place
-      @place ||= Place.first(slug: params[:place_slug]) || halt(404)
+      @place ||= Place[slug: params[:place_slug]] || halt(404)
     end
 
     def instance
-      @instance ||= Instance.first(id: params[:instance_id]) || halt(404)
+      @instance ||= Instance[params[:instance_id]] || halt(404)
     end
 
     def this_user
-      @this_user ||= User.first(username: params[:user_username]) || halt(404)
+      @this_user ||= User[username: params[:user_username]] || halt(404)
+    end
+
+    def user
+      @user ||= env['warden'].user
     end
 
   end
 
   get "/" do
     @page_title = "Home"
-    @instances = Instance.all
+    @places = Place.real_places_with_instances("all")
     mustache :index
   end
 
@@ -142,7 +146,7 @@ class App < Sinatra::Base
 
   get "/citing" do
     @page_title = "Citing"
-    @books = Instance.all.book(order: [:title.asc]).uniq
+    @books = Book.where(id: Instance.select(:book_id)).order(:title).all
     mustache :citing
   end
   
