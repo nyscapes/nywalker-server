@@ -11,6 +11,7 @@ class App
     books_cache = redis.hmget "book-list", "last-updated", "list"
     @last_updated = last_updated(books_cache[0])
     @books = JSON.parse(books_cache[1], symbolize_names: true)
+    # @books = Book.order(:title).all
     mustache :books_show
   end
   
