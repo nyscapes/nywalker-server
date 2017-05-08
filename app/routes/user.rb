@@ -20,7 +20,7 @@ class App
   post '/users/new' do
     admin_only_page
     new_user = User.new
-    new_user.attributes = { name: params[:name], admin: params[:admin], email: params[:email], added_on: Time.now, password: params[:password] }
+    new_user.set( name: params[:name], admin: params[:admin], email: params[:email], added_on: Time.now, password: params[:password] )
     if params[:username] =~ /\W/
       flash[:error] = "Only alphanumeric characters in the username, please."
       redirect '/users/new'
