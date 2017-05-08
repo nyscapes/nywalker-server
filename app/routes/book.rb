@@ -48,7 +48,7 @@ class App
     protected_page
     @page_title = "Saving #{params[:title]}"
     saved_book = Book.new
-    saved_book.attributes = { author: params[:author], title: params[:title], isbn: params[:readonlyISBN], cover: params[:cover], url: params[:link], year: params[:year], users: [@user], slug: "#{params[:title]} #{params[:year]}", added_on: Time.now }
+    saved_book.set( author: params[:author], title: params[:title], isbn: params[:readonlyISBN], cover: params[:cover], url: params[:link], year: params[:year], users: [@user], slug: "#{params[:title]} #{params[:year]}", added_on: Time.now )
     save_object(saved_book, "/books/#{saved_book.slug}")
   end
 
@@ -56,13 +56,13 @@ class App
   
   get "/books/:book_slug" do
     @page_title = "#{book.title}"
-    @instances = Instance.all(book: book, order: [:page.asc, :sequence.asc]) # place.instances doesn't work?
+    @instances = Instance.all_sorted_for_book(book)
     mustache :book_show
   end
 
   get "/books/:book_slug/instances-csv" do
     @page_title = "#{book.title} - CSV"
-    @instances = Instance.all(book: book, order: [:page.asc, :sequence.asc]) # place.instances doesn't work?
+    @instances = Instance.all_sorted_for_book(book)
     salt = Time.now.nsec
     File.open("/tmp/#{book.slug}_instances_#{salt}.csv", "w+:UTF-16LE:UTF-8") do |f|
       csv_string = CSV.generate({col_sep: "\t"}) do |csv|
@@ -92,7 +92,7 @@ class App
 
   get "/books/:book_slug/instances-geojson" do
     @page_title = "#{book.title} - GeoJSON"
-    @instances = Instance.all(book: book, order: [:page.asc, :sequence.asc]) # place.instances doesn't work?
+    @instances = Instance.all_sorted_for_book(book)
     content_type :json
     attachment "#{book.slug}_instances.geo.json"
     geojson = { type: "FeatureCollection" }
@@ -162,8 +162,8 @@ class App
 
   get "/books/:book_slug/places-geojson" do
     @page_title = "#{book.title} - GeoJSON"
-    @instances = Instance.all(book: book, order: [:page.asc, :sequence.asc]) # place.instances doesn't work?
-    @places = @instances.places.all(:confidence.not => 0)
+    @instances = Instance.all_sorted_for_book(book)
+    @places = Place.all_with_instances(book)
     content_type :json
     attachment "#{book.slug}_places.geo.json"
     geojson = { type: "FeatureCollection" }
@@ -201,8 +201,8 @@ class App
 
   get "/books/:book_slug/places-csv" do
     @page_title = "#{book.title} - CSV"
-    @instances = Instance.all(book: book, order: [:page.asc, :sequence.asc]) # place.instances doesn't work?
-    @places = @instances.places.all #(:confidence.not => 0) We do want all the places now.
+    @instances = Instance.all_sorted_for_book(book)
+    @places = Place.all_with_instances(book, false)
     salt = Time.now.nsec
     File.open("/tmp/#{book.slug}_places_#{salt}.csv", "w+:UTF-16LE:UTF-8") do |f|
       csv_string = CSV.generate({col_sep: "\t"}) do |csv|
@@ -245,10 +245,10 @@ class App
   get "/books/:book_slug/places-special-csv-zip" do
     salt = Time.now.nsec
     @page_title = "#{book.title} - CSV"
-    @instances = Instance.all(book: book, order: [:page.asc, :sequence.asc]) # place.instances doesn't work?
+    @instances = Instance.all_sorted_for_book(book)
     @specials = @instances.map{|i| i.special}.uniq
     @specials.each do |special|
-      @places = @instances.all(special: special).places.all(:confidence.not => 0)
+      @places = @instances.select{ |i| i.special == special }.select{ |i| i.place.confidence != "0" }.map{ |i| i.place }
       File.open("/tmp/#{special.parameterize}_#{salt}.csv", "w+:UTF-16LE:UTF-8") do |f|
         csv_string = CSV.generate({col_sep: "\t"}) do |csv|
           csv << ["PLACE_ID", "NAME", "INSTANCE_COUNT", "AVG_INSTANCE_PG", "INSTANCE_STDEV", "AVG_INSTANCE_PG_PCT", "INSTANCE_STDEV_PCT", "LATITUDE", "LONGITUDE", "SOURCE", "GEONAMEID", "CONFIDENCE", "NICKNAMES", "NOTE", "FLAGGED", "ADDED_ON", "ADDED_BY", "SLUG"]
@@ -304,7 +304,7 @@ class App
   private
 
   def instances_by_place(place)
-    @instances.all(place: place)
+    Instance.where(place: place).all
   end
 
   

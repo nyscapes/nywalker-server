@@ -33,6 +33,15 @@ class Instance < Sequel::Model
     validates_presence [:page, :book, :text]
   end
 
+  dataset_module do
+
+    def all_sorted_for_book(book)
+      where(book: book)
+        .order(:page, :sequence)
+        .all
+    end
+  end
+
 end
 
 class Place < Sequel::Model
@@ -67,16 +76,16 @@ class Place < Sequel::Model
   
   dataset_module do
     
-    def real_places_with_instances(book)
+    def all_with_instances(book = "all", real = true)
       if book == "all"
-        where(id: Instance.select(:place_id))
-        where(confidence: /[123]/)
-        .all
+      q = where(id: Instance.select(:place_id))
       else
-        where(id: Instance.where(book: book).select(:place_id))
-        where(confidence: /[123]/)
-        .all
+      q = where(id: Instance.where(book: book).select(:place_id))
       end
+      if real
+        q = q.where(confidence:/[123]/)
+      end
+      q.all
     end
 
   end
