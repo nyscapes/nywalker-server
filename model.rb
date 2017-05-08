@@ -218,4 +218,8 @@ class User < Sequel::Model
     true
   end
 
+  def admin?
+    self.admin
+  end
+
 end
