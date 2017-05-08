@@ -105,11 +105,7 @@ class App
   post "/books/:book_slug/instances/:instance_id/delete" do
     protected_page
     puts "Deleting Instance #{instance.id} for #{book.title}"
-    page_instances = Instance.all(book: book, page: instance.page, :sequence.gt => instance.sequence)
     if instance.destroy
-      page_instances.each do |other_instance|
-        other_instance.update(sequence: other_instance.sequence - 1)
-      end
       flash[:success] = "Deleted instance #{instance.id}."
       redirect "/books/#{book.slug}"
     else

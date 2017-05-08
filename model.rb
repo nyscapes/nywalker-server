@@ -33,6 +33,25 @@ class Instance < Sequel::Model
     validates_presence [:page, :book, :text]
   end
 
+  dataset_module do
+
+    def all_sorted_for_book(book)
+      where(book: book)
+        .order(:page, :sequence)
+        .all
+    end
+
+  end
+
+  def before_destroy
+    n = Nickname.where(name: self.text, place: self.place).first
+    n.instance_count = n.instance_count - 1
+    n.save
+    Instance.where(book: self.book, page: self.page).where{ sequence > self.sequence }.each do |instance|
+      instance.update(sequence: instance.sequence - 1)
+    end
+  end
+
 end
 
 class Place < Sequel::Model
@@ -106,6 +125,15 @@ class Place < Sequel::Model
     end
 
   end
+
+  def before_destroy
+    if self.instances.count != 0
+      raise "There are instances attached to this place. Cannot delete"
+    else
+      self.nicknames_dataset.destroy
+    end
+  end
+
 end
 
 class Flag < Sequel::Model
