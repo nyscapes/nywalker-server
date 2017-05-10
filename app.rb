@@ -35,23 +35,24 @@ class App < Sinatra::Base
   register Sinatra::Namespace
   register Mustache::Sinatra
 
-  require "#{base}/app/helpers"
-  require "#{base}/app/views/layout"
+  require "#{base}/apprb/helpers"
+  require "#{base}/apprb/views/layout"
 
   set :mustache, {
-    :templates => "#{base}/app/templates",
-    :views => "#{base}/app/views",
+    :templates => "#{base}/apprb/templates",
+    :views => "#{base}/apprb/views",
     :namespace => App
   }
 
   set :sprockets, Sprockets::Environment.new(root)
-  set :assets_prefix, '/assets'
-  set :assets_path, File.join(root, 'public', assets_prefix)
+  set :assets_prefix, '/assetsrb'
+  set :assets_path, File.join(root, 'publicrb', assets_prefix)
   set :digest_assets, false
 
   configure do
-    sprockets.append_path "app/assets/stylesheets"
-    sprockets.append_path "app/assets/javascripts"
+    set :public_folder, File.join(root, 'dist')
+    sprockets.append_path "apprb/assets/stylesheets"
+    sprockets.append_path "apprb/assets/javascripts"
   end
 
   Sprockets::Helpers.configure do |config|
@@ -118,56 +119,60 @@ class App < Sinatra::Base
 
   end
 
-  get "/" do
-    @page_title = "Home"
-    @places = Place.all_with_instances()
-    mustache :index
-  end
-
-  post '/add_flag' do
-    object = string_to_object(params[:flag_object_type])[params[:flag_object_id]]
-    if object.update( flagged: true )
-      flash_string = "The #{object.class.to_s.downcase} has been marked as flagged"
-    end
-    if Flag.create( comment: params[:flag_comment], object_type: object.class.to_s.downcase, object_id: object.id, added_on: Time.now, user: @user )
-      flash_string += ", and the comment has been saved."
-      body = flagged_msg_body_text(object, params[:flag_comment])
-      mail("#{ENV['ADMIN_EMAIL_ADDRESS']}, #{@user.email}", "[NYWalker] Something got tagged", body)
-    end
-    flash[:success] = flash_string if flash_string
-    redirect back
-  end
-
-  get "/about" do
-    @page_title = "About"
-    mustache :about
-  end
-
-  get "/citing" do
-    @page_title = "Citing"
-    @books = Book.where(id: Instance.select(:book_id)).order(:title).all
-    mustache :citing
+  get '*' do
+    send_file 'dist/index.html'
   end
   
-  get "/rules" do
-    @page_title = "Rules"
-    mustache :rules
-  end
-  
-  get "/help" do
-    @page_title = "Help"
-    mustache :help
-  end
+  # get "/" do
+  #   @page_title = "Home"
+  #   @places = Place.all_with_instances()
+  #   mustache :index
+  # end
 
-  # Other, CRUD routes.
-  require "#{base}/app/routes/instance"
-  require "#{base}/app/routes/book"
-  require "#{base}/app/routes/place"
-  require "#{base}/app/routes/user"
-  require "#{base}/app/routes/authentication"
+  # post '/add_flag' do
+  #   object = string_to_object(params[:flag_object_type])[params[:flag_object_id]]
+  #   if object.update( flagged: true )
+  #     flash_string = "The #{object.class.to_s.downcase} has been marked as flagged"
+  #   end
+  #   if Flag.create( comment: params[:flag_comment], object_type: object.class.to_s.downcase, object_id: object.id, added_on: Time.now, user: @user )
+  #     flash_string += ", and the comment has been saved."
+  #     body = flagged_msg_body_text(object, params[:flag_comment])
+  #     mail("#{ENV['ADMIN_EMAIL_ADDRESS']}, #{@user.email}", "[NYWalker] Something got tagged", body)
+  #   end
+  #   flash[:success] = flash_string if flash_string
+  #   redirect back
+  # end
+
+  # get "/about" do
+  #   @page_title = "About"
+  #   mustache :about
+  # end
+
+  # get "/citing" do
+  #   @page_title = "Citing"
+  #   @books = Book.where(id: Instance.select(:book_id)).order(:title).all
+  #   mustache :citing
+  # end
+  
+  # get "/rules" do
+  #   @page_title = "Rules"
+  #   mustache :rules
+  # end
+  
+  # get "/help" do
+  #   @page_title = "Help"
+  #   mustache :help
+  # end
+
+  # # Other, CRUD routes.
+  # require "#{base}/app/routes/instance"
+  # require "#{base}/app/routes/book"
+  # require "#{base}/app/routes/place"
+  # require "#{base}/app/routes/user"
+  # require "#{base}/app/routes/authentication"
 
   # The API
-  require "#{base}/app/routes/api"
+  require "#{base}/apprb/routes/api"
 
 
   def get_bbox(bbox)
@@ -294,6 +299,6 @@ class App < Sinatra::Base
 
   # To get user authentication to work.
   # Methods, Warden definitions, etc.
-  require "#{base}/app/authentication"
+  require "#{base}/apprb/authentication"
 
 end

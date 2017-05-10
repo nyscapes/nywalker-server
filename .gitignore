@@ -1,6 +1,19 @@
+# Ember gear
+/dist
+/node_modules
+/bower_components
+/.sass-cache
+/connect.lock
+/coverage/*
+/libpeerconnection.log
+npm-debug.log
+testem.log
+
 .env
 /puma.rb
 /users.rb
+
+.DS_Store
 
 *.log
 *.pid
