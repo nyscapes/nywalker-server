@@ -180,7 +180,7 @@ class App < Sinatra::Base
       string
     else
       flash.each do |type, message|
-        string << "<div class='alert #{bootstrap_class_for type} fade in'>"
+        string << "<div class='alert #{bootstrap_class_for type} alert-dismissable fade show' role='alert'>"
         string << "<button class='close' data-dismiss='alert'>&times;</button>"
         unless message.nil?
           string << message
