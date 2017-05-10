@@ -123,7 +123,7 @@ class App < Sinatra::Base
   end
 
   post '/add_flag' do
-    object = string_to_object(params[:flag_object_type]).get(params[:flag_object_id])
+    object = string_to_object(params[:flag_object_type])[params[:flag_object_id]]
     if object.update( flagged: true )
       flash_string = "The #{object.class.to_s.downcase} has been marked as flagged"
     end
