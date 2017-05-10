@@ -37,7 +37,7 @@ class App
     if instance.text.nil? || instance.text == ""
       dm_error_and_redirect(instance, request.path, "The “Place name in text” was left blank.")
     else
-      nickname = Nickname.where(name: instance.text).where(place: location).first
+      nickname = Nickname.where(name: instance.text, place: location).first
       if nickname.nil?
         new_nick = Nickname.create(name: instance.text, place: location, instance_count: 1)
         settings.nicknames_list << { string: new_nick.list_string, instance_count: 1 }
