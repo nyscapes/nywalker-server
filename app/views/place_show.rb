@@ -12,6 +12,10 @@ class App
         @place.name
       end
 
+      def note?
+        @place.note.length > 0
+      end
+
       def note
         @place.note
       end
