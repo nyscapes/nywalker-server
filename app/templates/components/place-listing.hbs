@@ -1,14 +1,18 @@
 <tr>
   <td>
     <a href="#" onclick="recenterMap(L.latLng({{place.lat}}, {{place.lon}}));">
-      <span class="fa fa-globe" aria-hidden="true"></span>
+      {{fa-icon "globe"}}
     </a>
   </td>
   <td>
-    {{place.flagged}}
+    {{#if place.flagged}}
+      {{fa-icon "flag"}}
+    {{/if}}
   </td>
   <td>
-    {{place.note}}
+    {{#if place.note}}
+      {{fa-icon "comment"}}
+    {{/if}}
   </td>
   <td class="confidence_class">
     <a href="/places/{{place.slug}}">
