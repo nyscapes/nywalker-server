@@ -2,6 +2,7 @@
 
 require "sinatra/base"
 require "sinatra/flash"
+require "sinatra/namespace"
 require "mustache/sinatra"
 require "sinatra-health-check"
 require "sprockets"
@@ -31,6 +32,7 @@ class App < Sinatra::Base
   set :root, base
 
   register Sinatra::Flash
+  register Sinatra::Namespace
   register Mustache::Sinatra
 
   require "#{base}/app/helpers"
@@ -163,6 +165,9 @@ class App < Sinatra::Base
   require "#{base}/app/routes/place"
   require "#{base}/app/routes/user"
   require "#{base}/app/routes/authentication"
+
+  # The API
+  require "#{base}/app/routes/api"
 
 
   def get_bbox(bbox)

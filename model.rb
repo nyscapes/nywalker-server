@@ -21,6 +21,8 @@ end
 #
 # I mean, if you want to pay…
 
+Sequel::Model.plugin :json_serializer # add #to_json
+
 class Instance < Sequel::Model
   plugin :validation_helpers
 
