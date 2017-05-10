@@ -15,13 +15,15 @@
       <p class="form-control-static" id="inputAddedOn">{{added_on}}</p>
     </div>
     <div style="height: 150px;" id="editMap"></div>
-    <div class="form-group">
-      <label for="inputLat">Latitude (<em>y</em>)</label>
-      <input type="text" class="form-control" name="lat" placeholder="" value="{{lat}}" id="inputLat">
-    </div>
-    <div class="form-group">
-      <label for="inputLon">Longitude (<em>x</em>)</label>
-      <input type="text" class="form-control" name="lon" placeholder="" value="{{lon}}" id="inputLon">
+    <div class="row">
+      <div class="col-6 form-group">
+        <label for="inputLat">Latitude (<em>y</em>)</label>
+        <input type="text" class="form-control" name="lat" placeholder="" value="{{lat}}" id="inputLat">
+      </div>
+      <div class="col-6 form-group">
+        <label for="inputLon">Longitude (<em>x</em>)</label>
+        <input type="text" class="form-control" name="lon" placeholder="" value="{{lon}}" id="inputLon">
+      </div>
     </div>
     <p class="m-1 form-text text-muted">Change these to fine-tune or correct the geolocation. Use <a href="http://latlong.net" target="_blank">LatLong <span class='fa fa-external-link' aria-hidden='true'></span></a> to get new coordinates by hand.</p>
     <div class="form-group">

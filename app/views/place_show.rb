@@ -53,9 +53,9 @@ class App
         @place.flagged
       end
 
-      # def source
-      #   @place.source
-      # end
+      def source
+        @place.source
+      end
 
       # def source_button
       #   @place.source =~ URI::regexp(['http', 'https'])
