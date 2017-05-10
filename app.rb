@@ -119,10 +119,6 @@ class App < Sinatra::Base
 
   end
 
-  get '*' do
-    send_file 'dist/index.html'
-  end
-  
   # get "/" do
   #   @page_title = "Home"
   #   @places = Place.all_with_instances()
@@ -300,5 +296,10 @@ class App < Sinatra::Base
   # To get user authentication to work.
   # Methods, Warden definitions, etc.
   require "#{base}/apprb/authentication"
+
+  # When in doubt, dump to Ember.
+  get '*' do
+    send_file 'dist/index.html'
+  end
 
 end
