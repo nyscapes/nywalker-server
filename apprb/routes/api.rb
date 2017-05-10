@@ -11,8 +11,8 @@ class App
         return unless request.body.respond_to?(:size) &&
           request.body.size > 0
 
-        # halt 415 unless request.content_type &&
-        #   request.content_type[/^[^;]+/] == mime_type(:api_json)
+        halt 415 unless request.content_type &&
+          request.content_type[/^[^;]+/] == mime_type(:api_json)
 
         request.body.rewind
         JSON.parse(request.body.read, symbolize_names: true)
@@ -31,7 +31,7 @@ class App
     end
 
     before do
-      # halt 406 unless request.preferred_type.entry == mime_type(:api_json)
+      halt 406 unless request.preferred_type.entry == mime_type(:api_json)
       @data = parse_request_body
       content_type :api_json
     end

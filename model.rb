@@ -21,7 +21,7 @@ end
 #
 # I mean, if you want to pay…
 
-Sequel::Model.plugin :json_serializer # add #to_json
+Sequel::Model.plugin :tactical_eager_loading # reduce queries.
 
 class Instance < Sequel::Model
   plugin :validation_helpers
