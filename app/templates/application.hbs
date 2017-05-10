@@ -1,2 +1,15 @@
-<h1>NYWalker</h1>
+<nav class="navbar navbar-inverse bg-inverse navbar-toggleable-md fixed-top">
+    <button type="button" class="navbar-toggler navbar-toggler-right" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="/">NYWalker</a>
+
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="mr-auto navbar-nav">
+        <li>{{#link-to 'help'}}Help{{/link-to}}</li>
+        <li>{{#link-to 'about'}}About{{/link-to}}</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+</nav>
 {{outlet}}
