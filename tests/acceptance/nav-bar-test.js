@@ -28,3 +28,12 @@ test('Help button leads to Help', function(assert) {
     assert.equal(currentURL(), '/help');
   });
 });
+
+test('Places button leads to Places', function(assert) {
+  visit('/');
+  click('a:contains("Places")');
+
+  andThen(function() {
+    assert.equal(currentURL(), '/places');
+  });
+});
