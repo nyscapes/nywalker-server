@@ -121,7 +121,7 @@ class App
   post "/places/:place_slug/delete" do
     protected_page
     if place.instances.length > 0
-      "<script>alert('Cannot delete #{place.name}, as it has instances');</script>"
+      "<script>alert('Cannot delete #{place.name}, as it has instances.');</script>"
     else
       puts "Deleting Place #{place.id}"
       if place.destroy
