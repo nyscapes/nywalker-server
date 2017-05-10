@@ -197,6 +197,16 @@ class Book < Sequel::Model
     instances.length == 0 ? 0 : instances.last - instances.first
   end
 
+  dataset_module do
+
+    def all_with_instances_sorted
+      where(id: Instance.select(self))
+        .order(:title)
+        .all
+    end
+    
+  end
+
 end
 
 class User < Sequel::Model

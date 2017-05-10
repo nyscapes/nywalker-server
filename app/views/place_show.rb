@@ -78,7 +78,7 @@ class App
       end
 
       def books
-        @books.map{|b| { book_slug: b.slug, book_title: b.title, instances: Instance.where(place: @place).where(book: b).all.length } }
+        @books.map{|b| { book_slug: b.slug, book_title: b.title, instances: Instance.where(place: @place, book: b).all.length } }
       end
 
       def source_link
