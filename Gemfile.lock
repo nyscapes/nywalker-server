@@ -45,6 +45,8 @@ GEM
     httparty (0.14.0)
       multi_xml (>= 0.5.2)
     i18n (0.8.1)
+    jsonapi-serializers (1.0.0)
+      activesupport
     mail (2.6.4)
       mime-types (>= 1.16, < 4)
     mime-types (3.1)
@@ -129,6 +131,7 @@ DEPENDENCIES
   foreman
   georuby
   googlebooks
+  jsonapi-serializers
   mustache-sinatra
   pg
   pony

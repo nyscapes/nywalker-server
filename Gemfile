@@ -5,7 +5,10 @@ ruby '2.2.3'
 ### FUNDAMENTALS
 # Sinatra, sinatrarb.com, is the web framework that makes the site run.
 gem 'sinatra'
+
+# For the API
 gem 'sinatra-contrib'
+gem 'jsonapi-serializers'
 
 # Sinatra-flash talks more smoothly to Rack::Flash to provide messages that go
 # from one page to another, such as save confirmations or errors.

@@ -18,6 +18,7 @@ require "active_support" # for the slug.
 require "active_support/inflector"
 require "active_support/core_ext/array/conversions"
 require "descriptive_statistics"
+require "jsonapi-serializers"
 
 require_relative "./model"
 
@@ -296,6 +297,9 @@ class App < Sinatra::Base
   # To get user authentication to work.
   # Methods, Warden definitions, etc.
   require "#{base}/apprb/authentication"
+
+  # To get the API to work.
+  require "#{base}/apprb/api"
 
   # When in doubt, dump to Ember.
   get '*' do
