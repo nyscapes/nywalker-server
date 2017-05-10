@@ -1,0 +1,29 @@
+<h1>List of Places</h1>
+<p class="lead">All the places that we have added to the database.</p>
+<div class="row">
+  <div class="col-sm-6">
+      <a href="/places/new" class="btn btn-primary" role="button">Add Place</a>
+    <table class="table table-sm m-3 table-hover">
+      <thead class="thead-inverse">
+        <tr>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
+          <th>Place</th>
+          <th>Instances</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each model as |place|}}
+          {{place-listing place=place}}
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+  <div style="col-sm-6">
+    <div id="map">
+      mappable places.
+    </div>
+  </div>
+</div>
+
