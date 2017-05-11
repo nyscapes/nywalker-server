@@ -45,7 +45,7 @@ class App
 
   # Places
     get '/places' do
-      places = Place.all
+      places = Place.all.sort_by{ |p| p.instance_count }.reverse
       serialize_models(places).to_json
     end
 
