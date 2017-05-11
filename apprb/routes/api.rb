@@ -7,7 +7,6 @@ class App
 
     helpers do
       def parse_request_body
-        puts request.body
         return unless request.body.respond_to?(:size) &&
           request.body.size > 0
 
@@ -45,7 +44,12 @@ class App
 
   # Places
     get '/places' do
-      places = Place.all.sort_by{ |p| p.instance_count }.reverse
+      if params[:name]
+        places = Place.where(name: /#{params[:name]}/i)
+      else
+        places = Place.all
+      end
+      places = places.sort_by{ |p| p.instance_count }.reverse
       serialize_models(places).to_json
     end
 

@@ -3,11 +3,15 @@
 <div class="row">
   <div class="col-sm-6">
     <a href="/places/new" class="btn btn-primary" role="button">Add Place</a>
-    <ul>
-      {{#each model as |place|}}
+    {{#place-filter
+      filter=(action 'filterByName')
+      as |places|}}
+    <ul class="results">
+      {{#each places as |place|}}
         {{place-listing place=place}}
       {{/each}}
     </ul>
+    {{/place-filter}}
   </div>
   <div style="col-sm-6">
     <div id="map">
