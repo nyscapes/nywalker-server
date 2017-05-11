@@ -69,6 +69,10 @@ class Place < Sequel::Model
     validates_unique :slug
   end
 
+  def instance_count
+    self.instances.length
+  end
+
   # def demolish!
   #   self.nicknames.each{ |n| n.destroy! }
   #   self.destroy!

@@ -11,6 +11,7 @@ export default DS.Model.extend({
   note: DS.attr('string'),
   lat: DS.attr('number'),
   lon: DS.attr('number'),
-  // added_on: DS.attr('date'), //?
+  instance_count: DS.attr('number'),
+  added_on: DS.attr('date'), //?
   flagged: DS.attr('boolean')
 });
