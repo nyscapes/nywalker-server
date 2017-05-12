@@ -73,6 +73,10 @@ class Place < Sequel::Model
     self.instances.length
   end
 
+  def nickname_sentence
+    self.nicknames.map{ |n| n.name }.to_sentence
+  end
+
   # def demolish!
   #   self.nicknames.each{ |n| n.destroy! }
   #   self.destroy!

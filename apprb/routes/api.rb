@@ -17,16 +17,17 @@ class App
         JSON.parse(request.body.read, symbolize_names: true)
       end
 
+      def serialize_models(models, options = {})
+        options[:is_collection] = true
+        JSONAPI::Serializer.serialize(models, options)
+      end
+
       def serialize_model(model, options = {})
         options[:is_collection] = false
         options[:skip_collection_check] = true
         JSONAPI::Serializer.serialize(model, options)
       end
 
-      def serialize_models(models, options = {})
-        options[:is_collection] = true
-        JSONAPI::Serializer.serialize(models, options)
-      end
     end
 
     before do
@@ -43,15 +44,29 @@ class App
   # Instances
 
   # Places
+
+  # INDEX
     get '/places' do
-      if params[:name]
-        places = Place.where(name: /#{params[:name]}/i)
-      else
-        places = Place.all
+      if params[:slug]
+        place = Place.where(slug: params[:slug]).first
+        not_found if place.nil?
+        serialize_model(place, include: 'nicknames').to_json
+      else 
+        if params[:name]
+          places = Place.where(name: /#{params[:name]}/i)
+        else
+          places = Place.all
+        end
+        places = places.sort_by{ |p| p.instance_count }.reverse
+        serialize_models(places).to_json
       end
-      places = places.sort_by{ |p| p.instance_count }.reverse
-      serialize_models(places).to_json
     end
 
+  # CREATE
+    
+  # UPDATE
+
+  # DESTROY
+    
   end
 end

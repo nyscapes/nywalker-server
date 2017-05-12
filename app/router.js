@@ -9,7 +9,9 @@ const Router = Ember.Router.extend({
 Router.map(function() {
   this.route('about');
   this.route('help');
-  this.route('places');
+  this.route('places', function() {
+    this.route('show', { path: '/:place_slug' });
+  });
 });
 
 export default Router;
