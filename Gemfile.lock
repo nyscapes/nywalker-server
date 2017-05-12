@@ -6,8 +6,6 @@ GEM
       i18n (~> 0.7)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
-    addressable (2.5.1)
-      public_suffix (~> 2.0, >= 2.0.2)
     backports (3.8.0)
     bcrypt (3.1.11)
     builder (3.2.3)
@@ -26,16 +24,11 @@ GEM
     dbf (3.1.0)
     descriptive_statistics (2.5.1)
     diff-lcs (1.3)
-    dm-core (1.2.1)
-      addressable (~> 2.3)
-    dm-rspec (0.3.0)
-      dm-core
-      dm-validations
-    dm-validations (1.2.0)
-      dm-core (~> 1.2.0)
     dotenv (2.2.0)
     factory_girl (4.8.0)
       activesupport (>= 3.0.0)
+    faker (1.7.3)
+      i18n (~> 0.5)
     foreman (0.84.0)
       thor (~> 0.19.1)
     georuby (2.5.2)
@@ -62,7 +55,6 @@ GEM
     pg (0.20.0)
     pony (1.11)
       mail (>= 2.0)
-    public_suffix (2.0.5)
     puma (3.8.2)
     rack (1.6.5)
     rack-protection (1.5.3)
@@ -125,9 +117,9 @@ DEPENDENCIES
   cucumber
   dbf
   descriptive_statistics
-  dm-rspec
   dotenv
   factory_girl
+  faker
   foreman
   georuby
   googlebooks

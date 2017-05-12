@@ -82,8 +82,8 @@ group :test, :development do
   gem 'foreman'
   gem 'rack-test', require: 'rack/test'
   gem 'rspec'
-  gem 'dm-rspec'
   gem 'factory_girl'
+  gem 'faker'
   gem 'cucumber'
 end
 
