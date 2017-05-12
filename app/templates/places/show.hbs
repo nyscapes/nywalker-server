@@ -2,6 +2,16 @@
   <div class="card-header">
     Place
   </div>
+
+  {{#leaflet-map id="short-map" lat=model.lat lng=model.lon zoom=10 class="card-img-top" as |layers|}}
+    {{layers.tile url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"}}
+    {{#layers.marker location=model.latlng as |marker|}}
+      {{#marker.popup}}
+        {{model.nickname_sentence}}
+      {{/marker.popup}}
+      {{/layers.marker}}
+  {{/leaflet-map}}
+
   <div class="card-block">
     <h2 class="card-title">{{model.name}}</h2>
     <h3>{{model.instance_count}} instances</h3>

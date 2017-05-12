@@ -15,5 +15,10 @@ export default DS.Model.extend({
   instance_count: DS.attr('number'),
   added_on: DS.attr('date'), //?
   nicknames: DS.hasMany('nickname'),
-  flagged: DS.attr('boolean')
+  flagged: DS.attr('boolean'),
+
+  latlng: Ember.computed('lat', 'lon', function() {
+    return [this.get('lat'), this.get('lon')];
+  })
+
 });
