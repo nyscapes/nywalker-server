@@ -1,5 +1,6 @@
-<li class="place">
-  {{place.name}}
+<div class="place">
+  {{#link-to "places.show" place.slug}}{{place.name}}{{/link-to}}
+  <!-- {{place.name}} -->
   <small>
     {{#if place.flagged}}
       {{fa-icon "flag"}}
@@ -9,4 +10,4 @@
     {{/if}}
     ({{place.instance_count}} instances)
   </small>
-</li>
+</div>

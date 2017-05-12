@@ -9,11 +9,11 @@
     {{#place-filter
       filter=(action 'filterByName')
       as |places|}}
-    <ul class="results">
+    <div class="results">
       {{#each places as |place|}}
         {{place-listing place=place}}
       {{/each}}
-    </ul>
+    </div>
     {{/place-filter}}
   </div>
 </div>
