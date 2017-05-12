@@ -19,7 +19,11 @@ export default DS.Model.extend({
   flagged: DS.attr('boolean'),
 
   latlng: Ember.computed('lat', 'lon', function() {
-    return [this.get('lat'), this.get('lon')];
+    if (this.get('lat') === null) {
+      return null;
+    } else {
+      return [this.get('lat'), this.get('lon')];
+    }
   })
 
 });
