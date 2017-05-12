@@ -82,6 +82,7 @@ group :test, :development do
   gem 'rack-test', require: 'rack/test'
   gem 'rspec'
   gem 'factory_girl'
+  gem 'faker'
   gem 'cucumber'
   gem 'capybara'
 end

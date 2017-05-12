@@ -1,5 +1,8 @@
-require 'rack/test'
 require File.expand_path '../../app.rb', __FILE__
+require 'rack/test'
+require 'factory_girl'
+require 'faker'
+require 'active_support/hash_with_indifferent_access'
 
 ENV['RACK_ENV'] = 'test'
 
@@ -106,5 +109,15 @@ RSpec.configure do |config|
 =end
 
   config.include RSpecMixin
+
+  config.include FactoryGirl::Syntax::Methods
+
+  config.before(:suite) do
+    FactoryGirl.find_definitions
+  end
+
+  config.around(:each) do |example|
+    DB.transaction(rollback: :always, auto_savepoint: true){ example.run }
+  end
 end
 
