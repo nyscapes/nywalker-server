@@ -1,18 +1,4 @@
-<nav class="navbar navbar-inverse bg-inverse navbar-toggleable-md fixed-top">
-    <button type="button" class="navbar-toggler navbar-toggler-right" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-      <span class="sr-only">Toggle navigation</span>
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <a class="navbar-brand" href="/">NYWalker</a>
-
-    <div id="navbar" class="collapse navbar-collapse">
-      <ul class="mr-auto navbar-nav">
-        <li class="nav-item">{{#link-to 'places' class="nav-link"}}Places{{/link-to}}</li>
-        <li class="nav-item">{{#link-to 'help' class="nav-link"}}Help{{/link-to}}</li>
-        <li class="nav-item">{{#link-to 'about' class="nav-link"}}About{{/link-to}}</li>
-      </ul>
-    </div><!--/.nav-collapse -->
-</nav>
+{{nav-navbar}}
 <div id="body-container" class="container" role="main">
 {{outlet}}
 </div>

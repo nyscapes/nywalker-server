@@ -1,0 +1,33 @@
+{{#bs-navbar position="fixed-top" class="navbar-inverse" backgroundColor="inverse" as |navbar|}}
+  <div class="navbar-header">
+    {{navbar.toggle}}
+    <a class="navbar-brand" href="/">NYWalker</a>
+  </div>
+  {{#navbar.content}}
+    {{#navbar.nav class="mr-auto" as |nav|}}
+      {{#nav.item}}
+        {{#nav.link-to 'places'}}Places{{/nav.link-to}}
+      {{/nav.item}}
+      {{#nav.item}}
+        {{#nav.link-to 'help'}}Help{{/nav.link-to}}
+      {{/nav.item}}
+      {{#nav.item}}
+        {{#nav.link-to 'about'}}About{{/nav.link-to}}
+      {{/nav.item}}
+    {{/navbar.nav}}
+    {{#navbar.nav class="my-2 my-lg-0" as |nav|}}
+      {{#if session.isAuthenticated}}
+        {{#nav.item}}
+          {{#nav.link-to 'places'}}{{fa-icon "user"}} username{{/nav.link-to}}
+        {{/nav.item}}
+        {{#nav.item}}
+          {{#nav.link-to 'places'}}Logout{{/nav.link-to}}
+        {{/nav.item}}
+      {{else}}
+        {{#nav.item}}
+          {{#nav.link-to 'login'}}Login{{/nav.link-to}}
+        {{/nav.item}}
+      {{/if}}
+    {{/navbar.nav}}
+  {{/navbar.content}}
+{{/bs-navbar}}
