@@ -7,8 +7,9 @@ class App
 
     helpers do
       def parse_request_body
-        return unless request.body.respond_to?(:size) &&
-          request.body.size > 0
+        # Rack::Lint::InputWrapper doesn't respond to #size!
+        # return unless request.body.respond_to?(:size) &&
+        #   request.body.size > 0
 
         halt 415 unless request.content_type &&
           request.content_type[/^[^;]+/] == mime_type(:api_json)
@@ -28,10 +29,14 @@ class App
         JSONAPI::Serializer.serialize(model, options)
       end
 
+      def error_invalid
+        status 400
+        { "error": "invalid_grant" }.to_json
+      end
+
     end
 
     before do
-      puts request.body.read
       halt 406 unless request.preferred_type.entry == mime_type(:api_json)
       @data = parse_request_body
       content_type :api_json
@@ -66,10 +71,20 @@ class App
   # AUTH
 
     post '/token' do
-      # user = User.where(username: "moacir").first
-      # serialize_model(user).to_json
-      status 200
-      { "access_token": "secret!", "account_id": 1 }.to_json
+      if @data[:grant_type] == "password"
+        user = User.where(username: @data[:username]).first
+        if user.nil?
+          error_invalid
+        elsif user.authenticate(@data[:password]) == user
+          status 200
+          { "access_token": "secret!", "account_id": user.id }.to_json
+        else
+          error_invalid
+        end
+      else
+        status 400
+        { "error": "unsupported_grant_type" }.to_json
+      end
     end
 
     post '/revoke' do
