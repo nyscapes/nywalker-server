@@ -6,6 +6,10 @@ class BaseSerializer
   end
 end
 
+class BookSerializer < BaseSerializer
+  attributes :title, :author, :slug
+end
+
 class PlaceSerializer < BaseSerializer
   attributes :name, :slug, :confidence, :source, :geonameid, :what3word, :bounding_box_string, :note, :lat, :lon, :added_on, :flagged, :instance_count, :nickname_sentence
 
