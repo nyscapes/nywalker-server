@@ -31,9 +31,11 @@ class App
       end
 
       def build_total_pages(model, page_size)
-        # page_size = page_size.to_i
-        # if page_size == 0 || page_size
-        @meta[:meta][:total_pages] = (model.count / page_size.to_f).ceil
+        if page_size.respond_to?(:to_i) && page_size.to_i != 0
+          @meta[:meta][:total_pages] = (model.count / page_size.to_f).ceil
+        else
+          halt 400
+        end
       end
 
       def error_invalid
