@@ -5,6 +5,6 @@ export default DS.Model.extend({
   name: DS.attr('string'),
   email: DS.attr('string'),
   admin: DS.attr('boolean'),
-  places: DS.hasMany('place'),
-  instances: DS.hasMany('instance')
+  // instances: DS.hasMany('instance'),
+  places: DS.hasMany('place')
 });
