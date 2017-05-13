@@ -31,6 +31,7 @@ class App
     end
 
     before do
+      puts request.body.read
       halt 406 unless request.preferred_type.entry == mime_type(:api_json)
       @data = parse_request_body
       content_type :api_json
@@ -65,9 +66,14 @@ class App
   # AUTH
 
     post '/token' do
-      puts request.body
+      # user = User.where(username: "moacir").first
+      # serialize_model(user).to_json
       status 200
-      "hi"
+      { "access_token": "secret!", "account_id": 1 }.to_json
+    end
+
+    post '/revoke' do
+      status 200
     end
 
     
