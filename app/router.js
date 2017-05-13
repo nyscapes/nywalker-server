@@ -13,6 +13,7 @@ Router.map(function() {
     this.route('show', { path: '/:place_slug' });
   });
   this.route('login');
+  this.route('places-pages');
 });
 
 export default Router;

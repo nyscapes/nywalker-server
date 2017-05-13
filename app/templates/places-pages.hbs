@@ -1,0 +1,24 @@
+<h1>List of Places</h1>
+<p class="lead">All the places that we have added to the database.</p>
+<div class="row">
+  <div style="col-sm-6 flex-last">
+    {{outlet}} <!-- places/show -->
+  </div>
+  <div class="col-sm-6 flex-first">
+    <!-- <a href="/places/new" class="btn btn-primary" role="button">Add Place</a> -->
+    <!-- {{im-paginator model=place}} -->
+    {{#impagination-dataset
+      fetch=(action "fetch")
+      page-size=pageSize
+      load-horizon=loadHorizon
+      on-init=(action 'initializeReadOffset')
+      as |places|}}
+      <div class="records">Total: {{places.length}}</div>
+      <div class="results">
+        {{#each places as |place|}}
+          {{place-listing place=place}}
+        {{/each}}
+      </div>
+    {{/impagination-dataset}}
+  </div>
+</div>
