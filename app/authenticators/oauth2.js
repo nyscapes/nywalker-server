@@ -6,7 +6,6 @@ export default OAuth2PasswordGrant.extend({
   makeRequest: function(url, data, headers = {}) {
     headers['Content-Type'] = 'application/vnd.api+json';
     headers['Accept'] = 'application/vnd.api+json';
-    console.log(headers);
     return this._super(url, data, headers);
     // const body = keys(data).map((key) => {
     //   return `${key}=${data[key]}`;

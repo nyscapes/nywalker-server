@@ -62,11 +62,14 @@ class App
       end
     end
 
-  # CREATE
-    
-  # UPDATE
+  # AUTH
 
-  # DESTROY
+    post '/token' do
+      puts request.body
+      status 200
+      "hi"
+    end
+
     
   end
 end
