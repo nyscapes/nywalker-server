@@ -1,3 +1,5 @@
-import Cookie from 'ember-simple-auth/session-stores/cookie';
+import AdaptiveStore from 'ember-simple-auth/session-stores/adaptive';
 
-export default Cookie.extend();
+export default AdaptiveStore.extend({
+    cookieName: 'nywalker-session-cookie'
+});
