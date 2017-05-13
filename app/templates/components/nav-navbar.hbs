@@ -18,7 +18,7 @@
     {{#navbar.nav class="my-2 my-lg-0" as |nav|}}
       {{#if session.isAuthenticated}}
         {{#nav.item}}
-          {{#nav.link-to 'places'}}{{fa-icon "user"}} username{{/nav.link-to}}
+        {{#nav.link-to 'places'}}{{fa-icon "user"}} {{sessionAccount.user.name}}{{/nav.link-to}}
         {{/nav.item}}
         {{#nav.item}}
           <a {{action 'logout'}} class="nav-link">Logout</a>

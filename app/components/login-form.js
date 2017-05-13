@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import config from '../config/environment';
 
 const { inject: { service }, Component } = Ember;
 
