@@ -1,11 +1,11 @@
 {{#bs-form formLayout="vertical" onSubmit=(action 'authenticate') as |form|}}
   {{#form.group}}
     <label for="identification" class="control-label">Login</label>
-    <input id="username" placeholder="Username" class="form-control" type="text">
+    {{input value=identification placeholder="Username" class="form-control"}}
   {{/form.group}}
   {{#form.group}}
     <label class="control-label" for="password">Password</label>
-    <input id="password" placeholder="Password" type="password" class="form-control">
+    {{input value=password placeholder="Password" class="form-control" type="password"}}
   {{/form.group}}
   <button type="submit">Login</button>
   {{#if errorMessage}}
