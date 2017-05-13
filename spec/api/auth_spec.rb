@@ -4,16 +4,6 @@ describe "NYWalker API" do
   let(:apiurl) { "/api/v1" }
   let(:accept) { { "HTTP_ACCEPT" => "application/vnd.api+json" } }
 
-  it "punts if the request doesn't ask for JSON API" do
-    get apiurl 
-    expect(last_response.status).to eq 406
-  end
-
-  it "accepts a request that asks for JSON API" do
-    get apiurl, {}, accept
-    expect(last_response.status).to eq 200
-  end
-
   context "logging in" do
 
     context "with no payload" do
@@ -32,6 +22,7 @@ describe "NYWalker API" do
 
       let(:data) { '{"grant_type":"password", "username":"beetlejuice", "password":"beetlejuice"}' }
       let(:data_json) { accept.merge "CONTENT_TYPE" => "application/vnd.api+json" }
+
       it "fails when the data is not JSONAPI" do
         post apiurl + "/token", data, accept
         expect(last_response.status).to eq 415
@@ -55,26 +46,6 @@ describe "NYWalker API" do
     it "sends a request to /revoke" do
       post apiurl + "/revoke", {}, accept
       expect(last_response.status).to eq 200
-    end
-  end
-
-  context "querying for a user" do
-
-    context "who exists" do
-
-      let(:user) { create(:user) }
-
-      it "delivers the user's profile" do
-        get apiurl + "/users/#{user.id}", {}, accept
-        expect(JSON.parse(last_response.body)["data"]["attributes"]["name"]).to eq user.name
-      end
-    end
-
-    context "who doesn't exist" do
-      it "fails with a 404" do
-        get apiurl + "/users/0", {}, accept
-        expect(last_response.status).to eq 404
-      end
     end
   end
 end

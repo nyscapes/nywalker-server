@@ -21,13 +21,19 @@ class App
 
       def serialize_models(models, options = {})
         options[:is_collection] = true
-        JSONAPI::Serializer.serialize(models, options)
+        JSONAPI::Serializer.serialize(models, options).merge @meta
       end
 
       def serialize_model(model, options = {})
         options[:is_collection] = false
         options[:skip_collection_check] = true
-        JSONAPI::Serializer.serialize(model, options)
+        JSONAPI::Serializer.serialize(model, options).merge @meta
+      end
+
+      def build_total_pages(model, page_size)
+        # page_size = page_size.to_i
+        # if page_size == 0 || page_size
+        @meta[:meta][:total_pages] = (model.count / page_size.to_f).ceil
       end
 
       def error_invalid
@@ -41,6 +47,12 @@ class App
       halt 406 unless request.preferred_type.entry == mime_type(:api_json)
       @data = parse_request_body
       content_type :api_json
+      @meta = { meta: 
+        { copyright: "Copyright 2017 Moacir P. de Sá Pereira", 
+          license: "See http://github.com/nyscapes/nywalker", 
+          authors: ["Moacir P. de Sá Pereira"] 
+        } 
+      }
     end
 
   # Books
@@ -52,18 +64,23 @@ class App
 
   # Places
     get '/places' do
-      if params[:slug]
-        place = Place.where(slug: params[:slug]).first
-        not_found if place.nil?
-        serialize_model(place, include: 'nicknames').to_json
-      else 
-        if params[:name]
-          places = Place.where(name: /#{params[:name]}/i)
-        else
-          places = Place.all
+      if params[:data_page] && params[:page_size]
+        build_total_pages(Place, params[:page_size])
+        serialize_models(Place.all).to_json
+      else
+        if params[:slug]
+          place = Place.where(slug: params[:slug]).first
+          not_found if place.nil?
+          serialize_model(place, include: 'nicknames').to_json
+        else 
+          if params[:name]
+            places = Place.where(name: /#{params[:name]}/i)
+          else
+            places = Place.all
+          end
+          places = places.sort_by{ |p| p.instance_count }.reverse
+          serialize_models(places).to_json
         end
-        places = places.sort_by{ |p| p.instance_count }.reverse
-        serialize_models(places).to_json
       end
     end
 
