@@ -27,6 +27,9 @@ gem 'pg'
 # And for the passwords
 gem 'sequel_secure_password'
 
+# And pagination for the API
+gem 'will_paginate'
+
 # Georuby is the backend of the PostGISGeometry type. It needs to be loaded
 # separately, however, to account for creating the geometries.
 gem 'georuby'
