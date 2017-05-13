@@ -10,9 +10,10 @@ class App
         # Rack::Lint::InputWrapper doesn't respond to #size!
         # return unless request.body.respond_to?(:size) &&
         #   request.body.size > 0
+        return unless request.body.read.size > 0
 
         halt 415 unless request.content_type &&
-          request.content_type[/^[^;]+/] == mime_type(:api_json)
+          request.content_type[/^[^;]+/] == mime_type(:api_json) 
 
         request.body.rewind
         JSON.parse(request.body.read, symbolize_names: true)
