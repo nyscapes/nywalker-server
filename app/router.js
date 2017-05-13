@@ -12,6 +12,7 @@ Router.map(function() {
   this.route('places', function() {
     this.route('show', { path: '/:place_slug' });
   });
+  this.route('login');
 });
 
 export default Router;

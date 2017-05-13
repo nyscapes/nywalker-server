@@ -21,11 +21,11 @@
           {{#nav.link-to 'places'}}{{fa-icon "user"}} username{{/nav.link-to}}
         {{/nav.item}}
         {{#nav.item}}
-          {{#nav.link-to 'places'}}Logout{{/nav.link-to}}
+          <a {{action 'logout'}} class="nav-link">Logout</a>
         {{/nav.item}}
       {{else}}
         {{#nav.item}}
-          {{#nav.link-to 'login'}}Login{{/nav.link-to}}
+          <a {{action 'login'}} class="nav-link">Login</a>
         {{/nav.item}}
       {{/if}}
     {{/navbar.nav}}
