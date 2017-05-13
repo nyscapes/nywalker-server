@@ -11,6 +11,7 @@ class PlaceSerializer < BaseSerializer
 
   has_many :instances
   has_many :nicknames
+  has_one :user
 
 end
 
@@ -18,10 +19,18 @@ class InstanceSerializer < BaseSerializer
   attributes :page, :sequence, :text, :note, :special, :added_on, :modified_on, :flagged
 
   has_one :place
+  has_one :user
 end
 
 class NicknameSerializer < BaseSerializer
   attributes :name, :instance_count
 
   has_one :place
+end
+
+class UserSerializer < BaseSerializer
+  attributes :name, :username, :admin, :email
+
+  has_many :instances
+  has_many :places
 end
