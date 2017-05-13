@@ -16,6 +16,7 @@ export default Ember.Controller.extend({
     fetch: function(pageOffset, pageSize, stats) {
       let params = {
         data_page: pageOffset,
+        page_size: pageSize
       };
       return this.get('store').queryRecord('place', params).then((data) => {
         console.log('data');
