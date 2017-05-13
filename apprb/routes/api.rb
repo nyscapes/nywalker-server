@@ -51,8 +51,6 @@ class App
   # Instances
 
   # Places
-
-  # INDEX
     get '/places' do
       if params[:slug]
         place = Place.where(slug: params[:slug]).first
@@ -69,17 +67,31 @@ class App
       end
     end
 
+  # USER
+
+    get '/users/:user_id' do
+      user = User[params[:user_id].to_i]
+      not_found if user.nil?
+      serialize_model(user).to_json
+    end
+
+
   # AUTH
 
     post '/token' do
-      if @data[:grant_type] == "password"
+      if @data.nil? || @data.length == 0
+        status 400
+        { "error": "no_request_payload" }.to_json
+      elsif @data[:grant_type] == "password"
         user = User.where(username: @data[:username]).first
         if user.nil?
+          status 400
           error_invalid
         elsif user.authenticate(@data[:password]) == user
           status 200
           { "access_token": "secret!", "account_id": user.id }.to_json
         else
+          status 400
           error_invalid
         end
       else

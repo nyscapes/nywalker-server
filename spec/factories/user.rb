@@ -2,7 +2,7 @@ FactoryGirl.define do
 
   factory :user do
     name { Faker::Name.name }
-    username { Faker::Name.name }
+    username "beetlejuice"
     email { Faker::Internet.email }
     admin false
     added_on Time.now
