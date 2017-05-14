@@ -14,6 +14,7 @@ Router.map(function() {
   });
   this.route('login');
   this.route('places-pages');
+  this.route('books');
 });
 
 export default Router;

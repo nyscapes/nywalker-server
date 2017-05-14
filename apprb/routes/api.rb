@@ -66,7 +66,7 @@ class App
 
   # Books
     get '/books' do
-      Book.to_json
+      serialize_models(Book.all.sort_by{ |b| b.instance_count }.reverse).to_json
     end
 
   # Instances

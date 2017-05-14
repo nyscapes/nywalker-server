@@ -189,6 +189,15 @@ class Book < Sequel::Model
     instances.length == 0 ? 0 : instances.last - instances.first
   end
 
+  def instance_count
+    self.instances.count
+  end
+
+  def instances_per_page
+    self.total_pages == 0 ? pages = 1.0 : pages = self.total_pages.to_f
+    (self.instances.count/pages).round(2)
+  end
+
   dataset_module do
 
     def all_with_instances_sorted

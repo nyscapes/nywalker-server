@@ -1,0 +1,19 @@
+<h1>Books</h1>
+<div class="row">
+  <div style="col-sm-6 flex-last">
+    {{outlet}} <!-- books/show -->
+  </div>
+  <div class="results">
+    {{#each model as |book|}}
+      <!-- {{book-listing book=book}} -->
+      <div class="card mb-2" style="width:35rem">
+        <div class="card-block">
+          <img src={{book.cover}} class="rounded float-left mr-3" height="120px" />
+          <h2 class="card-title"><em>{{book.title}}</em> <small>({{book.year}})</small></h2>
+          <h3><small>by</small> {{book.author}}</h3>
+          <h3><small>{{book.instance_count}} instances, {{book.instances_per_page}} per page</small></h3>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</div>

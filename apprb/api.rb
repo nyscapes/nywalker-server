@@ -7,7 +7,7 @@ class BaseSerializer
 end
 
 class BookSerializer < BaseSerializer
-  attributes :slug, :title, :author, :isbn, :year, :url, :cover, :added_on, :modified_on, :pages, :instances_per_page
+  attributes :slug, :title, :author, :isbn, :year, :url, :cover, :added_on, :modified_on, :total_pages, :instances_per_page, :instance_count
 
   has_many :instances
   has_many :users
