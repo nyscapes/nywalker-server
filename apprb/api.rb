@@ -7,7 +7,11 @@ class BaseSerializer
 end
 
 class BookSerializer < BaseSerializer
-  attributes :title, :author, :slug
+  attributes :slug, :title, :author, :isbn, :year, :url, :cover, :added_on, :modified_on, :pages, :instances_per_page
+
+  has_many :instances
+  has_many :users
+
 end
 
 class PlaceSerializer < BaseSerializer
