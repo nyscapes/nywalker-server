@@ -21,18 +21,20 @@ class App
 
       def serialize_models(models, options = {})
         options[:is_collection] = true
-        JSONAPI::Serializer.serialize(models, options).merge @meta
+        options[:meta] = @meta
+        JSONAPI::Serializer.serialize(models, options)
       end
 
       def serialize_model(model, options = {})
         options[:is_collection] = false
         options[:skip_collection_check] = true
-        JSONAPI::Serializer.serialize(model, options).merge @meta
+        options[:meta] = @meta
+        JSONAPI::Serializer.serialize(model, options)
       end
 
       def build_total_pages(model, page_size)
         if page_size.respond_to?(:to_i) && page_size.to_i != 0
-          @meta[:meta][:total_pages] = (model.count / page_size.to_f).ceil
+          @meta[:total_pages] = (model.count / page_size.to_f).ceil
         else
           halt 400
         end
@@ -56,11 +58,10 @@ class App
       halt 406 unless request.preferred_type.entry == mime_type(:api_json)
       @data = parse_request_body
       content_type :api_json
-      @meta = { meta: 
-        { copyright: "Copyright 2017 Moacir P. de Sá Pereira", 
-          license: "See http://github.com/nyscapes/nywalker", 
-          authors: ["Moacir P. de Sá Pereira"] 
-        } 
+      @meta = {  
+        copyright: "Copyright 2017 Moacir P. de Sá Pereira", 
+        license: "See http://github.com/nyscapes/nywalker", 
+        authors: ["Moacir P. de Sá Pereira"] 
       }
     end
 
