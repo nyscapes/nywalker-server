@@ -43,6 +43,14 @@ class Instance < Sequel::Model
     validates_presence [:page, :book, :text]
   end
 
+  def lat
+    self.place.lat
+  end
+
+  def lon
+    self.place.lon
+  end
+
   dataset_module do
 
     def all_sorted_for_book(book)

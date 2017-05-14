@@ -14,9 +14,7 @@ export default DS.Model.extend({
   instance_count: DS.attr('number'),
   instances_per_page: DS.attr('number'),
 
-
-
-  // instances: DS.hasMany('instance'),
+  instances: DS.hasMany('instance'),
   users: DS.hasMany('user')
 
 });

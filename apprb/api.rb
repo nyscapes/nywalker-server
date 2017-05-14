@@ -24,10 +24,11 @@ class PlaceSerializer < BaseSerializer
 end
 
 class InstanceSerializer < BaseSerializer
-  attributes :page, :sequence, :text, :note, :special, :added_on, :modified_on, :flagged
+  attributes :page, :sequence, :text, :note, :special, :added_on, :modified_on, :flagged, :lat, :lon
 
   has_one :place
   has_one :user
+  has_one :book
 end
 
 class NicknameSerializer < BaseSerializer
