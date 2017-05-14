@@ -1,4 +1,8 @@
 require 'sequel'
+require 'sequel/extensions/pagination'
+require 'will_paginate'
+require 'will_paginate/collection'
+require 'will_paginate/sequel'
 require 'dotenv'
 
 Dotenv.load # This is weird that it's called here, because app.rb uses it.
@@ -22,6 +26,8 @@ end
 # I mean, if you want to pay…
 
 Sequel::Model.plugin :tactical_eager_loading # reduce queries.
+
+DB.extension(:pagination) # load paginator
 
 class Instance < Sequel::Model
   plugin :validation_helpers
