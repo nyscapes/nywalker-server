@@ -14,7 +14,7 @@
         {{place-listing place=place}}
       {{/each}}
     </div>
-      {{infinity-loader infinityModel=places}}
+      {{infinity-loader infinityModel=places loadingText="Loading places…" destroyOnInfinity=true}}
     {{/place-filter}}
   </div>
 </div>
