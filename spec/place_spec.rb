@@ -33,4 +33,5 @@ describe Place do
     end
 
   end
+
 end

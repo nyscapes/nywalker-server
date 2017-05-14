@@ -27,6 +27,7 @@ end
 
 Sequel::Model.plugin :tactical_eager_loading # reduce queries.
 
+# Sequel.extension :inflector
 DB.extension(:pagination) # load paginator
 
 class Instance < Sequel::Model

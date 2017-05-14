@@ -43,6 +43,17 @@ class App
         { "error": "invalid_grant" }.to_json
       end
 
+      def paginator(model, params)
+        page = params[:page_offset].to_i
+        page_size = params[:page_size].to_i
+        unless model.superclass == Sequel::Model
+          halt 400
+        else
+          # ember sends page offsets, but the paginator expects pages.
+          model.order(:id).extension(:pagination).paginate(page + 1, page_size).all
+        end
+      end
+      
     end
 
     before do
@@ -66,9 +77,10 @@ class App
 
   # Places
     get '/places' do
-      if params[:data_page] && params[:page_size]
+      if params[:page_offset] && params[:page_size]
         build_total_pages(Place, params[:page_size])
-        serialize_models(Place.all).to_json
+        places = paginator(Place, params)
+        serialize_models(places).to_json
       else
         if params[:slug]
           place = Place.where(slug: params[:slug]).first
@@ -123,6 +135,5 @@ class App
       status 200
     end
 
-    
   end
 end
