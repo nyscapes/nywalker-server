@@ -45,7 +45,8 @@
     "ember-welcome-page": "^3.0.0",
     "impagination": "^1.0.0-alpha.3",
     "leaflet": "^1.0.3",
-    "loader.js": "^4.2.3"
+    "loader.js": "^4.2.3",
+    "virtual-each": "^0.5.1"
   },
   "engines": {
     "node": ">= 4"
