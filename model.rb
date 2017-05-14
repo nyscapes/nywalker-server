@@ -3,6 +3,7 @@ require 'sequel/extensions/pagination'
 require 'will_paginate'
 require 'will_paginate/collection'
 require 'will_paginate/sequel'
+require 'will_paginate/array' # might not be the best place…
 require 'dotenv'
 
 Dotenv.load # This is weird that it's called here, because app.rb uses it.

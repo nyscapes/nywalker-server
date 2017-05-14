@@ -43,14 +43,11 @@ class App
         { "error": "invalid_grant" }.to_json
       end
 
-      def paginator(model, params)
+      def paginator(collection, params)
         page = params[:data_page].to_i
         page_size = params[:page_size].to_i
-        unless model.superclass == Sequel::Model
-          halt 400
-        else
-          model.order(:id).extension(:pagination).paginate(page, page_size).all
-        end
+        # model.order(:id).extension(:pagination).paginate(page, page_size).all
+        collection.paginate(page: page, per_page: page_size)
       end
       
     end
@@ -78,7 +75,7 @@ class App
     get '/places' do
       if params[:data_page] && params[:page_size]
         build_total_pages(Place, params[:page_size])
-        places = paginator(Place, params)
+        places = paginator(Place.all.sort_by{ |p| p.instance_count }.reverse, params)
         serialize_models(places).to_json
       else
         if params[:slug]
