@@ -44,13 +44,12 @@ class App
       end
 
       def paginator(model, params)
-        page = params[:page_offset].to_i
+        page = params[:data_page].to_i
         page_size = params[:page_size].to_i
         unless model.superclass == Sequel::Model
           halt 400
         else
-          # ember sends page offsets, but the paginator expects pages.
-          model.order(:id).extension(:pagination).paginate(page + 1, page_size).all
+          model.order(:id).extension(:pagination).paginate(page, page_size).all
         end
       end
       
@@ -77,7 +76,7 @@ class App
 
   # Places
     get '/places' do
-      if params[:page_offset] && params[:page_size]
+      if params[:data_page] && params[:page_size]
         build_total_pages(Place, params[:page_size])
         places = paginator(Place, params)
         serialize_models(places).to_json
