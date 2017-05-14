@@ -14,7 +14,9 @@ Router.map(function() {
   });
   this.route('login');
   this.route('places-pages');
-  this.route('books');
+  this.route('books', function() {
+    this.route('show', { path: '/:book_slug' });
+  });
 });
 
 export default Router;

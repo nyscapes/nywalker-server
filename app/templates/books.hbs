@@ -3,15 +3,22 @@
   <div style="col-sm-6 flex-last">
     {{outlet}} <!-- books/show -->
   </div>
-  <div class="results">
+  <div class="col-sm-6 flex-first">
     {{#each model as |book|}}
       <!-- {{book-listing book=book}} -->
-      <div class="card mb-2" style="width:35rem">
-        <div class="card-block">
-          <img src={{book.cover}} class="rounded float-left mr-3" height="120px" />
-          <h2 class="card-title"><em>{{book.title}}</em> <small>({{book.year}})</small></h2>
-          <h3><small>by</small> {{book.author}}</h3>
-          <h3><small>{{book.instance_count}} instances, {{book.instances_per_page}} per page</small></h3>
+      <div class="card mb-3" style="width: 33rem">
+        <div class="card-block row">
+          <div class="col-3">
+            <img src={{book.cover}} class="rounded img-fluid" alt="Cover of {{book.title}}" />
+          </div>
+          <div class="col-9">
+            <h2 class="card-title">
+              <em>
+                {{#link-to "books.show" book.slug}}{{book.title}}{{/link-to}}
+              </em> <small>({{book.year}})</small></h2>
+            <h3><small>by</small> {{book.author}}</h3>
+            <h4 class="muted"><small>{{book.instance_count}} instances, {{book.instances_per_page}} per page</small></h4>
+          </div>
         </div>
       </div>
     {{/each}}

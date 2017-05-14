@@ -1,0 +1,58 @@
+<div class="card" style="width: 33rem">
+  <div class="card-header">
+    Book
+  </div>
+  {{#leaflet-map id="map" lat=0 lng=0 zoom=10 class="card-img-top" as |layers|}}
+    {{layers.tile url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"}}
+  {{/leaflet-map}}
+
+  <div class="card-block">
+    <h2 class="card-title"><em>{{model.title}}</em></h2>
+    <div class="container">
+      <div class="row">
+        <div class="col-1">
+          <b>Pg</b>
+        </div>
+        <div class="col-1">
+          <b>Seq</b>
+        </div>
+        {{#if model.special}}
+          <div class="col-6">
+            <b>Name in Text</b>
+          </div>
+          <div class="col-4">
+            <b>Special</b>
+          </div>
+        {{else}}
+          <div class="col-10">
+            <b>Name in Text</b>
+          </div>
+        {{/if}} 
+      </div>
+
+      {{#each model.instances as |instance|}}
+        <div class="row">
+          <div class="col-1">
+            {{instance.page}}
+          </div>
+          <div class="col-1">
+            {{instance.sequence}}
+          </div>
+          {{#if model.special}}
+            <div class="col-6">
+              {{instance.text}}
+            </div>
+            <div class="col-4">
+              {{instance.special}}
+            </div>
+          {{else}}
+            <div class="col-10">
+              {{instance.text}}
+            </div>
+          {{/if}} 
+        </div>
+      {{/each}}
+    </div> <!-- .container -->
+{{outlet}}
+  </div>
+</div>
