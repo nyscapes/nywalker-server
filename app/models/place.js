@@ -21,6 +21,6 @@ export default DS.Model.extend({
   instances: DS.hasMany('instance'),
   user: DS.belongsTo('user'),
 
-  latlng: Ember.computed.collect('lat', 'lon')
+  latLng: Ember.computed.collect('lat', 'lon')
 
 });
