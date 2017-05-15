@@ -17,12 +17,6 @@ export default DS.Model.extend({
   book: DS.belongsTo('book'),
   place: DS.belongsTo('place'),
 
-  latlng: Ember.computed('lat', 'lon', function() {
-    if (this.get('lat') === null) {
-      return null;
-    } else {
-      return [this.get('lat'), this.get('lon')];
-    }
-  })
+  latlng: Ember.computed.collect('lat', 'lon')
 
 });
