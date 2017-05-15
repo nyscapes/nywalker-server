@@ -1,13 +1,12 @@
 <div class="card" style="width: 33rem">
-  <div class="card-header">
-    Book
-  </div>
+  <h1 class="card-header">
+    <em>{{model.title}}</em>
+  </h1>
   {{#leaflet-map id="map" lat=0 lng=0 zoom=10 class="card-img-top" as |layers|}}
     {{layers.tile url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"}}
   {{/leaflet-map}}
 
   <div class="card-block">
-    <h2 class="card-title"><em>{{model.title}}</em></h2>
     <div class="container">
       <div class="row">
         <div class="col-1">
