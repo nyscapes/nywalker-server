@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
+  baseUrl: 'localhost:9393',
   renderTemplate() {
     this.render({
       into: 'books',

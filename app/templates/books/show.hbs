@@ -7,6 +7,20 @@
   {{/leaflet-map}}
 
   <div class="card-block">
+    <h4>Download instances as:</h4>
+      <span class="btn-group" role="group">
+        <a href="/books/{{model.slug}}/instances-geojson" class="btn btn-secondary btn-sm" role="button">GeoJSON</a>
+        <a href="/books/{{model.slug}}/instances-csv" class="btn btn-secondary btn-sm" role="button">.csv</a>
+        <a href="http://oneclick.cartodb.com/?file={{baseUrl}}/books/{{model.slug}}/instances-geojson" class="btn btn-secondary btn-sm" role="button">Send to Carto</a>
+      </span>
+    <h4>Download places as: <br />
+      <span class="btn-group" role="group">
+        <a href="/books/{{model.slug}}/places-geojson" class="btn btn-secondary btn-sm" role="button">GeoJSON</a>
+        <a href="/books/{{model.slug}}/places-csv" class="btn btn-secondary btn-sm" role="button">.csv</a>
+        <a href="http://oneclick.cartodb.com/?file={{baseUrl}}/books/{{model.slug}}/places-geojson" class="btn btn-secondary btn-sm" role="button">Send to Carto</a>
+        <a href="/books/{{model.slug}}/places-special-csv-zip" class="btn btn-secondary btn-sm" role="button">.zip of special.csvs</a>
+      </span>
+    </h4>
     <div class="container">
       <div class="row">
         <div class="col-1">
