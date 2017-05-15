@@ -4,6 +4,11 @@
   </h1>
   {{#leaflet-map id="map" lat=0 lng=0 zoom=10 class="card-img-top" as |layers|}}
     {{layers.tile url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"}}
+    {{#each model.instances as |instance|}}
+      {{#if instance.mappable}}
+        {{marker-layer location=instance.latLng}}
+      {{/if}}
+    {{/each}}
   {{/leaflet-map}}
 
   <div class="card-block">
