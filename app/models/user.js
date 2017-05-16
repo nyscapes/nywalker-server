@@ -8,5 +8,5 @@ export default DS.Model.extend({
 
   instances: DS.hasMany('instance'),
   places: DS.hasMany('place'),
-  book: DS.belongsTo('book')
+  books: DS.hasMany('book')
 });
