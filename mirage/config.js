@@ -29,8 +29,8 @@ export default function() {
       return schema.places.all();
     }
   });
-  this.get('/users');
-  this.get('/users/:id');
+  // this.get('/users');
+  // this.get('/users/:id');
 
 
   /*
