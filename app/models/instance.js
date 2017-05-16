@@ -19,5 +19,4 @@ export default DS.Model.extend({
 
   mappable: Ember.computed.and('lat', 'lon'),
   latLng: Ember.computed.collect('lat', 'lon')
-
 });
