@@ -1,0 +1,44 @@
+<div class="card w-100">
+  <div class="card-block">
+    <div class="row">
+      <div class="col-9">
+        <div class="row">
+          <div class="col-1">
+            {{instance.page}}
+          </div>
+          <div class="col-1">
+            {{instance.sequence}}
+          </div>
+          {{#if model.special}}
+            <div class="col-6">
+              {{instance.text}} {{#if instance.mappable}}
+                {{fa-icon "globe"}}
+              {{/if}}
+            </div>
+            <div class="col-4">
+              {{instance.special}}
+            </div>
+          {{else}}
+            <div class="col-10">
+              {{instance.text}} {{#if instance.mappable}}
+                {{fa-icon "globe"}}
+              {{/if}}
+            </div>
+          {{/if}} 
+        </div>
+      </div>
+      <div class="col-3">
+        {{#if instance.mappable}}
+          {{#leaflet-map class="teeny-map" zoom=10 center=instance.latLng as |layers|}}
+            {{layers.tile url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"}}
+            {{circle-marker-layer radius=5 location=instance.latLng}}
+          {{/leaflet-map}}
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{{yield}}

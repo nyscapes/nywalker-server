@@ -18,7 +18,9 @@ Router.map(function() {
     this.route('show', { path: '/:book_slug' });
   });
   this.route('instances', function() {
-    this.route('show', { path: '/:book_slug' });
+    this.route('show', { path: '/:book_slug' }, function() {
+      this.route('new');
+    });
   });
 });
 

@@ -1,0 +1,25 @@
+{{#bs-form onSubmit=(action "submit") as |form|}}
+  {{#form.group}}
+    <!-- <label class="control-label">Place</label> -->
+    <!-- <input value={{!place}} class="form-control" oninput={{!}} -->
+    <label class="control-label">Place Name in Text</label>
+    <input value={{place}} class="form-control" oninput={{action (mut text) value="target.value"}} type="text">
+  {{/form.group}}
+  <div class="row">
+    {{#form.group class="col-6"}}
+      <label class="control-label">Page</label>
+      <input value={{page}} tabindex="4" type="number" class="form-control" oninput={{action (mut page) value="target.value"}}>
+    {{/form.group}}
+    {{#form.group class="col-6"}}
+      <label class="control-label">Order on Page</label>
+      <input value={{sequence}} tabindex="5" type="number" class="form-control" oninput={{action (mut sequence) value="target.value"}}>
+    {{/form.group}}
+  </div>
+  {{#form.group}}
+    <label class="control-label">Note</label>
+    <textarea tabindex="7" class="form-control" rows="2" oninput={{action (mut note) value="target.value"}}>
+      {{note}}
+    </textarea>
+  {{/form.group}}
+  {{bs-button defaultText="Submit" type="primary" buttonType="submit"}}
+{{/bs-form}}
