@@ -61,14 +61,22 @@
           </div>
           {{#if model.special}}
             <div class="col-6">
-              {{instance.text}}
+              {{instance.text}} {{#if instance.mappable}}
+              <a {{action "recenter" instance.latLng target="leaflet-map"}}>
+                {{fa-icon "globe"}}
+              </a>
+              {{/if}}
             </div>
             <div class="col-4">
               {{instance.special}}
             </div>
           {{else}}
             <div class="col-10">
-              {{instance.text}}
+              {{instance.text}} {{#if instance.mappable}}
+              <a {{!action "recenter" instance.latLng target="leaflet-map"}}>
+                {{fa-icon "globe"}}
+              </a>
+              {{/if}}
             </div>
           {{/if}} 
         </div>
