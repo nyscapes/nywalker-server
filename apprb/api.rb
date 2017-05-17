@@ -24,7 +24,7 @@ class PlaceSerializer < BaseSerializer
 end
 
 class InstanceSerializer < BaseSerializer
-  attributes :page, :sequence, :text, :note, :special, :added_on, :modified_on, :flagged, :lat, :lon
+  attributes :page, :sequence, :text, :note, :special, :added_on, :modified_on, :flagged, :lat, :lon, :place_name
 
   has_one :place
   has_one :user

@@ -12,6 +12,7 @@ export default DS.Model.extend({
   flagged: DS.attr('boolean'),
   lat: DS.attr('number'),
   lon: DS.attr('number'),
+  place_name: DS.attr('string'),
 
   user: DS.belongsTo('user'),
   book: DS.belongsTo('book'),

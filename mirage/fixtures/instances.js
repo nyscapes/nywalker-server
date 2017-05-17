@@ -5,6 +5,7 @@ export default [{
   text: 'ENWHYFFINSEE',
   lat: 40.71427,
   lon: -74.00597,
+  place_name: 'New York City',
   placeId: 1,
   bookId: 1
 },
@@ -15,6 +16,7 @@ export default [{
   text: 'New Yurk City',
   lat: 40.71427,
   lon: -74.00597,
+  place_name: 'New York City',
   placeId: 1,
   bookId: 1
 },
@@ -25,6 +27,7 @@ export default [{
   text: 'The Citeee',
   lat: 40.71427,
   lon: -74.00597,
+  place_name: 'New York City',
   placeId: 1,
   bookId: 1
 },
@@ -35,6 +38,7 @@ export default [{
   text: 'The Museum',
   lat: null,
   lon: null,
+  place_name: 'Museum of Minotaurs',
   placeId: 2,
   bookId: 1
 },
@@ -43,6 +47,7 @@ export default [{
   page: 1,
   sequence: 4,
   text: 'Museum of Minotaurs',
+  place_name: 'Museum of Minotaurs',
   lat: null,
   lon: null,
   placeId: 2,
@@ -52,6 +57,7 @@ export default [{
   page: 1,
   sequence: 6,
   text: 'BKN',
+  place_name: 'Brooklyn',
   lat: 40.6501,
   lon: -73.94958,
   placeId: 3,
@@ -62,6 +68,7 @@ export default [{
   page: 1,
   sequence: 7,
   text: 'The Citeee',
+  place_name: 'New York City',
   lat: 40.71427,
   lon: -74.00597,
   placeId: 1,

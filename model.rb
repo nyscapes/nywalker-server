@@ -51,6 +51,10 @@ class Instance < Sequel::Model
     self.place.lon
   end
 
+  def place_name
+    self.place.name
+  end
+
   dataset_module do
 
     def all_sorted_for_book(book)

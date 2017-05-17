@@ -7,6 +7,7 @@
     {{#each instancePlaces as |place|}}
       {{#circle-marker-layer radius=5 location=place.latLng}}
         {{#popup-layer}}
+          <h4>{{place.place_name}}</h4>
           <table class="table-sm table">
             <thead class="thead-inverse">
               <tr>
