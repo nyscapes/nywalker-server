@@ -4,10 +4,12 @@
   </h1>
   {{#leaflet-map id="map" lat=0 lng=0 zoom=10 class="card-img-top" as |layers|}}
     {{layers.tile url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"}}
-    {{#each model.instances as |instance|}}
-      {{#if instance.mappable}}
-        {{marker-layer location=instance.latLng}}
-      {{/if}}
+    {{#each instancePlaces as |place|}}
+      {{#circle-marker-layer radius=5 location=place.latLng}}
+        {{#popup-layer}}
+          <h3>{{place.nicknames}}</h3>
+        {{/popup-layer}}
+      {{/circle-marker-layer}}
     {{/each}}
   {{/leaflet-map}}
 
