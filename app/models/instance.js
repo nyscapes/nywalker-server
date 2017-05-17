@@ -19,5 +19,8 @@ export default DS.Model.extend({
   place: DS.belongsTo('place'),
 
   mappable: Ember.computed.and('lat', 'lon'),
-  latLng: Ember.computed.collect('lat', 'lon')
+  latLng: Ember.computed.collect('lat', 'lon'),
+  title: Ember.computed('page', 'sequence', 'text', function() {
+    return `${this.get('page')}:${this.get('sequence')}, ${this.get('text')}`;
+  })
 });

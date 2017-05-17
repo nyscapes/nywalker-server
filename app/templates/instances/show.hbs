@@ -1,26 +1,9 @@
 {{outlet}}
 
-<div class="row">
-  <div class="col-1">
-    <b>Pg</b>
-  </div>
-  <div class="col-1">
-    <b>Seq</b>
-  </div>
-  {{#if model.special}}
-    <div class="col-6">
-      <b>Name in Text</b>
-    </div>
-    <div class="col-4">
-      <b>Special</b>
-    </div>
-  {{else}}
-    <div class="col-10">
-      <b>Name in Text <small>({{fa-icon "globe"}} = mappable)</small></b>
-    </div>
-  {{/if}} 
-</div>
-
-{{#each sortedInstances as |instance|}}
-  {{instance-listing instance=instance}}
-{{/each}}
+{{#bs-accordion as |acc|}}
+  {{#each sortedInstances as |instance|}}
+    {{#acc.item value=instance.id title=instance.title}}
+      {{instance-listing instance=instance}}
+    {{/acc.item}}
+  {{/each}}
+{{/bs-accordion}}
