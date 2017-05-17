@@ -12,7 +12,7 @@ export default [{
   id: 2,
   page: 1,
   sequence: 1,
-  text: 'New York City',
+  text: 'New Yurk City',
   lat: 40.71427,
   lon: -74.00597,
   placeId: 1,
