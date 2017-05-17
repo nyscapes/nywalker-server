@@ -1,0 +1,52 @@
+<div class="row">
+  <div class="col-1">
+    <b>Pg</b>
+  </div>
+  <div class="col-1">
+    <b>Seq</b>
+  </div>
+  {{#if model.special}}
+    <div class="col-6">
+      <b>Name in Text</b>
+    </div>
+    <div class="col-4">
+      <b>Special</b>
+    </div>
+  {{else}}
+    <div class="col-10">
+      <b>Name in Text <small>({{fa-icon "globe"}} = mappable)</small></b>
+    </div>
+  {{/if}} 
+</div>
+
+{{#each sortedInstances as |instance|}}
+  <div class="row">
+    <div class="col-1">
+      {{instance.page}}
+    </div>
+    <div class="col-1">
+      {{instance.sequence}}
+    </div>
+    {{#if model.special}}
+      <div class="col-6">
+        {{instance.text}} {{#if instance.mappable}}
+        <a {{action "recenter" instance.latLng target="leaflet-map"}}>
+          {{fa-icon "globe"}}
+        </a>
+        {{/if}}
+      </div>
+      <div class="col-4">
+        {{instance.special}}
+      </div>
+    {{else}}
+      <div class="col-10">
+        {{instance.text}} {{#if instance.mappable}}
+        <a {{!action "recenter" instance.latLng target="leaflet-map"}}>
+          {{fa-icon "globe"}}
+        </a>
+        {{/if}}
+      </div>
+    {{/if}} 
+  </div>
+{{/each}}
+{{outlet}}
