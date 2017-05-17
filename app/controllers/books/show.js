@@ -11,19 +11,22 @@ export default Ember.Controller.extend({
   isMappable: Ember.computed.filter('sortedInstances', function(instance) { return instance.get('mappable'); } ),
   uniqLats: Ember.computed.uniqBy('isMappable', 'lat'),
   uniqPlaces: Ember.computed.uniqBy('uniqLats', 'lon'),
-  //uniqPlaces: Ember.computed.uniqBy('isMappable', 'latLng'),
+  // uniqPlaces: Ember.computed.uniqBy('isMappable', 'latLng'),
   instancePlaces: Ember.computed('sortedInstances', 'uniqPlaces', function() {
     let places = this.get('uniqPlaces');
     let instances = this.get('sortedInstances');
     let placesWithNicks = places.map(function(place) {
       let instancesWithThisPlace = instances.filter(function(instance){
-        return instance.get('latLng') === place.get('latLng');
+        return instance.belongsTo('place').id() === place.belongsTo('place').id();
       });
-      let nicknames = instancesWithThisPlace.map(function(instance){
-        return instance.get('text');
+      console.log(instancesWithThisPlace);
+      let nicknames = instancesWithThisPlace.map(function(nickedInstance){
+        return nickedInstance.get('text');
       });
       let nicknamesString = nicknames.join(', ');
       place.set('nicknames', nicknamesString);
+      place.set('instancesInBook', instancesWithThisPlace.length);
+      // place.set('instancesInBook', nicknames.length);
       return place;
     });
     return placesWithNicks;
