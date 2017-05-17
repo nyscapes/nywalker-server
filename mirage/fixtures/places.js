@@ -7,7 +7,7 @@ export default [{
     lat: 40.71427,
     lon: -74.00597,
     instance_count: 10,
-    instanceIds: [1, 2, 3]
+    instanceIds: [1, 2, 3, 7]
   },
   {
     id: 2,

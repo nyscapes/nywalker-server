@@ -10,6 +10,6 @@ export default [{
   total_pages: 100,
   instance_count: 10,
   instances_per_page: 2,
-  instanceIds: [1, 2, 3, 4, 5, 6]
+  instanceIds: [1, 2, 3, 4, 5, 6, 7]
 }];
 

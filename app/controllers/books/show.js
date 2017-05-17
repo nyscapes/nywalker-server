@@ -19,7 +19,7 @@ export default Ember.Controller.extend({
         return instance.belongsTo('place').id() === place.belongsTo('place').id();
       }).map(nickedInstance => {
         return nickedInstance.get('text');
-      });
+      }).uniq();
       let nicknamesString = nicknames.join(', ');
       place.set('nicknames', nicknamesString);
       place.set('instancesInBook', nicknames.length);

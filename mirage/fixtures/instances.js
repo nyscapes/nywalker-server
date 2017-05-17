@@ -56,5 +56,16 @@ export default [{
   lon: -73.94958,
   placeId: 3,
   bookId: 1
-}];
+},
+{
+  id: 7,
+  page: 1,
+  sequence: 7,
+  text: 'The Citeee',
+  lat: 40.71427,
+  lon: -74.00597,
+  placeId: 1,
+  bookId: 1
+}
+];
 
