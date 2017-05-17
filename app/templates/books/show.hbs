@@ -7,8 +7,22 @@
     {{#each instancePlaces as |place|}}
       {{#circle-marker-layer radius=5 location=place.latLng}}
         {{#popup-layer}}
-          <h3>{{place.nicknames}}</h3>
-          <h4>{{place.instancesInBook}}</h4>
+          <table class="table-sm table">
+            <thead class="thead-inverse">
+              <tr>
+                <th>Total Instances:</th>
+                <th>{{place.totalInstances.count}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each place.nicknames as |nickname|}}
+                <tr>
+                  <td> {{nickname.text}} </td>
+                  <td> {{nickname.count}} </td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
         {{/popup-layer}}
       {{/circle-marker-layer}}
     {{/each}}
@@ -46,7 +60,7 @@
           </div>
         {{else}}
           <div class="col-10">
-            <b>Name in Text</b>
+            <b>Name in Text <small>({{fa-icon "globe"}} = mappable)</small></b>
           </div>
         {{/if}} 
       </div>

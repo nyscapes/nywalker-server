@@ -20,9 +20,15 @@ export default Ember.Controller.extend({
       }).map(nickedInstance => {
         return nickedInstance.get('text');
       }).uniq();
-      let nicknamesString = nicknames.join(', ');
-      place.set('nicknames', nicknamesString);
-      place.set('instancesInBook', nicknames.length);
+      let nicknameObjects = nicknames.map(nickname => {
+        return { text: nickname , count: instances.filter(instance => {
+          return instance.belongsTo('place').id() === place.belongsTo('place').id() && nickname === instance.get('text'); }).length
+        };
+      });
+      place.set('nicknames', nicknameObjects);
+      place.set('totalInstances', nicknameObjects.reduce((a, b) => { 
+        return { count: a.count + b.count }; 
+      }));
       return place;
     });
   })
