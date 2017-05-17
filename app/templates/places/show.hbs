@@ -4,7 +4,7 @@
   </div>
 
   {{#if model.latLng}}
-    {{#leaflet-map id="short-map" lat=model.lat lng=model.lon zoom=10 class="card-img-top" as |layers|}}
+    {{#leaflet-map lat=model.lat lng=model.lon zoom=10 class="short-map card-img-top" as |layers|}}
       {{layers.tile url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"}}
       {{#layers.marker location=model.latLng as |marker|}}
         {{#marker.popup}}

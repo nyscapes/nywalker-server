@@ -2,7 +2,7 @@
   <h1 class="card-header">
     <em>{{model.title}}</em>
   </h1>
-  {{#leaflet-map id="map" bounds=bounds class="card-img-top" as |layers|}}
+  {{#leaflet-map bounds=bounds class="map card-img-top" as |layers|}}
     {{layers.tile url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"}}
     {{#each instancePlaces as |place|}}
       {{#circle-marker-layer radius=5 location=place.latLng}}
