@@ -1,6 +1,11 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
+  bounds: Ember.computed('uniqPlaces', function() {
+    return L.latLngBounds(this.get('uniqPlaces').map(function(place) {
+      return place.get('latLng');
+    }));
+  }),
   sortKey: ['page', 'sequence'],
   sortedInstances: Ember.computed.sort('model.instances', 'sortKey'),
   isMappable: Ember.computed.filter('sortedInstances', function(instance) { return instance.get('mappable'); } ),
