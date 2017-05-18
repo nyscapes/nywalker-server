@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-  sortKey: ['page', 'sequence'],
+  sortKey: ['page:desc', 'sequence:desc'],
   sortedInstances: Ember.computed.sort('model.instances', 'sortKey')
 });
