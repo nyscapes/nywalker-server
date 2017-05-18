@@ -1,9 +1,16 @@
 {{#bs-form onSubmit=(action "submit") as |form|}}
   {{#form.group}}
-    <!-- <label class="control-label">Place</label> -->
-    <!-- <input value={{!place}} class="form-control" oninput={{!}} -->
+    <label class="control-label">Place</label>
+    <input value={{place}} class="form-control" oninput={{action (mut place) value="target.value"}} type="text">
+  {{/form.group}}
+  {{#form.group}}
+    {{#bs-button type="primary" onClick=(action "openTheModal")}}
+      Add new place
+    {{/bs-button}}
+  {{/form.group}}
+  {{#form.group}}
     <label class="control-label">Place Name in Text</label>
-    <input value={{place}} class="form-control" oninput={{action (mut text) value="target.value"}} type="text">
+    <input value={{text}} class="form-control" oninput={{action (mut text) value="target.value"}} type="text">
   {{/form.group}}
   <div class="row">
     {{#form.group class="col-6"}}
@@ -23,3 +30,5 @@
   {{/form.group}}
   {{bs-button defaultText="Submit" type="primary" buttonType="submit"}}
 {{/bs-form}}
+
+{{place-form open=modalOpen close=(action "modalClosed")}}
