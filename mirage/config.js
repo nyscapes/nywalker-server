@@ -32,6 +32,7 @@ export default function() {
   // this.get('/users');
   // this.get('/users/:id');
 
+  this.passthrough('http://api.geonames.org/**');
 
   /*
     Shorthand cheatsheet:

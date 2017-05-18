@@ -6,7 +6,9 @@ export default Ember.Component.extend({
   },
   actions: {
     addPlace() { alert('add place!'); },
-    search() { alert(this.get('search')); },
+    search() { 
+      $.get('http://api.geonames.org/searchJSON?username=moacir&style=full&q=' + this.get('search'), (data) => {console.log(data);}); 
+    },
     onChange(value, model, property) {
       alert(`${value}, ${model}, ${property}`);
     }
