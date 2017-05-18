@@ -6,6 +6,10 @@ export default Ember.Controller.extend({
       return place.get('latLng');
     }));
   }),
+  center: Ember.computed(function(){
+    return this.get('bounds').getCenter();
+  }),
+  zoom: 8,
   sortKey: ['page', 'sequence'],
   sortedInstances: Ember.computed.sort('model.instances', 'sortKey'),
   isMappable: Ember.computed.filter('sortedInstances', instance => { return instance.get('mappable'); } ),
@@ -31,5 +35,11 @@ export default Ember.Controller.extend({
       }));
       return place;
     });
-  })
+  }),
+  actions: {
+    newCenter() { this.set('center', [41, -73]); },
+    recenter(latLng) {
+       this.set('center', latLng);
+    }
+  }
 });

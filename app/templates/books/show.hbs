@@ -2,7 +2,7 @@
   <h1 class="card-header">
     <em>{{model.title}}</em>
   </h1>
-  {{#leaflet-map bounds=bounds class="map card-img-top" as |layers|}}
+  {{#leaflet-map center=center zoom=zoom class="map card-img-top" as |layers|}}
     {{layers.tile url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"}}
     {{#each instancePlaces as |place|}}
       {{#circle-marker-layer radius=5 location=place.latLng}}
@@ -77,7 +77,7 @@
           {{#if model.special}}
             <div class="col-6">
               {{instance.text}} {{#if instance.mappable}}
-              <a {{action "recenter" instance.latLng target="leaflet-map"}}>
+              <a {{action "recenter" instance.latLng target="layers"}}>
                 {{fa-icon "globe"}}
               </a>
               {{/if}}
@@ -88,7 +88,7 @@
           {{else}}
             <div class="col-10">
               {{instance.text}} {{#if instance.mappable}}
-              <a {{!action "recenter" instance.latLng target="leaflet-map"}}>
+              <a {{action "recenter" instance.latLng}}>
                 {{fa-icon "globe"}}
               </a>
               {{/if}}
