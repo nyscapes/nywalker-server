@@ -10,6 +10,9 @@ module.exports = {
     jquery: true,
     embertest: true
   },
+  globals: {
+    'L': true
+  },
   rules: {
   }
 };
