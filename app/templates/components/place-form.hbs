@@ -1,10 +1,48 @@
-{{#bs-modal onSubmit=(action "submit") name="placeModal" size="lg" open=open onHide=close as |modal|}}
+{{#bs-modal name="placeModal" size="lg" open=open onHide=close as |modal|}}
   {{#modal.header}}
     <h4 class="modal-title">Add New Place</h4>
   {{/modal.header}}
   {{#modal.body}}
-  <p>
-    body
-  </p>
+    <div class="row">
+      <div class="col-6">
+        {{#bs-form onSubmit=(action "search") as |form|}}
+          {{#form.group}}
+            <label class="control-label">Search</label>
+            <div class="input-group">
+              <input value={{search}} class="form-control" onchange={{action (mut search) value="target.value"}} type="text">
+              <span class="input-group-btn">
+                <!-- <button class="btn btn-sm btn-secondary" type="submit" onClick={{!action "search"}}>Search gazetteer</button> -->
+                {{bs-button buttonType="submit" type="secondary" defaultText="Search Gaezetteer"}}
+              </span>
+            </div>
+          {{/form.group}}
+        {{/bs-form}}
+        {{#bs-form onSubmit=(action "addPlace") model=this as |form|}}
+          {{form.element controlType="text" label="Name" placeholder="Place name" property="name"}}
+          {{!What3Words hidden?}}
+          <div class="row">
+            <div class="col-6">
+              {{form.element controlType="number" label="Latitude (𝓎)" placeholder="Latitude" property="lat"}}
+            </div>
+            <div class="col-6">
+              {{form.element controlType="number" label="Longitude (𝓍)" placeholder="Longitude" property="lon"}}
+            </div>
+          </div>
+          {{form.element controlType="text" label="Source" placeholder="Source" property="source"}}
+          {{#form.group}}
+            <label class="control-label">Confidence</label>
+            <select class="form-control" value={{confidence}} onchange={{action (mut confidence) value="target.value"}}>
+            <option value="3">Very confident this is the place.</option>
+            <option value="2" selected>Mostly confident this is the place.</option>
+            <option value="1">Not very sure this is the place.</option>
+            <option value="0">Can&rsquo;t find the place.</option>
+          </select>
+          {{/form.group}}
+          {{form.element controlType="textarea" label="Note" property="note"}}
+          {{bs-button buttonType="submit" type="primary" defaultText="Add Place"}}
+        {{/bs-form}}
+      </div>
+      {{outlet "search results"}}
+    </div>
   {{/modal.body}}
 {{/bs-modal}}
