@@ -40,6 +40,7 @@
     "ember-infinity": "^0.2.8",
     "ember-leaflet": "^3.0.11",
     "ember-load-initializers": "^1.0.0",
+    "ember-power-select": "^1.8.4",
     "ember-resolver": "^4.0.0",
     "ember-simple-auth": "^1.3.0",
     "ember-source": "~2.13.0",

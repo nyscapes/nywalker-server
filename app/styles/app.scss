@@ -1,4 +1,6 @@
 @import "ember-bootstrap/bootstrap";
+@import "ember-power-select/themes/bootstrap";
+@import "ember-power-select";
 
 .teeny-map {
   height: 7rem;
@@ -38,3 +40,4 @@ body {
 code {
   font-size: 80%;
 }
+

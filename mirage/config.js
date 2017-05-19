@@ -33,6 +33,45 @@ export default function() {
   this.get('/users/:id');
 
   this.post('/instances');
+  // this.post('/instances', (schema, request) => {
+  //   console.log('tk');
+  //   console.log(JSON.parse(request.requestBody));
+  // });
+
+  this.get('/nicknames-list', () => {
+    return [
+      {
+        name: 'ENWHYEFFINSEE',
+        slug: 'new-york-city',
+        count: 1
+      },
+      {
+        name: 'New Yurk City',
+        slug: 'new-york-city',
+        count: 1
+      },
+      {
+        name: 'The Citeee',
+        slug: 'new-york-city',
+        count: 2
+      },
+      {
+        name: 'The Museum',
+        slug: 'museum-of-minotaurs',
+        count: 1
+      },
+      {
+        name: 'Museum of Minotaurs',
+        slug: 'museum-of-minotaurs',
+        count: 1
+      },
+      {
+        name: 'BKN',
+        slug: 'brooklyn',
+        count: 1
+      }
+    ];
+  });
 
   this.passthrough('http://api.geonames.org/**');
 

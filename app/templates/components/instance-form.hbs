@@ -1,12 +1,15 @@
 {{#bs-form onSubmit=(action "submit") model=this as |form|}}
   {{#form.group}}
     <label class="control-label">Place</label>
-    <div class="input-group">
-      <input value={{place}} class="form-control" oninput={{action (mut place) value="target.value"}} type="text">
-      <span class="input-group-btn">
+    <!-- <div class="input-group"> -->
+      {{#power-select options=nicknamesList onchange=(action "foo") as |place|}}
+      {{place}}
+      {{/power-select}}
+      <!-- <input value={{!place}} class="form-control" oninput={{!action (mut place) value="target.value"}} type="text"> -->
+      <!-- <span class="input-group-btn"> -->
         {{bs-button type="primary" onClick=(action "openTheModal") defaultText="Add New Place"}}
-      </span>
-    </div>
+      <!-- </span> -->
+    <!-- </div> -->
   {{/form.group}}
   {{form.element controlType="text" label="Place Name in Text" placeholder="Place Name as It Appears in the Text" property="text"}}
   <div class="row">
