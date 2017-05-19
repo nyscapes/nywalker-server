@@ -167,7 +167,7 @@ class Nickname < Sequel::Model
   # end
 
   def list_string
-    "#{self.name} -- {#{self.place.name}}"
+    "#{self.name} -- {#{self.place.slug}}"
   end
 end
 
