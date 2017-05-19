@@ -5,8 +5,8 @@
   {{#leaflet-map center=center zoom=zoom class="map card-img-top" as |layers|}}
     {{layers.tile url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"}}
     {{#each instancePlaces as |place|}}
-      {{#circle-marker-layer radius=5 location=place.latLng}}
-        {{#popup-layer}}
+      {{#layers.circle-marker radius=5 location=place.latLng as |marker|}}
+        {{#marker.popup}}
           <h4>{{place.place_name}}</h4>
           <table class="table-sm table">
             <thead class="thead-inverse">
@@ -24,8 +24,8 @@
               {{/each}}
             </tbody>
           </table>
-        {{/popup-layer}}
-      {{/circle-marker-layer}}
+        {{/marker.popup}}
+      {{/layers.circle-marker}}
     {{/each}}
   {{/leaflet-map}}
 

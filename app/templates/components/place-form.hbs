@@ -1,21 +1,21 @@
-{{#bs-modal name="placeModal" size="lg" open=open onHide=close as |modal|}}
+{{#bs-modal name="placeModal" size="lg" search=search open=open onHide=close as |modal|}}
   {{#modal.header}}
     <h4 class="modal-title">Add New Place</h4>
   {{/modal.header}}
   {{#modal.body}}
     <div class="row">
       <div class="col-6">
-        {{#bs-form onSubmit=(action "search") as |form|}}
-          {{#form.group}}
+        {{#bs-form onSubmit=(action "search") as |searchForm|}}
+          {{#searchForm.group}}
             <label class="control-label">Search</label>
             <div class="input-group">
               <input value={{search}} class="form-control" onchange={{action (mut search) value="target.value"}} type="text">
               <span class="input-group-btn">
                 <!-- <button class="btn btn-sm btn-secondary" type="submit" onClick={{!action "search"}}>Search gazetteer</button> -->
-                {{bs-button buttonType="submit" type="secondary" defaultText="Search Gaezetteer"}}
+                {{bs-button buttonType="submit" type="secondary" defaultText="Search Gazetteer"}}
               </span>
             </div>
-          {{/form.group}}
+          {{/searchForm.group}}
         {{/bs-form}}
         {{#bs-form onSubmit=(action "addPlace") model=this as |form|}}
           {{form.element controlType="text" label="Name" placeholder="Place name" property="name"}}
@@ -39,10 +39,16 @@
           </select>
           {{/form.group}}
           {{form.element controlType="textarea" label="Note" property="note"}}
+          {{form.element controlType="hidden" property="bbox"}}
+          {{form.element controlType="hidden" property="geonameid"}}
           {{bs-button buttonType="submit" type="primary" defaultText="Add Place"}}
         {{/bs-form}}
       </div>
-      {{outlet "search results"}}
+      <div class="col-6">
+        {{#if searchResultsToggle}}
+          {{search-results results=results useThisPlace=(action "sendPlace")}}
+        {{/if}}
+      </div>
     </div>
   {{/modal.body}}
 {{/bs-modal}}

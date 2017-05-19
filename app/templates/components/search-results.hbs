@@ -1,0 +1,28 @@
+<h3>Search Results for “{{results.searchTerm}}”</h3>
+{{#leaflet-map center=center zoom=zoom class="short-map" as |layers|}}
+  {{layers.tile url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"}}
+  {{layers.circle-marker radius=5 location=center}}
+{{/leaflet-map}}
+
+{{#each results.places as |place|}}
+<div class="card">
+  <div class="card-block">
+    <div class="row">
+      <div class="col-3">
+        {{bs-button type="primary" defaultText="Map" class="btn-sm" onClick=(action "recenter" place.lat place.lon)}}
+      </div>
+      <div class="col-6">
+        <p class="card-text">{{place.name}}<br />
+          <small>
+            {{place.description}} ({{place.lat}}, {{place.lon}})
+          </small>
+        </p>
+      </div>
+      <div class="col-3">
+        {{bs-button type="primary" defaultText="Use" class="btn-sm" onClick=(action "sendThisPlace" place)}}
+        {{yield}}
+      </div>
+    </div>
+  </div>
+</div>
+{{/each}}
