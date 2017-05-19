@@ -1,27 +1,45 @@
-{{#bs-form onSubmit=(action "submit") model=this as |form|}}
-  {{#form.group}}
-    <label class="control-label">Place</label>
-    <!-- <div class="input-group"> -->
-      {{#power-select options=nicknamesList onchange=(action "foo") as |place|}}
-      {{place}}
-      {{/power-select}}
-      <!-- <input value={{!place}} class="form-control" oninput={{!action (mut place) value="target.value"}} type="text"> -->
-      <!-- <span class="input-group-btn"> -->
-        {{bs-button type="primary" onClick=(action "openTheModal") defaultText="Add New Place"}}
-      <!-- </span> -->
-    <!-- </div> -->
-  {{/form.group}}
-  {{form.element controlType="text" label="Place Name in Text" placeholder="Place Name as It Appears in the Text" property="text"}}
-  <div class="row">
-    <div class="col-6">
-      {{form.element value=page controlType="number" label="Page" property="page"}}
+<h2>Add New Instance</h2>
+<div class="row mb-3">
+  <div class="col-8">
+  {{#bs-form onSubmit=(action "submit") model=this as |form|}}
+    <div class="row">
+      <div class="col-8">
+        {{#form.group}}
+        <!-- <label class="control-label">Place</label> -->
+          <!-- <div class="input-group"> -->
+          {{#power-select options=nicknamesList selected=placeName onchange=(action "setPlaceName") as |place|}}
+            {{place}}
+          {{/power-select}}
+          <!-- <input value={{!place}} class="form-control" oninput={{!action (mut place) value="target.value"}} type="text"> -->
+          <!-- <span class="input-group-btn"> -->
+        {{/form.group}}
+      </div>
+      <div class="col-4">
+        {{bs-button type="primary" onClick=(action "openTheModal") defaultText="Add New Place" class="btn-sm"}}
+            <!-- </span> -->
+          <!-- </div> -->
+      </div>
     </div>
-    <div class="col-6">
-      {{form.element value=sequence controlType="number" label="Order on Page" property="sequence"}}
+    {{form.element controlType="text" label="Place Name in Text" placeholder="Place Name as It Appears in the Text" property="text"}}
+    <div class="row">
+      <div class="col-3">
+        {{form.element value=page controlType="number" label="Page" property="page"}}
+      </div>
+      <div class="col-3">
+        {{form.element value=sequence controlType="number" label="Order on Page" property="sequence"}}
+      </div>
     </div>
+    {{form.element controlType="textarea" label="Note" property="note"}}
+    {{bs-button defaultText="Submit" type="primary" buttonType="submit"}}
+  {{/bs-form}}
   </div>
-  {{form.element controlType="textarea" label="Note" property="note"}}
-  {{bs-button defaultText="Submit" type="primary" buttonType="submit"}}
-{{/bs-form}}
-
+  <div class="col-4">
+    {{#leaflet-map center=instanceCenter zoom=instanceZoom class="map" as |layers|}}
+      {{layers.tile url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"}}
+      {{#if instanceMarker}}
+        {{layers.circle-marker radius=5 location=instanceMarkerCenter}}
+      {{/if}}
+    {{/leaflet-map}}
+  </div>
+</div>
 {{place-form open=modalOpen close=(action "modalClosed")}}

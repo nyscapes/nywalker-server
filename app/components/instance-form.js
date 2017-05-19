@@ -2,6 +2,7 @@ import Ember from 'ember';
 import RSVP from 'rsvp';
 
 export default Ember.Component.extend({
+  store: Ember.inject.service(),
   nicknamesList: Ember.computed( () => {
     return new RSVP.Promise((resolve, reject) => {
       $.getJSON('/api/v1/nicknames-list', (data) => {
@@ -20,7 +21,9 @@ export default Ember.Component.extend({
       });
     });
   }),
+  placeName: '',
   modalOpen: false,
+  text: '',
   page: 2,
   // page: Ember.computed(function() {
   //   let theInstances = this.get('instances');
@@ -33,6 +36,10 @@ export default Ember.Component.extend({
   // search: Ember.computed(function() { 
   //   return this.get('place');
   // }),
+  instanceCenter: [0, 0],
+  instanceZoom: 2,
+  instanceMarker: false,
+  instanceMarkerCenter: [51, 0],
 
   actions: {
     submit() { 
@@ -45,6 +52,21 @@ export default Ember.Component.extend({
     },
     openTheModal() { this.set('modalOpen', true); },
     modalClosed() {this.set('modalOpen', false); },
-    foo() { }
+    setPlaceName(selectedPlace) { 
+      this.set('placeName', selectedPlace);
+      this.get('store').queryRecord('place', { slug: selectedPlace.match(/{([^}]*)}/)[1] }).then( place => { 
+        this.set('text', selectedPlace.match(/(.*) -- {/)[1]);
+        const latLng = [place.get('lat'), place.get('lon')];
+        if (latLng[0] !== null) {
+          this.set('instanceCenter', latLng);
+          this.set('instanceMarkerCenter', latLng);
+          this.set('instanceMarker', true);
+          this.set('theInstancePlace', place);
+          // this.set('instanceZoom', 8);
+        } else {
+          this.set('instanceMarker', false);
+        }
+      });
+    }
   }
 });
