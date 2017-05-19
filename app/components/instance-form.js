@@ -17,7 +17,7 @@ export default Ember.Component.extend({
         return b.count - a.count;
       }).map((nick) => {
         // return `${nick.name} <span class="muted">{${nick.slug}}</span>`;
-        return `${nick.name} -- {${nick.slug}}`;
+        return nick.list_string;
       });
     });
   }),

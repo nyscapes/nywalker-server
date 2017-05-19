@@ -33,41 +33,31 @@ export default function() {
   this.get('/users/:id');
 
   this.post('/instances');
-  // this.post('/instances', (schema, request) => {
-  //   console.log('tk');
-  //   console.log(JSON.parse(request.requestBody));
-  // });
 
   this.get('/nicknames-list', () => {
     return [
       {
-        name: 'ENWHYEFFINSEE',
-        slug: 'new-york-city',
+        list_string: 'ENWHYEFFINSEE -- {new-york-city}',
         count: 1
       },
       {
-        name: 'New Yurk City',
-        slug: 'new-york-city',
+        list_string: 'New Yurk City -- {new-york-city}',
         count: 1
       },
       {
-        name: 'The Citeee',
-        slug: 'new-york-city',
+        list_string: 'The Citeee -- {new-york-city}',
         count: 2
       },
       {
-        name: 'The Museum',
-        slug: 'museum-of-minotaurs',
+        list_string: 'The Museum -- {museum-of-minotaurs}',
         count: 1
       },
       {
-        name: 'Museum of Minotaurs',
-        slug: 'museum-of-minotaurs',
+        list_string: 'Museum of Minotaurs -- {museum-of-minotaurs}',
         count: 1
       },
       {
-        name: 'BKN',
-        slug: 'brooklyn',
+        list_string: 'BKN -- {brooklyn}',
         count: 1
       }
     ];
