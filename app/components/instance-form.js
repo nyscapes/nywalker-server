@@ -5,7 +5,14 @@ export default Ember.Component.extend({
   store: Ember.inject.service(),
   nicknamesList: Ember.computed( () => {
     return new RSVP.Promise((resolve, reject) => {
-      $.getJSON('/api/v1/nicknames-list', (data) => {
+      $.ajax({
+        url: '/api/v1/nicknames-list',
+        type: 'GET',
+        dataType: 'json',
+        beforeSend(xhr) { // This is not the actual format of the response…
+          xhr.setRequestHeader('Accept', 'application/vnd.api+json');
+        }
+      }).done((data) => {
         if (data) { // will this always work?
           resolve(data);
         } else {
@@ -13,9 +20,7 @@ export default Ember.Component.extend({
         }
       });
     }).then((data) => {
-      return data.sort((a, b) => {
-        return b.count - a.count;
-      }).map((nick) => {
+      return data.map((nick) => {
         // return `${nick.name} <span class="muted">{${nick.slug}}</span>`;
         return nick.list_string;
       });
