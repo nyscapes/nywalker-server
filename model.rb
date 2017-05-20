@@ -162,9 +162,9 @@ class Nickname < Sequel::Model
     validates_presence [:name]
   end
 
-  # def instance_count_query
-  #   Instance.all(place: self.place, text: self.name).count
-  # end
+  def instance_count_query
+    Instance.where(place: self.place, text: self.name).count
+  end
 
   def list_string
     "#{self.name} -- {#{self.place.slug}}"

@@ -65,7 +65,7 @@ class App
       }
     end
 
-  # Books
+  # BOOK
     get '/books' do
       if params[:slug]
         book = Book.where(slug: params[:slug]).first
@@ -76,9 +76,13 @@ class App
       end
     end
 
-  # Instances
+  # NICK
+    get '/nicknames-list' do
+      status 200
+      Nickname.map{ |n| { list_string: n.list_string, count: n.instance_count_query } }.sort_by{ |n| n[:count] }.reverse.to_json
+    end
 
-  # Places
+  # PLACE
     get '/places' do
       if params[:data_page] && params[:page_size]
         build_total_pages(Place, params[:page_size])
