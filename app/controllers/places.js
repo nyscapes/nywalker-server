@@ -10,6 +10,9 @@ export default Ember.Controller.extend({
         // $('.infinity-loader').show();
         return this.get('store').findAll('place');
       }
+    },
+    goToPlacesNew() {
+      this.transitionToRoute('places.new');
     }
   }
 });

@@ -8,7 +8,19 @@ export default Ember.Component.extend({
   isModal: false,
   results: {searchTerm: '', places: []},
   actions: {
-    addPlace() { alert('add place!'); },
+    addPlace() {
+      let place = {
+        lat: this.get('lat'),
+        lon: this.get('lon'),
+        name: this.get('name'),
+        source: this.get('source'),
+        geonamesid: this.get('geonamesid'),
+        confidence: this.get('confidence'),
+        note: this.get('note'),
+        bbox: this.get('bbox')
+      };
+      return this.get('createPlace')(place);
+    },
     sendPlace(place){ // to fill in the place
       this.set('name', place.name);
       this.set('lat', place.lat);
@@ -39,7 +51,6 @@ export default Ember.Component.extend({
         this.set('results.places', places);
         this.set('searchResultsToggle', true);
         this.set('results.initialCenter', [places[0].lat, places[0].lon]);
-        console.log(this.get('results')); 
       });
     }
   }

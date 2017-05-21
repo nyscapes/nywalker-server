@@ -29,6 +29,8 @@ export default function() {
       return schema.places.all();
     }
   });
+  this.post('/places');
+  
   // this.get('/users');
   this.get('/users/:id');
 

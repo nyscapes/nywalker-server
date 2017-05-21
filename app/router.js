@@ -11,6 +11,7 @@ Router.map(function() {
   this.route('help');
   this.route('places', function() {
     this.route('show', { path: '/:place_slug' });
+    this.route('new');
   });
   this.route('login');
   this.route('places-pages');

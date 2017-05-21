@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import RSVP from 'rsvp';
+import slugify from 'npm:slugify';
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(Ember.TargetActionSupport, {
   store: Ember.inject.service(),
   nicknamesList: Ember.computed( () => {
     return new RSVP.Promise((resolve, reject) => {
@@ -71,6 +72,18 @@ export default Ember.Component.extend({
         } else {
           this.set('instanceMarker', false);
         }
+      });
+    },
+    createPlace(place) {
+      let newPlace = this.get('store').createRecord('place', place);
+      newPlace.set('slug', slugify(newPlace.get('name')).toLowerCase());
+      newPlace.save();//.then(function() {
+      let selectedPlace = newPlace.get('name') + ' -- {' + newPlace.get('slug') + '}';
+      this.set('modalOpen', false);
+      this.triggerAction({
+        action: 'setPlaceName',
+        actionContext: selectedPlace,
+        target: this
       });
     }
   }

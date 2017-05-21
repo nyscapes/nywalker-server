@@ -3,7 +3,7 @@
 <div class="row">
   <!-- <div class="col-3 flex-first"> -->
   <div class="col-3">
-    <!-- <a href="/places/new" class="btn btn-primary" role="button">Add Place</a> -->
+    {{bs-button type="primary" onClick=(action "goToPlacesNew") defaultText="Add Place"}}
     {{#place-filter
       filter=(action 'filterByName')
       as |places|}}
