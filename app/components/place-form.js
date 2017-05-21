@@ -5,6 +5,7 @@ export default Ember.Component.extend({
     return this.get('store').createRecord('place');
   },
   searchResultsToggle: false,
+  isModal: false,
   results: {searchTerm: '', places: []},
   actions: {
     addPlace() { alert('add place!'); },
@@ -18,7 +19,7 @@ export default Ember.Component.extend({
       this.set('source', 'GeoNames');
     },
     search() { 
-      let searchTerm = this.get('search');
+      let searchTerm = this.get('searchTerm');
       this.set('results.searchTerm', searchTerm);
       $.get('http://api.geonames.org/searchJSON?username=moacir&style=full&q=' + searchTerm, (data) => {
         let places = data.geonames.slice(0, 5).map( place => {

@@ -1,15 +1,10 @@
-{{#bs-modal name="placeModal" size="lg" search=search open=open onHide=close as |modal|}}
-  {{#modal.header}}
-    <h4 class="modal-title">Add New Place</h4>
-  {{/modal.header}}
-  {{#modal.body}}
     <div class="row">
       <div class="col-6">
-        {{#bs-form onSubmit=(action "search") as |searchForm|}}
+        {{#bs-form onSubmit=(action "search") searchTerm=search as |searchForm|}}
           {{#searchForm.group}}
             <label class="control-label">Search</label>
             <div class="input-group">
-              <input value={{search}} class="form-control" onchange={{action (mut search) value="target.value"}} type="text">
+              <input value={{searchTerm}} class="form-control" onchange={{action (mut searchTerm) value="target.value"}} type="text">
               <span class="input-group-btn">
                 <!-- <button class="btn btn-sm btn-secondary" type="submit" onClick={{!action "search"}}>Search gazetteer</button> -->
                 {{bs-button buttonType="submit" type="secondary" defaultText="Search Gazetteer"}}
@@ -22,10 +17,10 @@
           {{!What3Words hidden?}}
           <div class="row">
             <div class="col-6">
-              {{form.element controlType="number" label="Latitude (𝓎)" placeholder="Latitude" property="lat"}}
+              {{form.element controlType="number" label="Latitude (𝓎)" placeholder="Latitude" property="lat" step="0.00001"}}
             </div>
             <div class="col-6">
-              {{form.element controlType="number" label="Longitude (𝓍)" placeholder="Longitude" property="lon"}}
+              {{form.element controlType="number" label="Longitude (𝓍)" placeholder="Longitude" property="lon" step="0.00001"}}
             </div>
           </div>
           {{form.element controlType="text" label="Source" placeholder="Source" property="source"}}
@@ -50,5 +45,3 @@
         {{/if}}
       </div>
     </div>
-  {{/modal.body}}
-{{/bs-modal}}
