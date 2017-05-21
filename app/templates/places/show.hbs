@@ -1,9 +1,9 @@
-<div class="card" style="width=100%">
+<div class="card">
   <div class="card-header">
     Place
   </div>
 
-  {{#if model.latLng}}
+  {{#if model.lat}}
     {{#leaflet-map lat=model.lat lng=model.lon zoom=10 class="short-map card-img-top" as |layers|}}
       {{layers.tile url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"}}
       {{#layers.marker location=model.latLng as |marker|}}
