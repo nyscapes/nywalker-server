@@ -1,10 +1,8 @@
 <h1>List of Places</h1>
 <p class="lead">All the places that we have added to the database.</p>
 <div class="row">
-  <div style="col-sm-6 flex-last">
-    {{outlet}} <!-- places/show -->
-  </div>
-  <div class="col-sm-6 flex-first">
+  <!-- <div class="col-3 flex-first"> -->
+  <div class="col-3">
     <!-- <a href="/places/new" class="btn btn-primary" role="button">Add Place</a> -->
     {{#place-filter
       filter=(action 'filterByName')
@@ -16,6 +14,10 @@
     </div>
       {{!infinity-loader infinityModel=places loadingText="Loading places…" destroyOnInfinity=true}}
     {{/place-filter}}
+  </div>
+  <div style="col-9">
+  <!-- <div style="col-9 flex-last"> -->
+    {{outlet "places-show"}}
   </div>
 </div>
 
