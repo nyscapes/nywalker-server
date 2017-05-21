@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import slugify from 'npm:slugify';
 
 export default Ember.Controller.extend({
   actions: {

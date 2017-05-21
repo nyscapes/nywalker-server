@@ -105,6 +105,16 @@ class App
       end
     end
 
+    post '/places' do
+      if @data.nil? || @data.length == 0
+        status 400
+        { "error": "some_error_with_payload" }.to_json
+      else
+        puts @data
+        @data.to_json
+      end
+    end
+    
   # USER
 
     get '/users/:user_id' do
@@ -113,6 +123,17 @@ class App
       serialize_model(user).to_json
     end
 
+  # INSTANCE
+    
+    post '/instances' do
+      if @data.nil? || @data.length == 0
+        status 400
+        { "error": "some_error_with_payload" }.to_json
+      else
+        puts @data
+        {}.to_json
+      end
+    end
 
   # AUTH
 
