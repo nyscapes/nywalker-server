@@ -36,34 +36,16 @@ export default function() {
 
   this.post('/instances');
 
-  this.get('/nicknames-list', () => {
-    return [
-      {
-        list_string: 'ENWHYEFFINSEE -- {new-york-city}',
-        count: 1
-      },
-      {
-        list_string: 'New Yurk City -- {new-york-city}',
-        count: 1
-      },
-      {
-        list_string: 'The Citeee -- {new-york-city}',
-        count: 2
-      },
-      {
-        list_string: 'The Museum -- {museum-of-minotaurs}',
-        count: 1
-      },
-      {
-        list_string: 'Museum of Minotaurs -- {museum-of-minotaurs}',
-        count: 1
-      },
-      {
-        list_string: 'BKN -- {brooklyn}',
-        count: 1
-      }
-    ];
-  });
+  this.get('/nicknames');
+  // no way that I know of to do a regular query on nicks,
+  // so just return all of them
+  // this.get('/nicknames', (schema, request) => {
+  //   if (request.queryParams.q) {
+  //     return schema.nicknames.findBy({ list_string: request.queryParams.q });
+  //   } else {
+  //     console.log('pooped the bed');
+  //   }
+  // });
 
   this.passthrough('http://api.geonames.org/**');
 
