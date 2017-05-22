@@ -32,7 +32,7 @@ class InstanceSerializer < BaseSerializer
 end
 
 class NicknameSerializer < BaseSerializer
-  attributes :name, :instance_count
+  attributes :name, :instance_count_query, :list_string
 
   has_one :place
 end
