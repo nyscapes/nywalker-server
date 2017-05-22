@@ -18,6 +18,7 @@
     "bootstrap": "^4.0.0-alpha.6",
     "broccoli-asset-rev": "^2.4.5",
     "ember-ajax": "^3.0.0",
+    "ember-aupac-typeahead": "^2.2.0",
     "ember-bootstrap": "^1.0.0-alpha.12",
     "ember-browserify": "^1.1.13",
     "ember-cli": "2.13.1",

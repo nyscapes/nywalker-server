@@ -5,12 +5,13 @@
     <div class="row">
       <div class="col-8">
         {{#form.group}}
-        <!-- <label class="control-label">Place</label> -->
-          <!-- <div class="input-group"> -->
-          {{#power-select options=nicknamesList selected=placeName onchange=(action "setPlaceName") as |place|}}
-            {{place}}
-          {{/power-select}}
-          <!-- <input value={{!place}} class="form-control" oninput={{!action (mut place) value="target.value"}} type="text"> -->
+          {{!#aupac-control label="Place" mandatory=true}}
+            {{aupac-ember-data-typeahead action=(action (mut placeName))
+              class='form-control'
+              modelClass='nickname'
+              displayKey='list_string'
+              placeholder='Enter the place name'}}
+          {{!/aupac-control}}
           <!-- <span class="input-group-btn"> -->
         {{/form.group}}
       </div>

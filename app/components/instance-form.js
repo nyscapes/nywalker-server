@@ -4,32 +4,9 @@ import slugify from 'npm:slugify';
 
 export default Ember.Component.extend(Ember.TargetActionSupport, {
   store: Ember.inject.service(),
-  nicknamesList: Ember.computed( () => {
-    return new RSVP.Promise((resolve, reject) => {
-      $.ajax({
-        url: '/api/v1/nicknames-list',
-        type: 'GET',
-        dataType: 'json',
-        beforeSend(xhr) { // This is not the actual format of the response…
-          xhr.setRequestHeader('Accept', 'application/vnd.api+json');
-        }
-      }).done((data) => {
-        if (data) { // will this always work?
-          resolve(data);
-        } else {
-          reject(new Error('failed getting nicknames-list'));
-        }
-      });
-    }).then((data) => {
-      return data.map((nick) => {
-        // return `${nick.name} <span class="muted">{${nick.slug}}</span>`;
-        return nick.list_string;
-      });
-    });
-  }),
-  placeName: '',
+  placeName: null,
   modalOpen: false,
-  text: '',
+  text: null,
   page: 2,
   // page: Ember.computed(function() {
   //   let theInstances = this.get('instances');
