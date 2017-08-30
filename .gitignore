@@ -1,3 +1,10 @@
+# Stuff waiting for the ember version:
+dist/
+bower_components/
+model_timer.rb
+node_modules/
+
+
 .env
 /puma.rb
 /users.rb
