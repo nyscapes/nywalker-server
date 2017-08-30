@@ -10,9 +10,18 @@
           {'opacity': 0.7, 'fillColor': '#0000ee', 'color': '#0000ee'}
         ];
         var dots = L.markerClusterGroup();
-        {{#places}}
-        dots.addLayer(L.circleMarker([{{lat}}, {{lon}}], confidence_array[{{confidence}}]).bindPopup("<h4><a href='/places/{{slug}}'>{{name}}</a></h4><small><strong>Referred to as:</strong><br/>{{{place_names}}}<strong>Total mentions:</strong> {{count}}<br/><strong>Confidence (0–3):</strong> {{confidence}}</small>").bindTooltip("{{place_names_sentence}}"));
-        {{/places}}
-        dots.addTo(map);
-        map.fitBounds(dots.getBounds());
+        $.getJSON("/json/{{{json_file}}}.json", function(places){
+          places.forEach(function(place){
+            let popup = "<h4><a href='/places/" + place.slug + 
+              "'>" + place.name + "</a></h4>" +
+              "<small><strong>Referred to as:</strong><br/>" + 
+              place.place_names + "<strong>Total mentions:</strong> " + 
+              place.count + "<br/><strong>Confidence (0–3):</strong> " + 
+              place.confidence + "</small>";
+            dots.addLayer(L.circleMarker([place.lat, place.lon],
+              confidence_array[place.confidence]).bindPopup(popup).bindTooltip(place.place_names_sentence));
+          });
+          dots.addTo(map);
+          map.fitBounds(dots.getBounds());
+        });
       </script>

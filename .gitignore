@@ -9,6 +9,8 @@ node_modules/
 /puma.rb
 /users.rb
 
+public/json
+
 *.log
 *.pid
 *.swp

@@ -118,6 +118,7 @@ class App < Sinatra::Base
   get "/" do
     @page_title = "Home"
     @instances = Instance.all
+    @json_file = "all_places"
     mustache :index
   end
 

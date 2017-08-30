@@ -9,6 +9,7 @@ class App
   get "/books" do
     @page_title = "All Books"
     @books = Book.all(order: [:title.asc])
+    @json_file = "all_books"
     mustache :books_show
   end
   
@@ -57,6 +58,7 @@ class App
   get "/books/:book_slug" do
     @page_title = "#{book.title}"
     @instances = Instance.all(book: book, order: [:page.asc, :sequence.asc]) # place.instances doesn't work?
+    @json_file = book.slug
     mustache :book_show
   end
 

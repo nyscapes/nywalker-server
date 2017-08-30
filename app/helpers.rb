@@ -13,6 +13,10 @@ class App
       @js
     end
     
+    def json_file
+      @json_file
+    end
+
     def flag_modal_button
       <<-EOF
           <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#addFlagModal">Flag this</button>
@@ -86,8 +90,8 @@ class App
           { lat: p.lat, lon: p.lon, 
             name: p.name, 
             count: count_instances(p),
-            place_names: instances_by_place_names(p),
-            place_names_sentence: place_names_sentence(p),
+            place_names: p.instances_by_names,
+            place_names_sentence: p.names_to_sentence,
             slug: p.slug,
             confidence: p.confidence
           } 
@@ -95,39 +99,39 @@ class App
       end
     end
 
-    def place_names_sentence(p)
-      if @book
-        @instances.select{ |i| i.place == p }.map{ |i| i.text }.uniq.to_sentence
-      else
-        p.nicknames.select{ |n| n.instance_count > 0 }.map{ |n| n.name }.to_sentence
-      end
-    end
+    # def place_names_sentence(p)
+    #   if @book
+    #     @instances.select{ |i| i.place == p }.map{ |i| i.text }.uniq.to_sentence
+    #   else
+    #     p.nicknames.select{ |n| n.instance_count > 0 }.map{ |n| n.name }.to_sentence
+    #   end
+    # end
 
     def get_instances_per_page(book)
       book.total_pages == 0 ? 0 : (book.instances.length.to_f / book.total_pages.to_f).round(2)
     end
 
     def count_instances(place)
-      get_instances_per_place(place).count
+      place.instances_per.count
     end
 
-    def instances_by_place_names(place)
-      instances = get_instances_per_place(place)
-      # array like [["New York", 41], ["New York City", 6], ["NEW YORK FUCKIN’ CITY", 1]]
-      place_names = instances.map{|i| i.text}.uniq.map{|n| [n, instances.select{|i| i.text == n}.count]}
-      string = "<ul style='margin-left: 1em; padding: 0; margin-bottom: 0px;'>"
-      place_names.each{|name| string = string + "<li>#{name[0]}: #{name[1]}</li>"}
-      string = string + "</ul>"
-      string.gsub(/"/, "")
-    end
+    # def instances_by_place_names(place)
+    #   instances = place.instances_per
+    #   # array like [["New York", 41], ["New York City", 6], ["NEW YORK FUCKIN’ CITY", 1]]
+    #   place_names = instances.map{|i| i.text}.uniq.map{|n| [n, instances.select{|i| i.text == n}.count]}
+    #   string = "<ul style='margin-left: 1em; padding: 0; margin-bottom: 0px;'>"
+    #   place_names.each{|name| string = string + "<li>#{name[0]}: #{name[1]}</li>"}
+    #   string = string + "</ul>"
+    #   string.gsub(/"/, "")
+    # end
 
-    def get_instances_per_place(place)
-      if @book
-        place.instances.select{ |i| i.book_id == @book.id }
-      else
-        place.instances
-      end
-    end
+    # def get_instances_per_place(place)
+    #   if @book
+    #     place.instances.select{ |i| i.book_id == @book.id }
+    #   else
+    #     place.instances
+    #   end
+    # end
 
     def not_empty(text)
       case text
