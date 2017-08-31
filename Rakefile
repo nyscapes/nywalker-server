@@ -27,12 +27,12 @@ task :jsonify do
     raise "No json_counts file."
   end
 
-  place_count = Place.all.count
-  if json_counts[:places] != Place.count
+  place_count = Place.count
+  if json_counts[:places] != place_count
+    t1 = Time.now
     places = build_places(Instance.all)
     File.open("public/json/all_places.json","w") do |f|
       f.write(places.to_json)
-      puts "Wrote all_places.json"
     end
 
     Book.each do |book|
@@ -40,7 +40,6 @@ task :jsonify do
       places = build_places(Instance.all(book: book))
       File.open("public/json/#{book.slug}.json", "w") do |f|
         f.write(places.to_json)
-        puts "Wrote #{book.slug}.json"
       end
     end
 
@@ -48,6 +47,7 @@ task :jsonify do
     File.open(json_counts_file, 'w') do |f|
       f.puts YAML::dump(json_counts)
     end
+    puts "Wrote new places json files for #{place_count} places in #{Time.now - t1} seconds at #{Time.now}."
   else
     puts "No new places detected at #{Time.now}"
   end
