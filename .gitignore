@@ -10,6 +10,7 @@ node_modules/
 /users.rb
 
 public/json
+json_counts.yml
 
 *.log
 *.pid
