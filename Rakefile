@@ -47,9 +47,9 @@ task :jsonify do
     File.open(json_counts_file, 'w') do |f|
       f.puts YAML::dump(json_counts)
     end
-    puts "Wrote new places json files for #{place_count} places in #{Time.now - t1} seconds at #{Time.now}."
+    puts "[#{Time.now}]: Wrote json files for #{place_count} places in #{Time.now - t1} seconds."
   else
-    puts "No new places detected at #{Time.now}"
+    puts "[#{Time.now}]: No new places detected."
   end
 end
 
