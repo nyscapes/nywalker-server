@@ -13,6 +13,10 @@ testem.log
 /puma.rb
 /users.rb
 
+# JSON caching
+public/json
+json_counts.yml
+
 # for timing the db.
 model_timer.rb
 
