@@ -1,15 +1,16 @@
 /* eslint-env node */
+"use strict";
 
 module.exports = function(environment) {
-  var ENV = {
-    modulePrefix: 'nywalker',
-    environment: environment,
-    rootURL: '/',
-    locationType: 'auto',
+  let ENV = {
+    modulePrefix: "nywalker",
+    environment,
+    rootURL: "/",
+    locationType: "auto",
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
-        // e.g. 'with-controller': true
+        // e.g. "with-controller": true
       },
       EXTEND_PROTOTYPES: {
         // Prevent Ember Data from overriding Date.parse.
@@ -18,10 +19,10 @@ module.exports = function(environment) {
       }
     },
     
-    'ember-simple-auth': {
-      // authenticationRoute: 'login',
-      // routeAfterAuthentication: 'index'
-      // routeIfAlreadyAuthenticated: 'index'
+    "ember-simple-auth": {
+      // authenticationRoute: "login",
+      // routeAfterAuthentication: "index"
+      // routeIfAlreadyAuthenticated: "index"
     },
 
     APP: {
@@ -30,8 +31,8 @@ module.exports = function(environment) {
     }
   };
 
-  if (environment === 'development') {
-    ENV['ember-cli-mirage'] = {
+  if (environment === "development") {
+    ENV["ember-cli-mirage"] = {
       // enabled: false
       enabled: true
       };
@@ -42,19 +43,19 @@ module.exports = function(environment) {
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
   }
 
-  if (environment === 'test') {
+  if (environment === "test") {
     // Testem prefers this...
-    ENV.locationType = 'none';
+    ENV.locationType = "none";
 
     // keep test console output quieter
     ENV.APP.LOG_ACTIVE_GENERATION = false;
     ENV.APP.LOG_VIEW_LOOKUPS = false;
 
-    ENV.APP.rootElement = '#ember-testing';
+    ENV.APP.rootElement = "#ember-testing";
   }
 
-  if (environment === 'production') {
-    ENV['ember-cli-mirage'] = {
+  if (environment === "production") {
+    ENV["ember-cli-mirage"] = {
       enabled: false
       // enabled: true
       };
