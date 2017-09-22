@@ -14,7 +14,8 @@ class App
   get "/books/:book_slug/instances/new" do
     permitted_page(book)
     @page_title = "New Instance for #{book.title}"
-    @last_instance = Instance.last(user: @user, book: book) || Instance.last(book: book)
+    # @last_instance = Instance.last(user: @user, book: book) || Instance.last(book: book)
+    @last_instance = nil
     @nicknames = settings.nicknames_list.sort_by { |n| n[:instance_count] }.reverse.map{ |n| n[:string] }
     mustache :instance_new
   end
