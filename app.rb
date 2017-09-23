@@ -78,6 +78,11 @@ class App < Sinatra::Base
     def save_object(object, path)
       begin
         object.save
+        if object.class == Instance 
+          puts "the object id is"
+          puts object.id
+          session[:last_instance] = object.id
+        end
         flash[:success] = "#{object.class} successfully saved!"
         redirect path
       rescue DataMapper::SaveFailureError => @e
