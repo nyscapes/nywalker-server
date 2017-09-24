@@ -26,7 +26,7 @@ class App
             lon: p.lon,
             name: p.name,
             instances: p.instances.count,
-            place_names: instances_by_place_names(p),
+            place_names: p.instances_by_names,
             confidence: p.confidence
           }
         end

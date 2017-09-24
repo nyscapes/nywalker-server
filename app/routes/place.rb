@@ -20,6 +20,36 @@ class App
     mustache :places_show
   end
 
+  get "/places/all-geojson" do
+    @page_title = "All places - GeoJSON"
+    @places = Place.all.select{ |p| p.confidence != "0" }
+    content_type :json
+    attachment "all_places.geo.json"
+    geojson = { type: "FeatureCollection" }
+    geojson[:features] = @places.map do |place| 
+      { type: "Feature",
+        geometry: {
+          type: "Point",
+          coordinates: [place.lon, place.lat]
+        },
+        properties: {
+          id: place.id,
+          instances_count: place.instances.count,
+          name: place.name,
+          note: place.note,
+          flagged: place.flagged,
+          source: place.source,
+          geonameid: place.geonameid,
+          confidence: place.confidence,
+          added_on: place.added_on,
+          added_by: place.user.name,
+          slug: place.slug
+        }
+      }
+    end
+    geojson.to_json
+  end
+
   # CREATE
 
   get "/places/new" do
