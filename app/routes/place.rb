@@ -43,6 +43,7 @@ class App
           confidence: place.confidence,
           added_on: place.added_on,
           added_by: place.user.name,
+          nicknames: place.nicknames,
           slug: place.slug
         }
       }
