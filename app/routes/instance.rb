@@ -47,7 +47,7 @@ class App
       if nickname.nil?
         new_nick = Nickname.create(name: instance.text, place: location, instance_count: 1)
         settings.nicknames_list << { string: new_nick.list_string, instance_count: 1 }
-        session[:nicknames] << { string: new_nick.list_string, instance_count: 1 }
+        # session[:nicknames] << { string: new_nick.list_string, instance_count: 1 }
       else
         nickname.update(instance_count: nickname.instance_count + 1)
         nick_list = nicknames_list
@@ -92,10 +92,11 @@ class App
     if nickname.nil?
       new_nick = Nickname.create(name: instance.text, place: instance.place, instance_count: 1)
       settings.nicknames_list << { string: new_nick.list_string, instance_count: 1 }
-      session[:nicknames] << { string: new_nick.list_string, instance_count: 1 }
+      # session[:nicknames] << { string: new_nick.list_string, instance_count: 1 }
     else
       nickname.update(instance_count: nickname.instance_count + 1)
-      nick_list = session[:nicknames].select { |n| n[:string] == nickname.list_string }
+      nick_list = settings.nicknames_list.select { |n| n[:string] == nickname.list_string }
+      # nick_list = session[:nicknames].select { |n| n[:string] == nickname.list_string }
       nick_list[0][:instance_count] = nick_list[0][:instance_count] + 1
     end
     save_object(instance, "/books/#{book.slug}") 
@@ -130,13 +131,14 @@ class App
   end
 
   def nicknames_list
-    if session[:nicknames].nil?
-      puts "cookie not defined."
-      session[:nicknames] = settings.nicknames_list.sort_by { |n| n[:instance_count] }.reverse
-    else
-      puts "cookie defined."
-    end
-    session[:nicknames]
+    # if session[:nicknames].nil?
+    #   puts "cookie not defined."
+    #   session[:nicknames] = settings.nicknames_list.sort_by { |n| n[:instance_count] }.reverse
+    # else
+    #   puts "cookie defined."
+    # end
+    # session[:nicknames]
+    settings.nicknames_list.sort_by { |n| n[:instance_count] }.reverse
   end
 
 end
