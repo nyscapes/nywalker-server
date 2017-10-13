@@ -15,11 +15,13 @@ class App
     permitted_page(book)
     @page_title = "New Instance for #{book.title}"
     unless session[:last_instance].nil? 
+      puts "last instance session = #{session[:last_instance]}"
       @last_instance = Instance.get(session[:last_instance])
     else
+      puts "the session last instance is nil."
       @last_instance = nil
     end
-    @nicknames = settings.nicknames_list.sort_by { |n| n[:instance_count] }.reverse.map{ |n| n[:string] }
+    @nicknames = nicknames_list.map{ |n| n[:string] }
     mustache :instance_new
   end
 
@@ -45,9 +47,10 @@ class App
       if nickname.nil?
         new_nick = Nickname.create(name: instance.text, place: location, instance_count: 1)
         settings.nicknames_list << { string: new_nick.list_string, instance_count: 1 }
+        session[:nicknames] << { string: new_nick.list_string, instance_count: 1 }
       else
         nickname.update(instance_count: nickname.instance_count + 1)
-        nick_list = settings.nicknames_list.select { |n| n[:string] == nickname.list_string }
+        nick_list = nicknames_list
         nick_list[0][:instance_count] = nick_list[0][:instance_count] + 1
       end
     end
@@ -74,7 +77,7 @@ class App
   get "/books/:book_slug/instances/:instance_id/edit" do
     permitted_page(instance)
     @page_title = "Editing Instance #{instance.id} for #{book.title}"
-    @nicknames = settings.nicknames_list.sort_by { |n| n[:instance_count] }.reverse.map{ |n| n[:string] }
+    @nicknames = nicknames_list
     mustache :instance_edit
   end
 
@@ -89,9 +92,10 @@ class App
     if nickname.nil?
       new_nick = Nickname.create(name: instance.text, place: instance.place, instance_count: 1)
       settings.nicknames_list << { string: new_nick.list_string, instance_count: 1 }
+      session[:nicknames] << { string: new_nick.list_string, instance_count: 1 }
     else
       nickname.update(instance_count: nickname.instance_count + 1)
-      nick_list = settings.nicknames_list.select { |n| n[:string] == nickname.list_string }
+      nick_list = session[:nicknames].select { |n| n[:string] == nickname.list_string }
       nick_list[0][:instance_count] = nick_list[0][:instance_count] + 1
     end
     save_object(instance, "/books/#{book.slug}") 
@@ -123,6 +127,16 @@ class App
     else
       nil
     end
+  end
+
+  def nicknames_list
+    if session[:nicknames].nil?
+      puts "cookie not defined."
+      session[:nicknames] = settings.nicknames_list.sort_by { |n| n[:instance_count] }.reverse
+    else
+      puts "cookie defined."
+    end
+    session[:nicknames]
   end
 
 end
