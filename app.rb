@@ -16,6 +16,7 @@ require "active_support" # for the slug.
 require "active_support/inflector"
 require "active_support/core_ext/array/conversions"
 require "descriptive_statistics"
+require "redis"
 
 require_relative "./model"
 
@@ -59,6 +60,7 @@ class App < Sinatra::Base
     config.debug = true if development?
   end
 
+  set :redis, Redis.new
   set :nicknames_list, Proc.new { Nickname.all.map{ |n| { string: n.list_string, instance_count: n.instance_count } } }
 
   before do
@@ -79,9 +81,7 @@ class App < Sinatra::Base
       begin
         object.save
         if object.class == Instance 
-          puts "the object id is"
-          puts object.id
-          session[:last_instance] = object.id
+          redis.set "user-#{user.username}-last-instance", object.id
         end
         flash[:success] = "#{object.class} successfully saved!"
         redirect path
@@ -116,6 +116,14 @@ class App < Sinatra::Base
 
     def this_user
       @this_user ||= User.first(username: params[:user_username]) || halt(404)
+    end
+
+    def user
+      @user ||= env['warden'].user
+    end
+
+    def redis
+      settings.redis
     end
 
   end
@@ -295,5 +303,31 @@ class App < Sinatra::Base
   # To get user authentication to work.
   # Methods, Warden definitions, etc.
   require "#{base}/app/authentication"
+
+end
+
+class Redis
+
+  def cache(params)
+    key = params[:key] || raise(":key parameter is required!")
+    expire = params[:expire] || nil
+    recalculate = params[:recalculate] || nil
+    timeout = params[:timeout] || nil
+    default = params[:default] || nil
+
+    if (value = get(key)).nil? || recalculate
+      begin
+        value = Timeout::timeout(timeout) { yield(self) }
+      rescue Timeout::Error
+        value = default
+      end
+
+      set(key, value)
+      expire(key, expire) if expire
+      value
+    else
+      value
+    end
+  end
 
 end

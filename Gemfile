@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-ruby '2.2.3'
+ruby '2.3.1'
 
 ### FUNDAMENTALS
 # Sinatra, sinatrarb.com, is the web framework that makes the site run.
@@ -33,6 +33,9 @@ gem 'dm-postgis'
 gem 'georuby'
 gem 'dbf'
 gem 'rubyzip'
+
+# Redis for caching
+gem 'redis'
 
 # Dotenv lets us pass in ENV['VARIABLE']s. This is vital for initializing the
 # database, which relies on ENV['DATABASE_URL']

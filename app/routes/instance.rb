@@ -14,12 +14,9 @@ class App
   get "/books/:book_slug/instances/new" do
     permitted_page(book)
     @page_title = "New Instance for #{book.title}"
-    unless session[:last_instance].nil? 
-      puts "last instance session = #{session[:last_instance]}"
-      @last_instance = Instance.get(session[:last_instance])
-    else
-      puts "the session last instance is nil."
-      @last_instance = nil
+    @last_instance = Instance.get( redis.get( "user-#{user.username}-last-instance" ).to_i )
+    if @last_instance.nil? || @last_instance.book.id != book.id
+      @last_instance = Instance.last(user: @user, book: book) || Instance.last(book: book)
     end
     @nicknames = nicknames_list.map{ |n| n[:string] }
     mustache :instance_new
@@ -44,15 +41,18 @@ class App
       dm_error_and_redirect(instance, request.path, "The “Place name in text” was left blank.")
     else
       nickname = Nickname.first(name: instance.text, place: location)
+      nicks = nicknames_list
       if nickname.nil?
         new_nick = Nickname.create(name: instance.text, place: location, instance_count: 1)
-        settings.nicknames_list << { string: new_nick.list_string, instance_count: 1 }
+        nicks << { string: new_nick.list_string, instance_count: 1 }
+        # settings.nicknames_list << { string: new_nick.list_string, instance_count: 1 }
         # session[:nicknames] << { string: new_nick.list_string, instance_count: 1 }
       else
         nickname.update(instance_count: nickname.instance_count + 1)
-        nick_list = nicknames_list
-        nick_list[0][:instance_count] = nick_list[0][:instance_count] + 1
+        nick_list_index = nicks.each_index.select { |ns| ns[i][:string] == nickname.list_string }
+        nicks[nick_list_index][:instance_count] = nicks[nick_list_index][:instance_count] + 1
       end
+      nicknames_list(nicks)
     end
     instance.place = location
     Instance.all(book: book, page: instance.page, :sequence.gte => instance.sequence).each do |other_instance|
@@ -130,15 +130,21 @@ class App
     end
   end
 
-  def nicknames_list
-    # if session[:nicknames].nil?
-    #   puts "cookie not defined."
-    #   session[:nicknames] = settings.nicknames_list.sort_by { |n| n[:instance_count] }.reverse
-    # else
-    #   puts "cookie defined."
-    # end
-    # session[:nicknames]
-    settings.nicknames_list.sort_by { |n| n[:instance_count] }.reverse
+  def nicknames_list(newlist = nil)
+    nick_key = "user-#{user.username}-nicknames-list"
+    if newlist.nil?
+      nicks = redis.cache(
+        key: nick_key,
+        expire: 1800,
+        timeout: 60
+      ) do
+          Nickname.all.map{ |n| { string: n.list_string, instance_count: n.instance_count } }.to_json
+      end
+    else
+      redis.set nick_key, newlist.to_json
+      nicks = redis.get nick_key
+    end
+    JSON.parse(nicks, symbolize_names: true).sort_by { |n| n[:instance_count] }.reverse
   end
 
 end
