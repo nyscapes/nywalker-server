@@ -20,6 +20,7 @@ task :jsonify do
     end
   end
 
+  # puts "[#{Time.now}]: looking for json_counts"
   json_counts_file = "json_counts.yml"
   if File.exists? json_counts_file
     json_counts = YAML::load_file json_counts_file
@@ -28,16 +29,20 @@ task :jsonify do
   end
 
   place_count = Place.count
+  # puts "[#{Time.now}]: Starting run on #{place_count} places"
   if json_counts[:places] != place_count
     t1 = Time.now
     places = build_places(Instance.all)
+    # puts "[#{Time.now}]: Built all places."
     File.open("public/json/all_places.json","w") do |f|
       f.write(places.to_json)
     end
 
     Book.each do |book|
       @book = book
+      # puts "[#{Time.now}]: Starting run on #{book.title}"
       places = build_places(Instance.all(book: book))
+      # puts "[#{Time.now}]: Built all places for #{book.title}."
       File.open("public/json/#{book.slug}.json", "w") do |f|
         f.write(places.to_json)
       end
