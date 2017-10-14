@@ -45,15 +45,9 @@ class App
       if nickname.nil?
         new_nick = Nickname.create(name: instance.text, place: location, instance_count: 1)
         nicks << { string: new_nick.list_string, instance_count: 1 }
-        # settings.nicknames_list << { string: new_nick.list_string, instance_count: 1 }
-        # session[:nicknames] << { string: new_nick.list_string, instance_count: 1 }
       else
         nickname.update(instance_count: nickname.instance_count + 1)
-<<<<<<< HEAD
         nick_list_index = nicks.each_index.select { |i| nicks[i][:string] == nickname.list_string }[0]
-=======
-        nick_list_index = nicks.each_index.select { |i| nicks[i][:string] == nickname.list_string }
->>>>>>> 8db26bee87b7685f53eceef781a11592af4d0db2
         nicks[nick_list_index][:instance_count] = nicks[nick_list_index][:instance_count] + 1
       end
       nicknames_list(nicks)
