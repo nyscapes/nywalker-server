@@ -49,7 +49,7 @@ class App
         # session[:nicknames] << { string: new_nick.list_string, instance_count: 1 }
       else
         nickname.update(instance_count: nickname.instance_count + 1)
-        nick_list_index = nicks.each_index.select { |ns| ns[i][:string] == nickname.list_string }
+        nick_list_index = nicks.each_index.select { |i| nicks[i][:string] == nickname.list_string }
         nicks[nick_list_index][:instance_count] = nicks[nick_list_index][:instance_count] + 1
       end
       nicknames_list(nicks)
