@@ -8,6 +8,10 @@ class App
         external_link_glyph(@book.url)
       end
 
+      def last_updated
+        @last_updated
+      end
+
       def id
         @book.id
       end
@@ -49,15 +53,21 @@ class App
       end
 
       def instances
-        @instances.map{ |i| {
-          page: i.page, sequence: i.sequence, place_name: i.place.name, place_slug: i.place.slug, instance_id: i.id,
-          instance_permitted: ( admin? || i.user == @user ),
-          owner: i.user.name,
-          flagged: i.flagged,
-          note: not_empty(i.note),
-          text: i.text,
-          special: i.special
-        } }
+        @instances.map do |i| 
+          {
+            page: i[:page], 
+            sequence: i[:sequence], 
+            place_name: i[:place_name], 
+            place_slug: i[:place_slug], 
+            instance_id: i[:id],
+            owner: i[:owner],
+            flagged: i[:flagged],
+            text: i[:text],
+            special: i[:special],
+            note: not_empty(i[:note]),
+            instance_permitted: ( admin? || Instance.get(i[:id]).user == @user )
+          } 
+        end
       end
 
       def instance_count

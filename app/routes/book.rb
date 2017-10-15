@@ -9,7 +9,7 @@ class App
   get "/books" do
     @page_title = "All Books"
     books_cache = redis.hmget "book-list", "last-updated", "list"
-    @last_updated = ((Time.now - Time.parse(books_cache[0]))/60).to_i
+    @last_updated = last_updated(books_cache[0])
     @books = JSON.parse(books_cache[1], symbolize_names: true)
     mustache :books_show
   end
@@ -58,7 +58,9 @@ class App
   
   get "/books/:book_slug" do
     @page_title = "#{book.title}"
-    @instances = Instance.all(book: book, order: [:page.asc, :sequence.asc]) # place.instances doesn't work?
+    instance_cache = redis.hmget "book-#{book.slug}-instances", "last-updated", "list"
+    @last_updated = last_updated(instance_cache[0])
+    @instances = JSON.parse(instance_cache[1], symbolize_names: true)
     @json_file = book.slug
     mustache :book_show
   end
@@ -310,6 +312,8 @@ class App
     @instances.all(place: place)
   end
 
-  
+  def last_updated(time)
+    ((Time.now - Time.parse(time))/60).to_i
+  end
 
 end

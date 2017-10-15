@@ -4,9 +4,16 @@
 
 require './app'
 
-desc 'Create redis cache of books, places, and instances'
-task :redis_cache do
-  App::RakeMethods.cache_list_of_books
+desc 'Create redis cache of books'
+task :cache_books do
+  redis = Redis.new
+  App::RakeMethods.cache_list_of_books(redis)
+end
+
+desc 'Create redis cache of instance'
+task :cache_instances do
+  redis = Redis.new
+  App::RakeMethods.cache_instances_of_all_books(redis)
 end
 
 desc 'Create JSON files to reduce db lookups.'
