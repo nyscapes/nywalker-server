@@ -65,7 +65,7 @@ class App
       end
 
       def instances_per_page
-        get_instances_per_page(@book)
+        get_instances_per_page(@book.total_pages, instance_count)
       end
 
       def map_height

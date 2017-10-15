@@ -36,12 +36,12 @@ class App
       @rendered_flash
     end
 
-    def user_sentence(userlist)
-      list = userlist.map do |user|
-        user.name
-      end
-      list.to_sentence
-    end
+    # def user_sentence(userlist)
+    #   list = userlist.map do |user|
+    #     user.name
+    #   end
+    #   list.to_sentence
+    # end
 
     def logged_in
       @user
@@ -107,8 +107,8 @@ class App
     #   end
     # end
 
-    def get_instances_per_page(book)
-      book.total_pages == 0 ? 0 : (book.instances.length.to_f / book.total_pages.to_f).round(2)
+    def get_instances_per_page(total_pages, instances)
+      total_pages == 0 ? 0 : (instances.to_f / total_pages.to_f).round(2)
     end
 
     def count_instances(place)

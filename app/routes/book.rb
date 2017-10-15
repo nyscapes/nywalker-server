@@ -8,8 +8,9 @@ class App
 
   get "/books" do
     @page_title = "All Books"
-    @books = Book.all(order: [:title.asc])
-    @json_file = "all_books"
+    books_cache = redis.hmget "book-list", "last-updated", "list"
+    @last_updated = ((Time.now - Time.parse(books_cache[0]))/60).to_i
+    @books = JSON.parse(books_cache[1], symbolize_names: true)
     mustache :books_show
   end
   

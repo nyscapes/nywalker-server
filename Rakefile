@@ -4,21 +4,13 @@
 
 require './app'
 
+desc 'Create redis cache of books, places, and instances'
+task :redis_cache do
+  App::RakeMethods.cache_list_of_books
+end
+
 desc 'Create JSON files to reduce db lookups.'
 task :jsonify do
-
-  def build_places(instances) 
-    instances.all.places.all(:confidence.not => 0).map do |p|
-      { lat: p.lat, lon: p.lon, 
-        name: p.name, 
-        count: p.instances_per.count,
-        place_names: p.instances_by_names,
-        place_names_sentence: p.names_to_sentence,
-        slug: p.slug,
-        confidence: p.confidence
-      } 
-    end
-  end
 
   # puts "[#{Time.now}]: looking for json_counts"
   json_counts_file = "json_counts.yml"
@@ -32,7 +24,7 @@ task :jsonify do
   # puts "[#{Time.now}]: Starting run on #{place_count} places"
   if json_counts[:places] != place_count
     t1 = Time.now
-    places = build_places(Instance.all)
+    places = App::RakeMethods.build_places(Instance.all)
     # puts "[#{Time.now}]: Built all places."
     File.open("public/json/all_places.json","w") do |f|
       f.write(places.to_json)
@@ -41,7 +33,7 @@ task :jsonify do
     Book.each do |book|
       @book = book
       # puts "[#{Time.now}]: Starting run on #{book.title}"
-      places = build_places(Instance.all(book: book))
+      places = App::RakeMethods.build_places(Instance.all(book: book))
       # puts "[#{Time.now}]: Built all places for #{book.title}."
       File.open("public/json/#{book.slug}.json", "w") do |f|
         f.write(places.to_json)

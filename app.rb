@@ -10,6 +10,7 @@ require "warden"
 require "googlebooks"
 require "pony"
 require "csv"
+require "time"
 require "georuby"
 require "geo_ruby/ewk" # lest the DB dump a 'uninitialized constant GeoRuby::SimpleFeatures::Geometry::HexEWKBParser' error.
 require "active_support" # for the slug.
@@ -303,6 +304,9 @@ class App < Sinatra::Base
   # To get user authentication to work.
   # Methods, Warden definitions, etc.
   require "#{base}/app/authentication"
+
+  # The Rake methods that are also accessible from here.
+  require "#{base}/app/rake-methods"
 
 end
 
