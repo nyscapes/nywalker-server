@@ -9,7 +9,11 @@ class App
       end
 
       def last_updated
-        @last_updated
+        if @last_updated < 11
+          "; list updated #{@last_updated} minutes ago"
+        else
+          ""
+        end
       end
 
       def id

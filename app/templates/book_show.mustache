@@ -31,5 +31,5 @@
     {{#book_permitted}}
     <a href="/books/{{slug}}/instances/new" class="btn btn-primary" role="button">Add instance</a>
     {{/book_permitted}}
-    <h2>Instances: <small>({{instance_count}}, or {{instances_per_page}}/pg; list updated {{last-updated}} mins ago)</small></h2>
+    <h2>Instances: <small>({{instance_count}}, or {{instances_per_page}}/pg{{last-updated}})</small></h2>
       {{> partials/instances_list}}
