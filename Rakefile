@@ -16,6 +16,20 @@ task :cache_instances do
   App::RakeMethods.cache_instances_of_all_books(redis)
 end
 
+desc 'Resync instance_counts for Nicknames'
+t1 = Time.now
+task :resync_nicks do
+  Nickname.each do |nick|
+    count = nick.instance_count_query
+    if count != nick.instance_count
+      puts "[#{Time.now}] instance count for #{nick.name} was off by #{nick.instance_count - count}"
+      nick.update(instance_count: count)
+    end
+  end
+t2 = Time.now
+puts "[#{t2}] Nick resync completed in #{t2 - t1} seconds."
+end
+
 desc 'Create JSON files to reduce db lookups.'
 task :jsonify do
 
