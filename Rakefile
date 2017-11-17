@@ -74,7 +74,7 @@ task :api do
     places = instances.places.all(:confidence.not => 0)
     geojson = { type: "FeatureCollection" }
     geojson[:features] = places.map do |place|
-      is_by_place = instances_by_place(place)
+      is_by_place = instances.all(place: place)
       #count = place.instances.select{ |i| i.book_id == book.id }.count
       nicknames = instances.select{ |i| i.place == place }.map{ |i| i.text }.uniq.to_sentence
       { type: "Feature",
