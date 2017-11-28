@@ -75,6 +75,7 @@ task :api do
     geojson = { type: "FeatureCollection" }
     geojson[:features] = places.map do |place|
       is_by_place = instances.all(place: place)
+      i_pages = is_by_place.map{ |i| i.page }
       #count = place.instances.select{ |i| i.book_id == book.id }.count
       nicknames = instances.select{ |i| i.place == place }.map{ |i| i.text }.uniq.to_sentence
       { type: "Feature",
@@ -86,6 +87,7 @@ task :api do
           id: place.id,
           name: place.name,
           instance_count: is_by_place.count,
+          pages: i_pages,
           average_instance_page: is_by_place.map{ |i| i.page }.mean,
           instance_stdev: is_by_place.map{ |i| i.page }.standard_deviation,
           average_instance_page_pct: is_by_place.map{ |i| i.page }.mean/book.total_pages,
