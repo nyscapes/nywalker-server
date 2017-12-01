@@ -83,5 +83,6 @@ group :test, :development do
   gem 'rspec'
   gem 'factory_girl'
   gem 'cucumber'
+  gem 'capybara'
 end
 
