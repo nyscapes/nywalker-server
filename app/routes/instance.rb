@@ -14,7 +14,7 @@ class App
   get "/books/:book_slug/instances/new" do
     permitted_page(book)
     @page_title = "New Instance for #{book.title}"
-    @last_instance = Instance.get( redis.get( "user-#{user.username}-last-instance" ).to_i )
+    @last_instance = Instance[ redis.get( "user-#{@user.username}-last-instance" ).to_i ]
     if @last_instance.nil? || @last_instance.book.id != book.id
       @last_instance = Instance.last(user: @user, book: book) || Instance.last(book: book)
     end
@@ -128,7 +128,7 @@ class App
   end
 
   def nicknames_list(newlist = nil)
-    nick_key = "user-#{user.username}-nicknames-list"
+    nick_key = "user-#{@user.username}-nicknames-list"
     if newlist.nil?
       nicks = redis.cache(
         key: nick_key,
