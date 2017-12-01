@@ -23,34 +23,23 @@
     {{/note?}}
     
     {{#logged_in}}
-      {{#place_permitted}}
-        <div class="btn-group" role="group">
-          <form action="/places/{{slug}}/delete" method="POST">
-          <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editPlaceModal">Edit</button>
-      {{/place_permitted}}
-      {{^place_permitted}}
-        <div class="form-group">
-      {{/place_permitted}}
-          {{{ flag_modal_button }}}
-      {{#place_permitted}}
-          <button role="button" type="submit" class="btn btn-danger">
-            Delete
-          </button>
-        </form>
-        {{#flagged}}
-          <form action="/places/{{slug}}/unflag" method="POST">
-            <button role="button" type="submit" class="btn btn-danger btn-sm">
-              Unflag
-            </button>
-          </form>
-        {{/flagged}}
-      {{/place_permitted}}
-      </div>
+      <div class="btn-group" role="group">
+        {{{ flag_modal_button }}}
     {{/logged_in}}
+      {{#place_permitted}}
+          <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editPlaceModal">Edit</button>
+          <button role="button" class="btn btn-danger" id="deleteButton">Delete</button>
+        {{#flagged}}
+            <button role="button" class="btn btn-info" id="unflagButton">Unflag</button>
+        {{/flagged}}
+      </div>
+      {{/place_permitted}}
 
     {{#flagged}}
       {{> partials/flag_table }}
     {{/flagged}}
+    <form action="/places/{{slug}}/delete" method="POST" id="deleteForm"></form>
+    <form action="/places/{{slug}}/unflag" method="POST" id="unflagForm"></form>
   </div>
   <div style="height: {{map_height}}" class="map col-md-6" id="map">
   </div>
@@ -62,6 +51,9 @@
     var marker = L.marker(center).addTo(map);
     {{{bounding_box_polygon}}}
     map.panTo(center);
+
+    $('#deleteButton').click(function(){ $('#deleteForm').submit(); });
+    $('#unflagButton').click(function(){ $('#unflagForm').submit(); });
   </script>
 </div>
 <h2>In books: <small>(All instances link)</small></h2>

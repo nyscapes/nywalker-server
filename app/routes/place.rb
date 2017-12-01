@@ -10,13 +10,13 @@ class App
 
   get "/places/by-name" do
     @page_title = "All places"
-    @places = Place.all.sort_by{ |place| place.name }
+    @places = Place.order(:name).all
     mustache :places_show
   end
   
   get "/places/flagged" do
     @page_title = "All flagged places"
-    @places = Place.all(flagged: true)
+    @places = Place.where(:flagged).all
     mustache :places_show
   end
 
@@ -62,7 +62,7 @@ class App
   post "/places/add" do
     protected_page
     new_place = Place.new
-    new_place.attributes = { name: params[:name].gsub(/\s+$/, ""), lat: params[:lat], lon: params[:lon], source: params[:source].gsub(/\s+$/, ""), confidence: params[:confidence], user: @user, added_on: Time.now, what3word: params[:w3w], slug: params[:name].gsub(/\s+$/, ""), note: params[:note] }
+    new_place.set( name: params[:name].gsub(/\s+$/, ""), lat: params[:lat], lon: params[:lon], source: params[:source].gsub(/\s+$/, ""), confidence: params[:confidence], user: @user, added_on: Time.now, what3word: params[:w3w], slug: params[:name].gsub(/\s+$/, "").to_url, note: params[:note] )
     if new_place.source == "GeoNames"
       new_place.bounding_box_string = params[:bbox]
       new_place.geonameid = params[:geonameid]
@@ -71,8 +71,8 @@ class App
       new_place.lat = nil
       new_place.lon = nil
       new_place.confidence = 0
-    else
-      new_place.geom = make_point_geometry(new_place.lat, new_place.lon)
+    # else
+    #   new_place.geom = make_point_geometry(new_place.lat, new_place.lon)
     end
     begin
       new_place.save
@@ -85,11 +85,10 @@ class App
         flash[:success] = "#{new_place.name} successfully saved!"
         redirect "/places/#{new_place.slug}"
       end
-    rescue DataMapper::SaveFailureError => @e
-      @error_text = new_place.errors.values.to_sentence
-      if @error_text =~ /Slug is already taken/
-        @error_text = "Place name “#{new_place.slug}” is already in use. Are you sure it’s not in the database?"
-      end
+    rescue Sequel::ValidationFailed => @e
+      @error_text = new_place.errors.map{ |key, value| "#{key} #{value.map{ |v| v }.join(',')}" }.to_sentence
+      # if @error_text =~ /Slug is already taken/
+      #   @error_text = "Place name “#{new_place.slug}” is already in use. Are you sure it’s not in the database?"
       mustache :error
     rescue StandardError => @e
       mustache :error
@@ -115,9 +114,9 @@ class App
 
   get "/places/:place_slug" do
     @page_title = "#{place.name}"
-    @books = Book.all(instances: Instance.all(place: place))
+    @books = Instance.where(place: place).all.map{ |i| i.book }.uniq
     if place.flagged
-      @flags = Flag.all(object_type: "place", object_id: place.id)
+      @flags = Flag.where(object_type: "place").where(object_id: place.id).all
     end
     mustache :place_show
   end
@@ -153,10 +152,10 @@ class App
   post "/places/:place_slug/delete" do
     protected_page
     if place.instances.length > 0
-      "<script>alert('Cannot delete #{place.name}, as it has instances');</script>"
+      "<script>alert('Cannot delete #{place.name}, as it has instances.');</script>"
     else
       puts "Deleting Place #{place.id}"
-      if place.demolish!
+      if place.destroy
         puts "Deleted #{place.name}"
         flash[:success] = "Deleted place #{place.name}"
         redirect "/places/"
@@ -173,7 +172,7 @@ class App
   post "/places/search-duplicates" do
     protected_page
     place_slug = params[:name].gsub(/\s+$/, "").to_url
-    if Place.all(slug: place_slug).length > 0 
+    if Place.where(slug: place_slug).count > 0 
       content_type 'application/json'
       { slug: place_slug }.to_json
     else

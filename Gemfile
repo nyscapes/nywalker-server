@@ -14,19 +14,14 @@ gem 'sinatra-flash'
 gem 'mustache-sinatra'
 
 ### DATABASE handling
-# DataMapper is the ORM used in this project
-gem 'data_mapper'
+# Sequel is the ORM used in this project
+gem 'sequel'
 
-# DataMapper assumes postgresql databases, because the end goal is still a
-# postGIS db.
-gem 'dm-postgres-adapter'
+# And the database type is postgres
+gem 'pg'
 
-# Dm-validations provides for validations of the presence and type of different
-# data forms.
-gem 'dm-validations'
-
-# Dm-postgis allows the creation of the PostGISGeometry data type
-gem 'dm-postgis'
+# And for the passwords
+gem 'sequel_secure_password'
 
 # Georuby is the backend of the PostGISGeometry type. It needs to be loaded
 # separately, however, to account for creating the geometries.
@@ -62,6 +57,8 @@ gem 'sprockets-helpers'
 # ActiveSupport includes the useful #to_sentence method, used to make a pretty,
 # English sentence out of an Array.
 gem 'activesupport'
+
+gem 'stringex'
 
 # Warden controls user authentication.
 gem 'warden'

@@ -69,7 +69,7 @@ class App
             text: i[:text],
             special: i[:special],
             note: not_empty(i[:note]),
-            instance_permitted: ( admin? || Instance.get(i[:id]).user == @user )
+            instance_permitted: ( admin? || Instance[i[:id]].user == @user )
           } 
         end
       end

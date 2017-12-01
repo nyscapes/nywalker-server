@@ -18,7 +18,7 @@ class App
       end
 
       def authors(book) # A DataMapper list of Users
-        users = book.instances.user.uniq
+        users = book.instances.map{ |i| i.user }.uniq
         user_count = {}
         users.each do |user|
           user_count[user] = book.instances.select{|i| i.user == user}.count
@@ -27,7 +27,7 @@ class App
       end
 
       def all_authors
-        users = Instance.all.user.uniq
+        users = Instance.all.map{ |i| i.user }.uniq
         user_count = {}
         users.each do |user|
           user_count[user] = Instance.all.select{|i| i.user == user}.count

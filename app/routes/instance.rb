@@ -5,7 +5,7 @@ class App
   get "/instances/flagged" do
     # permitted_page("all")
     @page_title = "All Flagged Instances"
-    @instances = Instance.all(flagged: true)
+    @instances = Instance.where(:flagged).all
     mustache :instances_show
   end
 
@@ -14,11 +14,13 @@ class App
   get "/books/:book_slug/instances/new" do
     permitted_page(book)
     @page_title = "New Instance for #{book.title}"
-    @last_instance = Instance.get( redis.get( "user-#{user.username}-last-instance" ).to_i )
+    @last_instance = Instance[ redis.get( "user-#{@user.username}-last-instance" ).to_i ]
     if @last_instance.nil? || @last_instance.book.id != book.id
       @last_instance = Instance.last(user: @user, book: book) || Instance.last(book: book)
     end
     @nicknames = nicknames_list.map{ |n| n[:string] }
+    # @last_instance = Instance.where(user: @user).where(book: book).last || Instance.where(book: book).last
+    # @nicknames = settings.nicknames_list.sort_by { |n| n[:instance_count] }.reverse.map{ |n| n[:string] }
     mustache :instance_new
   end
 
@@ -27,20 +29,20 @@ class App
     @page_title = "Saving Instance for #{book.title}"
     instance = Instance.new
     special = special_field(params)
-    instance.attributes = { page: params[:page], sequence: params[:sequence], text: params[:place_name_in_text].gsub(/\s+$/, ""), added_on: Time.now, user: @user, book: book, note: params[:note], special: special }
+    instance.set( page: params[:page], sequence: params[:sequence], text: params[:place_name_in_text].gsub(/\s+$/, ""), added_on: Time.now, user: @user, book: book, note: params[:note], special: special )
     if params[:place].match(/{.*}$/)
       place = params[:place].match(/{.*}$/)[0].gsub(/{/, "").gsub(/}/, "")
     else
       dm_error_and_redirect(instance, request.path, "The place did not have a name coded inside {}s")
     end
-    location = Place.first(name: place)
+    location = Place.where(name: place).first
     if location.nil?
       dm_error_and_redirect(instance, request.path, "No such place found. Please add it below.")
     end
     if instance.text.nil? || instance.text == ""
       dm_error_and_redirect(instance, request.path, "The “Place name in text” was left blank.")
     else
-      nickname = Nickname.first(name: instance.text, place: location)
+      nickname = Nickname.where(name: instance.text, place: location).first
       nicks = nicknames_list
       if nickname.nil?
         new_nick = Nickname.create(name: instance.text, place: location, instance_count: 1)
@@ -53,7 +55,7 @@ class App
       nicknames_list(nicks)
     end
     instance.place = location
-    Instance.all(book: book, page: instance.page, :sequence.gte => instance.sequence).each do |other_instance|
+    Instance.where(book: book, page: instance.page).where{ sequence >= instance.sequence }.each do |other_instance|
       other_instance.update(sequence: other_instance.sequence + 1)
     end
     save_object(instance, back)
@@ -63,7 +65,7 @@ class App
 
   get "/books/:book_slug/instances/:instance_id" do
     @page_title = "Instance #{instance.id} for #{book.title}"
-    @instances = Instance.all(book: book, order: [:page.asc, :sequence.asc])
+    @instances = Instance.all_sorted_for_book(book)
     index = @instances.index instance
     @previous_instance = @instances[index - 1] unless index == 0
     @next_instance = @instances[index + 1] unless index == @instances.count - 1
@@ -84,9 +86,9 @@ class App
     special = special_field(params)
     instance.attributes = { page: params[:page], sequence: params[:sequence], text: params[:place_name_in_text].gsub(/\s+$/, ""), modified_on: Time.now, user: @user, book: book, note: params[:note], special: special } 
     if params[:place].match(/{.*}$/) # We've likely modified the place.
-      instance.place = Place.first name: params[:place].match(/{.*}$/)[0].gsub(/{/, "").gsub(/}/, "")
+      instance.place = Place.where(name: params[:place].match(/{.*}$/)[0].gsub(/{/, "").gsub(/}/, ""))
     end
-    nickname = Nickname.first(name: instance.text, place: instance.place)
+    nickname = Nickname.where(name: instance.text, place: instance.place)
     if nickname.nil?
       new_nick = Nickname.create(name: instance.text, place: instance.place, instance_count: 1)
       settings.nicknames_list << { string: new_nick.list_string, instance_count: 1 }
@@ -105,11 +107,8 @@ class App
   post "/books/:book_slug/instances/:instance_id/delete" do
     protected_page
     puts "Deleting Instance #{instance.id} for #{book.title}"
-    page_instances = Instance.all(book: book, page: instance.page, :sequence.gt => instance.sequence)
+    # page_instances = Instance.where(book: book, page: instance.page).where{ sequence > instance.sequence }.all
     if instance.destroy
-      page_instances.each do |other_instance|
-        other_instance.update(sequence: other_instance.sequence - 1)
-      end
       flash[:success] = "Deleted instance #{instance.id}."
       redirect "/books/#{book.slug}"
     else
@@ -129,7 +128,7 @@ class App
   end
 
   def nicknames_list(newlist = nil)
-    nick_key = "user-#{user.username}-nicknames-list"
+    nick_key = "user-#{@user.username}-nicknames-list"
     if newlist.nil?
       nicks = redis.cache(
         key: nick_key,
