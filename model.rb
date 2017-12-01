@@ -67,31 +67,31 @@ class Place < Sequel::Model
     validates_unique :slug
   end
 
-  # def instances_per
-  #   if @book
-  #     self.instances.select{ |i| i.book_id == @book.id }
-  #   else
-  #     self.instances
-  #   end
-  # end
+  def instances_per
+    if @book
+      self.instances.select{ |i| i.book_id == @book.id }
+    else
+      self.instances
+    end
+  end
 
-  # def instances_by_names
-  #   instances = self.instances_per
-  #   # array like [["New York", 41], ["New York City", 6], ["NEW YORK FUCKIN’ CITY", 1]]
-  #   place_names = instances.map{|i| i.text}.uniq.map{|n| [n, instances.select{|i| i.text == n}.count]}
-  #   string = "<ul style='margin-left: 1em; padding: 0; margin-bottom: 0px;'>"
-  #   place_names.each{|name| string = string + "<li>#{name[0]}: #{name[1]}</li>"}
-  #   string = string + "</ul>"
-  #   string.gsub(/"/, "")
-  # end
+  def instances_by_names
+    instances = self.instances_per
+    # array like [["New York", 41], ["New York City", 6], ["NEW YORK FUCKIN’ CITY", 1]]
+    place_names = instances.map{|i| i.text}.uniq.map{|n| [n, instances.select{|i| i.text == n}.count]}
+    string = "<ul style='margin-left: 1em; padding: 0; margin-bottom: 0px;'>"
+    place_names.each{|name| string = string + "<li>#{name[0]}: #{name[1]}</li>"}
+    string = string + "</ul>"
+    string.gsub(/"/, "")
+  end
 
-  # def names_to_sentence
-  #   if @book
-  #     @book.instances.select{ |i| i.place == self }.map{ |i| i.text }.uniq.to_sentence
-  #   else
-  #     self.nicknames.select{ |n| n.instance_count > 0 }.map{ |n| n.name }.to_sentence
-  #   end
-  # end
+  def names_to_sentence
+    if @book
+      @book.instances.select{ |i| i.place == self }.map{ |i| i.text }.uniq.to_sentence
+    else
+      self.nicknames.select{ |n| n.instance_count > 0 }.map{ |n| n.name }.to_sentence
+    end
+  end
   
   # def demolish!
   #   self.nicknames.each{ |n| n.destroy! }
