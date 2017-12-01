@@ -3,6 +3,7 @@ dist/
 bower_components/
 model_timer.rb
 node_modules/
+scripts/
 
 
 .env
