@@ -21,7 +21,7 @@ class App
             instances: b[:instances],
             pages: b[:total_pages],
             instances_per_page: get_instances_per_page(b[:total_pages], b[:instances]),
-            permitted: ( admin? || Book.get(b[:id]).users.include?(@user) )
+            permitted: ( admin? || Book[b[:id]].users.include?(@user) )
           } 
         end
       end
