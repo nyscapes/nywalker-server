@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
 
   factory :user do
     name { Faker::Name.name }
@@ -10,6 +10,16 @@ FactoryGirl.define do
     lastname "Juice"
     password "beetlejuice"
     password_confirmation "beetlejuice"
+  end
+
+  factory :admin, class: User do
+    name "Admin"
+    username "adminuser"
+    email "a@b.com"
+    # email { Faker::Internet.email }
+    admin true
+    password "blarg"
+    password_confirmation "blarg"
   end
 
 end

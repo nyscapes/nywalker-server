@@ -33,7 +33,7 @@ GEM
     descriptive_statistics (2.5.1)
     diff-lcs (1.3)
     dotenv (2.2.0)
-    factory_girl (4.8.0)
+    factory_bot (4.8.2)
       activesupport (>= 3.0.0)
     faker (1.8.4)
       i18n (~> 0.5)
@@ -126,7 +126,7 @@ DEPENDENCIES
   dbf
   descriptive_statistics
   dotenv
-  factory_girl
+  factory_bot
   faker
   foreman
   georuby

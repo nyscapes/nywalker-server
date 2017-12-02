@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :place do
     name { Faker::Address.city }
     slug :name.to_s.to_url
