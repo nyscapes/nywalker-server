@@ -6,7 +6,7 @@ class App
     # end
 
     def self.cache_list_of_books(redis = Redis.new)
-      books = Book.all(order: [:title.asc])
+      books = Book.all.sort_by{ |book| book.title }
       list = books.map do |b|
         {
           author: b.author,
@@ -30,7 +30,7 @@ class App
     end
 
     def self.cache_list_of_instances(book, redis = Redis.new)
-      instances = Instance.all(book: book, order: [:page.asc, :sequence.asc])
+      instances = Instance.all_sorted_for_book(book)
       unless redis.hmget("book-#{book.slug}-instances", "count")[0].to_i == instances.count
         list = instances.map do |i|
           {
