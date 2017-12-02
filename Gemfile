@@ -89,4 +89,5 @@ group :test do
   gem 'faker'
   gem 'cucumber'
   gem 'capybara'
+  gem 'selenium-webdriver'
 end
