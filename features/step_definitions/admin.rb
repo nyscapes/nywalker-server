@@ -1,3 +1,4 @@
 Given(/^I am an admin$/) do
-  pending
+  @user = create :admin, password: "blarg"
+  expect(@user.admin).to be true
 end
