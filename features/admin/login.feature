@@ -2,7 +2,9 @@ Feature: admin login
 
   Scenario: The admin fixture takes
     Given I am an admin
+    When I am on the homepage
     Then my username is "adminuser"
+    And my username is in the navbar
 
   # As an admin
   # I want to log in
