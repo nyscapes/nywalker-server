@@ -3,13 +3,13 @@ Given(/^I am on the homepage$/) do
 end
 
 Then(/^I should see the Title$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^I should see the navbar$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  expect(page).to have_css "h1.display-3", text: "NYWalker"
 end
 
 Then(/^I should see a map$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  expect(page).to have_css "div#map"
+end
+
+Then(/^I should be on the "([^"]*)" page$/) do |arg|
+  expect(page).to have_css "h1", text: arg
 end
