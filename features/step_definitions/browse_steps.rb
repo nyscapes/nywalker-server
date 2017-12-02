@@ -6,6 +6,10 @@ Given(/^I am on the "([^"]*)" page$/) do |arg|
   visit "/#{arg.downcase}"
 end
 
+When(/^I click on the "([^"]*)" button$/) do |arg1|
+  click_link arg1
+end
+
 Then(/^I should see the Title$/) do
   expect(page).to have_css "h1.display-3", text: "NYWalker"
 end
