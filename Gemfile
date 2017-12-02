@@ -79,6 +79,10 @@ gem 'descriptive_statistics'
 #
 group :test, :development do
   gem 'foreman'
+end
+
+group :test do
+  gem 'database_cleaner'
   gem 'rack-test', require: 'rack/test'
   gem 'rspec'
   gem 'factory_bot'
@@ -86,4 +90,3 @@ group :test, :development do
   gem 'cucumber'
   gem 'capybara'
 end
-
