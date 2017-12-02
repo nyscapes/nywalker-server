@@ -1,19 +1,23 @@
 Feature: admin login
 
-  As an admin
-  I want to log in
-  So I can access all of the site's features
+  Scenario: The admin fixture takes
+    Given I am an admin
+    Then my username is "adminuser"
 
-Feature: admin add user
+  # As an admin
+  # I want to log in
+  # So I can access all of the site's features
 
-  As an admin
-  I want to add users
-  So they can help populate the site
+# Feature: admin add user
 
-Feature: admin add novel
+  # As an admin
+  # I want to add users
+  # So they can help populate the site
 
-  As an admin
-  I want to add a novel to the database
-  So that the database can grow
+# Feature: admin add novel
+
+  # As an admin
+  # I want to add a novel to the database
+  # So that the database can grow
 
 
