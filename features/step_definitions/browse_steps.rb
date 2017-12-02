@@ -10,8 +10,9 @@ Then(/^I should see the Title$/) do
   expect(page).to have_css "h1.display-3", text: "NYWalker"
 end
 
-Then(/^I should see an "([^"]*)" button$/) do |arg|
-  expect(page).to have_css "a.btn", text: arg
+Then(/^I should see an "([^"]*)" link$/) do |arg|
+  # expect(page).to have_css "a.btn", text: arg
+  expect(page).to have_content arg
 end
 
 Then(/^I should see a map$/) do
