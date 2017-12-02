@@ -1,3 +1,7 @@
+Given("I created one of the instances for {string}") do |string|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
 When("I fill in instance information for {string}") do |string|
   fill_in "Place", with: "#{string} -- {#{string}}"
   fill_in "Place name in text", with: string
@@ -20,9 +24,6 @@ Then(/^fills in the full "([^"]*)" pattern$/) do |arg1|
     pending # Write code here that turns the phrase above into concrete actions
 end
 
-Given(/^I created one$/) do
-    pending # Write code here that turns the phrase above into concrete actions
-end
 
 Then(/^I see the last instance$/) do
     pending # Write code here that turns the phrase above into concrete actions

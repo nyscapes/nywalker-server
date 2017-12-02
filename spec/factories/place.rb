@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :place do
     name { Faker::Address.city }
-    slug :name.to_s.to_url
+    slug { Faker::Address.city }.to_s.to_url
     added_on Time.now
     lat { Faker::Address.latitude }
     lon { Faker::Address.longitude }

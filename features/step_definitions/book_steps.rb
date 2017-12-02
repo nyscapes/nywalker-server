@@ -5,6 +5,7 @@ end
 
 Given(/^there is a book "([^"]*)"$/) do |arg1|
   @book = create :book#, user: @user
+  # @book = build :book#, user: @user
   expect(@book.title).to eq arg1
 end
 
@@ -15,6 +16,7 @@ end
 
 Given("{int} instances exist for {string}") do |int, string|
   expect(@book.title).to eq string
-  create_list(:instance, int, book: @book)
+  create_list :instance, int, book: @book
+  # build_list(:instance, int, book: @book)
   expect(Instance.where(book: @book).all.length).to eq int
 end

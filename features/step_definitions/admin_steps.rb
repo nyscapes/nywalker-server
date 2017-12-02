@@ -1,5 +1,5 @@
 Given(/^I am an admin$/) do
-  @user = create :admin, password: "blarg"
+  @user = build :admin
   login_as(@user)
 end
 
