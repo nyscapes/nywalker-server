@@ -13,7 +13,11 @@ class App
       end
 
       def note?
-        @place.note.length > 0
+        unless @place.nil? || @place.note.length == 0
+          true
+        else
+          false
+        end
       end
 
       def note
