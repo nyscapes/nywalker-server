@@ -184,7 +184,7 @@ class Book < Sequel::Model
 
   one_to_one :special
   one_to_many :instances
-  many_to_many :users, left_key: :user_id, right_key: :book_id, join_table: :book_users
+  many_to_many :users, left_key: :book_id, right_key: :user_id, join_table: :book_users
 
   def validate
     super
@@ -214,7 +214,7 @@ class User < Sequel::Model
   plugin :secure_password
 
   one_to_many :instances
-  many_to_many :books, left_key: :user_id, right_key: :book_id, join_table: :book_users
+  many_to_many :books, left_key: :book_id, right_key: :user_id, join_table: :book_users
   one_to_many :places
   one_to_many :flags
 
