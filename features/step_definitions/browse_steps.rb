@@ -7,7 +7,7 @@ Given(/^I am on the "([^"]*)" page$/) do |arg|
 end
 
 When(/^I click on the "([^"]*)" button$/) do |arg1|
-  click_link arg1
+  click_link_or_button arg1
 end
 
 Then(/^I should see the Title$/) do

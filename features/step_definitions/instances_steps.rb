@@ -1,13 +1,11 @@
-When(/^I fill in instance information$/) do
-    pending # Write code here that turns the phrase above into concrete actions
+When("I fill in instance information for {string}") do |string|
+  fill_in "Place", with: "#{string} -- {#{string}}"
+  fill_in "Place name in text", with: string
+  @instance_count = Instance.count
 end
 
 Then(/^the instance is saved$/) do
-    pending # Write code here that turns the phrase above into concrete actions
-end
-
-Given(/^"([^"]*)" is a saved place$/) do |arg1|
-    pending # Write code here that turns the phrase above into concrete actions
+  expect(Instance.count).to eq @instance_count + 1
 end
 
 When(/^I type "([^"]*)" in the "([^"]*)" field$/) do |arg1, arg2|

@@ -1,6 +1,7 @@
 require 'capybara'
 require 'capybara/cucumber'
 require 'factory_bot'
+require 'faker'
 
 require_relative "../../app"
 

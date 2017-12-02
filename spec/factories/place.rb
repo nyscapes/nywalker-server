@@ -7,10 +7,6 @@ FactoryBot.define do
     lon { Faker::Address.longitude }
     confidence "3"
     source "Geonames"
-    geonameid "zigmorf"
-    note "This is a place."
-    flagged false
-    what3word "blink.think.drink"
     user
   end
 
