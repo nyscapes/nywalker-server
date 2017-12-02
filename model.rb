@@ -64,7 +64,7 @@ class Place < Sequel::Model
   def validate
     super
     validates_presence [:name, :slug]
-    validates_unique :slug
+    validates_unique :slug, message: "Place slug is not unique"
   end
 
   def instances_per
@@ -189,7 +189,7 @@ class Book < Sequel::Model
   def validate
     super
     validates_presence [:author, :title, :slug]
-    validates_unique :slug
+    validates_unique :slug, message: "Book slug is not unique"
   end
 
   def total_pages
