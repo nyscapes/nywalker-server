@@ -41,6 +41,14 @@ class Instance < Sequel::Model
         .all
     end
 
+    def last_instance_for_book(book)
+      where(book: book)
+        .order(:modified_on, :added_on, :page, :sequence)
+        .last
+    end
+    
+
+
   end
 
   def before_destroy
@@ -204,7 +212,7 @@ class Book < Sequel::Model
         .order(:title)
         .all
     end
-    
+
   end
 
 end
