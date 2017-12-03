@@ -1,6 +1,6 @@
 require File.expand_path '../../app.rb', __FILE__
 require 'rack/test'
-require 'factory_girl'
+require 'factory_bot'
 require 'faker'
 require 'active_support/hash_with_indifferent_access'
 
@@ -110,10 +110,10 @@ RSpec.configure do |config|
 
   config.include RSpecMixin
 
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
 
   config.before(:suite) do
-    FactoryGirl.find_definitions
+    FactoryBot.find_definitions
   end
 
   config.around(:each) do |example|
