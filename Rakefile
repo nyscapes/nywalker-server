@@ -158,15 +158,7 @@ namespace :assets do
 
   desc 'Compile JS assets'
   task :compile_js do
-    sprockets = App.settings.sprockets
-    asset = sprockets['application.js']
-    outpath = File.join(App.settings.assets_path)
-    outfile = Pathname.new(outpath).join('application.js')
-
-    FileUtils.mkdir_p outfile.dirname
-
-    asset.write_to(outfile)
-    # asset.write_to("#{outfile}.gz")
+    App::RakeMethods.compile_js
     puts "Compiled JS assets"
   end
   

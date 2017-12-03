@@ -1,10 +1,6 @@
 class App
   module RakeMethods
 
-    # def redis
-    #   @redis ||= Redis.new
-    # end
-
     def self.cache_list_of_books(redis = Redis.new)
       books = Book.all.sort_by{ |book| book.title }
       list = books.map do |b|
@@ -63,6 +59,16 @@ class App
       end
     end
 
+    def self.compile_js
+      sprockets = App.settings.sprockets
+      asset = sprockets['application.js']
+      outpath = File.join(App.settings.assets_path)
+      outfile = Pathname.new(outpath).join('application.js')
+
+      FileUtils.mkdir_p outfile.dirname
+
+      asset.write_to(outfile)
+    end
   #
   #
   #
