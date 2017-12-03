@@ -28,6 +28,28 @@ class Instance < Sequel::Model
   many_to_one :user
   many_to_one :book
 
+  def after_create
+    super
+    # Add a time
+    self.added_on = Time.now
+  end
+
+  def after_save
+    super
+    # See if the nickname is new or not
+    nickname = Nickname.where(name: self.text, place: self.place).first
+    if nickname.nil?
+      nickname = Nickname.create(name: self.text, place: self.place, instance_count: 1)
+    else
+      nickname.update instance_count: nickname.instance_count + 1
+    end
+    # # increase the sequences of the other instances
+    sequence_counter = self.sequence
+    self.class.later_instances_of_same_page(self.book, self.page, self.sequence).select{ |i| i.id != self.id }.each_with_index do |later_instance, index|
+      later_instance.update(sequence: sequence_counter + 1 + index)
+    end
+  end
+
   def validate
     super
     validates_presence [:page, :book, :text]
@@ -46,8 +68,12 @@ class Instance < Sequel::Model
         .order(:modified_on, :added_on, :page, :sequence)
         .last
     end
-    
 
+    def later_instances_of_same_page(book, page, seq)
+      where(book: book, page: page)
+        .where{ sequence >= seq }
+        .all
+    end
 
   end
 

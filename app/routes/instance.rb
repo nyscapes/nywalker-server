@@ -29,7 +29,7 @@ class App
     @page_title = "Saving Instance for #{book.title}"
     instance = Instance.new
     special = special_field(params)
-    instance.set( page: params[:page], sequence: params[:sequence], text: params[:place_name_in_text].gsub(/\s+$/, ""), added_on: Time.now, user: @user, book: book, note: params[:note], special: special )
+    instance.set( page: params[:page], sequence: params[:sequence], text: params[:place_name_in_text].gsub(/\s+$/, ""), user: @user, book: book, note: params[:note], special: special )
     if params[:place].match(/{.*}$/)
       place = params[:place].match(/{.*}$/)[0].gsub(/{/, "").gsub(/}/, "")
     else
@@ -41,23 +41,19 @@ class App
     end
     if instance.text.nil? || instance.text == ""
       dm_error_and_redirect(instance, request.path, "The “Place name in text” was left blank.")
-    else
-      nickname = Nickname.where(name: instance.text, place: location).first
-      nicks = nicknames_list
-      if nickname.nil?
-        new_nick = Nickname.create(name: instance.text, place: location, instance_count: 1)
-        nicks << { string: new_nick.list_string, instance_count: 1 }
-      else
-        nickname.update(instance_count: nickname.instance_count + 1)
-        nick_list_index = nicks.each_index.select { |i| nicks[i][:string] == nickname.list_string }[0]
-        nicks[nick_list_index][:instance_count] = nicks[nick_list_index][:instance_count] + 1
-      end
-      nicknames_list(nicks)
     end
+      # nickname = Nickname.where(name: instance.text, place: location).first
+      # nicks = nicknames_list
+      # if nickname.nil?
+      #   new_nick = Nickname.create(name: instance.text, place: location, instance_count: 1)
+      #   nicks << { string: new_nick.list_string, instance_count: 1 }
+      # else
+      #   nickname.update(instance_count: nickname.instance_count + 1)
+      #   nick_list_index = nicks.each_index.select { |i| nicks[i][:string] == nickname.list_string }[0]
+      #   nicks[nick_list_index][:instance_count] = nicks[nick_list_index][:instance_count] + 1
+      # end
+      # nicknames_list(nicks)
     instance.place = location
-    Instance.where(book: book, page: instance.page).where{ sequence >= instance.sequence }.each do |other_instance|
-      other_instance.update(sequence: other_instance.sequence + 1)
-    end
     save_object(instance, back)
   end
 
