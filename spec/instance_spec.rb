@@ -34,5 +34,15 @@ describe Instance do
 
   end
 
+  context "When it is edited, it" do
+    let(:instance){ create :instance }
+
+    # it "reduces the Nickname.instance_count if the name changes"
+      # This seems impossible. around_save already gets the new text, 
+      # not the old text. This will have to be done in the route.
+
+    
+  end
+
 end
 

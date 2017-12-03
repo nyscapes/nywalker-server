@@ -39,10 +39,9 @@ class Instance < Sequel::Model
     # See if the nickname is new or not
     nickname = Nickname.where(name: self.text, place: self.place).first
     if nickname.nil?
-      nickname = Nickname.create(name: self.text, place: self.place, instance_count: 1)
-    else
-      nickname.update instance_count: nickname.instance_count + 1
+      nickname = Nickname.create(name: self.text, place: self.place)
     end
+    nickname.update instance_count: self.class.nickname_instance_count(self.text, self.place)
     # # increase the sequences of the other instances
     sequence_counter = self.sequence
     self.class.later_instances_of_same_page(self.book, self.page, self.sequence).select{ |i| i.id != self.id }.each_with_index do |later_instance, index|
@@ -73,6 +72,12 @@ class Instance < Sequel::Model
       where(book: book, page: page)
         .where{ sequence >= seq }
         .all
+    end
+    
+    def nickname_instance_count(text, place)
+      where(text: text, place: place)
+        .all
+        .length
     end
 
   end

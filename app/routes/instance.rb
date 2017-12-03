@@ -84,17 +84,17 @@ class App
     if params[:place].match(/{.*}$/) # We've likely modified the place.
       instance.place = Place.where(name: params[:place].match(/{.*}$/)[0].gsub(/{/, "").gsub(/}/, ""))
     end
-    nickname = Nickname.where(name: instance.text, place: instance.place)
-    if nickname.nil?
-      new_nick = Nickname.create(name: instance.text, place: instance.place, instance_count: 1)
-      settings.nicknames_list << { string: new_nick.list_string, instance_count: 1 }
-      # session[:nicknames] << { string: new_nick.list_string, instance_count: 1 }
-    else
-      nickname.update(instance_count: nickname.instance_count + 1)
-      nick_list = settings.nicknames_list.select { |n| n[:string] == nickname.list_string }
-      # nick_list = session[:nicknames].select { |n| n[:string] == nickname.list_string }
-      nick_list[0][:instance_count] = nick_list[0][:instance_count] + 1
-    end
+    # nickname = Nickname.where(name: instance.text, place: instance.place)
+    # if nickname.nil?
+    #   new_nick = Nickname.create(name: instance.text, place: instance.place, instance_count: 1)
+    #   settings.nicknames_list << { string: new_nick.list_string, instance_count: 1 }
+    #   # session[:nicknames] << { string: new_nick.list_string, instance_count: 1 }
+    # else
+    #   nickname.update(instance_count: nickname.instance_count + 1)
+    #   nick_list = settings.nicknames_list.select { |n| n[:string] == nickname.list_string }
+    #   # nick_list = session[:nicknames].select { |n| n[:string] == nickname.list_string }
+    #   nick_list[0][:instance_count] = nick_list[0][:instance_count] + 1
+    # end
     save_object(instance, "/books/#{book.slug}") 
   end
 
