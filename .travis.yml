@@ -4,6 +4,6 @@ rvm:
 services:
     - postgresql
 before_script:
-    - psql -U postgres -c "create extension postgis"
     - psql -c 'create database travis_ci_test;' -U postgres
+    - psql -U postgres -c "create extension postgis" -d travis_ci_test
     - rake db:migrate
