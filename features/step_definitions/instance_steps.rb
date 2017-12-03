@@ -14,6 +14,10 @@ Then(/^the instance is saved$/) do
   expect(Instance.count).to eq @instance_count + 1
 end
 
+Then("the form fills in the full {string} pattern") do |string|
+    pending # Write code here that turns the phrase above into concrete actions
+end
+
 When(/^I type "([^"]*)" in the "([^"]*)" field$/) do |arg1, arg2|
     pending # Write code here that turns the phrase above into concrete actions
 end

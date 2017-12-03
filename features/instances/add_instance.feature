@@ -20,14 +20,12 @@ Feature: Adding instances
     Then the form fills in "Acushnet" as the nickname
     And the form fills in the full "Acushnet" pattern
 
-  @wip
   Scenario: I see the last instance
     Given 10 instances exist for "Moscow Blues"
     And I created one of the instances for "Moscow Blues"
     When I click on the "Add instance" button
     Then I see the last instance
 
-  @wip
   Scenario: I see the same page and the sequence rises by one
     Given 10 instances exist for "Moscow Blues"
     When I click on the "Add instance" button
