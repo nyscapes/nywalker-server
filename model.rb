@@ -208,6 +208,14 @@ class Nickname < Sequel::Model
   def list_string
     "#{self.name} -- {#{self.place.name}}"
   end
+
+  dataset_module do
+    def sorted_by_instance_count
+      order(:instance_count)
+        .all
+        .reverse
+    end
+  end
 end
 
 class Special < Sequel::Model
