@@ -63,8 +63,6 @@ class App < Sinatra::Base
     config.debug = true if development?
   end
 
-  set :redis, Redis.new
-  set :nicknames_list, Proc.new { Nickname.all.map{ |n| { string: n.list_string, instance_count: n.instance_count } } }
 
   before do
     @user = env['warden'].user
@@ -313,30 +311,8 @@ class App < Sinatra::Base
   # The Rake methods that are also accessible from here.
   require "#{base}/app/rake-methods"
 
-end
-
-class Redis
-
-  def cache(params)
-    key = params[:key] || raise(":key parameter is required!")
-    expire = params[:expire] || nil
-    recalculate = params[:recalculate] || nil
-    timeout = params[:timeout] || nil
-    default = params[:default] || nil
-
-    if (value = get(key)).nil? || recalculate
-      begin
-        value = Timeout::timeout(timeout) { yield(self) }
-      rescue Timeout::Error
-        value = default
-      end
-
-      set(key, value)
-      expire(key, expire) if expire
-      value
-    else
-      value
-    end
-  end
+  # To speed up autofill, etc., we use Redis
+  require "#{base}/app/redis"
 
 end
+

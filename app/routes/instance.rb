@@ -79,11 +79,9 @@ class App
     # if nickname.nil?
     #   new_nick = Nickname.create(name: instance.text, place: instance.place, instance_count: 1)
     #   settings.nicknames_list << { string: new_nick.list_string, instance_count: 1 }
-    #   # session[:nicknames] << { string: new_nick.list_string, instance_count: 1 }
     # else
     #   nickname.update(instance_count: nickname.instance_count + 1)
     #   nick_list = settings.nicknames_list.select { |n| n[:string] == nickname.list_string }
-    #   # nick_list = session[:nicknames].select { |n| n[:string] == nickname.list_string }
     #   nick_list[0][:instance_count] = nick_list[0][:instance_count] + 1
     # end
     save_object(instance, "/books/#{book.slug}", "update") 
@@ -114,22 +112,6 @@ class App
     end
   end
 
-  def nicknames_list(newlist = nil)
-    nick_key = "user-#{@user.username}-nicknames-list"
-    if newlist.nil?
-      nicks = redis.cache(
-        key: nick_key,
-        expire: 1800,
-        timeout: 60
-      ) do
-          Nickname.all.map{ |n| { string: n.list_string, instance_count: n.instance_count } }.to_json
-      end
-    else
-      redis.set nick_key, newlist.to_json
-      nicks = redis.get nick_key
-    end
-    JSON.parse(nicks, symbolize_names: true).sort_by { |n| n[:instance_count] }.reverse
-  end
 
   def get_instance_place(place, instance = nil)
     if params[:place].match(/{.*}$/)
