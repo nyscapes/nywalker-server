@@ -205,6 +205,10 @@ class Book < Sequel::Model
     instances.length == 0 ? 0 : instances.last - instances.first
   end
 
+  def last_instance
+    Instance.last_instance_for_book(self)
+  end
+
   dataset_module do
 
     def all_with_instances_sorted
