@@ -27,16 +27,16 @@ Then(/^fills in the full "([^"]*)" pattern$/) do |arg1|
 end
 
 Then(/^I see the last instance$/) do
-  last_instance = Instance.all_sorted_for_book(@book).last
+  last_instance = @book.last_instance
   expect(find("#inputLastPage").value).to eq (last_instance.page).to_s
 end
 
 Then("the new instance is on the same page as the previous instance") do
-  last_instance = Instance.all_sorted_for_book(@book).last
+  last_instance = @book.last_instance
   expect(find("#inputLastPage").value).to eq (last_instance.page).to_s
 end
 
 Then(/^the sequence is increased by one$/) do
-  last_instance = Instance.all_sorted_for_book(@book).last
+  last_instance = @book.last_instance
   expect(find("#inputSequence").value).to eq (last_instance.sequence + 1).to_s
 end

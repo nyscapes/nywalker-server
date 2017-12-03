@@ -18,7 +18,7 @@ Feature: Adding instances
     When I click on the "Add instance" button
     And I type "Acushnet" in the "place" field
     Then the form fills in "Acushnet" as the nickname
-    And fills in the full "Acushnet" pattern
+    And the form fills in the full "Acushnet" pattern
 
   @wip
   Scenario: I see the last instance
