@@ -9,10 +9,12 @@ class App
       end
 
       def last_updated
-        if @last_updated < 11
-          "; list updated #{@last_updated} minutes ago"
-        else
-          ""
+        unless @last_updated.nil?
+          if @last_updated < 11
+            "; list updated #{@last_updated} minutes ago"
+          else
+            ""
+          end
         end
       end
 

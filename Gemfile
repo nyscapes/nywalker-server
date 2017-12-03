@@ -79,9 +79,16 @@ gem 'descriptive_statistics'
 #
 group :test, :development do
   gem 'foreman'
-  gem 'rack-test', require: 'rack/test'
-  gem 'rspec'
-  gem 'factory_girl'
-  gem 'cucumber'
 end
 
+group :test do
+  gem 'database_cleaner'
+  gem 'rack-test', require: 'rack/test'
+  gem 'rspec'
+  gem 'factory_bot'
+  gem 'faker'
+  gem 'cucumber'
+  gem 'capybara'
+  gem 'selenium-webdriver'
+  gem 'launchy'
+end

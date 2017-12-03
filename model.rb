@@ -72,7 +72,7 @@ class Place < Sequel::Model
   def validate
     super
     validates_presence [:name, :slug]
-    validates_unique :slug
+    validates_unique :slug, message: "Place slug is not unique"
   end
 
   def instances_per
@@ -197,12 +197,16 @@ class Book < Sequel::Model
   def validate
     super
     validates_presence [:author, :title, :slug]
-    validates_unique :slug
+    validates_unique :slug, message: "Book slug is not unique"
   end
 
   def total_pages
     instances = Instance.where(book: self).map(:page).sort
     instances.length == 0 ? 0 : instances.last - instances.first
+  end
+
+  def last_instance
+    Instance.last_instance_for_book(self)
   end
 
   dataset_module do

@@ -17,6 +17,7 @@ require "geo_ruby/ewk" # lest the DB dump a 'uninitialized constant GeoRuby::Sim
 require "active_support" # for the slug.
 require "active_support/inflector"
 require "active_support/core_ext/array/conversions"
+
 require "descriptive_statistics"
 require "redis"
 
