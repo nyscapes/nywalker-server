@@ -1,3 +1,4 @@
+require 'simplecov'
 require 'cucumber/rspec/doubles'
 require 'capybara'
 require 'capybara/cucumber'

@@ -84,6 +84,7 @@ group :test, :development do
 end
 
 group :test do
+  gem 'simplecov'
   gem 'database_cleaner'
   gem 'rack-test', require: 'rack/test'
   gem 'rspec'

@@ -1,3 +1,4 @@
+require 'simplecov'
 require File.expand_path '../../app.rb', __FILE__
 require 'pp'
 require 'rack/test'
