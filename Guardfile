@@ -41,7 +41,7 @@ end
   # watch 'app/helpers.rb'
   # watch 'app/routes/'
   # watch 'app/views/'
-guard :rspec, cmd: "rspec", failed_mode: :keep do
+guard :rspec, cmd: "rspec -f doc", failed_mode: :keep do
   require "guard/rspec/dsl"
   dsl = Guard::RSpec::Dsl.new(self)
 
