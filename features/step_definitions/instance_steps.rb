@@ -1,5 +1,7 @@
 Given("I created one of the instances for {string}") do |string|
-  pending # Write code here that turns the phrase above into concrete actions
+  @book ||= Book.where(title: string).first
+  instance_owners = @book.instances.map{|i| i.user.username}
+  expect(instance_owners).to include @user.username
 end
 
 When("I fill in instance information for {string}") do |string|
@@ -24,15 +26,17 @@ Then(/^fills in the full "([^"]*)" pattern$/) do |arg1|
     pending # Write code here that turns the phrase above into concrete actions
 end
 
-
 Then(/^I see the last instance$/) do
-    pending # Write code here that turns the phrase above into concrete actions
+  last_instance = Instance.all_sorted_for_book(@book).last
+  expect(find("#inputLastPage").value).to eq (last_instance.page).to_s
 end
 
-Then(/^the new instance is on the same page as the previous$/) do
-    pending # Write code here that turns the phrase above into concrete actions
+Then("the new instance is on the same page as the previous instance") do
+  last_instance = Instance.all_sorted_for_book(@book).last
+  expect(find("#inputLastPage").value).to eq (last_instance.page).to_s
 end
 
 Then(/^the sequence is increased by one$/) do
-    pending # Write code here that turns the phrase above into concrete actions
+  last_instance = Instance.all_sorted_for_book(@book).last
+  expect(find("#inputSequence").value).to eq (last_instance.sequence + 1).to_s
 end

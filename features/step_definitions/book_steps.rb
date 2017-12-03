@@ -4,8 +4,7 @@ Then(/^I should see a list of books$/) do
 end
 
 Given(/^there is a book "([^"]*)"$/) do |arg1|
-  @book = create :book#, user: @user
-  # @book = build :book#, user: @user
+  @book ||= create :book#, user: @user
   expect(@book.title).to eq arg1
 end
 

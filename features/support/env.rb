@@ -1,3 +1,4 @@
+require 'cucumber/rspec/doubles'
 require 'capybara'
 require 'capybara/cucumber'
 require 'factory_bot'

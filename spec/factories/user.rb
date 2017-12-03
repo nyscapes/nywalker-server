@@ -1,8 +1,10 @@
 FactoryBot.define do
 
   factory :user do
-    name { Faker::Name.name }
-    username { Faker::Name.name }
+    name "Beetle Juice"
+    username "beetlejuice"
+    # name { Faker::Name.name }
+    # username { Faker::Name.name }
     email { Faker::Internet.email }
     admin false
     added_on Time.now

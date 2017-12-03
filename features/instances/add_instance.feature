@@ -1,7 +1,7 @@
 Feature: Adding instances
 
   Background: 
-    Given I am an admin
+    Given I am allowed to edit the book "Moscow Blues"
     And there is a book "Moscow Blues"
     And I am on the "Moscow Blues" book page
 
@@ -27,8 +27,9 @@ Feature: Adding instances
     When I click on the "Add instance" button
     Then I see the last instance
 
+  @wip
   Scenario: I see the same page and the sequence rises by one
-    Given instances exist for "Moscow Blues"
+    Given 10 instances exist for "Moscow Blues"
     When I click on the "Add instance" button
     Then the new instance is on the same page as the previous instance
     And the sequence is increased by one
