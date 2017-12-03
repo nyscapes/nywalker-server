@@ -79,6 +79,8 @@ gem 'descriptive_statistics'
 #
 group :test, :development do
   gem 'foreman'
+  gem 'guard-rspec'
+  gem 'guard-bundler'
 end
 
 group :test do
