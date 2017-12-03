@@ -32,6 +32,10 @@ describe Instance do
       expect(Instance[old_instance.id].sequence).to eq(old_instance.sequence + 1)
     end
 
+    it "has no #modified_on" do
+      expect(instance.modified_on).to be nil
+    end
+
   end
 
   context "When it is edited, it" do
@@ -40,6 +44,13 @@ describe Instance do
     # it "reduces the Nickname.instance_count if the name changes"
       # This seems impossible. around_save already gets the new text, 
       # not the old text. This will have to be done in the route.
+
+    it "has a #modified_on" do
+      instance.update(note: "Note text.")
+      instance.save
+      expect(instance.modified_on).to be_an_instance_of Date
+    end
+
 
     
   end

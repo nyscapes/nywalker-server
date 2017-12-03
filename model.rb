@@ -49,6 +49,10 @@ class Instance < Sequel::Model
     end
   end
 
+  def before_update
+    self.modified_on = Time.now
+  end
+
   def validate
     super
     validates_presence [:page, :book, :text]

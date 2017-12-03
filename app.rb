@@ -80,13 +80,15 @@ class App < Sinatra::Base
   helpers do
     include Sprockets::Helpers
 
-    def save_object(object, path)
+    def save_object(object, path, update = nil)
+      message = "#{object.class} successfully updated!"
+      update.nil? ? message.gsub!(/updated!$/, "saved!") : message
       begin
         object.save
         if object.class == Instance 
           redis.set "user-#{user.username}-last-instance", object.id
         end
-        flash[:success] = "#{object.class} successfully saved!"
+        flash[:success] = message
         redirect path
       rescue Sequel::ValidationFailed => @e
         dm_error_and_redirect(object, path)

@@ -29,16 +29,8 @@ class App
     @page_title = "Saving Instance for #{book.title}"
     instance = Instance.new
     special = special_field(params)
-    instance.set( page: params[:page], sequence: params[:sequence], text: params[:place_name_in_text].gsub(/\s+$/, ""), user: @user, book: book, note: params[:note], special: special )
-    if params[:place].match(/{.*}$/)
-      place = params[:place].match(/{.*}$/)[0].gsub(/{/, "").gsub(/}/, "")
-    else
-      dm_error_and_redirect(instance, request.path, "The place did not have a name coded inside {}s")
-    end
-    location = Place.where(name: place).first
-    if location.nil?
-      dm_error_and_redirect(instance, request.path, "No such place found. Please add it below.")
-    end
+    instance.set( page: params[:page], sequence: params[:sequence], text: params[:place_name_in_text].strip, user: @user, book: book, note: params[:note], special: special )
+    instance.place = get_instance_place(params[:place])
     if instance.text.nil? || instance.text == ""
       dm_error_and_redirect(instance, request.path, "The “Place name in text” was left blank.")
     end
@@ -80,10 +72,9 @@ class App
   post "/books/:book_slug/instances/:instance_id/edit" do
     protected_page
     special = special_field(params)
-    instance.attributes = { page: params[:page], sequence: params[:sequence], text: params[:place_name_in_text].gsub(/\s+$/, ""), modified_on: Time.now, user: @user, book: book, note: params[:note], special: special } 
-    if params[:place].match(/{.*}$/) # We've likely modified the place.
-      instance.place = Place.where(name: params[:place].match(/{.*}$/)[0].gsub(/{/, "").gsub(/}/, ""))
-    end
+    instance.update( page: params[:page], sequence: params[:sequence], text: params[:place_name_in_text].strip, user: @user, book: book, note: params[:note], special: special ) 
+    instance.place get_instance_place(params[:place], instance)
+    #
     # nickname = Nickname.where(name: instance.text, place: instance.place)
     # if nickname.nil?
     #   new_nick = Nickname.create(name: instance.text, place: instance.place, instance_count: 1)
@@ -95,7 +86,7 @@ class App
     #   # nick_list = session[:nicknames].select { |n| n[:string] == nickname.list_string }
     #   nick_list[0][:instance_count] = nick_list[0][:instance_count] + 1
     # end
-    save_object(instance, "/books/#{book.slug}") 
+    save_object(instance, "/books/#{book.slug}", "update") 
   end
 
   # DESTROY
@@ -140,4 +131,20 @@ class App
     JSON.parse(nicks, symbolize_names: true).sort_by { |n| n[:instance_count] }.reverse
   end
 
+  def get_instance_place(place, instance = nil)
+    if params[:place].match(/{.*}$/)
+      place = Place.where(name: params[:place].match(/{(.*?)}$/)[1]).first
+      if place.nil?
+        dm_error_and_redirect(instance, request.path, "No such place found. Please add it below.")
+      else
+        place
+      end
+    else
+      if instance.nil? # coming in from create
+        dm_error_and_redirect(instance, request.path, "The place did not have a name coded inside {}s")
+      else # the place hasn't changed.
+        instance.place
+      end
+    end
+  end
 end
