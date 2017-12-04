@@ -1,4 +1,4 @@
-# NYWalker
+# NYWalker [![Build Ssimplecovtatus](https://travis-ci.org/nyscapes/nywalker.svg)][Continuous Integration] [![Dependency Status](https://gemnasium.com/nyscapes/nywalker.svg)][Dependencies] [![Code Climate](https://codeclimate.com/github/nyscapes/nywalker.svg)](https://codeclimate.com/github/nyscapes/nywalker) [![Inline docs](http://inch-ci.org/github/nyscapes/nywalker.svg)](http://inch-ci.org/github/nyscapes/nywalker) 
 
 `NYWalker` is a distributed project that aims to develop a rich database of
 places mentioned in various novels. As the name suggests, the initial focus is
