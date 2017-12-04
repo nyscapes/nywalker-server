@@ -47,9 +47,6 @@ class Instance < Sequel::Model
     self.class.later_instances_of_same_page(self.book, self.page, self.sequence).select{ |i| i.id != self.id }.each_with_index do |later_instance, index|
       later_instance.update(sequence: sequence_counter + 1 + index)
     end
-  end
-
-  def before_update
     self.modified_on = Time.now
   end
 
@@ -61,24 +58,29 @@ class Instance < Sequel::Model
   dataset_module do
 
     def all_sorted_for_book(book)
+      raise ArgumentError.new( "'book' must be a Book" ) if book.class != Book
       where(book: book)
         .order(:page, :sequence)
         .all
     end
 
     def last_instance_for_book(book)
+      raise ArgumentError.new( "'book' must be a Book" ) if book.class != Book
       where(book: book)
-        .order(:modified_on, :added_on, :page, :sequence)
+        .order(Sequel.desc(:modified_on), :page, :sequence)
         .last
     end
 
     def later_instances_of_same_page(book, page, seq)
+      raise ArgumentError.new( "'book' must be a Book" ) if book.class != Book
+      raise ArgumentError.new( "'page' and 'sequence' must be Fixnum" ) if page.class != Fixnum || seq.class != Fixnum
       where(book: book, page: page)
         .where{ sequence >= seq }
         .all
     end
     
     def nickname_instance_count(text, place)
+      raise ArgumentError.new( "'place' must be a Place" ) if place.class != Place
       where(text: text, place: place)
         .all
         .length

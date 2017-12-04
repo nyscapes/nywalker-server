@@ -10,4 +10,15 @@ FactoryBot.define do
     cover "http://whitehouse.gov/img.png"
     added_on Time.now
   end
+
+  factory :second_book, class: Book do
+    slug "moscow-reds"
+    author "Jack Reed"
+    title "Moscow Reds"
+    isbn "978nnnnnnnnm"
+    year 1919 
+    url "http://whitehouse.gov"
+    cover "http://whitehouse.gov/img.png"
+    added_on Time.now
+  end
 end
