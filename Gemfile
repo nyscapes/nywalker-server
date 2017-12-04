@@ -60,6 +60,10 @@ gem 'activesupport'
 
 gem 'stringex'
 
+# Rake to run cleaning operations to fix up data that falls out of sync,
+# caching, etc.
+gem 'rake'
+
 # Warden controls user authentication.
 gem 'warden'
 
