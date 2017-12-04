@@ -1,0 +1,703 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.4.4
+-- Dumped by pg_dump version 10.1
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET search_path = public, pg_catalog;
+
+ALTER TABLE ONLY public.places DROP CONSTRAINT places_user_fk;
+ALTER TABLE ONLY public.nicknames DROP CONSTRAINT nicknames_place_fk;
+ALTER TABLE ONLY public.instances DROP CONSTRAINT instances_user_fk;
+ALTER TABLE ONLY public.instances DROP CONSTRAINT instances_place_fk;
+ALTER TABLE ONLY public.instances DROP CONSTRAINT instances_book_fk;
+ALTER TABLE ONLY public.book_users DROP CONSTRAINT book_users_user_fk;
+ALTER TABLE ONLY public.book_users DROP CONSTRAINT book_users_book_fk;
+DROP INDEX public.index_specials_book;
+DROP INDEX public.index_places_user;
+DROP INDEX public.index_nicknames_place;
+DROP INDEX public.index_instances_user;
+DROP INDEX public.index_instances_place;
+DROP INDEX public.index_instances_book;
+DROP INDEX public.index_flags_user;
+DROP INDEX public.index_bounding_boxes_place;
+ALTER TABLE ONLY public.users DROP CONSTRAINT users_pkey;
+ALTER TABLE ONLY public.specials DROP CONSTRAINT specials_pkey;
+ALTER TABLE ONLY public.places DROP CONSTRAINT places_pkey;
+ALTER TABLE ONLY public.nicknames DROP CONSTRAINT nicknames_pkey;
+ALTER TABLE ONLY public.instances DROP CONSTRAINT instances_pkey;
+ALTER TABLE ONLY public.flags DROP CONSTRAINT flags_pkey;
+ALTER TABLE ONLY public.bounding_boxes DROP CONSTRAINT bounding_boxes_pkey;
+ALTER TABLE ONLY public.books DROP CONSTRAINT books_pkey;
+ALTER TABLE ONLY public.book_users DROP CONSTRAINT book_users_pkey;
+ALTER TABLE public.users ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.specials ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.places ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.nicknames ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.instances ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.flags ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.bounding_boxes ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.books ALTER COLUMN id DROP DEFAULT;
+DROP SEQUENCE public.users_id_seq;
+DROP TABLE public.users;
+DROP SEQUENCE public.specials_id_seq;
+DROP TABLE public.specials;
+DROP TABLE public.schema_info;
+DROP SEQUENCE public.places_id_seq;
+DROP TABLE public.places;
+DROP SEQUENCE public.nicknames_id_seq;
+DROP TABLE public.nicknames;
+DROP SEQUENCE public.instances_id_seq;
+DROP TABLE public.instances;
+DROP SEQUENCE public.flags_id_seq;
+DROP TABLE public.flags;
+DROP SEQUENCE public.bounding_boxes_id_seq;
+DROP TABLE public.bounding_boxes;
+DROP SEQUENCE public.books_id_seq;
+DROP TABLE public.books;
+DROP TABLE public.book_users;
+DROP EXTENSION postgis;
+DROP EXTENSION plpgsql;
+DROP SCHEMA public;
+--
+-- Name: public; Type: SCHEMA; Schema: -; Owner: moacir
+--
+
+CREATE SCHEMA public;
+
+
+ALTER SCHEMA public OWNER TO moacir;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+--
+-- Name: postgis; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION postgis; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION postgis IS 'PostGIS geometry, geography, and raster spatial types and functions';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: book_users; Type: TABLE; Schema: public; Owner: moacir
+--
+
+CREATE TABLE book_users (
+    book_id integer NOT NULL,
+    user_id integer NOT NULL
+);
+
+
+ALTER TABLE book_users OWNER TO moacir;
+
+--
+-- Name: books; Type: TABLE; Schema: public; Owner: moacir
+--
+
+CREATE TABLE books (
+    id integer NOT NULL,
+    slug character varying(2000),
+    author character varying(50),
+    title text,
+    isbn character varying(50),
+    year integer,
+    url character varying(2000),
+    cover character varying(2000),
+    added_on date,
+    modified_on date
+);
+
+
+ALTER TABLE books OWNER TO moacir;
+
+--
+-- Name: books_id_seq; Type: SEQUENCE; Schema: public; Owner: moacir
+--
+
+CREATE SEQUENCE books_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE books_id_seq OWNER TO moacir;
+
+--
+-- Name: books_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: moacir
+--
+
+ALTER SEQUENCE books_id_seq OWNED BY books.id;
+
+
+--
+-- Name: bounding_boxes; Type: TABLE; Schema: public; Owner: moacir
+--
+
+CREATE TABLE bounding_boxes (
+    id integer NOT NULL,
+    place_id integer NOT NULL,
+    place_slug character varying(50) NOT NULL
+);
+
+
+ALTER TABLE bounding_boxes OWNER TO moacir;
+
+--
+-- Name: bounding_boxes_id_seq; Type: SEQUENCE; Schema: public; Owner: moacir
+--
+
+CREATE SEQUENCE bounding_boxes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE bounding_boxes_id_seq OWNER TO moacir;
+
+--
+-- Name: bounding_boxes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: moacir
+--
+
+ALTER SEQUENCE bounding_boxes_id_seq OWNED BY bounding_boxes.id;
+
+
+--
+-- Name: flags; Type: TABLE; Schema: public; Owner: moacir
+--
+
+CREATE TABLE flags (
+    id integer NOT NULL,
+    comment text,
+    object_type character varying(50),
+    object_id integer,
+    added_on date,
+    user_id integer NOT NULL
+);
+
+
+ALTER TABLE flags OWNER TO moacir;
+
+--
+-- Name: flags_id_seq; Type: SEQUENCE; Schema: public; Owner: moacir
+--
+
+CREATE SEQUENCE flags_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE flags_id_seq OWNER TO moacir;
+
+--
+-- Name: flags_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: moacir
+--
+
+ALTER SEQUENCE flags_id_seq OWNED BY flags.id;
+
+
+--
+-- Name: instances; Type: TABLE; Schema: public; Owner: moacir
+--
+
+CREATE TABLE instances (
+    id integer NOT NULL,
+    page integer,
+    sequence integer,
+    text text,
+    added_on date,
+    modified_on date,
+    place_id integer NOT NULL,
+    user_id integer NOT NULL,
+    book_id integer NOT NULL,
+    flagged boolean,
+    note text,
+    special text
+);
+
+
+ALTER TABLE instances OWNER TO moacir;
+
+--
+-- Name: instances_id_seq; Type: SEQUENCE; Schema: public; Owner: moacir
+--
+
+CREATE SEQUENCE instances_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE instances_id_seq OWNER TO moacir;
+
+--
+-- Name: instances_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: moacir
+--
+
+ALTER SEQUENCE instances_id_seq OWNED BY instances.id;
+
+
+--
+-- Name: nicknames; Type: TABLE; Schema: public; Owner: moacir
+--
+
+CREATE TABLE nicknames (
+    id integer NOT NULL,
+    name character varying(50),
+    place_id integer NOT NULL,
+    instance_count integer
+);
+
+
+ALTER TABLE nicknames OWNER TO moacir;
+
+--
+-- Name: nicknames_id_seq; Type: SEQUENCE; Schema: public; Owner: moacir
+--
+
+CREATE SEQUENCE nicknames_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE nicknames_id_seq OWNER TO moacir;
+
+--
+-- Name: nicknames_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: moacir
+--
+
+ALTER SEQUENCE nicknames_id_seq OWNED BY nicknames.id;
+
+
+--
+-- Name: places; Type: TABLE; Schema: public; Owner: moacir
+--
+
+CREATE TABLE places (
+    id integer NOT NULL,
+    slug character varying(2000),
+    name character varying(50),
+    added_on date,
+    lat double precision,
+    lon double precision,
+    confidence character varying(50),
+    source text,
+    geonameid character varying(50),
+    what3word character varying(50),
+    bounding_box_string text,
+    user_id integer NOT NULL,
+    flagged boolean,
+    note text,
+    geom geometry
+);
+
+
+ALTER TABLE places OWNER TO moacir;
+
+--
+-- Name: places_id_seq; Type: SEQUENCE; Schema: public; Owner: moacir
+--
+
+CREATE SEQUENCE places_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE places_id_seq OWNER TO moacir;
+
+--
+-- Name: places_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: moacir
+--
+
+ALTER SEQUENCE places_id_seq OWNED BY places.id;
+
+
+--
+-- Name: schema_info; Type: TABLE; Schema: public; Owner: moacir
+--
+
+CREATE TABLE schema_info (
+    version integer DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE schema_info OWNER TO moacir;
+
+--
+-- Name: specials; Type: TABLE; Schema: public; Owner: moacir
+--
+
+CREATE TABLE specials (
+    id integer NOT NULL,
+    field character varying(50),
+    help_text text,
+    book_id integer NOT NULL
+);
+
+
+ALTER TABLE specials OWNER TO moacir;
+
+--
+-- Name: specials_id_seq; Type: SEQUENCE; Schema: public; Owner: moacir
+--
+
+CREATE SEQUENCE specials_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE specials_id_seq OWNER TO moacir;
+
+--
+-- Name: specials_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: moacir
+--
+
+ALTER SEQUENCE specials_id_seq OWNED BY specials.id;
+
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: moacir
+--
+
+CREATE TABLE users (
+    id integer NOT NULL,
+    name character varying(50),
+    email character varying(50),
+    username character varying(50),
+    password_digest character varying(60),
+    admin boolean DEFAULT false,
+    added_on date,
+    modified_on date,
+    firstname character varying(50),
+    lastname character varying(50)
+);
+
+
+ALTER TABLE users OWNER TO moacir;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: moacir
+--
+
+CREATE SEQUENCE users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE users_id_seq OWNER TO moacir;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: moacir
+--
+
+ALTER SEQUENCE users_id_seq OWNED BY users.id;
+
+
+--
+-- Name: books id; Type: DEFAULT; Schema: public; Owner: moacir
+--
+
+ALTER TABLE ONLY books ALTER COLUMN id SET DEFAULT nextval('books_id_seq'::regclass);
+
+
+--
+-- Name: bounding_boxes id; Type: DEFAULT; Schema: public; Owner: moacir
+--
+
+ALTER TABLE ONLY bounding_boxes ALTER COLUMN id SET DEFAULT nextval('bounding_boxes_id_seq'::regclass);
+
+
+--
+-- Name: flags id; Type: DEFAULT; Schema: public; Owner: moacir
+--
+
+ALTER TABLE ONLY flags ALTER COLUMN id SET DEFAULT nextval('flags_id_seq'::regclass);
+
+
+--
+-- Name: instances id; Type: DEFAULT; Schema: public; Owner: moacir
+--
+
+ALTER TABLE ONLY instances ALTER COLUMN id SET DEFAULT nextval('instances_id_seq'::regclass);
+
+
+--
+-- Name: nicknames id; Type: DEFAULT; Schema: public; Owner: moacir
+--
+
+ALTER TABLE ONLY nicknames ALTER COLUMN id SET DEFAULT nextval('nicknames_id_seq'::regclass);
+
+
+--
+-- Name: places id; Type: DEFAULT; Schema: public; Owner: moacir
+--
+
+ALTER TABLE ONLY places ALTER COLUMN id SET DEFAULT nextval('places_id_seq'::regclass);
+
+
+--
+-- Name: specials id; Type: DEFAULT; Schema: public; Owner: moacir
+--
+
+ALTER TABLE ONLY specials ALTER COLUMN id SET DEFAULT nextval('specials_id_seq'::regclass);
+
+
+--
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: moacir
+--
+
+ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
+
+
+--
+-- Name: book_users book_users_pkey; Type: CONSTRAINT; Schema: public; Owner: moacir
+--
+
+ALTER TABLE ONLY book_users
+    ADD CONSTRAINT book_users_pkey PRIMARY KEY (book_id, user_id);
+
+
+--
+-- Name: books books_pkey; Type: CONSTRAINT; Schema: public; Owner: moacir
+--
+
+ALTER TABLE ONLY books
+    ADD CONSTRAINT books_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bounding_boxes bounding_boxes_pkey; Type: CONSTRAINT; Schema: public; Owner: moacir
+--
+
+ALTER TABLE ONLY bounding_boxes
+    ADD CONSTRAINT bounding_boxes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: flags flags_pkey; Type: CONSTRAINT; Schema: public; Owner: moacir
+--
+
+ALTER TABLE ONLY flags
+    ADD CONSTRAINT flags_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: instances instances_pkey; Type: CONSTRAINT; Schema: public; Owner: moacir
+--
+
+ALTER TABLE ONLY instances
+    ADD CONSTRAINT instances_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: nicknames nicknames_pkey; Type: CONSTRAINT; Schema: public; Owner: moacir
+--
+
+ALTER TABLE ONLY nicknames
+    ADD CONSTRAINT nicknames_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: places places_pkey; Type: CONSTRAINT; Schema: public; Owner: moacir
+--
+
+ALTER TABLE ONLY places
+    ADD CONSTRAINT places_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: specials specials_pkey; Type: CONSTRAINT; Schema: public; Owner: moacir
+--
+
+ALTER TABLE ONLY specials
+    ADD CONSTRAINT specials_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: moacir
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_bounding_boxes_place; Type: INDEX; Schema: public; Owner: moacir
+--
+
+CREATE INDEX index_bounding_boxes_place ON bounding_boxes USING btree (place_id, place_slug);
+
+
+--
+-- Name: index_flags_user; Type: INDEX; Schema: public; Owner: moacir
+--
+
+CREATE INDEX index_flags_user ON flags USING btree (user_id);
+
+
+--
+-- Name: index_instances_book; Type: INDEX; Schema: public; Owner: moacir
+--
+
+CREATE INDEX index_instances_book ON instances USING btree (book_id);
+
+
+--
+-- Name: index_instances_place; Type: INDEX; Schema: public; Owner: moacir
+--
+
+CREATE INDEX index_instances_place ON instances USING btree (place_id);
+
+
+--
+-- Name: index_instances_user; Type: INDEX; Schema: public; Owner: moacir
+--
+
+CREATE INDEX index_instances_user ON instances USING btree (user_id);
+
+
+--
+-- Name: index_nicknames_place; Type: INDEX; Schema: public; Owner: moacir
+--
+
+CREATE INDEX index_nicknames_place ON nicknames USING btree (place_id);
+
+
+--
+-- Name: index_places_user; Type: INDEX; Schema: public; Owner: moacir
+--
+
+CREATE INDEX index_places_user ON places USING btree (user_id);
+
+
+--
+-- Name: index_specials_book; Type: INDEX; Schema: public; Owner: moacir
+--
+
+CREATE INDEX index_specials_book ON specials USING btree (book_id);
+
+
+--
+-- Name: book_users book_users_book_fk; Type: FK CONSTRAINT; Schema: public; Owner: moacir
+--
+
+ALTER TABLE ONLY book_users
+    ADD CONSTRAINT book_users_book_fk FOREIGN KEY (book_id) REFERENCES books(id);
+
+
+--
+-- Name: book_users book_users_user_fk; Type: FK CONSTRAINT; Schema: public; Owner: moacir
+--
+
+ALTER TABLE ONLY book_users
+    ADD CONSTRAINT book_users_user_fk FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
+-- Name: instances instances_book_fk; Type: FK CONSTRAINT; Schema: public; Owner: moacir
+--
+
+ALTER TABLE ONLY instances
+    ADD CONSTRAINT instances_book_fk FOREIGN KEY (book_id) REFERENCES books(id);
+
+
+--
+-- Name: instances instances_place_fk; Type: FK CONSTRAINT; Schema: public; Owner: moacir
+--
+
+ALTER TABLE ONLY instances
+    ADD CONSTRAINT instances_place_fk FOREIGN KEY (place_id) REFERENCES places(id);
+
+
+--
+-- Name: instances instances_user_fk; Type: FK CONSTRAINT; Schema: public; Owner: moacir
+--
+
+ALTER TABLE ONLY instances
+    ADD CONSTRAINT instances_user_fk FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
+-- Name: nicknames nicknames_place_fk; Type: FK CONSTRAINT; Schema: public; Owner: moacir
+--
+
+ALTER TABLE ONLY nicknames
+    ADD CONSTRAINT nicknames_place_fk FOREIGN KEY (place_id) REFERENCES places(id);
+
+
+--
+-- Name: places places_user_fk; Type: FK CONSTRAINT; Schema: public; Owner: moacir
+--
+
+ALTER TABLE ONLY places
+    ADD CONSTRAINT places_user_fk FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: moacir
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM moacir;
+GRANT ALL ON SCHEMA public TO moacir;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

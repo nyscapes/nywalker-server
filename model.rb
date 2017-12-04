@@ -5,10 +5,14 @@ Dotenv.load # This is weird that it's called here, because app.rb uses it.
 
 # ENV['DATABASE_URL'] is set in the file .env, which is hidden from git. See .env.example for an example of what it should look like.
 
-if ENV['DATABASE_URL']
-  DB = Sequel.connect(ENV['DATABASE_URL'])
+if ENV['RACK_ENV'] = 'test'
+  DB = Sequel.connect(ENV['TEST_DATABASE_URL'])
 else
-  raise "ENV['DATABASE_URL'] must be set. Edit your '.env' file to do so."
+  if ENV['DATABASE_URL']
+    DB = Sequel.connect(ENV['DATABASE_URL'])
+  else
+    raise "ENV['DATABASE_URL'] must be set. Edit your '.env' file to do so."
+  end
 end
 
 # The local install requires running `createdb nywalker`, assuming you name
