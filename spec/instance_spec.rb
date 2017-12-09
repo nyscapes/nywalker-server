@@ -112,6 +112,5 @@ describe Instance do
     end
   end
 
-
 end
 

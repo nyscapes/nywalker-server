@@ -85,15 +85,13 @@ class App
     end
 
     def places
-      # if @instances
-      #   @instances.places.select{ |place| place.confidence != "0" }.map do |p|
       if @places
         @places.map do |p|
           { lat: p.lat, lon: p.lon, 
             name: p.name, 
-            count: count_instances(p),
-            place_names: p.instances_by_names,
-            place_names_sentence: p.names_to_sentence,
+            count: count_instances(p, @book),
+            place_names: instances_by_names(p, @book),
+            place_names_sentence: p.names_to_sentence(@book),
             slug: p.slug,
             confidence: p.confidence
           } 
@@ -101,39 +99,22 @@ class App
       end
     end
 
-    # def place_names_sentence(p)
-    #   if @book
-    #     @instances.select{ |i| i.place == p }.map{ |i| i.text }.uniq.to_sentence
-    #   else
-    #     p.nicknames.select{ |n| n.instance_count > 0 }.map{ |n| n.name }.to_sentence
-    #   end
-    # end
-
     def get_instances_per_page(total_pages, instances)
       total_pages == 0 ? 0 : (instances.to_f / total_pages.to_f).round(2)
     end
 
-    def count_instances(place)
-      place.instances_per.count
+    def count_instances(place, book)
+      place.instances_per.count(book)
     end
 
-    # def instances_by_place_names(place)
-    #   instances = place.instances_per
-    #   # array like [["New York", 41], ["New York City", 6], ["NEW YORK FUCKIN’ CITY", 1]]
-    #   place_names = instances.map{|i| i.text}.uniq.map{|n| [n, instances.select{|i| i.text == n}.count]}
-    #   string = "<ul style='margin-left: 1em; padding: 0; margin-bottom: 0px;'>"
-    #   place_names.each{|name| string = string + "<li>#{name[0]}: #{name[1]}</li>"}
-    #   string = string + "</ul>"
-    #   string.gsub(/"/, "")
-    # end
-
-    # def get_instances_per_place(place)
-    #   if @book
-    #     place.instances.select{ |i| i.book_id == @book.id }
-    #   else
-    #     place.instances
-    #   end
-    # end
+    def instances_by_names(place, book)
+      string = "<ul style='margin-left: 1em; padding: 0; margin-bottom: 0px;'>"
+      place.instances_by_names(book).each do |name|
+        string = string + "<li>#{name[0]}: #{name[1]}</li>"
+      end
+      string = string + "</ul>"
+      string.gsub(/"/, "")
+    end
 
     def not_empty(text)
       case text
