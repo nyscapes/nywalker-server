@@ -28,7 +28,7 @@ class App
     protected_page
     @page_title = "Saving Instance for #{book.title}"
     instance = Instance.new
-    special = special_field(params)
+    special = downcase_special_field(params)
     instance.set( page: params[:page], sequence: params[:sequence], text: params[:place_name_in_text].strip, user: @user, book: book, note: params[:note], special: special )
     instance.place = get_instance_place(params[:place])
     if instance.text.nil? || instance.text == ""
@@ -71,7 +71,7 @@ class App
 
   post "/books/:book_slug/instances/:instance_id/edit" do
     protected_page
-    special = special_field(params)
+    special = downcase_special_field(params)
     instance.update( page: params[:page], sequence: params[:sequence], text: params[:place_name_in_text].strip, user: @user, book: book, note: params[:note], special: special ) 
     instance.place get_instance_place(params[:place], instance)
     #
@@ -104,7 +104,7 @@ class App
 
   # METHODS
 
-  def special_field(params)
+  def downcase_special_field(params)
     if params[:special]
       params[:special].downcase.gsub(/\s+$/, "")
     else
