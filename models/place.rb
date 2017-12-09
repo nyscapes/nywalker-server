@@ -80,7 +80,7 @@ class Place < Sequel::Model
   end
 
   def before_destroy
-    if self.instances.count != 0
+    if self.instances.count > 0
       raise "There are instances attached to this place. Cannot delete"
     else
       self.nicknames_dataset.destroy
