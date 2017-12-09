@@ -1,3 +1,5 @@
+ENV['RACK_ENV'] = 'test'
+
 require 'simplecov'
 require 'cucumber/rspec/doubles'
 require 'capybara'
