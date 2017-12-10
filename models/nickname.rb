@@ -5,7 +5,7 @@ class Nickname < Sequel::Model
 
   def validate
     super
-    validates_presence [:name]
+    validates_presence [:name, :instance_count]
   end
 
   # def instance_count_query

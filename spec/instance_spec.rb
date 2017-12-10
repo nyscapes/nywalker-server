@@ -1,7 +1,7 @@
 describe Instance do
 
   context "When it is created, it" do
-    let(:instance){ build :instance }#, place: nil }
+    let(:instance){ build :instance }
     
     it "has a text" do
       expect(instance).to respond_to(:text)
@@ -47,6 +47,17 @@ describe Instance do
       instance.update(note: "Note text.")
       instance.save
       expect(instance.modified_on).to be_a Date
+    end
+  end
+
+  context "When it is destroyed, it" do
+    let(:instance){ create :instance }
+
+    it "reduces the Nickname.instance_count by 1" do
+      nick = Nickname.where(place: instance.place, name: instance.text).first
+      nick.update(instance_count: 5)
+      instance.destroy
+      expect(Nickname[nick.id].instance_count).to eq 4
     end
   end
 

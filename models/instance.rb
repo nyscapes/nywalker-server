@@ -16,7 +16,7 @@ class Instance < Sequel::Model
     # See if the nickname is new or not
     nickname = Nickname.where(name: self.text, place: self.place).first
     if nickname.nil?
-      nickname = Nickname.create(name: self.text, place: self.place)
+      nickname = Nickname.create(name: self.text, place: self.place, instance_count: 1)
     end
     nickname.update instance_count: self.class.nickname_instance_count(self.text, self.place)
     # # increase the sequences of the other instances
@@ -29,7 +29,7 @@ class Instance < Sequel::Model
 
   def validate
     super
-    validates_presence [:page, :book, :text]
+    validates_presence [:page, :text]
   end
 
   dataset_module do
@@ -67,8 +67,7 @@ class Instance < Sequel::Model
 
   def before_destroy
     n = Nickname.where(name: self.text, place: self.place).first
-    n.instance_count = n.instance_count - 1
-    n.save
+    n.update instance_count: n.instance_count - 1
     Instance.where(book: self.book, page: self.page).where{ sequence > self.sequence }.each do |instance|
       instance.update(sequence: instance.sequence - 1)
     end
