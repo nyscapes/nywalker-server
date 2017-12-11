@@ -16,8 +16,20 @@ class Book < Sequel::Model
     instances.length == 0 ? 0 : instances.last - instances.first
   end
 
+  def instances_per_page
+    if self.total_pages == 0
+      "∞"
+    else
+      (self.instances.count.to_f / self.total_pages.to_f).round(2)
+    end
+  end
+
   def last_instance
     Instance.last_instance_for_book(self)
+  end
+
+  def user_sentence
+    self.users.map{|u| u.fullname}.to_sentence
   end
 
   dataset_module do
