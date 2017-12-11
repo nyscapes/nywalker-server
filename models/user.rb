@@ -20,5 +20,29 @@ class User < Sequel::Model
   def admin?
     self.admin
   end
+
+  def fullname
+    if self.lastname.nil? && self.firstname
+      self.firstname
+    elsif self.firstname.nil? && self.lastname
+      self.lastname
+    elsif self.firstname.nil? && self.lastname.nil?
+      self.name
+    else
+      "#{self.firstname} #{self.lastname}"
+    end
+  end
+
+  def fullname_lastname_first
+    if self.lastname.nil? && self.firstname
+      self.firstname
+    elsif self.firstname.nil? && self.lastname
+      self.lastname
+    elsif self.firstname.nil? && self.lastname.nil?
+      self.name
+    else
+      "#{self.lastname}, #{self.firstname}"
+    end
+  end
 end
 

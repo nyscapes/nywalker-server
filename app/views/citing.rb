@@ -18,50 +18,26 @@ class App
       end
 
       def authors(book) # A DataMapper list of Users
-        users = book.instances.map{ |i| i.user }.uniq
-        user_count = {}
-        users.each do |user|
-          user_count[user] = book.instances.select{|i| i.user == user}.count
-        end
-        authors_string(user_count)
+        users = Instance.all_users_sorted_by_count(book).map{ |u| User[u.user_id] }
+        authors_string(users)
       end
 
       def all_authors
-        users = Instance.all.map{ |i| i.user }.uniq
-        user_count = {}
-        users.each do |user|
-          user_count[user] = Instance.all.select{|i| i.user == user}.count
-        end
-        authors_string(user_count)
+        users = Instance.all_users_sorted_by_count.map{ |u| User[u.user_id] }
+        authors_string(users)
       end
 
-      def authors_string(user_count) # An Array of [[User, n], [User, n]]
-        sorted_array = user_count.sort_by{ |k,v| v }.map{|a| a[0]}
-        first_author = sorted_array.pop
-        author_names = [fullnamelastnamefirst(first_author)]
-        if sorted_array.length > 0
-          sorted_array.reverse.each do |user|
-            unless user.firstname.nil? && user.lastname.nil?
-              author_names << "#{user.firstname} #{user.lastname}"
-            else
-              author_names << "#{user.name}"
-            end
+      def authors_string(users)
+        first_author = users.shift
+        author_names = [first_author.fullname_lastname_first]
+        if users.length > 0
+          users.each do |user|
+            author_names << user.fullname
           end
         end
         author_names.to_sentence
       end
 
-      def fullnamelastnamefirst(user)
-        if user.lastname.nil? && user.firstname
-          user.firstname
-        elsif user.firstname.nil? && user.lastname
-          user.lastname
-        elsif user.firstname.nil? && user.lastname.nil?
-          user.name
-        else
-          user.lastname + ", " + user.firstname
-        end
-      end
     	
     end
   end

@@ -61,7 +61,9 @@ describe Instance do
     end
   end
 
-  describe "Methods" do
+  describe "Methods"
+
+  describe "Queries" do
     let(:book){ create :book }
 
     describe "#all_sorted_for_book(book)" do
@@ -106,6 +108,24 @@ describe Instance do
       it "delivers instances that are all on the same page" do
         create_list :instance, 15, page: 10, book: book
         expect(Instance.later_instances_of_same_page( book, 10, 1 ).map{|i| i.page}.uniq).to contain_exactly 10
+      end
+    end
+
+
+    describe "#all_users_sorted_by_count(book)" do
+      let(:user) { create :user }
+
+      it "returns an Array of Instances with a 'values' hash with a 'user_id' and 'count' keys" do
+        create_list :instance, 15, book: book, user: user
+        expect(Instance.all_users_sorted_by_count.first.values).to eq({user_id: user.id, count: Instance.count})
+      end
+
+      it "only returns instances for users from the book given it" do
+        create_list :instance, 15, book: book, user: user
+        second_book = create :second_book
+        create_list :instance, 15, book: second_book, user: user
+        expect(Instance.count).to eq 30
+        expect(Instance.all_users_sorted_by_count(book).first.values).to eq({user_id: user.id, count: 15})
       end
     end
 

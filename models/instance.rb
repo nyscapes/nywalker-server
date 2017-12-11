@@ -63,6 +63,14 @@ class Instance < Sequel::Model
         .length
     end
 
+    def all_users_sorted_by_count(book = nil)
+      if book.nil?
+        group_and_count(:user_id).order(:count).reverse.all
+      else
+        where(book: book).group_and_count(:user_id).order(:count).reverse.all
+      end
+    end
+
   end
 
   def before_destroy
