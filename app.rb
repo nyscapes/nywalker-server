@@ -85,6 +85,8 @@ class App < Sinatra::Base
         object.save
         if object.class == Instance 
           redis.set "user-#{user.username}-last-instance", object.id
+        elsif object.class == Book
+          object.add_user user
         end
         flash[:success] = message
         redirect path
