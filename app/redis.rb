@@ -20,30 +20,31 @@ class App
     JSON.parse(nicks, symbolize_names: true).sort_by { |n| n[:instance_count] }
   end
 
-  class Redis
+end
 
-    def cache(params)
-      key = params[:key] || raise(":key parameter is required!")
-      expire = params[:expire] || nil
-      recalculate = params[:recalculate] || nil
-      timeout = params[:timeout] || nil
-      default = params[:default] || nil
+class Redis
 
-      if (value = get(key)).nil? || recalculate
-        begin
-          value = Timeout::timeout(timeout) { yield(self) }
-        rescue Timeout::Error
-          value = default
-        end
+  def cache(params)
+    key = params[:key] || raise(":key parameter is required!")
+    expire = params[:expire] || nil
+    recalculate = params[:recalculate] || nil
+    timeout = params[:timeout] || nil
+    default = params[:default] || nil
 
-        set(key, value)
-        expire(key, expire) if expire
-        value
-      else
-        value
+    if (value = get(key)).nil? || recalculate
+      begin
+        value = Timeout::timeout(timeout) { yield(self) }
+      rescue Timeout::Error
+        value = default
       end
-    end
 
+      set(key, value)
+      expire(key, expire) if expire
+      value
+    else
+      value
+    end
   end
 
 end
+
