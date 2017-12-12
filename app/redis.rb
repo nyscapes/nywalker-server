@@ -1,7 +1,7 @@
 class App
 
   set :redis, Redis.new
-  set :nicknames_list, Proc.new { Nickname.all.map{ |n| { string: n.list_string, instance_count: n.instance_count } } }
+  set :nicknames_list, Proc.new { Nickname.sorted_by_instance_count.map{ |n| { string: n.list_string, instance_count: n.instance_count } } }
 
   def nicknames_list(newlist = nil)
     nick_key = "user-#{@user.username}-nicknames-list"
@@ -17,7 +17,7 @@ class App
       redis.set nick_key, newlist.to_json
       nicks = redis.get nick_key
     end
-    JSON.parse(nicks, symbolize_names: true).sort_by { |n| n[:instance_count] }
+    JSON.parse(nicks, symbolize_names: true).sort_by { |n| n[:instance_count] }.reverse
   end
 
 end
