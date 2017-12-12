@@ -45,7 +45,7 @@ class App
       #   nicks[nick_list_index][:instance_count] = nicks[nick_list_index][:instance_count] + 1
       # end
       # nicknames_list(nicks)
-    instance.place = location
+    # instance.place = location
     save_object(instance, back)
   end
 
