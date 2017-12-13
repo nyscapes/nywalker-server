@@ -62,7 +62,7 @@ class App
     # instance_cache = redis.hmget "book-#{book.slug}-instances", "last-updated", "list"
     # @last_updated = last_updated(instance_cache[0])
     # @instances = JSON.parse(instance_cache[1], symbolize_names: true)
-    # @json_file = book.slug
+    @json_file = book.slug
     @instances = Instance.all_sorted_for_book(book)
     mustache :book_show
   end
