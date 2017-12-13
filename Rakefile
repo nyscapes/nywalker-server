@@ -134,7 +134,7 @@ task :jsonify do
     Book.each do |book|
       @book = book
       # puts "[#{Time.now}]: Starting run on #{book.title}"
-      places = App::RakeMethods.build_places(Instance.all(book: book))
+      places = App::RakeMethods.build_places(Instance.where(book: book).all)
       # puts "[#{Time.now}]: Built all places for #{book.title}."
       File.open("public/json/#{book.slug}.json", "w") do |f|
         f.write(places.to_json)

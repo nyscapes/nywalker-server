@@ -47,7 +47,7 @@ class App
     end
  
     def self.build_places(instances) 
-      instances.all.places.all(:confidence.not => 0).map do |p|
+      instances.map{ |i| i.place }.uniq.select{ |i| i.confidence != "0" }.map do |p|
         { lat: p.lat, lon: p.lon, 
           name: p.name, 
           count: p.instances_per.count,
