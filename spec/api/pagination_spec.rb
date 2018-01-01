@@ -1,7 +1,7 @@
-describe "NYWalker API" do
+require_relative "./shared.rb"
 
-  let(:apiurl) { "/api/v1" }
-  let(:accept) { { "HTTP_ACCEPT" => "application/vnd.api+json" } }
+describe "NYWalker API" do
+  include_context "api"
 
   context ", when asking for pagination" do
 

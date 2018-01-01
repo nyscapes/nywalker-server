@@ -1,6 +1,7 @@
+require_relative "./shared.rb"
+
 describe "NYWalker API" do
-  let(:apiurl) { "/api/v1" }
-  let(:accept) { { "HTTP_ACCEPT" => "application/vnd.api+json" } }
+  include_context "api"
 
   context "logging in" do
 
