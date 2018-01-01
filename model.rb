@@ -1,4 +1,9 @@
 require 'sequel'
+require 'sequel/extensions/pagination'
+require 'will_paginate'
+require 'will_paginate/collection'
+require 'will_paginate/sequel'
+require 'will_paginate/array' # might not be the best place…
 require 'dotenv'
 
 Dotenv.load # This is weird that it's called here, because app.rb uses it.
@@ -16,6 +21,8 @@ else
     raise "ENV['DATABASE_URL'] must be set. Edit your '.env' file to do so."
   end
 end
+
+DB.extension(:pagination) # load paginator
 
 # The local install requires running `createdb nywalker`, assuming you name
 # the database "nywalker".

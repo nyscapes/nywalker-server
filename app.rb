@@ -2,6 +2,7 @@
 
 require "sinatra/base"
 require "sinatra/flash"
+require "sinatra/namespace"
 require "mustache/sinatra"
 require "sinatra-health-check"
 require "sprockets"
@@ -19,6 +20,7 @@ require "active_support/inflector"
 require "active_support/core_ext/array/conversions"
 
 require "descriptive_statistics"
+require "jsonapi-serializers"
 require "redis"
 
 require_relative "./model"
@@ -34,6 +36,7 @@ class App < Sinatra::Base
   set :root, base
 
   register Sinatra::Flash
+  register Sinatra::Namespace
   register Mustache::Sinatra
 
   require "#{base}/app/helpers"
@@ -183,6 +186,8 @@ class App < Sinatra::Base
   require "#{base}/app/routes/user"
   require "#{base}/app/routes/authentication"
 
+  # The API
+    require "#{base}/app/routes/api"
 
   def get_bbox(bbox)
     if bbox.class == Hash
@@ -315,6 +320,9 @@ class App < Sinatra::Base
 
   # To speed up autofill, etc., we use Redis
   require "#{base}/app/redis"
+  
+  # To get the API to work.
+  require "#{base}/app/api"
 
 end
 

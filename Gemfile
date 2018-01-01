@@ -6,6 +6,11 @@ ruby '2.3.1'
 # Sinatra, sinatrarb.com, is the web framework that makes the site run.
 gem 'sinatra'
 
+# For the API
+gem 'sinatra-contrib'
+gem 'jsonapi-serializers'
+gem 'will_paginate'
+
 # Sinatra-flash talks more smoothly to Rack::Flash to provide messages that go
 # from one page to another, such as save confirmations or errors.
 gem 'sinatra-flash'

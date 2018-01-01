@@ -24,6 +24,16 @@ class Place < Sequel::Model
     end
   end
 
+  # For the API
+  def instance_count
+    self.instances.count
+  end
+
+  # For the API
+  def nickname_sentence
+    self.names_to_sentence
+  end
+
   def instances_per(book = nil)
     if book.nil?
       self.instances
