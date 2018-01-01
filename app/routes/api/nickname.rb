@@ -13,7 +13,7 @@ class App
 
     get '/nicknames-list' do
       status 200
-      Nickname.map{ |n| { list_string: n.list_string, count: n.instance_count_query } }.sort_by{ |n| n[:count] }.reverse.to_json
+      Nickname.map{ |n| { list_string: n.list_string, count: n.instance_count } }.sort_by{ |n| n[:count] }.reverse.to_json
     end
 
   end

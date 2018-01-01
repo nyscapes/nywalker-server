@@ -23,6 +23,12 @@ class App
       end
     end
 
+    get '/places/:place_id' do
+      place = Place[params[:place_id].to_i]
+      not_found if place.nil?
+      serialize_model(place).to_json
+    end
+
     post '/places' do
       if @data.nil? || @data.length == 0
         status 400
@@ -32,6 +38,8 @@ class App
         @data.to_json
       end
     end
+
+
 
   end
 
