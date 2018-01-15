@@ -1,4 +1,4 @@
-require_relative "./shared.rb"
+require_relative './shared.rb'
 
 describe "NYWalker API - /places" do
   include_context "api"

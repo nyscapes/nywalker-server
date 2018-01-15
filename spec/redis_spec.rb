@@ -16,17 +16,17 @@ describe "Redis use" do
       expect(nick_list).to be_an Array
     end
 
-    it "of Hashes" do
-      expect(nick_list.map{|n| n.class}.uniq).to contain_exactly Hash
-    end
+    # it "of Hashes" do
+    #   expect(nick_list.map{|n| n.class}.uniq).to contain_exactly Hash
+    # end
 
-    it "of the form '{:string, :instance_count}'" do
-      expect(nick_list.map{|n| n.keys}.uniq).to contain_exactly [:string, :instance_count]
-    end
+    # it "of the form '{:string, :instance_count}'" do
+    #   expect(nick_list.map{|n| n.keys}.uniq).to contain_exactly [:string, :instance_count]
+    # end
 
-    it "where the :string is of the form 'nickname -- {place name}'" do
-      expect(nick_list.select{|n| n[:string] =~ /-- {.*?}$/}.length).to eq nick_list.length
-    end
+    # it "where the :string is of the form 'nickname -- {place name}'" do
+    #   expect(nick_list.select{|n| n[:string] =~ /-- {.*?}$/}.length).to eq nick_list.length
+    # end
 
     # it "and it is sorted (descending) by :instance_count" do
     #   expect(nick_list.first[:instance_count]).to be > nick_list.last[:instance_count]

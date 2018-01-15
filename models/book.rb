@@ -24,6 +24,10 @@ class Book < Sequel::Model
     end
   end
 
+  def instance_count
+    self.instances.count
+  end
+
   def last_instance
     Instance.last_instance_for_book(self)
   end

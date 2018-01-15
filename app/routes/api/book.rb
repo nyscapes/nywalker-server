@@ -11,5 +11,11 @@ class App
       end
     end
 
+    get '/books/:book_id' do
+      book = Book[params[:book_id].to_i]
+      not_found if book.nil?
+      serialize_model(book, include: 'instances').to_json
+    end
+
   end
 end
