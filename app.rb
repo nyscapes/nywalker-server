@@ -7,7 +7,6 @@ require "mustache/sinatra"
 require "sinatra-health-check"
 require "sprockets"
 require "sprockets-helpers"
-require "warden"
 require "googlebooks"
 require "pony"
 require "csv"
@@ -27,8 +26,8 @@ require_relative "./model"
 
 class App < Sinatra::Base
  
-  use Rack::Session::Cookie, # use this instead of "enable :sessions"
-    secret: ENV['COOKIE']
+  use Rack::Session::Pool #, :cookie_only => false # use this instead of "enable :sessions"
+
   if Sinatra::Base.development?
     set :session_secret, "supersecret"
   end
@@ -68,7 +67,8 @@ class App < Sinatra::Base
 
 
   before do
-    @user = env['warden'].user
+    pass if request.path_info =~ /favicon.ico/
+    @user ||= establish_user_from_GitHub
     @css = stylesheet_tag 'application'
     @js  = javascript_tag 'application'
     @path = request.path_info
@@ -127,7 +127,7 @@ class App < Sinatra::Base
     end
 
     def user
-      @user ||= env['warden'].user
+      @user ||= establish_user_from_GitHub
     end
 
     def redis
@@ -312,7 +312,6 @@ class App < Sinatra::Base
   end
 
   # To get user authentication to work.
-  # Methods, Warden definitions, etc.
   require "#{base}/app/authentication"
 
   # The Rake methods that are also accessible from here.

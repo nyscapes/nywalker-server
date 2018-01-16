@@ -17,8 +17,7 @@
 
       <ul class="navbar-nav my-2 my-lg-0">
         {{#logged_in}}
-        <li class="nav-item {{#selected_item}}users{{/selected_item}}"><a class="nav-link" href="/users/{{username}}"><span class="fa fa-user"></span> {{username}}</a></li>
-          <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+          <li class="nav-item {{#selected_item}}users{{/selected_item}}"><a class="nav-link" href="/users/{{username}}"><span class="fa fa-user"></span> {{username}}</a></li>
         {{/logged_in}}
         {{^logged_in}}
           <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>

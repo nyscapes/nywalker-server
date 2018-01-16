@@ -2,29 +2,13 @@ class App
 
   get '/login' do
     @page_title = "Login"
+    @client_id = ENV['GITHUB_CLIENT_ID']
     mustache :login
   end
 
-  post '/login' do
-    env['warden'].authenticate!
-
-    if session[:return_to].nil?
-      flash[:success] = "Successfully logged in."
-      redirect '/'
-    else
-      redirect session[:return_to]
-    end
-  end
-
-  post '/unauthenticated' do
-    flash[:error] = env['warden.options'][:message]
-    redirect '/login'
-  end
-
-  get '/logout' do
-    env['warden'].raw_session.inspect
-    env['warden'].logout
-    flash[:success] = "Successfuly logged out"
+  get '/callback' do
+    # Taken from: https://developer.github.com/v3/guides/basics-of-authentication/
+    session[:access_token] = get_access_token_from_GitHub params[:code]
     redirect '/'
   end
 

@@ -69,8 +69,8 @@ gem 'stringex'
 # caching, etc.
 gem 'rake'
 
-# Warden controls user authentication.
-gem 'warden'
+# For user authentication.
+gem 'rest-client'
 
 # Googlebooks talks to the Googlebooks API when finding books by ISBN. As far
 # as I know, no better repository of books with both an API and ISBNs exists.
