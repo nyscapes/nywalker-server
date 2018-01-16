@@ -26,7 +26,7 @@ require_relative "./model"
 
 class App < Sinatra::Base
  
-  use Rack::Session::Pool #, :cookie_only => false # use this instead of "enable :sessions"
+  use Rack::Session::Pool, cookie_only: false # use this instead of "enable :sessions"
 
   if Sinatra::Base.development?
     set :session_secret, "supersecret"
@@ -68,7 +68,7 @@ class App < Sinatra::Base
 
   before do
     pass if request.path_info =~ /favicon.ico/
-    @user ||= establish_user_from_GitHub
+    @user = establish_user
     @css = stylesheet_tag 'application'
     @js  = javascript_tag 'application'
     @path = request.path_info
@@ -127,7 +127,7 @@ class App < Sinatra::Base
     end
 
     def user
-      @user ||= establish_user_from_GitHub
+      @user ||= establish_user
     end
 
     def redis

@@ -11,9 +11,15 @@ class App
     JSON.parse(result)['access_token']
   end
 
-  def establish_user_from_GitHub
+  def establish_user
+    # puts "#{request.path_info}\nThe access_token is: #{session[:access_token]}\nThe user_id is: #{session[:user_id]}"
     if session[:user_id].nil?
-      if session[:access_token]
+      # No logged in user
+      if session[:access_token].nil?
+        # No token so just punt.
+        nil
+      else
+        # Token so go get info from GitHub
         access_token = session[:access_token]
         begin
           auth_result = RestClient.get('https://api.github.com/user',
@@ -28,15 +34,19 @@ class App
           redirect '/'
         end
         auth_result = JSON.parse(auth_result)
-        # user = User.where(username: auth_result['login']).first
-        # session[:github_username] = auth_result['login']
         user = User.where(username: auth_result['login']).first
-        session[:user_id] = user.id
-        user
-      else
-        nil
+        if user.nil? || user.enabled == false
+          puts "you are not allowed to use."
+          session[:access_token] = nil
+          flash[:error] = "You are not allowed to use this application."
+          nil
+        else
+          session[:user_id] = user.id
+          user
+        end
       end
     else
+      # return the user
       User[session[:user_id]]
     end
   end
