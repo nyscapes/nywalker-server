@@ -36,10 +36,9 @@ class App
         auth_result = JSON.parse(auth_result)
         user = User.where(username: auth_result['login']).first
         if user.nil? || user.enabled == false
-          puts "you are not allowed to use."
           session[:access_token] = nil
-          flash[:error] = "You are not allowed to use this application."
-          nil
+          flash[:error] = "You are not allowed to use this application. Let Moacir know if you think this is in error."
+          redirect "/login"
         else
           session[:user_id] = user.id
           user
