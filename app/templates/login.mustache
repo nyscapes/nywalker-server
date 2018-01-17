@@ -3,8 +3,8 @@
     <p class="lead">You are already logged in, silly.</p>
   {{/logged_in}}
   {{^logged_in}}
-    <p class="lead">As of January 2018, user authentication to this app is handled by GitHub. If you believe you should have access, please let Moacir know that you’re unable to login.</p>
+  <p class="lead">As of January 2018, user authentication to this app is handled by <a href="http://github.com">GitHub</a>. If you believe you should have access, please let Moacir know that you’re unable to login.</p>
     <p>We read your GitHub profile data to get your name so you can be given proper credit for your work on <code>NYWalker</code>. If you would like to change how your name looks, please let Moacir know.</p>
-    <a href="https://github.com/login/oauth/authorize?scope=read:user&client_id={{ client_id }}" class="btn btn-lg btn-block btn-primary">Login via GitHub</a>
+    <a href="https://github.com/login/oauth/authorize?scope=read:user&client_id={{ client_id }}" class="btn btn-lg btn-block btn-primary"><i class="fa fa-github"></i> Login via GitHub</a>
   {{/logged_in}}
 </div>
