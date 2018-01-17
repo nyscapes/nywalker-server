@@ -26,7 +26,7 @@ class App
             lon: p.lon,
             name: p.name,
             instances: p.instances.count,
-            place_names: p.instances_by_names,
+            place_names: p.names_to_sentence.gsub!(/"/, '\"'),
             confidence: p.confidence
           }
         end
