@@ -256,7 +256,7 @@ class App
     @specials = @instances.map{|i| i.special}.uniq
     @specials.each do |special|
       @places = @instances.select{ |i| i.special == special }.select{ |i| i.place.confidence != "0" }.map{ |i| i.place }
-      File.open("/tmp/#{special.parameterize}_#{salt}.csv", "w+:UTF-16LE:UTF-8") do |f|
+      File.open("/tmp/#{special.to_s.parameterize}_#{salt}.csv", "w+:UTF-16LE:UTF-8") do |f|
         csv_string = CSV.generate({col_sep: "\t"}) do |csv|
           csv << ["PLACE_ID", "NAME", "INSTANCE_COUNT", "AVG_INSTANCE_PG", "INSTANCE_STDEV", "AVG_INSTANCE_PG_PCT", "INSTANCE_STDEV_PCT", "LATITUDE", "LONGITUDE", "SOURCE", "GEONAMEID", "CONFIDENCE", "NICKNAMES", "NOTE", "FLAGGED", "ADDED_ON", "ADDED_BY", "SLUG"]
           @places.each do |place|
