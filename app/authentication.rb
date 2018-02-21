@@ -67,7 +67,10 @@ class App
         edit_code = true
       end
     end
-    unless @user.admin? || edit_code
+    if !@user.nil? && @user.admin?
+      edit_code = true
+    end
+    unless edit_code
       flash[:error] = "Not allowed to add or edit this data."
       redirect "/"
     end
