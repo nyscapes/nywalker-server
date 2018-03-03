@@ -26,7 +26,8 @@ require_relative "./model"
 
 class App < Sinatra::Base
  
-  use Rack::Session::Pool, cookie_only: false # use this instead of "enable :sessions"
+  # use Rack::Session::Pool, cookie_only: false # use this instead of "enable :sessions"
+  use Rack::Session::Cookie, secret: ENV['COOKIE'], expire_after: 2592000
 
   if Sinatra::Base.development?
     set :session_secret, "supersecret"

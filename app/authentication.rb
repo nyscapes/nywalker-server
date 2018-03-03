@@ -31,6 +31,7 @@ class App
           # index page so that the user can start the OAuth flow again
           puts e.message
           session[:access_token] = nil
+          flash[:error] = "The access token was revoked by GitHub; please login again."
           redirect '/'
         end
         auth_result = JSON.parse(auth_result)
@@ -41,7 +42,6 @@ class App
           redirect "/login"
         else
           session[:user_id] = user.id
-          user
         end
       end
     else
