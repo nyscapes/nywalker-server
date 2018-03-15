@@ -73,11 +73,12 @@ class App
     salt = Time.now.nsec
     File.open("/tmp/#{book.slug}_instances_#{salt}.csv", "w+:UTF-16LE:UTF-8") do |f|
       csv_string = CSV.generate({col_sep: "\t"}) do |csv|
-        csv << ["INSTANCE_ID", "PAGE", "SEQUENCE", "PLACE_NAME_IN_TEXT", "PLACE", "PLACE_ID", "LATITUDE", "LONGITUDE", "SPECIAL", "NOTE", "FLAGGED", "ADDED_ON", "ADDED_BY"]
+        csv << ["INSTANCE_ID", "PAGE", "SEQUENCE", "PLACE_NAME_IN_TEXT", "PLACE", "PLACE_ID", "CONFIDENCE", "LATITUDE", "LONGITUDE", "SPECIAL", "NOTE", "FLAGGED", "ADDED_ON", "ADDED_BY"]
         @instances.each do |instance|
           csv << [instance.id, instance.page, instance.sequence, instance.text, 
                   instance.place.name,
                   instance.place.id,
+                  instance.place.confidence,
                   instance.place.lat,
                   instance.place.lon,
                   instance.special,
