@@ -9,6 +9,10 @@ class App
       @css
     end
 
+    def metadata
+      @metadata
+    end
+
     def javascripts
       @js
     end

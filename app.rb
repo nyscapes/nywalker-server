@@ -69,6 +69,7 @@ class App < Sinatra::Base
 
   before do
     pass if request.path_info =~ /favicon.ico/
+    @metadata = basic_metadata
     @user = establish_user
     @css = stylesheet_tag 'application'
     @js  = javascript_tag 'application'
@@ -135,6 +136,26 @@ class App < Sinatra::Base
       settings.redis
     end
 
+    def basic_metadata
+      {
+        creators: Instance.all_users_sorted_by_count.map{ |u| { fullname: User[u.user_id].fullname_lastname_first } },
+        locale: "en_US",
+        title: "NYWalker",
+        created: "2015-10-30",
+        modified: Time.now.strftime("%Y-%m-%d"),
+        type: "Software",
+        description: "NYWalker is a tool for gecoding the contents of novels or other texts by hand.",
+        url: "#{base_url}#{request.path_info}",
+        image: {
+          type: "image/png",
+          url: "#{base_url}/images/android-chrome-192x192.png",
+          width: 192,
+          height: 192
+        }
+        
+      }
+    end
+
   end
 
   get "/" do
@@ -161,22 +182,26 @@ class App < Sinatra::Base
 
   get "/about" do
     @page_title = "About"
+    @metadata[:title] = "About NYWalker"
     mustache :about
   end
 
   get "/citing" do
     @page_title = "Citing"
+    @metadata[:title] = "Citing NYWalker"
     @books = Book.where(id: Instance.select(:book_id)).order(:title).all
     mustache :citing
   end
   
   get "/rules" do
     @page_title = "Rules"
+    @metadata[:title] = "Rules for entering data into NYWalker"
     mustache :rules
   end
   
   get "/help" do
     @page_title = "Help"
+    @metadata[:title] = "Help about NYWalker"
     mustache :help
   end
 

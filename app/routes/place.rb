@@ -4,12 +4,14 @@ class App
 
   get "/places" do
     @page_title = "All places"
+    @metadata[:title] = "#{@page_title} in NYWalker"
     @places = Place.all.sort_by{ |place| place.instances.count }.reverse
     mustache :places_show
   end
 
   get "/places/by-name" do
     @page_title = "All places"
+    @metadata[:title] = "#{@page_title} in NYWalker"
     @places = Place.order(:name).all
     mustache :places_show
   end
@@ -117,6 +119,12 @@ class App
     if place.flagged
       @flags = Flag.where(object_type: "place").where(object_id: place.id).all
     end
+    @metadata[:creators] = [ { fullname: place.user.fullname_lastname_first} ]
+    @metadata[:title] = "#{@page_title} in NYWalker"
+    @metadata[:type] = "Dataset"
+    @metadata[:created] = place.added_on.to_s
+    @metadata[:modified] = place.added_on.to_s
+    @metadata[:source] = app_name
     mustache :place_show
   end
 

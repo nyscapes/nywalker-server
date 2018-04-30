@@ -57,6 +57,12 @@ class App
     index = @instances.index instance
     @previous_instance = @instances[index - 1] unless index == 0
     @next_instance = @instances[index + 1] unless index == @instances.count - 1
+    @metadata[:creators] = [ { fullname: instance.user.fullname_lastname_first} ]
+    @metadata[:title] = "#{@page_title} in NYWalker"
+    @metadata[:type] = "Dataset"
+    @metadata[:created] = instance.added_on.to_s
+    @metadata[:modified] = instance.modified_on.to_s
+    @metadata[:source] = app_name
     mustache :instance_show
   end
 

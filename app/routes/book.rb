@@ -8,6 +8,7 @@ class App
 
   get "/books" do
     @page_title = "All Books"
+    @metadata[:title] = "#{@page_title} in NYWalker"
     # books_cache = redis.hmget "book-list", "last-updated", "list"
     # @last_updated = last_updated(books_cache[0])
     # @books = JSON.parse(books_cache[1], symbolize_names: true)
@@ -64,6 +65,12 @@ class App
     # @instances = JSON.parse(instance_cache[1], symbolize_names: true)
     @json_file = book.slug
     @instances = Instance.all_sorted_for_book(book)
+    @metadata[:creators] = Instance.all_users_sorted_by_count(book).map{ |u| { fullname: User[u.user_id].fullname_lastname_first } },
+    @metadata[:title] = "#{@page_title} dataset in NYWalker"
+    @metadata[:type] = "Dataset"
+    @metadata[:created] = book.added_on.to_s
+    @metadata[:modified] = book.modified_on.to_s
+    @metadata[:source] = app_name
     mustache :book_show
   end
 

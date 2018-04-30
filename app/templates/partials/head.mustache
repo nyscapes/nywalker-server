@@ -7,12 +7,33 @@
   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"> -->
   <link href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" media="all" rel="stylesheet">
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-  <meta name="DC.title" content="{{page_title}} | {{app_name}}">
-  <meta name="DC.creator" content="Moacir P. de Sá Pereira">
-  <!-- DC.contributor, DC.date, DC.rights, DC.source -->
-
-  
-
+  {{#metadata}}
+    <link rel="canonical" href="{{url}}">
+    <meta name="DC.title" content="{{title}}">
+    <meta property="og:title" content="{{title}}">
+    {{#creators}}
+      <meta name="DC.creator" content="{{fullname}}">
+    {{/creators}}
+    <meta name="DC.description" content="{{description}}">
+    <meta name="twitter.description" content="{{description}}">
+    <meta property="og:description" content="{{description}}">
+    <meta name="DC.type" content="{{type}}">
+    <meta name="DC.created" content="{{created}}">
+    <meta name="DC.modified" content="{{modified}}">
+    <meta name="DC.date" content="{{modified}}">
+    <meta property="og:locale" content="{{locale}}">
+    <meta property="og:url" content="{{url}}">
+    {{#image}}
+      <meta property="og:image" content="{{url}}">
+      <meta property="og:image:type" content="{{type}}">
+      <meta property="og:image:height" content="{{height}}">
+      <meta property="og:image:width" content="{{width}}">
+      <meta name="twitter:image" content="{{url}}">
+    {{/image}}
+  {{/metadata}}
+  <meta name="twitter.card" content="summary">
+  <meta name="twitter.creator" content="@muziejus">
+  <meta name="DC.contributor" content="Sá Pereira, Moacir P. de">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
