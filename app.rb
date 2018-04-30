@@ -148,9 +148,9 @@ class App < Sinatra::Base
         url: "#{base_url}#{request.path_info}",
         image: {
           type: "image/png",
-          url: "#{base_url}/images/android-chrome-192x192.png",
-          width: 192,
-          height: 192
+          url: "https://i.imgur.com/pM4VGX0.png",
+          width: 386,
+          height: 386 
         }
         
       }
