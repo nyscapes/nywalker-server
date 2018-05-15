@@ -1,5 +1,11 @@
 class App
 
+  post "/reload-autofill" do
+    nicknames_list(Nickname.sorted_by_instance_count.map{ |n| { string: n.list_string, instance_count: n.instance_count } })
+    nicknames = nicknames_list.map{ |n| n[:string] }
+    { nicknames: nicknames }.to_json
+  end
+
   set :redis, Redis.new
   set :nicknames_list, Proc.new { Nickname.sorted_by_instance_count.map{ |n| { string: n.list_string, instance_count: n.instance_count } } }
 

@@ -78,7 +78,8 @@ class App
     end
     begin
       new_place.save
-      settings.nicknames_list << { string: new_place.nicknames.first.list_string, instance_count: 0 }
+      # Don't actually use settings.nicknames_list anymore.
+      # settings.nicknames_list << { string: new_place.nicknames.first.list_string, instance_count: 0 }
       if params[:form_source] == "modal"
         @place = new_place
         mustache :modal_place_saved, { layout: :naked }

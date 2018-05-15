@@ -1,4 +1,6 @@
 class App
+
+  
   module RakeMethods
 
     def self.cache_list_of_books(redis = Redis.new)
