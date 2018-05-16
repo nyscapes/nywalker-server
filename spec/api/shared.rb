@@ -26,6 +26,13 @@ RSpec.shared_context "api", shared_context: :metadata do
 
 end
 
+RSpec.shared_context "posting", shared_context: :metadata do
+  let(:user) { create :user }
+  let(:data) { { username: user.username, api_key: "api_key" } }
+  let(:data_json) { accept.merge "CONTENT_TYPE" => "application/vnd.api+json" }
+end
+
 RSpec.configure do |rspec|
   rspec.include_context "api", include_shared: true
+  rspec.include_context "posting", include_shared: true
 end
