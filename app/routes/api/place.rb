@@ -29,13 +29,16 @@ class App
       serialize_model(place).to_json
     end
 
-    post '/places' do
+    post '/places/:place_id' do
       if @data.nil? || @data.length == 0
         status 400
-        { "error": "some_error_with_payload" }.to_json
+        { "error": "no_request_payload" }.to_json
       else
-        puts @data
-        @data.to_json
+        place = Place[params[:place_id]]
+        404 if place.nil?
+        # puts @data
+        # @data.to_json
+        #
       end
     end
 
