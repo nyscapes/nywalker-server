@@ -1,3 +1,5 @@
+require "securerandom"
+
 class User < Sequel::Model
   plugin :validation_helpers
   plugin :secure_password
@@ -11,6 +13,11 @@ class User < Sequel::Model
     super
     validates_presence [:username, :email]
     validates_unique [:email]
+  end
+
+  def after_create
+    super
+    self.api_key = SecureRandom.base64 14
   end
 
   def has_key?(key)

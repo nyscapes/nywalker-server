@@ -1,6 +1,11 @@
 describe User do
 
-  context "When it is created, it"
+  context "When it is created, it" do
+    it "creates an api_key" do
+      user = create :noapikey
+      expect(user.api_key).to_not be_nil
+    end
+  end
 
   context "When it is saved, it"
 

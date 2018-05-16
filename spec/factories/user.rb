@@ -12,6 +12,7 @@ FactoryBot.define do
     lastname "Juice"
     password "beetlejuice"
     password_confirmation "beetlejuice"
+    api_key "api_key"
   end
 
   factory :admin, class: User do
@@ -22,6 +23,18 @@ FactoryBot.define do
     admin true
     password "blarg"
     password_confirmation "blarg"
+    api_key "api_key"
+  end
+
+  factory :noapikey, class: User do
+    name "Admin"
+    username "adminuser"
+    email "a@b.com"
+    # email { Faker::Internet.email }
+    admin true
+    password "blarg"
+    password_confirmation "blarg"
+    api_key nil
   end
 
 end
