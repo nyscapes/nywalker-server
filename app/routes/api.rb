@@ -79,6 +79,10 @@ class App
       status 200
     end
 
+    post '/' do
+      status 200
+    end
+
   # BOOK
   require_relative './api/book.rb'
 
