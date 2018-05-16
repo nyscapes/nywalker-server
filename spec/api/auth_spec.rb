@@ -9,17 +9,14 @@ describe "NYWalker API" do
   context "when POSTing" do
     let(:data_json) { accept.merge "CONTENT_TYPE" => "application/vnd.api+json" }
     let(:user) { create :user }
-    let(:redis) { Redis.new }
 
-    it "should give an error when the access token is wrong" do
-      redis.mset "#{user.username}_access_token", SecureRandom.urlsafe_base64
-      post apiurl + "/", { username: user.username, access_token: "hi!" }.to_json, data_json
+    it "should give an error when the api_key is wrong" do
+      post apiurl + "/", { username: user.username, api_key: "hi!" }.to_json, data_json
       expect(JSON.parse(last_response.body)["error"]).to eq "authentication_error"
     end
 
-    it "should 200 when the access token is correct" do
-      redis.mset "#{user.username}_access_token", "hi!"
-      post apiurl + "/", { username: user.username, access_token: "hi!" }.to_json, data_json
+    it "should 200 when the api_key is correct" do
+      post apiurl + "/", { username: user.username, api_key: "api_key" }.to_json, data_json
       expect(last_response.status).to eq 200
     end
 

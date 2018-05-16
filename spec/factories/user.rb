@@ -12,7 +12,7 @@ FactoryBot.define do
     lastname "Juice"
     password "beetlejuice"
     password_confirmation "beetlejuice"
-    api_key "api_key"
+    api_key { "api_key" }
   end
 
   factory :admin, class: User do
@@ -23,7 +23,6 @@ FactoryBot.define do
     admin true
     password "blarg"
     password_confirmation "blarg"
-    api_key "api_key"
   end
 
   factory :noapikey, class: User do
