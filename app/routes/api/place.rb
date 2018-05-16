@@ -29,7 +29,13 @@ class App
       serialize_model(place).to_json
     end
 
-    post '/places/:place_id' do
+    post '/places' do
+      # needs a name and a slug. Latter must be unique.
+      halt 400, { error: "invalid_type" }.to_json if @data[:type] != "place"
+      puts @data
+    end
+
+    patch '/places/:place_id' do
       place = Place[params[:place_id]]
       halt 404 if place.nil?
       # puts @data

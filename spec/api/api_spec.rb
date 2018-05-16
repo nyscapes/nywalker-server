@@ -13,5 +13,19 @@ describe "NYWalker API" do
     expect(last_response.status).to eq 200
   end
 
+  context "when posting" do
+    context "with no payload, it" do
+      it "fails" do
+        post apiurl + "/", {}, accept
+        expect(last_response.status).to eq 400
+      end
+
+      it "returns an error of 'no_request_payload'" do
+        post apiurl + "/", {}, accept
+        expect(JSON.parse(last_response.body)["error"]).to eq "no_request_payload"
+      end
+    end
+  end
+
 end
 
