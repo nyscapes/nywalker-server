@@ -30,16 +30,11 @@ class App
     end
 
     post '/places/:place_id' do
-      if @data.nil? || @data.length == 0
-        status 400
-        { "error": "no_request_payload" }.to_json
-      else
-        place = Place[params[:place_id]]
-        404 if place.nil?
-        # puts @data
-        # @data.to_json
-        #
-      end
+      place = Place[params[:place_id]]
+      halt 404 if place.nil?
+      # puts @data
+      # @data.to_json
+      #
     end
 
 

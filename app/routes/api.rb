@@ -57,6 +57,15 @@ class App
     before do
       halt 406 unless request.preferred_type.entry == mime_type(:api_json)
       @data = parse_request_body
+      if request.request_method == "POST"
+        if @data.nil? || @data.length == 0
+          halt 400, { "error": "no_request_payload" }.to_json
+        elsif redis.get("#{@data[:username]}_access_token") != @data[:access_token]
+        # Get authentication for posts.
+        # I expect a user and an access_token.
+          halt 400, { error: "authentication_error" }.to_json
+        end
+      end
       content_type :api_json
       @meta = {  
         copyright: "Copyright 2017 Moacir P. de Sá Pereira", 
