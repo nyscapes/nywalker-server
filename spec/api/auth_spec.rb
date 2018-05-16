@@ -38,13 +38,34 @@ describe "NYWalker API" do
         post apiurl + "/token", data, data_json
         expect(JSON.parse(last_response.body)["access_token"]).not_to be_empty
       end
+
+      it "sets the access token" do
+        redis = Redis.new
+        post apiurl + "/token", data, data_json
+        expect(JSON.parse(last_response.body)["access_token"]).to eq redis.get("beetlejuice_access_token")
+
+      end
     end
   end
 
   context "logging out" do
+    let(:user) { create(:user) }
+    let(:data) { { account_id: user.id, access_token: "secret!" }.to_json }
+    let(:data_json) { accept.merge "CONTENT_TYPE" => "application/vnd.api+json" }
+    let(:redis) { Redis.new }
+
+    before do
+      redis.set "#{user.username}_access_token", "secret!"
+    end
+
     it "sends a request to /revoke" do
       post apiurl + "/revoke", {}, accept
       expect(last_response.status).to eq 200
+    end
+
+    it "destroys the access token" do
+      post apiurl + "/revoke", data, data_json
+      expect(redis.get "#{user.username}-access-token").to be_nil
     end
   end
 end

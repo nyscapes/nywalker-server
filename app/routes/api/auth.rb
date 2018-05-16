@@ -1,3 +1,5 @@
+require 'securerandom'
+
 class App
   namespace '/api/v1' do
 
@@ -11,8 +13,10 @@ class App
           status 400
           error_invalid
         elsif user.authenticate(@data[:password]) == user
+          token = SecureRandom.urlsafe_base64
+          redis.set "#{user.username}_access_token", token
           status 200
-          { "access_token": "secret!", "account_id": user.id }.to_json
+          { access_token: token, account_id: user.id }.to_json
         else
           status 400
           error_invalid
