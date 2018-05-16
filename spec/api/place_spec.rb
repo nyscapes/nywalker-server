@@ -44,13 +44,6 @@ describe "NYWalker API - /places" do
 
   context "posting" do
 
-    context "with no place_id" do
-      it "404s" do
-        post apiurl + "/places", {}, accept
-        expect(last_response.status).to eq 404
-      end
-    end
-
     context "with no payload" do
       it "fails" do
         post apiurl + "/places/#{place.id}", {}, accept
@@ -66,7 +59,6 @@ describe "NYWalker API - /places" do
     end
 
     context "with a payload" do
-      # let(:data) { '{"lat": 10, "lon": 10}' }
       let(:data) { { lat: 10, lon: 10 }.to_json }
       let(:data_json) { accept.merge "CONTENT_TYPE" => "application/vnd.api+json" }
 
