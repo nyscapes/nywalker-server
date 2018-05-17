@@ -21,4 +21,10 @@ FactoryBot.define do
     cover "http://whitehouse.gov/img.png"
     added_on Time.now
   end
+
+  factory :fake_book, class: Book do
+    title { Faker::Book.title }
+    slug { rand.to_s.split(".").last }
+    author { Faker::Book.author }
+  end
 end

@@ -10,4 +10,9 @@ FactoryBot.define do
     user
   end
 
+  factory :fake_place, class: Place do
+    name { Faker::Address.city }
+    slug { "#{Faker::Address.city}-#{rand(10000)}" }.to_s.to_url
+  end
+
 end
