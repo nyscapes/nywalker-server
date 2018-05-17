@@ -19,6 +19,10 @@ class App
         JSON.parse(request.body.read, symbolize_names: true)
       end
 
+      def model
+        @model ||= request.path_info.gsub(/^\/api\/v1\/(\w*)(\/*.*$)/, '\1' ).singularize.classify.constantize
+      end
+
       def serialize_models(models, options = {})
         options[:is_collection] = true
         options[:meta] = @meta
@@ -56,6 +60,7 @@ class App
 
     before do
       halt 406 unless request.preferred_type.entry == mime_type(:api_json)
+      @model = model unless request.path_info == "/api/v1/" # test "/" route
       @data = parse_request_body
       if request.request_method =~ /(POST|PATCH|DELETE)/
         if @data.nil? || @data.length == 0
@@ -83,6 +88,27 @@ class App
 
     post '/' do
       status 200
+    end
+
+    %w(books places users instances nicknames).each do |route|
+
+      get "/#{route}" do
+        #if params[:q] # do a query
+        if params[:data_page] && params[:page_size]
+          build_total_pages(@model, params[:page_size])
+          items = paginator(@model.all, params)
+          serialize_models(items).to_json
+        else
+          serialize_models(@model.all).to_json
+        end
+      end
+
+      get "/#{route}/:id" do
+        item = @model[params[:id].to_i]
+        not_found if item.nil?
+        serialize_model(item).to_json
+      end
+      
     end
 
   # BOOK

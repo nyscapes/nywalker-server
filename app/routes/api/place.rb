@@ -1,7 +1,6 @@
 class App
   namespace '/api/v1' do
 
-  require_relative 'all'
 
     post '/places' do
       # needs a name and a slug. Latter must be unique.
