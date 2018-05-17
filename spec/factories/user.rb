@@ -3,8 +3,6 @@ FactoryBot.define do
   factory :user do
     name "Beetle Juice"
     username "beetlejuice"
-    # name { Faker::Name.name }
-    # username { Faker::Name.name }
     email { Faker::Internet.email }
     admin false
     added_on Time.now
@@ -13,6 +11,14 @@ FactoryBot.define do
     password "beetlejuice"
     password_confirmation "beetlejuice"
     api_key { "api_key" }
+  end
+
+  factory :fake_user, class: User do
+    name { Faker::Name.first_name }
+    username { "#{name.downcase}-#{rand}" }
+    email { "#{username}@example.com" }
+    password "beetlejuice"
+    password_confirmation { password }
   end
 
   factory :admin, class: User do
