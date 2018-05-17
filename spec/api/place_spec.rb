@@ -1,5 +1,5 @@
-require_relative './shared.rb'
-require_relative './shared_examples.rb'
+require "shared/contexts"
+require "shared/routes"
 
 describe "NYWalker API - /places" do
   context "in general" do
