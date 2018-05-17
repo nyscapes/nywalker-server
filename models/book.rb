@@ -11,6 +11,14 @@ class Book < Sequel::Model
     validates_unique :slug, message: "Book slug is not unique"
   end
 
+  def after_create
+    self.added_on = Time.now
+  end
+
+  def after_save
+    self.modified_on = Time.now
+  end
+
   def total_pages
     instances = Instance.where(book: self).map(:page).sort
     instances.length == 0 ? 0 : instances.last - instances.first

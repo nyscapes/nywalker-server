@@ -13,12 +13,12 @@ class Place < Sequel::Model
 
   def after_create
     super
-    # Add a time
     self.added_on = Time.now
   end
 
   def after_save
     super
+    self.modified_on = Time.now
     if Nickname.where(place: self, name: self.name).all.length < 1
       Nickname.create name: self.name, place: self, instance_count: 0
     end

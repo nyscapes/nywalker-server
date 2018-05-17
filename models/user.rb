@@ -18,6 +18,11 @@ class User < Sequel::Model
   def after_create
     super
     self.api_key = SecureRandom.base64 14
+    self.added_on = Time.now
+  end
+
+  def after_save
+    self.modified_on = Time.now
   end
 
   def has_key?(key)
