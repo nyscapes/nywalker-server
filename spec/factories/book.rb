@@ -8,7 +8,6 @@ FactoryBot.define do
     year 2015
     url "http://whitehouse.gov"
     cover "http://whitehouse.gov/img.png"
-    added_on Time.now
   end
 
   factory :second_book, class: Book do

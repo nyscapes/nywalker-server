@@ -5,7 +5,6 @@ FactoryBot.define do
     username "beetlejuice"
     email { Faker::Internet.email }
     admin false
-    added_on Time.now
     firstname "Beetle"
     lastname "Juice"
     password "beetlejuice"
