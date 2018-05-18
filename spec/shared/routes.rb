@@ -84,7 +84,7 @@ RSpec.shared_examples "a route" do |table, user|
 
   end
 
-  describe "PATCH #{table}" do
+  describe "PATCH #{table}/:id" do
     include_context "posting"
     let(:item) { create table.singularize.to_sym }
     let(:payload) do
@@ -94,17 +94,22 @@ RSpec.shared_examples "a route" do |table, user|
       }.to_json
     end
 
-    it "should have an id"
+    it "should have a data id that matches the api path id" do
+      bad_payload = JSON.parse(payload, symbolize_names: true)
+      bad_payload[:id] = nil
+      patch apiurl + "/#{table}/#{item.id}", bad_payload.to_json, data_json
+      expect(last_response.status).to eq 400
+    end
 
-    it "should 404 without an id" do
-      patch apiurl + "/#{table}/1", payload, data_json
+    it "should 404 if the id does not exist" do
+      bad_payload = JSON.parse(payload, symbolize_names: true)
+      bad_payload[:id] = 1
+      patch apiurl + "/#{table}/1", bad_payload.to_json, data_json
       expect(last_response.status).to eq 404
     end
 
     it "should require that the type match '#{table}'" do
       patch apiurl + "/#{table}/#{item.id}", payload.sub(/#{table}/, "boogie"), data_json
-      puts last_response.body
-      puts last_response.status
       expect(JSON.parse(last_response.body)["error"]).to eq "invalid_type"
     end
 
@@ -113,11 +118,26 @@ RSpec.shared_examples "a route" do |table, user|
       expect(last_response.status).to eq 200
     end
 
-    it "should update the resource"
+    it "should update the resource" do
+      patch apiurl + "/#{table}/#{item.id}", payload, data_json
+      attr = JSON.parse(payload, symbolize_names: true)[:attributes]
+      updated_item = table.singularize.classify.constantize[item.id]
+      expect(attr.select{ |k, v| attr[k] != updated_item[k] }.empty?).to be true
+    end
 
-    it "should return the updated resource"
+    it "should return the updated resource" do
+      patch apiurl + "/#{table}/#{item.id}", payload, data_json
+      attr = JSON.parse(payload, symbolize_names: true)[:attributes]
+      expect(attr.select{ |k, v| attr[k] != JSON.parse(last_response.body, symbolize_names: true)[:data][:attributes][k] }.empty?).to be true
+    end
 
-    it "should not interpret missing attributes as nulls"
+    it "should not interpret missing attributes as nulls" do
+      patch apiurl + "/#{table}/#{item.id}", payload, data_json
+      attr = JSON.parse(payload, symbolize_names: true)[:attributes]
+      returned_object = JSON.parse(last_response.body, symbolize_names: true)[:data][:attributes]
+      unupdated_attrs = returned_object.keys.select{ |k| k unless attr.keys.include? k }
+      expect(unupdated_attrs.select{ |k| !returned_object[k].nil? }.empty?).to be false
+    end
 
   end
 

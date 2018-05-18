@@ -135,6 +135,7 @@ class NYWalkerServer
       patch "/#{route}/:id" do
         begin
         halt 400, { error: "invalid_type" }.to_json if @data[:type] != route
+        halt 400, { error: "id_does_not_match_supplied_id" }.to_json if @data[:id] != params[:id].to_i
         item = @model[params[:id].to_i]
         not_found if item.nil?
         @data[:attributes].each do |key, value|
@@ -144,7 +145,6 @@ class NYWalkerServer
         serialize_model(item).to_json
         end
       end
-
 
       delete "/#{route}/:id" do
         item = @model[params[:id].to_i]
