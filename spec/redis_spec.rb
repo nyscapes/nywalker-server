@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 describe "Redis use" do
 
-
+it "is accessible as 'redis'" do  
+  expect(NYWalkerServer.settings.redis).to be_an_instance_of Redis  
+end
 
   describe "NYWalkerServer::Redis::#cache" do
     # This is not my code, so hold off on testing.
