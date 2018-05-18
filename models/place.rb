@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Place < Sequel::Model
   plugin :validation_helpers
 

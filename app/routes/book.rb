@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'geo_ruby/shp'
 require 'dbf'
 require 'zip'
