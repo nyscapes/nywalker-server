@@ -51,6 +51,16 @@ RSpec.shared_examples "a route" do |table, user|
 
   end
 
+  describe "POST #{table}" do
+
+    it "should require that the type match '#{table}'"
+
+    it "should create an instance of a #{table.singularize.capitalize}"
+
+    it "should return the new instance of a #{table.singularize.capitalize}"
+
+  end
+  
 
   
 end
