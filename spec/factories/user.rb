@@ -13,6 +13,11 @@ FactoryBot.define do
     api_key { "api_key" }
   end
 
+  factory :edit_user, class: User do
+    firstname "Zigmorf"
+    lastname "Zigmarian"
+  end
+
   factory :fake_user, class: User do
     name { Faker::Name.first_name }
     username { "#{name.downcase}-#{rand}" }

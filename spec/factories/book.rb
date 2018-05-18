@@ -10,6 +10,10 @@ FactoryBot.define do
     cover "http://whitehouse.gov/img.png"
   end
 
+  factory :edit_book, class: Book do
+    author "Michael Pence"
+  end
+
   factory :second_book, class: Book do
     author "Jack Reed"
     title "Moscow Reds"

@@ -16,4 +16,8 @@ FactoryBot.define do
     book
   end
 
+  factory :edit_instance, class: Instance do
+    page 2
+  end
+
 end
