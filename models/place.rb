@@ -6,6 +6,11 @@ class Place < Sequel::Model
   one_to_many :nicknames
   one_to_many :instances
 
+  def before_validation
+    super
+    self.slug = self.name.to_url
+  end
+
   def validate
     super
     validates_presence [:name, :slug]
@@ -87,7 +92,7 @@ class Place < Sequel::Model
 
   def before_destroy
     if self.instances.count > 0
-      raise Sequel::Error "There are instances attached to this place. Cannot delete"
+      raise Sequel::Error, "There are instances attached to this place. Cannot delete"
     else
       self.nicknames_dataset.destroy
     end

@@ -1,7 +1,15 @@
 # frozen_string_literal: true
+
+require "shared/slug"
+
 describe Place do
   let(:place){ create :place }
 
+  context "when it is saved, it" do
+    it_should_behave_like "it has a slug", "place"
+  end
+  
+  
   context "When it is created, it" do
     it "has one nickname" do
       expect(place.nicknames.length).to eq 1
@@ -22,7 +30,7 @@ describe Place do
   context "When it is destroyed, it" do
     it "fails if there are instances" do
       create :instance, place: place
-      expect{ place.destroy }.to raise_error(/Cannot delete/)
+      expect{ place.destroy }.to raise_error Sequel::Error
     end
   end
 

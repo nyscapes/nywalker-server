@@ -2,7 +2,6 @@
 FactoryBot.define do
   factory :place do
     name { Faker::Address.city }
-    slug { "#{Faker::Address.city}-#{rand(10000)}" }.to_s.to_url
     lat { Faker::Address.latitude }
     lon { Faker::Address.longitude }
     confidence "3"
@@ -12,7 +11,6 @@ FactoryBot.define do
 
   factory :fake_place, class: Place do
     name { Faker::Address.city }
-    slug { "#{Faker::Address.city}-#{rand(10000)}" }.to_s.to_url
   end
 
 end

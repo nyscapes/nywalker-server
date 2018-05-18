@@ -6,9 +6,14 @@ class Book < Sequel::Model
   one_to_many :instances
   many_to_many :users, left_key: :book_id, right_key: :user_id, join_table: :book_users
 
+  def before_validation
+    super
+    self.slug = self.name.to_url
+  end
+
   def validate
     super
-    validates_presence [:author, :title, :slug]
+    validates_presence [:author, :title, :slug, :year]
     validates_unique :slug, message: "Book slug is not unique"
   end
 
@@ -18,6 +23,10 @@ class Book < Sequel::Model
 
   def after_save
     self.modified_on = Time.now
+  end
+
+  def name
+    "#{self.title} (#{self.year})"
   end
 
   def total_pages

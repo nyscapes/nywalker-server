@@ -2,7 +2,6 @@
 FactoryBot.define do
 
   factory :book do
-    slug "moscow-blues"
     author "Donald Trump"
     title "Moscow Blues"
     isbn "978nnnnnnnnn"
@@ -12,7 +11,6 @@ FactoryBot.define do
   end
 
   factory :second_book, class: Book do
-    slug "moscow-reds"
     author "Jack Reed"
     title "Moscow Reds"
     isbn "978nnnnnnnnm"
@@ -24,7 +22,7 @@ FactoryBot.define do
 
   factory :fake_book, class: Book do
     title { Faker::Book.title }
-    slug { rand.to_s.split(".").last }
     author { Faker::Book.author }
+    year { rand 1600..2018 }
   end
 end
