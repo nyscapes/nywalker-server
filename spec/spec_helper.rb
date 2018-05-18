@@ -2,7 +2,7 @@
 ENV['RACK_ENV'] = 'test'
 
 require 'simplecov'
-require File.expand_path '../../app.rb', __FILE__
+require File.expand_path '../../nywalker-server.rb', __FILE__
 require 'pp'
 require 'rack/test'
 require 'factory_bot'

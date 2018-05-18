@@ -2,7 +2,7 @@
 
 # From: https://gist.github.com/jeffreyiacono/1772989
 
-require './app'
+require './nywalker-server'
 
 desc 'Create redis cache of books'
 task :cache_books do

@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require './app'
+require './nywalker-server'
 Place.each do |p|
   if p.geom.nil?
     unless p.lat.nil? || p.lon.nil?

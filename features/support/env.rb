@@ -7,7 +7,7 @@ require 'capybara/cucumber'
 require 'factory_bot'
 require 'faker'
 
-require_relative "../../app"
+require_relative "../../nywalker-server"
 
 Capybara.app = NYWalkerServer
 

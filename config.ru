@@ -1,4 +1,4 @@
-require './app'
+require './nywalker-server'
 # use Rack::Deflater
 
 NYWalkerServer::RakeMethods.compile_js
