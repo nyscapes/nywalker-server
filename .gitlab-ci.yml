@@ -1,0 +1,4 @@
+dependency_scanning:
+  allow_failure: true
+  artifacts: 
+    paths: [gl-dependency-scanning-report.json]
