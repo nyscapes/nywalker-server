@@ -7,3 +7,4 @@ before_script:
     - psql -c 'create database travis_ci_test;' -U postgres
     - psql -c 'create user moacir;' -U postgres
     - psql travis_ci_test < db/schema.dmp
+    - sequel -m db/migrations postgres://localhost:5432/travis_ci_test
