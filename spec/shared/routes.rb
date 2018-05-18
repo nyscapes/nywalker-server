@@ -52,12 +52,51 @@ RSpec.shared_examples "a route" do |table, user|
   end
 
   describe "POST #{table}" do
+    include_context "posting"
 
-    it "should require that the type match '#{table}'"
+    let(:payload) do 
+      payload = { type: table, 
+                   attributes: attributes_for(table.singularize.to_sym)
+                 }
+      if user == "user"
+        owner = create :user
+        payload[:attributes][:user_id] = owner.id
+      end
+      payload.to_json
+    end
 
-    it "should create an instance of a #{table.singularize.capitalize}"
+    it "should require that the type match '#{table}'" do
+      post apiurl + "/#{table}", payload.sub(/#{table}/, "boogie"), data_json
+      expect(JSON.parse(last_response.body)["error"]).to eq "invalid_type"
+    end
 
-    it "should return the new instance of a #{table.singularize.capitalize}"
+    it "should create an instance of a #{table.singularize.capitalize} & return it" do
+      post apiurl + "/#{table}", payload, data_json
+      expect(JSON.parse(last_response.body)["data"]["id"].to_i).to eq table.singularize.classify.constantize.last.id
+    end
+
+    it "catches the validation error if attributes are missing" do
+      bad_payload = { type: table, attributes: {} }
+      post apiurl + "/#{table}", bad_payload.to_json, data_json
+      expect(JSON.parse(last_response.body)["error"]).to eq "Sequel::ValidationFailed"
+    end
+
+  end
+
+  describe "DELETE #{table}/:id" do
+    include_context "posting"
+
+    let(:item) { create table.singularize.to_sym }
+
+    it "should respond with a 204" do
+      delete apiurl + "/#{table}/#{item.id}", {}, accept
+      expect(last_response.status).to eq 204
+    end
+
+    it "should delete the item" do
+      delete apiurl + "/#{table}/#{item.id}", {}, accept
+      expect(table.singularize.classify.constantize[item.id]).to be_nil
+    end
 
   end
   

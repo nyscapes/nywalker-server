@@ -121,6 +121,30 @@ class App
         not_found if item.nil?
         serialize_model(item).to_json
       end
+
+      post "/#{route}" do
+        begin
+        halt 400, { error: "invalid_type" }.to_json if @data[:type] != route
+        item = @model.new
+        @data[:attributes].each do |key, value|
+          item[key.to_sym] = value
+        end
+        item.save
+        serialize_model(item).to_json
+        rescue Sequel::ValidationFailed => e
+          halt 401, { error: e.class, message: e.message }.to_json
+        end
+      end
+
+      delete "/#{route}/:id" do
+        item = @model[params[:id].to_i]
+        not_found if item.nil?
+        if item.destroy
+          status 204 # No Content
+        else
+          halt 401, { error: "destruction_error", message: "desctruction_error" }.to_json
+        end
+      end
       
     end
 

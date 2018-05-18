@@ -17,13 +17,6 @@ describe "NYWalker API - /places" do
 
     context "with badly formed data" do
 
-      it "gives a invalid_type error if the type is not 'place'" do
-        post apiurl + "/places", place_data.sub(/place/, "boogie"), data_json
-        expect(JSON.parse(last_response.body)["error"]).to eq "invalid_type"
-      end
-
-      it "catches the validation error if attributes are missing"
-
       it "catches the validation error if the slug is not unique"
     end
 
@@ -47,10 +40,7 @@ describe "NYWalker API - /places" do
   end
 
   context "deleting" do
-    include_context "posting"
-
-    it "deletes the place"
-
+    it "should catch errors if there are still instances attached."
   end
 
 end
