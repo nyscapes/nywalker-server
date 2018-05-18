@@ -1,16 +1,10 @@
 # frozen_string_literal: true
 class BaseSerializer
-# frozen_string_literal: true
   include JSONAPI::Serializer
-# frozen_string_literal: true
 
-# frozen_string_literal: true
   def self_link
-# frozen_string_literal: true
     "/api/v1#{super}"
-# frozen_string_literal: true
   end
-# frozen_string_literal: true
 end
 
 class BookSerializer < BaseSerializer
