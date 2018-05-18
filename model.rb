@@ -32,6 +32,18 @@ DB.extension(:pagination) # load paginator
 # The local install requires running `createdb nywalker`, assuming you name
 # the database "nywalker".
 
+class Sequel::Model
+
+  def create_slug
+    unless self.name.nil? || self.name.length == 0
+      self.slug = self.name.to_url
+    else
+      raise Sequel::ValidationFailed, "Cannot create slug"
+    end
+  end
+
+end
+
 require_relative 'models/instance'
 require_relative 'models/place'
 require_relative 'models/book'

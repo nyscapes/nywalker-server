@@ -8,7 +8,7 @@ class Book < Sequel::Model
 
   def before_validation
     super
-    self.slug = self.name.to_url
+    create_slug
   end
 
   def validate
