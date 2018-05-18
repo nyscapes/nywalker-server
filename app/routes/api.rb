@@ -76,14 +76,10 @@ class App
       if request.request_method =~ /(POST|PATCH|DELETE)/
         # Worry about authentication later since my head hurts.
         # api_authenticate!
+      end
+      if request.request_method =~ /(POST|PATCH)/
         if @data.nil? || @data.length == 0
-          halt 400, { "error": "no_request_payload" }.to_json
-        # else
-        #   user = User.where(username: @data[:username]).first
-        #   halt 400, { error: "authentication_error" }.to_json if user.nil?
-        #   if [:api_key] != @data[:api_key]
-        #     halt 400, { error: "authentication_error" }.to_json if user.nil?
-        #   end
+          halt 400, { error: "no_request_payload", request_method: request.request_method }.to_json
         end
       end
       content_type :api_json
