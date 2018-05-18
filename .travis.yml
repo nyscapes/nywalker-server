@@ -1,10 +1,17 @@
 language: ruby
 rvm:
   - 2.3.1
+# https://gis.stackexchange.com/questions/252609/could-not-access-file-libdir-postgis-2-3-on-travis-installation
+# https://github.com/travis-ci/travis-ci/issues/6972
 services:
-    - postgresql
+  - postgresql
+addons:
+  postgresql: "10.3"
+sudo: true
 before_script:
-    - psql -U postgres -c "create extension postgis"
-    - psql -c 'create database travis_ci_test;' -U postgres
-    - psql -c 'create user moacir;' -U postgres
-    - psql travis_ci_test < db/schema.dmp
+  - sudo apt-get -qq update
+  - sudo apt-get install postgresql-10.3-postgis-2.3 postgis -y -q
+  - psql -U postgres -c "create extension postgis"
+  - psql -c 'create database travis_ci_test;' -U postgres
+  - psql -c 'create user moacir;' -U postgres
+  - psql travis_ci_test < db/schema.dmp
