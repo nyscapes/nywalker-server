@@ -3,7 +3,7 @@ require "net/http"
 require "uri"
 require "jwt"
 
-class App
+class NYWalkerServer
   namespace '/api/v1' do
 
   end

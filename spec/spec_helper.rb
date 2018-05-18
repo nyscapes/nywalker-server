@@ -31,7 +31,7 @@ require 'active_support/hash_with_indifferent_access'
 module RSpecMixin
   include Rack::Test::Methods
   # def app() described_class end
-  def app() App end
+  def app() NYWalkerServer end
 end
 
 RSpec.configure do |config|

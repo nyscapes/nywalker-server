@@ -7,13 +7,13 @@ require './app'
 desc 'Create redis cache of books'
 task :cache_books do
   redis = Redis.new
-  App::RakeMethods.cache_list_of_books(redis)
+  NYWalkerServer::RakeMethods.cache_list_of_books(redis)
 end
 
 desc 'Create redis cache of instance'
 task :cache_instances do
   redis = Redis.new
-  App::RakeMethods.cache_instances_of_all_books(redis)
+  NYWalkerServer::RakeMethods.cache_instances_of_all_books(redis)
 end
 
 desc 'Resync instance_counts for Nicknames'
@@ -125,7 +125,7 @@ task :jsonify do
   # puts "[#{Time.now}]: Starting run on #{place_count} places"
   if json_counts[:places] != place_count
     t1 = Time.now
-    places = App::RakeMethods.build_places(Instance.all)
+    places = NYWalkerServer::RakeMethods.build_places(Instance.all)
     # puts "[#{Time.now}]: Built all places."
     File.open("public/json/all_places.json","w") do |f|
       f.write(places.to_json)
@@ -134,7 +134,7 @@ task :jsonify do
     Book.each do |book|
       @book = book
       # puts "[#{Time.now}]: Starting run on #{book.title}"
-      places = App::RakeMethods.build_places(Instance.where(book: book).all)
+      places = NYWalkerServer::RakeMethods.build_places(Instance.where(book: book).all)
       # puts "[#{Time.now}]: Built all places for #{book.title}."
       File.open("public/json/#{book.slug}.json", "w") do |f|
         f.write(places.to_json)
@@ -158,15 +158,15 @@ namespace :assets do
 
   desc 'Compile JS assets'
   task :compile_js do
-    App::RakeMethods.compile_js
+    NYWalkerServer::RakeMethods.compile_js
     puts "Compiled JS assets"
   end
   
   desc 'Compile CSS assets'
   task :compile_css do
-    sprockets = App.settings.sprockets
+    sprockets = NYWalkerServer.settings.sprockets
     asset = sprockets['application.css']
-    outpath = File.join(App.settings.assets_path)
+    outpath = File.join(NYWalkerServer.settings.assets_path)
     outfile = Pathname.new(outpath).join('application.css')
 
     FileUtils.mkdir_p outfile.dirname

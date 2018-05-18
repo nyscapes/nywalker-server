@@ -25,7 +25,7 @@ require "redis"
 
 require_relative "./model"
 
-class App < Sinatra::Base
+class NYWalkerServer < Sinatra::Base
  
   # use Rack::Session::Pool, cookie_only: false # use this instead of "enable :sessions"
   use Rack::Session::Cookie, secret: ENV['COOKIE'], expire_after: 2592000
@@ -46,7 +46,7 @@ class App < Sinatra::Base
   set :mustache, {
     :templates => "#{base}/app/templates",
     :views => "#{base}/app/views",
-    :namespace => App
+    :namespace => NYWalkerServer
   }
 
   set :sprockets, Sprockets::Environment.new(root)

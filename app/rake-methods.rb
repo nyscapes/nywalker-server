@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class App
+class NYWalkerServer
 
   
   module RakeMethods
@@ -24,7 +24,7 @@ class App
 
     def self.cache_instances_of_all_books(redis = Redis.new)
       Book.each do |book|
-        App::RakeMethods.cache_list_of_instances(book, redis)
+        NYWalkerServer::RakeMethods.cache_list_of_instances(book, redis)
       end
     end
 
@@ -63,9 +63,9 @@ class App
     end
 
     def self.compile_js
-      sprockets = App.settings.sprockets
+      sprockets = NYWalkerServer.settings.sprockets
       asset = sprockets['application.js']
-      outpath = File.join(App.settings.assets_path)
+      outpath = File.join(NYWalkerServer.settings.assets_path)
       outfile = Pathname.new(outpath).join('application.js')
 
       FileUtils.mkdir_p outfile.dirname

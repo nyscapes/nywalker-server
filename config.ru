@@ -1,13 +1,13 @@
 require './app'
 # use Rack::Deflater
 
-App::RakeMethods.compile_js
+NYWalkerServer::RakeMethods.compile_js
 
-map App.assets_prefix do
-  run App.sprockets
+map NYWalkerServer.assets_prefix do
+  run NYWalkerServer.sprockets
 end
 
 map "/" do
-  run App
+  run NYWalkerServer
 end
 

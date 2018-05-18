@@ -9,7 +9,7 @@ require 'faker'
 
 require_relative "../../app"
 
-Capybara.app = App
+Capybara.app = NYWalkerServer
 
 World(FactoryBot::Syntax::Methods)
 FactoryBot.find_definitions

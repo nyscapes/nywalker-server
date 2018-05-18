@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class App
+class NYWalkerServer
   namespace '/api/v1' do
 
     #set :scopes, { } # This causes a sinatra error anyway, so who knows.

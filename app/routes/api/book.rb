@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class App
+class NYWalkerServer
 # frozen_string_literal: true
   namespace '/api/v1' do
 # frozen_string_literal: true

@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class App
+class NYWalkerServer
   module Views
     class Layout < Mustache
     	include ViewHelpers

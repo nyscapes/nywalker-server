@@ -3,7 +3,7 @@ require 'geo_ruby/shp'
 require 'dbf'
 require 'zip'
 
-class App
+class NYWalkerServer
 
   # ALL
 

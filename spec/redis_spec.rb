@@ -1,17 +1,15 @@
 # frozen_string_literal: true
 describe "Redis use" do
 
-  it "is accessible as 'redis'" do
-    expect(App.settings.redis).to be_an_instance_of Redis
-  end
 
-  describe "App::Redis::#cache" do
+
+  describe "NYWalkerServer::Redis::#cache" do
     # This is not my code, so hold off on testing.
   end
 
   describe "#nicknames_list" do
     let(:user){ create :user }
-    let(:nick_list){ App.nicknames_list }
+    let(:nick_list){ NYWalkerServer.nicknames_list }
     
     it "returns an Array" do
       expect(nick_list).to be_an Array

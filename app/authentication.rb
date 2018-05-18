@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require "rest-client"
 
-class App
+class NYWalkerServer
 
   def get_access_token_from_GitHub(session_code)
     result = RestClient.post('https://github.com/login/oauth/access_token',

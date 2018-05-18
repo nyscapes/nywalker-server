@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class App
+class NYWalkerServer
 
   get '/login' do
     @page_title = "Login"

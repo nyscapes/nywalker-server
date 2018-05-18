@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class App
+class NYWalkerServer
 
   post "/reload-autofill" do
     nicknames_list(Nickname.sorted_by_instance_count.map{ |n| { string: n.list_string, instance_count: n.instance_count } })
