@@ -18,4 +18,4 @@ before_script:
   - psql -U postgres -c 'create database travis_ci_test'
   - psql -U postgres -d travis_ci_test -c 'create extension postgis'
   # - psql -c 'create user moacir;' -U postgres
-  # - psql travis_ci_test < db/schema.dmp
+  - psql travis_ci_test < db/schema.dmp
