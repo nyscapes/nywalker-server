@@ -3,7 +3,7 @@
 class App
   namespace '/api/v1' do
 
-    set :scopes, { }
+    #set :scopes, { } # This causes a sinatra error anyway, so who knows.
 
     configure do
       mime_type :api_json, 'application/vnd.api+json'
