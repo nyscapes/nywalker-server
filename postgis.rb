@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require './app'
 Place.each do |p|
   if p.geom.nil?

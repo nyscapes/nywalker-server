@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # This file could be duplicated and renamed to puma.rb
 
 # Start|Stop|Restart the app with:

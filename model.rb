@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'sequel'
 require 'sequel/extensions/pagination'
 require 'will_paginate'
