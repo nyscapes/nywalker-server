@@ -3,9 +3,12 @@ require "shared/contexts"
 require "shared/routes"
 
 describe "NYWalker API - /users" do
-  context "in general" do
-    it_should_behave_like "a route", "users"
-  end
+  #
+  # Don't sweat this too much, as users are falling out of the api.
+  #
+  # context "in general" do
+  #   it_should_behave_like "a route", "users"
+  # end
 
   context "querying for a user" do
     include_context "api"
