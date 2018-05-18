@@ -57,11 +57,6 @@ class Place < Sequel::Model
     end
   end
   
-  # def demolish!
-  #   self.nicknames.each{ |n| n.destroy! }
-  #   self.destroy!
-  # end
-
   # def merge(oldslug)
   #   oldplace = Place.first slug: oldslug
   #   if oldplace.nil?
@@ -92,7 +87,7 @@ class Place < Sequel::Model
 
   def before_destroy
     if self.instances.count > 0
-      raise "There are instances attached to this place. Cannot delete"
+      raise Sequel::Error "There are instances attached to this place. Cannot delete"
     else
       self.nicknames_dataset.destroy
     end
