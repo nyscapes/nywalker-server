@@ -67,6 +67,10 @@ describe Instance do
   describe "Queries" do
     let(:book){ create :book }
 
+    before do
+      book.update(modified_on: Time.now, added_on: Time.now)
+    end
+
     describe "#all_sorted_for_book(book)" do
       it "requires a Book passed to it" do
         expect{Instance.all_sorted_for_book("string")}.to raise_error ArgumentError

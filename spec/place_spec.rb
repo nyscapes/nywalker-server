@@ -40,6 +40,7 @@ describe Place do
     let(:second_place) { create :place }
 
     before(:each) do
+      place.update(modified_on: Time.now, added_on: Time.now)
       create_list :instance, 2, book: book, place: place, text: "Bingo"
       create_list :instance, 2, book: second_book, place: place, text: "Bingo"
       create_list :instance, 4, book: book, place: place, text: "Zagmorf"
