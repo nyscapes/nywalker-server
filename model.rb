@@ -16,11 +16,13 @@ if ENV['RACK_ENV'] == 'test'
   DB = Sequel.connect(ENV['TEST_DATABASE_URL'])
   Sequel.extension :migration
   Sequel::Migrator.check_current(DB, 'db/migrations')
+  Sequel::Model.plugin :json_serializer
 else
   if ENV['DATABASE_URL']
     DB = Sequel.connect(ENV['DATABASE_URL'])
     Sequel.extension :migration
     Sequel::Migrator.check_current(DB, 'db/migrations')
+    Sequel::Model.plugin :json_serializer
     puts "Connected to #{ENV['DATABASE_URL']}"
   else
     raise "ENV['DATABASE_URL'] must be set. Edit your '.env' file to do so."
