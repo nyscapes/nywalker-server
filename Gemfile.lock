@@ -85,6 +85,7 @@ GEM
     json (2.1.0)
     jsonapi-serializers (1.0.0)
       activesupport
+    jwt (2.1.0)
     launchy (2.4.3)
       addressable (~> 2.3)
     listen (3.1.5)
@@ -219,6 +220,7 @@ DEPENDENCIES
   guard-bundler
   guard-rspec
   jsonapi-serializers
+  jwt
   launchy
   mustache-sinatra
   pg

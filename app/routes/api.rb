@@ -1,5 +1,9 @@
+# frozen_string_literal: true
+
 class App
   namespace '/api/v1' do
+
+    set :scopes, { }
 
     configure do
       mime_type :api_json, 'application/vnd.api+json'
@@ -56,6 +60,13 @@ class App
         collection.paginate(page: page, per_page: page_size)
       end
       
+      def api_authenticate!
+        supplied_token = String(request.env['HTTP_AUTHORIZATION']).slice(7..-1)
+        @auth_payload, @auth_header = JsonWebToken.verify(supplied_token)
+      rescue JWT::DecodeError => e
+        halt 401, { error: e.class, message: e.message }.to_json
+      end
+
     end
 
     before do
@@ -63,14 +74,16 @@ class App
       @model = model unless request.path_info == "/api/v1/" # test "/" route
       @data = parse_request_body
       if request.request_method =~ /(POST|PATCH|DELETE)/
+        # Worry about authentication later since my head hurts.
+        # api_authenticate!
         if @data.nil? || @data.length == 0
           halt 400, { "error": "no_request_payload" }.to_json
-        else
-          user = User.where(username: @data[:username]).first
-          halt 400, { error: "authentication_error" }.to_json if user.nil?
-          if [:api_key] != @data[:api_key]
-            halt 400, { error: "authentication_error" }.to_json if user.nil?
-          end
+        # else
+        #   user = User.where(username: @data[:username]).first
+        #   halt 400, { error: "authentication_error" }.to_json if user.nil?
+        #   if [:api_key] != @data[:api_key]
+        #     halt 400, { error: "authentication_error" }.to_json if user.nil?
+        #   end
         end
       end
       content_type :api_json

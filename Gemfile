@@ -9,6 +9,7 @@ gem 'sinatra'
 # For the API
 gem 'sinatra-contrib'
 gem 'jsonapi-serializers'
+gem 'jwt'
 gem 'will_paginate'
 
 # Sinatra-flash talks more smoothly to Rack::Flash to provide messages that go
