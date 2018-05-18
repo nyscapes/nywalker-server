@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 FactoryBot.define do
   sequence :order_in_page do |n|
     n

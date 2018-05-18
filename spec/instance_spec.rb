@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 describe Instance do
 
   context "When it is created, it" do

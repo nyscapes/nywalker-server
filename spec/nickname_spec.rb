@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 describe Nickname do
   let(:place){ create :place }
   let(:nickname){ place.nicknames.first }

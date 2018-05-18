@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 describe "Redis use" do
 
   it "is accessible as 'redis'" do
