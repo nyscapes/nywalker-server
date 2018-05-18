@@ -84,6 +84,43 @@ RSpec.shared_examples "a route" do |table, user|
 
   end
 
+  describe "PATCH #{table}" do
+    include_context "posting"
+    let(:item) { create table.singularize.to_sym }
+    let(:payload) do
+      { type: table,
+        id: item.id,
+        attributes: attributes_for("edit_#{table.singularize}".to_sym)
+      }.to_json
+    end
+
+    it "should have an id"
+
+    it "should 404 without an id" do
+      patch apiurl + "/#{table}/1", payload, data_json
+      expect(last_response.status).to eq 404
+    end
+
+    it "should require that the type match '#{table}'" do
+      patch apiurl + "/#{table}/#{item.id}", payload.sub(/#{table}/, "boogie"), data_json
+      puts last_response.body
+      puts last_response.status
+      expect(JSON.parse(last_response.body)["error"]).to eq "invalid_type"
+    end
+
+    it "should respond with a 200" do
+      patch apiurl + "/#{table}/#{item.id}", payload, data_json
+      expect(last_response.status).to eq 200
+    end
+
+    it "should update the resource"
+
+    it "should return the updated resource"
+
+    it "should not interpret missing attributes as nulls"
+
+  end
+
   describe "DELETE #{table}/:id" do
     include_context "posting"
 

@@ -132,6 +132,20 @@ class App
         end
       end
 
+      patch "/#{route}/:id" do
+        begin
+        halt 400, { error: "invalid_type" }.to_json if @data[:type] != route
+        item = @model[params[:id].to_i]
+        not_found if item.nil?
+        @data[:attributes].each do |key, value|
+          item[key.to_sym] = value
+        end
+        item.save_changes
+        serialize_model(item).to_json
+        end
+      end
+
+
       delete "/#{route}/:id" do
         item = @model[params[:id].to_i]
         not_found if item.nil?

@@ -13,4 +13,9 @@ FactoryBot.define do
     name { Faker::Address.city }
   end
 
+  factory :edit_place, class: Place do
+    lat { 10 }
+    lon { 10 }
+  end
+
 end
