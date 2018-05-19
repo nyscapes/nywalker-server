@@ -207,10 +207,6 @@ class NYWalkerServer < Sinatra::Base
   end
 
   # Other, CRUD routes.
-  require "#{base}/app/routes/instance"
-  require "#{base}/app/routes/book"
-  require "#{base}/app/routes/place"
-  require "#{base}/app/routes/user"
   require "#{base}/app/routes/authentication"
 
   # The API
