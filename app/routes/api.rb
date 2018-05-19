@@ -70,6 +70,8 @@ class NYWalkerServer
     end
 
     before do
+      response.headers['Access-Control-Allow-Origin'] = 'http://localhost:4200'
+      # response.headers['Access-Control-Allow-Origin'] = '*'
       halt 406 unless request.preferred_type.entry == mime_type(:api_json)
       @model = model unless request.path_info == "/api/v1/" # test "/" route
       @data = parse_request_body
@@ -88,6 +90,13 @@ class NYWalkerServer
         license: "See http://github.com/nyscapes/nywalker-server", 
         authors: ["Moacir P. de Sá Pereira"] 
       }
+    end
+
+    options '*' do
+      response.headers["Allow"] = "GET, POST, OPTIONS"
+      response.headers["Access-Control-Allow-Headers"] = "Authorization, Content-Type, Accept, X-User-Email, X-Auth-Token"
+      response.headers["Access-Control-Allow-Origin"] = "*"
+      200
     end
 
   # ROOT
