@@ -70,8 +70,9 @@ class NYWalkerServer
     end
 
     before do
-      response.headers['Access-Control-Allow-Origin'] = 'http://localhost:4200'
-      # response.headers['Access-Control-Allow-Origin'] = '*'
+      # response.headers['Access-Control-Allow-Origin'] = 'http://localhost:4200'
+      # response.headers['Access-Control-Allow-Origin'] = 'http://localhost:7357'
+      response.headers['Access-Control-Allow-Origin'] = '*'
       halt 406 unless request.preferred_type.entry == mime_type(:api_json)
       @model = model unless request.path_info == "/api/v1/" # test "/" route
       @data = parse_request_body
