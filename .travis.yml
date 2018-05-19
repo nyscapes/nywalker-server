@@ -1,3 +1,6 @@
+env:
+  global:
+    - CC_TEST_REPORTER_ID=d18abd53f20d4364739e5559c80d2d2431907b658b549dd4a19245b0b9a3b0d8
 dist: trusty
 sudo: required
 language: ruby
@@ -16,3 +19,8 @@ before_script:
   - psql -U postgres -d travis_ci_test -c 'create extension postgis'
   - psql -c 'create user moacir;' -U postgres
   - psql travis_ci_test < db/schema.dmp
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
