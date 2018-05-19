@@ -1,5 +1,14 @@
 # frozen_string_literal: true
 # encoding: utf-8
+#
+# NYWalker-Server is a Sinatra server that provides a public API for building
+# datasets of novels and the places they mention. It allows for adding semantic
+# information to each instance of a place mentioned.
+#
+# Author:: Moacir P. de Sá Pereira (http://moacir.com)
+# GitHub:: https://github.com/nyscapes/nywalker-server
+# Copyright:: © 2018, Moacir P. de Sá Pereira
+# License:: Content and Data, CC-BY-SA. Code, GPLv3. See LICENSE and CONTENT_LICENSE for more information.
 
 require "sinatra/base"
 require "sinatra/namespace"
@@ -14,6 +23,9 @@ require "active_support/core_ext/array/conversions"
 require "jsonapi-serializers"
 
 require_relative "./model"
+
+# This class inherits from Sinatra the dsl to run the server. Nearly every
+# aspect of NYWalker-server falls under this class
 
 class NYWalkerServer < Sinatra::Base
  

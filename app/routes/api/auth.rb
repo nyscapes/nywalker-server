@@ -9,8 +9,15 @@ class NYWalkerServer
   end
 end
 
+# This class manages the JSON web token provided by Auth0. The code is based on
+# the code provided by Auth0 at https://auth0.com/docs/quickstart/backend/ruby.
+
 class JsonWebToken
 
+  # Verifies the incoming access_token token from the Authorization header of
+  # the request.
+  # Params:
+  # +token+:: The access token.
   def self.verify(token)
     JWT.decode(token, nil,
                true, # Verify signature
@@ -23,6 +30,8 @@ class JsonWebToken
     end
   end
 
+  # Creates a hash from the Authorization header of
+  # the request.
   def self.jwks_hash
     jwks_raw = Net::HTTP.get URI("https://nywalker.auth0.com/.well-known/jwks.json")
     jwks_keys = Array(JSON.parse(jwks_raw)['keys'])
