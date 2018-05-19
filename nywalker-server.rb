@@ -2,15 +2,8 @@
 # encoding: utf-8
 
 require "sinatra/base"
-require "sinatra/flash"
 require "sinatra/namespace"
-require "mustache/sinatra"
 require "sinatra-health-check"
-require "sprockets"
-require "sprockets-helpers"
-require "googlebooks"
-require "pony"
-require "csv"
 require "time"
 require "stringex"
 require "georuby"
@@ -18,16 +11,12 @@ require "geo_ruby/ewk" # lest the DB dump a 'uninitialized constant GeoRuby::Sim
 require "active_support" # for the slug.
 require "active_support/inflector"
 require "active_support/core_ext/array/conversions"
-
-require "descriptive_statistics"
 require "jsonapi-serializers"
-require "redis"
 
 require_relative "./model"
 
 class NYWalkerServer < Sinatra::Base
  
-  # use Rack::Session::Pool, cookie_only: false # use this instead of "enable :sessions"
   use Rack::Session::Cookie, secret: ENV['COOKIE'], expire_after: 2592000
 
   if Sinatra::Base.development?
@@ -36,313 +25,14 @@ class NYWalkerServer < Sinatra::Base
   base = File.dirname(__FILE__)
   set :root, base
 
-  register Sinatra::Flash
   register Sinatra::Namespace
-  register Mustache::Sinatra
-
-  require "#{base}/app/helpers"
-  require "#{base}/app/views/layout"
-
-  set :mustache, {
-    :templates => "#{base}/app/templates",
-    :views => "#{base}/app/views",
-    :namespace => NYWalkerServer
-  }
-
-  set :sprockets, Sprockets::Environment.new(root)
-  set :assets_prefix, '/assets'
-  set :assets_path, File.join(root, 'public', assets_prefix)
-  set :digest_assets, false
-
-  configure do
-    sprockets.append_path "app/assets/stylesheets"
-    sprockets.append_path "app/assets/javascripts"
-  end
-
-  Sprockets::Helpers.configure do |config|
-    config.environment = sprockets
-    config.prefix = assets_prefix
-    config.digest = digest_assets
-    config.public_path = public_folder
-    config.debug = true if development?
-  end
-
-
-  before do
-    pass if request.path_info =~ /favicon.ico/
-    @metadata = basic_metadata
-    @user = establish_user
-    @css = stylesheet_tag 'application'
-    @js  = javascript_tag 'application'
-    @path = request.path_info
-    @rendered_flash = rendered_flash(flash)
-    @checker = SinatraHealthCheck::Checker.new
-    @app_name = app_name
-    @base_url = base_url
-  end
-
-  helpers do
-    include Sprockets::Helpers
-
-    def save_object(object, path, update = nil)
-      message = "#{object.class} successfully updated!"
-      update.nil? ? message.gsub!(/updated!$/, "saved!") : message
-      begin
-        object.save
-        if object.class == Instance 
-          redis.set "user-#{user.username}-last-instance", object.id
-        elsif object.class == Book
-          object.add_user user
-        end
-        flash[:success] = message
-        redirect path
-      rescue Sequel::ValidationFailed => @e
-        dm_error_and_redirect(object, path)
-      rescue StandardError => @e
-        mustache :error
-      end
-    end
-
-    def dm_error_and_redirect(object, path, error = "")
-      error = object.errors.map{ |key, value| "#{key} #{value.map{ |v| v }.join(',')}" }.to_sentence if error == ""
-      flash[:error] = "Error: #{error}"
-      redirect path
-    end
-
-    # def slugify(string)
-    #   string = string.parameterize.underscore
-    # end
-
-    def book
-      @book ||= Book[slug: params[:book_slug]] || halt(404)
-    end
-
-    def place
-      @place ||= Place[slug: params[:place_slug]] || halt(404)
-    end
-
-    def instance
-      @instance ||= Instance[params[:instance_id]] || halt(404)
-    end
-
-    def this_user
-      @this_user ||= User[username: params[:user_username]] || halt(404)
-    end
-
-    def user
-      @user ||= establish_user
-    end
-
-    def redis
-      settings.redis
-    end
-
-    def basic_metadata
-      {
-        creators: Instance.all_users_sorted_by_count.map{ |u| { fullname: User[u.user_id].fullname_lastname_first } },
-        locale: "en_US",
-        title: "NYWalker",
-        created: "2015-10-30",
-        modified: Time.now.strftime("%Y-%m-%d"),
-        type: "Software",
-        description: "NYWalker is a tool for gecoding the contents of novels or other texts by hand.",
-        url: "#{base_url}#{request.path_info}",
-        image: {
-          type: "image/png",
-          url: "https://i.imgur.com/pM4VGX0.png",
-          width: 386,
-          height: 386 
-        }
-        
-      }
-    end
-
-  end
-
-  get "/" do
-    @page_title = "Home"
-    @json_file = "all_places"
-    # @places = Place.real_places_with_instances("all")
-    @places = Place.all_with_instances()
-    mustache :index
-  end
-
-  post '/add_flag' do
-    object = string_to_object(params[:flag_object_type])[params[:flag_object_id]]
-    if object.update( flagged: true )
-      flash_string = "The #{object.class.to_s.downcase} has been marked as flagged"
-    end
-    if Flag.create( comment: params[:flag_comment], object_type: object.class.to_s.downcase, object_id: object.id, added_on: Time.now, user: @user )
-      flash_string += ", and the comment has been saved."
-      body = flagged_msg_body_text(object, params[:flag_comment])
-      mail("#{ENV['ADMIN_EMAIL_ADDRESS']}, #{@user.email}", "[NYWalker] Something got tagged", body)
-    end
-    flash[:success] = flash_string if flash_string
-    redirect back
-  end
-
-  get "/about" do
-    @page_title = "About"
-    @metadata[:title] = "About NYWalker"
-    mustache :about
-  end
-
-  get "/citing" do
-    @page_title = "Citing"
-    @metadata[:title] = "Citing NYWalker"
-    @books = Book.where(id: Instance.select(:book_id)).order(:title).all
-    mustache :citing
-  end
-  
-  get "/rules" do
-    @page_title = "Rules"
-    @metadata[:title] = "Rules for entering data into NYWalker"
-    mustache :rules
-  end
-  
-  get "/help" do
-    @page_title = "Help"
-    @metadata[:title] = "Help about NYWalker"
-    mustache :help
-  end
-
-  # Other, CRUD routes.
-  require "#{base}/app/routes/authentication"
 
   # The API
-    require "#{base}/app/routes/api"
-
-  def get_bbox(bbox)
-    if bbox.class == Hash
-      [bbox["east"], bbox["south"], bbox["north"], bbox["west"]].to_s
-    end
-  end
-
-  def rendered_flash(flash)
-    # doing just @flash = flash and then handling the flash rendering
-    # inside mustache created a kind of persistence for the flash
-    # messages, wholly ruining the point of the flash message in the
-    # first place.
-    string = ""
-    if flash == {} || flash.nil?
-      string
-    else
-      flash.each do |type, message|
-        string << "<div class='alert #{bootstrap_class_for type} alert-dismissable fade show' role='alert'>"
-        string << "<button class='close' data-dismiss='alert'>&times;</button>"
-        unless message.nil?
-          string << message
-        end
-        string << "</div>"
-      end
-      string
-    end
-  end
-
-  def bootstrap_class_for flash_type
-    { success: "alert-success", error: "alert-danger", alert: "alert-warning", notice: "alert-info" }[flash_type] || flash_type.to_s
-  end
-
-  def string_to_object(string)
-    case string
-    when "place" then Place
-    when "instance" then Instance
-    else raise "Somehow I could not tell what kind of object this is."
-    end
-  end
-
-  def app_name
-    if ENV['CANON_NAME'] 
-      ENV['CANON_NAME'] 
-    else
-      "NYWalker"
-    end
-  end
-
-  def base_url
-    if ENV['BASE_URL']
-      "#{request.env['rack.url_scheme']}://#{ENV['BASE_URL']}"
-    else
-      "#{request.env['rack.url_scheme']}://#{request.env['HTTP_HOST']}"
-    end
-  end
-
-  def mail(to, subject, body)
-    Pony.mail(
-      to: to,
-      from: ENV['EMAIL_FROM_ADDRESS'],
-      via: :smtp,
-      via_options: {
-        user_name: ENV['SMTP_USERNAME'],
-        password: ENV['SMTP_PASSWORD'],
-        address: ENV['SMTP_SERVER'],
-        port: '587', enable_starttls_auto: true,
-        authentication: :plain, domain: 'localhost.localdomain'
-      },
-      subject: subject,
-      body: body
-    )
-    puts "Email sent to #{to} with a subject of #{subject}"
-  end
-  
-
-  get "/internal/health" do
-    if @checker.healthy?
-      "healthy"
-    else
-      status 503
-      "unhealthy"
-    end
-  end
-
-  get "/internal/status" do
-    headers 'content-type' => 'application/json'
-    @checker.status.to_json
-  end
-
-  not_found do
-    if request.path =~ /\/$/
-      redirect request.path.gsub(/\/$/, "")
-    else
-      status 404
-    end
-  end
-
-  def flagged_msg_body_text(object, comment)
-    type = object.class.to_s.downcase
-    if type == "place"
-      url = "/places/#{object.slug}"
-    elsif type == "instance"
-      url = "/books/#{object.book.slug}/instances/#{object.id}"
-    else
-      url = "No clear URL"
-    end
-    <<-EOF
-    Admin,
-
-    A #{type} was marked as flagged by #{@user.name}:
-
-    http://nywalker.newyorkscapes.org#{url}
-
-    with this comment:
-
-    #{comment}
-
-    Thanks,
-
-    --A Robot
-    EOF
-  end
-
-  # To get user authentication to work.
-  require "#{base}/app/authentication"
+  require "#{base}/app/routes/api"
 
   # The Rake methods that are also accessible from here.
   require "#{base}/app/rake-methods"
 
-  # To speed up autofill, etc., we use Redis
-  require "#{base}/app/redis"
-  
   # To get the API to work.
   require "#{base}/app/api"
 
