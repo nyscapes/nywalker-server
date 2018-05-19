@@ -1,5 +1,4 @@
-# NYWalker-Server [![Build
-Status](https://travis-ci.org/nyscapes/nywalker-server.svg)](https://travis-ci.org/nyscapes/nywalker-server) [![Code Climate](https://codeclimate.com/github/nyscapes/nywalker-server.svg)](https://codeclimate.com/github/nyscapes/nywalker-server) [![Inline docs](http://inch-ci.org/github/nyscapes/nywalker-server.svg)](http://inch-ci.org/github/nyscapes/nywalker-server) 
+# NYWalker-Server [![Build Status](https://travis-ci.org/nyscapes/nywalker-server.svg)](https://travis-ci.org/nyscapes/nywalker-server) [![Code Climate](https://codeclimate.com/github/nyscapes/nywalker-server.svg)](https://codeclimate.com/github/nyscapes/nywalker-server) [![Inline docs](http://inch-ci.org/github/nyscapes/nywalker-server.svg)](http://inch-ci.org/github/nyscapes/nywalker-server) 
 
 `NYWalker-Server` is a distributed project that aims to develop a rich database of
 places mentioned in various novels. As the name suggests, the initial focus is
