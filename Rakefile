@@ -5,8 +5,8 @@ require './nywalker-server'
 require 'rspec/core/rake_task'
 
 # Travis seems to need a default task.
-task :default => :spec
-RSpec::Core::RakeTask.new
+task :default => ['db:migrate', :spec]
+  RSpec::Core::RakeTask.new
 
 desc 'Create redis cache of books'
 task :cache_books do
