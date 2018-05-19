@@ -415,7 +415,7 @@ CREATE TABLE users (
     name character varying(50),
     email character varying(50),
     username character varying(50),
-    password_digest character varying(60),
+    password character varying(60),
     admin boolean DEFAULT false,
     added_on date,
     modified_on date,
