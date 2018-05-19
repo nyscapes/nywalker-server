@@ -10,11 +10,8 @@ services:
 addons:
   postgresql: "9.6"
 before_script:
-  # - sudo pg_ctl stop
   - sudo apt-get -qq update
   - sudo apt-get install -y postgresql-9.6-postgis-2.4
-  # - sudo apt-get install postgresql-10-postgis-2.4 postgis -y -q
-  # - sudo apt-get install postgresql-9.6-postgis-2.3 postgis -y -q
   - psql -U postgres -c 'create database travis_ci_test'
   - psql -U postgres -d travis_ci_test -c 'create extension postgis'
   - psql -c 'create user moacir;' -U postgres
