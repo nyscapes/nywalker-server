@@ -1,4 +1,9 @@
-# NYWalker-Server [![Build Status](https://travis-ci.org/nyscapes/nywalker-server.svg)](https://travis-ci.org/nyscapes/nywalker-server) [![Maintainability](https://api.codeclimate.com/v1/badges/bdf9573346146b971686/maintainability)](https://codeclimate.com/github/nyscapes/nywalker-server/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/bdf9573346146b971686/test_coverage)](https://codeclimate.com/github/nyscapes/nywalker-server/test_coverage) [![Inline docs](http://inch-ci.org/github/nyscapes/nywalker-server.svg)](http://inch-ci.org/github/nyscapes/nywalker-server) [![Creative Commons License](https://i.creativecommons.org/l/by-sa/4.0/80x15.png)](http://creativecommons.org/licenses/by-sa/4.0/)
+# NYWalker-Server 
+
+[![Build Status](https://travis-ci.org/nyscapes/nywalker-server.svg)](https://travis-ci.org/nyscapes/nywalker-server) [![Maintainability](https://api.codeclimate.com/v1/badges/bdf9573346146b971686/maintainability)](https://codeclimate.com/github/nyscapes/nywalker-server/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/bdf9573346146b971686/test_coverage)](https://codeclimate.com/github/nyscapes/nywalker-server/test_coverage) [![Inline docs](http://inch-ci.org/github/nyscapes/nywalker-server.svg)](http://inch-ci.org/github/nyscapes/nywalker-server)
+[![Creative Commons
+License](https://img.shields.io/badge/content_license-CC_BY--SA_4.0-yellow.svg)](http://creativecommons.org/licenses/by-sa/4.0/)
+[![GPLv3](https://img.shields.io/badge/code_licence-GPLv3-brightgreen.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 
 **NYWalker-Server** provides an API for interacting with a rich database of
 places mentioned in various novels. As the name suggests, the initial focus
