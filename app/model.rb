@@ -12,18 +12,19 @@ Dotenv.load # This is weird that it's called here, because app.rb uses it.
 # ENV['DATABASE_URL'] is set in the file .env, which is hidden from git. See .env.example for an example of what it should look like.
 
 if ENV['RACK_ENV'] == 'test'
-  puts "Using test database"
+  STDERR.puts "Using test database"
+  Sequel.extension :migration
   DB = Sequel.connect(ENV['TEST_DATABASE_URL'])
 else
   if ENV['DATABASE_URL']
     DB = Sequel.connect(ENV['DATABASE_URL'])
+    Sequel.extension :migration
     Sequel::Migrator.check_current(DB, 'db/migrations')
-    puts "Connected to #{ENV['DATABASE_URL']}"
+    STDERR.puts "Connected to #{ENV['DATABASE_URL']}"
   else
     raise "ENV['DATABASE_URL'] must be set. Edit your '.env' file to do so."
   end
 end
-Sequel.extension :migration
 Sequel::Model.plugin :json_serializer
 Sequel::Model.plugin :tactical_eager_loading
 
