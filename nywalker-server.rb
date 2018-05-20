@@ -22,7 +22,7 @@ require "active_support/inflector"
 require "active_support/core_ext/array/conversions"
 require "jsonapi-serializers"
 
-require_relative "./model"
+require_relative "./app/model"
 
 # This class inherits from Sinatra the dsl to run the server. Nearly every
 # aspect of NYWalker-server falls under this class
