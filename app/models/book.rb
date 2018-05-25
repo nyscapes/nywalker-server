@@ -67,7 +67,7 @@ class Book < Sequel::Model
   end
 
   def last_instance
-    Instance.last_instance_for_book(self)
+    Instance.last_instance_for_book(self).id
   end
 
   def user_sentence
