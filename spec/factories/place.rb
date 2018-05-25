@@ -9,6 +9,15 @@ FactoryBot.define do
     user
   end
 
+  factory :no_place, class: Place do
+    name { Faker::Address.city }
+    lat { Faker::Address.latitude }
+    lon { Faker::Address.longitude }
+    confidence "0"
+    source "Geonames"
+    user
+  end
+
   factory :fake_place, class: Place do
     name { Faker::Address.city }
   end

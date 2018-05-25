@@ -46,6 +46,10 @@ class Instance < Sequel::Model
     self.place.name
   end
 
+  def mappable
+    self.place.confidence =~ /[123]/ ? true : false
+  end
+
   dataset_module do
 
     def all_sorted_for_book(book)

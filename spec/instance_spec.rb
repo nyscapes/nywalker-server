@@ -62,7 +62,23 @@ describe Instance do
     end
   end
 
-  describe "Methods"
+  describe "Methods" do
+    let(:book){ create :book }
+
+    describe "#mappable" do
+      it "gives false when the place is unmappable" do
+        place = create :no_place
+        instance = create :instance, book: book, place: place
+        expect(instance.mappable).to be false
+      end
+
+      it "gives true when the place is mappable" do
+        place = create :place
+        instance = create :instance, book: book, place: place
+        expect(instance.mappable).to be true
+      end
+    end
+  end
 
   describe "Queries" do
     let(:book){ create :book }
@@ -116,6 +132,9 @@ describe Instance do
       end
     end
 
+    describe "#all_mappable(book)" do
+
+    end
 
     describe "#all_users_sorted_by_count(book)" do
       let(:user) { create :user }
