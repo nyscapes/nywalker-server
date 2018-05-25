@@ -14,7 +14,7 @@ end
 
 # This class serializes the Book model
 class BookSerializer < BaseSerializer
-  attributes :slug, :title, :author, :isbn, :year, :url, :cover, :added_on, :modified_on, :total_pages, :instances_per_page, :instance_count, :mappable_places, :special_field, :special_help_text
+  attributes :slug, :title, :author, :isbn, :year, :url, :cover, :added_on, :modified_on, :total_pages, :instances_per_page, :instance_count, :mappable_places, :special_field, :special_help_text, :last_instance
 
   has_many :instances, include_data: true
   has_many :users
