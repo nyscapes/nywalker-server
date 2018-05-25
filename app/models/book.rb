@@ -46,6 +46,26 @@ class Book < Sequel::Model
     self.instances.count
   end
 
+  def special_field
+    self.special.field
+  end
+
+  def special_help_text
+    self.special.help_text
+  end
+
+  def mappable_places
+    Instance.all_placeids_with_counts(self).map do |group_member|
+      place = Place[group_member.place_id]
+      { id: place.id,
+        lat: place.lat,
+        lon: place.lon,
+        count: group_member.values[:count],
+        name: place.name
+      } 
+    end
+  end
+
   def last_instance
     Instance.last_instance_for_book(self)
   end

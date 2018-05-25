@@ -52,6 +52,17 @@ class Instance < Sequel::Model
 
   dataset_module do
 
+    def all_placeids_with_counts(book = nil)
+      if book.nil?
+        group_and_count(:place_id)
+        .all
+      else
+        where(book: book)
+          .group_and_count(:place_id)
+          .all
+      end
+    end
+
     def all_sorted_for_book(book)
       raise ArgumentError.new( "'book' must be a Book" ) if book.class != Book
       where(book: book)
@@ -73,7 +84,7 @@ class Instance < Sequel::Model
         .where{ sequence >= seq }
         .all
     end
-    
+  
     def nickname_instance_count(text, place)
       raise ArgumentError.new( "'place' must be a Place" ) if place.class != Place
       where(text: text, place: place)
