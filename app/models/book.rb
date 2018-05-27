@@ -61,7 +61,9 @@ class Book < Sequel::Model
         lat: place.lat,
         lon: place.lon,
         count: group_member.values[:count],
-        name: place.name
+        name: place.name,
+        # names_to_sentence: place.names_to_sentence(self),
+        instance_count_by_name: place.instances_by_names(self)
       } 
     end
   end
