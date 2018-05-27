@@ -58,6 +58,7 @@ class Book < Sequel::Model
     Instance.all_placeids_with_counts(self).map do |group_member|
       place = Place[group_member.place_id]
       { id: place.id,
+        slug: place.slug,
         lat: place.lat,
         lon: place.lon,
         count: group_member.values[:count],
