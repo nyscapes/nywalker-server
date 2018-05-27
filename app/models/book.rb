@@ -54,7 +54,7 @@ class Book < Sequel::Model
     self.special.help_text
   end
 
-  def mappable_places
+  def all_places
     Instance.all_placeids_with_counts(self).map do |group_member|
       place = Place[group_member.place_id]
       { id: place.id,
@@ -63,10 +63,19 @@ class Book < Sequel::Model
         lon: place.lon,
         count: group_member.values[:count],
         name: place.name,
+        confidence: place.confidence,
         # names_to_sentence: place.names_to_sentence(self),
         instance_count_by_name: place.instances_by_names(self)
       } 
     end
+  end
+
+  def mappable_places
+    self.all_places.select{|p| p[:confidence] =~ /^[123]{1}$/}
+  end
+
+  def unmappable_places
+    self.all_places.select{|p| p[:confidence] =~ /^0$/}
   end
 
   def last_instance

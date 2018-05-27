@@ -16,10 +16,16 @@ describe Book do
     describe "#user_sentences" do
       it "returns a list of users who contributed to the book."
     end
-    describe "#mappable_places" do
+    describe "#all_places" do
       it "returns an array of pretend places"
       it "that include the instance_count_by_name array"
       it "includes only places from the book"
+    end
+    describe "#mappable_places" do
+      it "only includes places with a confidence not 0"
+    end
+    describe "#unmappable_places" do
+      it "only includes places with a confidence of 0"
     end
   end
 
