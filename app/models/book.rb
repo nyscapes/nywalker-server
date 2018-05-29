@@ -47,11 +47,19 @@ class Book < Sequel::Model
   end
 
   def special_field
-    self.special.field
+    if self.special.nil?
+      nil
+    else
+      self.special.field
+    end
   end
 
   def special_help_text
-    self.special.help_text
+    if self.special.nil?
+      nil
+    else
+      self.special.help_text
+    end
   end
 
   def all_places
@@ -79,7 +87,11 @@ class Book < Sequel::Model
   end
 
   def last_instance
-    Instance.last_instance_for_book(self).id
+    if Instance.last_instance_for_book(self).nil?
+      nil
+    else
+      Instance.last_instance_for_book(self).id
+    end
   end
 
   def user_sentence
