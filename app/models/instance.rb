@@ -79,7 +79,7 @@ class Instance < Sequel::Model
 
     def later_instances_of_same_page(book, page, seq)
       raise ArgumentError.new( "'book' must be a Book" ) if book.class != Book
-      raise ArgumentError.new( "'page' and 'sequence' must be Fixnum" ) if page.class != Fixnum || seq.class != Fixnum
+      raise ArgumentError.new( "'page' and 'sequence' must be Integer" ) if page.class != Integer || seq.class != Integer
       where(book: book, page: page)
         .where{ sequence >= seq }
         .all

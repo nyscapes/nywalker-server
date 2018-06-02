@@ -47,17 +47,13 @@ class Book < Sequel::Model
   end
 
   def special_field
-    if self.special.nil?
-      nil
-    else
+    if self&.speciali&.field
       self.special.field
     end
   end
 
   def special_help_text
-    if self.special.nil?
-      nil
-    else
+    if self&.special&.help_text
       self.special.help_text
     end
   end
