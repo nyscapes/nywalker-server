@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-ruby '2.3.1'
+ruby '2.5.1'
 
 ### FUNDAMENTALS
 # Sinatra, sinatrarb.com, is the web framework that makes the site run.
