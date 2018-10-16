@@ -15,7 +15,7 @@ end
 plain_places = places.map do |place|
   { 
     id: place.id,
-    slug: place.id,
+    slug: place.slug,
     name: place.name,
     added_on: place.added_on,
     lat: place.lat,
