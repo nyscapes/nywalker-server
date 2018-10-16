@@ -9,6 +9,7 @@ scripts/
 .env
 /puma.rb
 /users.rb
+data/
 
 public/json
 public/assets

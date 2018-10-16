@@ -34,7 +34,7 @@ plain_places = places.map do |place|
   }
 end
 
-File.open("places.json", "w") do |f| 
+File.open("data/places.json", "w") do |f| 
   # PP.pp plain_places.to_json, f
   f.puts plain_places.to_json
 end
