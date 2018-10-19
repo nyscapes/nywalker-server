@@ -1,4 +1,7 @@
 {
+  "prettier": {
+    "singleQuote": false
+  },
   "xo": {
     "envs": [
       "amd"
